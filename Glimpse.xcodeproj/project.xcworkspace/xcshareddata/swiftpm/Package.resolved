@@ -1,0 +1,24 @@
+{
+  "originHash" : "015fe73fc528411c17267c6c67bddf241333024485b26f65697013b59f1afea7",
+  "pins" : [
+    {
+      "identity" : "dexcom-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/kylebshr/dexcom-swift",
+      "state" : {
+        "branch" : "main",
+        "revision" : "c3791574bfd784b276ffad00dde7a1eadefa0426"
+      }
+    },
+    {
+      "identity" : "keychainaccess",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/kishikawakatsumi/KeychainAccess",
+      "state" : {
+        "branch" : "master",
+        "revision" : "e0c7eebc5a4465a3c4680764f26b7a61f567cdaf"
+      }
+    }
+  ],
+  "version" : 3
+}
