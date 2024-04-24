@@ -37,3 +37,15 @@ extension UserDefaults {
         set { set(newValue, forKey: key) }
     }
 }
+
+extension String {
+    private static let cloudPrefix = "cloud-"
+
+    func withCloudPrefix() -> String {
+        "\(Self.cloudPrefix)\(self)"
+    }
+
+    func hasCloudPrefix() -> Bool {
+        hasPrefix(Self.cloudPrefix)
+    }
+}

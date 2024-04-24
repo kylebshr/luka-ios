@@ -4,6 +4,8 @@
 <dict>
 	<key>com.apple.developer.icloud-container-identifiers</key>
 	<array/>
+	<key>com.apple.developer.ubiquity-kvstore-identifier</key>
+	<string>$(TeamIdentifierPrefix)com.kylebashour.Glimpse</string>
 	<key>com.apple.security.application-groups</key>
 	<array>
 		<string>group.com.kylebashour.Glimpse</string>

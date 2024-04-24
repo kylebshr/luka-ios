@@ -13,6 +13,9 @@ struct ContentView: View {
     @State private var username: String = UserDefaults.shared.username ?? ""
     @State private var password: String = UserDefaults.shared.password ?? ""
 
+    @State private var accountID = UserDefaults.shared.accountID
+    @State private var sessionID = UserDefaults.shared.sessionID
+
     var body: some View {
         ScrollView {
             VStack {
@@ -24,7 +27,15 @@ struct ContentView: View {
                     UserDefaults.shared.password = password
                     WidgetCenter.shared.reloadAllTimelines()
                 }
-                .padding()
+                .padding(.top)
+
+                if let accountID {
+                    Text(accountID.uuidString)
+                }
+
+                if let sessionID {
+                    Text(sessionID.uuidString)
+                }
             }
             .padding()
         }
