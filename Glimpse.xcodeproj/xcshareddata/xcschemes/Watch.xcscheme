@@ -16,7 +16,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2741EA0E2BD8AEBA003EDEB2"
-               BuildableName = "Watch.app"
+               BuildableName = "Glimpse.app"
                BlueprintName = "Watch"
                ReferencedContainer = "container:Glimpse.xcodeproj">
             </BuildableReference>
@@ -59,7 +59,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2741EA0E2BD8AEBA003EDEB2"
-            BuildableName = "Watch.app"
+            BuildableName = "Glimpse.app"
             BlueprintName = "Watch"
             ReferencedContainer = "container:Glimpse.xcodeproj">
          </BuildableReference>
@@ -76,7 +76,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2741EA0E2BD8AEBA003EDEB2"
-            BuildableName = "Watch.app"
+            BuildableName = "Glimpse.app"
             BlueprintName = "Watch"
             ReferencedContainer = "container:Glimpse.xcodeproj">
          </BuildableReference>
