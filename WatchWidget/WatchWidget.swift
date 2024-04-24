@@ -33,7 +33,7 @@ struct Provider: AppIntentTimelineProvider {
     func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
         let state = await makeState(outsideUS: configuration.outsideUS)
         let currentDate = Date()
-        let refreshDate = Calendar.current.date(byAdding: .minute, value: 10, to: currentDate)!
+        let refreshDate = Calendar.current.date(byAdding: .minute, value: 15, to: currentDate)!
 
         switch state {
         case .loggedOut, .expired:
