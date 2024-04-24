@@ -193,10 +193,10 @@ struct WatchWidgetEntryView : View {
     }
 
     private func timestamp(for date: Date) -> String {
-        if Date.now.timeIntervalSince(date) < 60 {
+        if entry.date.timeIntervalSince(date) < 60 {
             return "now"
         } else {
-            return formatter.string(from: date, to: .now)!
+            return formatter.string(from: date, to: entry.date)!
         }
     }
 }

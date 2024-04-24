@@ -20,7 +20,9 @@ struct ContentView: View {
         ScrollView {
             VStack {
                 TextField("Username", text: $username)
-                TextField("Password", text: $password)
+                    .textContentType(.username)
+                SecureField("Password", text: $password)
+                    .textContentType(.password)
 
                 Button("Save") {
                     UserDefaults.shared.username = username
