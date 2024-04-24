@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "Glimpse.png",
       "idiom" : "universal",
       "platform" : "watchos",
       "size" : "1024x1024"
