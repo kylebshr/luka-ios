@@ -226,9 +226,9 @@ extension GlucoseReading {
     WatchWidget()
 } timeline: {
     SimpleEntry(date: .now, state: .reading(.placeholder))
-    SimpleEntry(date: .now, state: .reading(.init(value: 180, trend: .fortyFiveUp, date: .now - 60)))
-    SimpleEntry(date: .now, state: .reading(.init(value: 180, trend: .doubleDown, date: .now)))
-    SimpleEntry(date: .now, state: .reading(.init(value: 180, trend: .doubleUp, date: .now)))
+    SimpleEntry(date: .now, state: .reading(.init(value: 94, trend: .fortyFiveUp, date: .now - 60)))
+    SimpleEntry(date: .now, state: .reading(.init(value: 102, trend: .doubleDown, date: .now - 400)))
+    SimpleEntry(date: .now, state: .reading(.init(value: 183, trend: .doubleUp, date: .now - 900)))
     SimpleEntry(date: .now, state: .reading(nil))
     SimpleEntry(date: .now, state: .loggedOut)
 }
