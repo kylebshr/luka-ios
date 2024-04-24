@@ -96,6 +96,7 @@
 		2741EA322BD8AF0A003EDEB2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27E2C57D2BD980C60000FB40 /* Watch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Watch.entitlements; sourceTree = "<group>"; };
 		27E2C57E2BD980CF0000FB40 /* WatchWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WatchWidget.entitlements; sourceTree = "<group>"; };
+		27E2C57F2BD981D80000FB40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		27F577672BCF38330012D66C /* Glimpse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Glimpse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27F5776A2BCF38330012D66C /* GlimpseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlimpseApp.swift; sourceTree = "<group>"; };
 		27F5776C2BCF38330012D66C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -211,6 +212,7 @@
 		27F577692BCF38330012D66C /* Glimpse */ = {
 			isa = PBXGroup;
 			children = (
+				27E2C57F2BD981D80000FB40 /* Info.plist */,
 				2741EA082BD8AA84003EDEB2 /* Glimpse.entitlements */,
 				27F5776A2BCF38330012D66C /* GlimpseApp.swift */,
 				27F5776C2BCF38330012D66C /* ContentView.swift */,
@@ -676,6 +678,7 @@
 				DEVELOPMENT_TEAM = ZEAD23GG77;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Glimpse/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Glimpse;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -708,6 +711,7 @@
 				DEVELOPMENT_TEAM = ZEAD23GG77;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Glimpse/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Glimpse;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
