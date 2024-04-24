@@ -44,7 +44,7 @@ struct GlimpseWidgetEntryView: View {
 
     private func readingView(reading: GlucoseReading) -> some View {
         VStack(alignment: .leading) {
-            HStack {
+            HStack(spacing: 4) {
                 Text("\(reading.value)")
                 if redactionReasons.isEmpty {
                     reading.trend.image
@@ -53,17 +53,19 @@ struct GlimpseWidgetEntryView: View {
                 }
             }
             .font(.largeTitle)
-            .fontWeight(.regular)
+            .fontWeight(.medium)
 
             Spacer()
 
             Text(timestamp(for: reading.date))
                 .font(.footnote)
+                .fontWeight(.medium)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .contentTransition(.numericText(value: Double(reading.value)))
         .containerBackground(color(for: reading.value).gradient, for: .widget)
         .fontDesign(.rounded)
+        .environment(\.colorScheme, .light)
     }
 
     private func timestamp(for date: Date) -> String {
