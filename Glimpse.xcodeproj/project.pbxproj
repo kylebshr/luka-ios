@@ -18,7 +18,6 @@
 		2741EA072BD8AA74003EDEB2 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA062BD8AA74003EDEB2 /* Keychain.swift */; };
 		2741EA0A2BD8AB2F003EDEB2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA092BD8AB2F003EDEB2 /* Constants.swift */; };
 		2741EA122BD8AEBA003EDEB2 /* GlimpseWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA112BD8AEBA003EDEB2 /* GlimpseWatchApp.swift */; };
-		2741EA142BD8AEBA003EDEB2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA132BD8AEBA003EDEB2 /* ContentView.swift */; };
 		2741EA162BD8AEBB003EDEB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2741EA152BD8AEBB003EDEB2 /* Assets.xcassets */; };
 		2741EA192BD8AEBB003EDEB2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2741EA182BD8AEBB003EDEB2 /* Preview Assets.xcassets */; };
 		2741EA1C2BD8AEBB003EDEB2 /* Glimpse.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 2741EA0F2BD8AEBA003EDEB2 /* Glimpse.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -30,6 +29,7 @@
 		2741EA352BD8AF0A003EDEB2 /* WatchWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2741EA252BD8AF08003EDEB2 /* WatchWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		27C6E25F2BCF386E006BAE98 /* Dexcom in Frameworks */ = {isa = PBXBuildFile; productRef = 27C6E25E2BCF386E006BAE98 /* Dexcom */; };
 		27C6E2622BCF387A006BAE98 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 27C6E2612BCF387A006BAE98 /* KeychainAccess */; };
+		27E2C5802BD984F70000FB40 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5776C2BCF38330012D66C /* ContentView.swift */; };
 		27F5776B2BCF38330012D66C /* GlimpseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5776A2BCF38330012D66C /* GlimpseApp.swift */; };
 		27F5776D2BCF38330012D66C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5776C2BCF38330012D66C /* ContentView.swift */; };
 		27F5776F2BCF38340012D66C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27F5776E2BCF38340012D66C /* Assets.xcassets */; };
@@ -84,7 +84,6 @@
 		2741EA092BD8AB2F003EDEB2 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		2741EA0F2BD8AEBA003EDEB2 /* Glimpse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Glimpse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2741EA112BD8AEBA003EDEB2 /* GlimpseWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlimpseWatchApp.swift; sourceTree = "<group>"; };
-		2741EA132BD8AEBA003EDEB2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		2741EA152BD8AEBB003EDEB2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2741EA182BD8AEBB003EDEB2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2741EA252BD8AF08003EDEB2 /* WatchWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WatchWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -142,6 +141,7 @@
 			children = (
 				2741EA092BD8AB2F003EDEB2 /* Constants.swift */,
 				2741EA062BD8AA74003EDEB2 /* Keychain.swift */,
+				27F5776C2BCF38330012D66C /* ContentView.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -151,7 +151,6 @@
 			children = (
 				27E2C57D2BD980C60000FB40 /* Watch.entitlements */,
 				2741EA112BD8AEBA003EDEB2 /* GlimpseWatchApp.swift */,
-				2741EA132BD8AEBA003EDEB2 /* ContentView.swift */,
 				2741EA152BD8AEBB003EDEB2 /* Assets.xcassets */,
 				2741EA172BD8AEBB003EDEB2 /* Preview Content */,
 			);
@@ -215,7 +214,6 @@
 				27E2C57F2BD981D80000FB40 /* Info.plist */,
 				2741EA082BD8AA84003EDEB2 /* Glimpse.entitlements */,
 				27F5776A2BCF38330012D66C /* GlimpseApp.swift */,
-				27F5776C2BCF38330012D66C /* ContentView.swift */,
 				27F5776E2BCF38340012D66C /* Assets.xcassets */,
 				27F577702BCF38340012D66C /* Preview Content */,
 			);
@@ -379,7 +377,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2741EA142BD8AEBA003EDEB2 /* ContentView.swift in Sources */,
+				27E2C5802BD984F70000FB40 /* ContentView.swift in Sources */,
 				2741EA122BD8AEBA003EDEB2 /* GlimpseWatchApp.swift in Sources */,
 				271CD1E12BD96B3200FBE5DB /* Constants.swift in Sources */,
 				271CD1E22BD96B3200FBE5DB /* Keychain.swift in Sources */,

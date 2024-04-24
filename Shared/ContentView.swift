@@ -7,6 +7,7 @@
 
 import SwiftUI
 import KeychainAccess
+import WidgetKit
 
 struct ContentView: View {
     @State private var username: String = Keychain.shared.username ?? ""
@@ -21,10 +22,10 @@ struct ContentView: View {
                 Button("Save") {
                     Keychain.shared.username = username
                     Keychain.shared.password = password
+                    WidgetCenter.shared.reloadAllTimelines()
                 }
                 .padding()
             }
-            .textFieldStyle(.roundedBorder)
             .padding()
         }
     }
