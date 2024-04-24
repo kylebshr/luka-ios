@@ -30,6 +30,9 @@
 		27C6E25F2BCF386E006BAE98 /* Dexcom in Frameworks */ = {isa = PBXBuildFile; productRef = 27C6E25E2BCF386E006BAE98 /* Dexcom */; };
 		27C6E2622BCF387A006BAE98 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 27C6E2612BCF387A006BAE98 /* KeychainAccess */; };
 		27E2C5802BD984F70000FB40 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5776C2BCF38330012D66C /* ContentView.swift */; };
+		27E2C5822BD98AB50000FB40 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E2C5812BD98AB50000FB40 /* Defaults.swift */; };
+		27E2C5832BD98B3B0000FB40 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E2C5812BD98AB50000FB40 /* Defaults.swift */; };
+		27E2C5842BD98B3B0000FB40 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E2C5812BD98AB50000FB40 /* Defaults.swift */; };
 		27F5776B2BCF38330012D66C /* GlimpseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5776A2BCF38330012D66C /* GlimpseApp.swift */; };
 		27F5776D2BCF38330012D66C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5776C2BCF38330012D66C /* ContentView.swift */; };
 		27F5776F2BCF38340012D66C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27F5776E2BCF38340012D66C /* Assets.xcassets */; };
@@ -96,6 +99,7 @@
 		27E2C57D2BD980C60000FB40 /* Watch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Watch.entitlements; sourceTree = "<group>"; };
 		27E2C57E2BD980CF0000FB40 /* WatchWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WatchWidget.entitlements; sourceTree = "<group>"; };
 		27E2C57F2BD981D80000FB40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		27E2C5812BD98AB50000FB40 /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
 		27F577672BCF38330012D66C /* Glimpse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Glimpse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27F5776A2BCF38330012D66C /* GlimpseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlimpseApp.swift; sourceTree = "<group>"; };
 		27F5776C2BCF38330012D66C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -141,6 +145,7 @@
 			children = (
 				2741EA092BD8AB2F003EDEB2 /* Constants.swift */,
 				2741EA062BD8AA74003EDEB2 /* Keychain.swift */,
+				27E2C5812BD98AB50000FB40 /* Defaults.swift */,
 				27F5776C2BCF38330012D66C /* ContentView.swift */,
 			);
 			path = Shared;
@@ -379,6 +384,7 @@
 			files = (
 				27E2C5802BD984F70000FB40 /* ContentView.swift in Sources */,
 				2741EA122BD8AEBA003EDEB2 /* GlimpseWatchApp.swift in Sources */,
+				27E2C5832BD98B3B0000FB40 /* Defaults.swift in Sources */,
 				271CD1E12BD96B3200FBE5DB /* Constants.swift in Sources */,
 				271CD1E22BD96B3200FBE5DB /* Keychain.swift in Sources */,
 			);
@@ -390,6 +396,7 @@
 			files = (
 				2741EA2D2BD8AF08003EDEB2 /* WatchWidget.swift in Sources */,
 				2741EA2F2BD8AF08003EDEB2 /* AppIntent.swift in Sources */,
+				27E2C5842BD98B3B0000FB40 /* Defaults.swift in Sources */,
 				271CD1E32BD96B3200FBE5DB /* Constants.swift in Sources */,
 				271CD1E42BD96B3200FBE5DB /* Keychain.swift in Sources */,
 			);
@@ -401,6 +408,7 @@
 			files = (
 				27F5776D2BCF38330012D66C /* ContentView.swift in Sources */,
 				27F5776B2BCF38330012D66C /* GlimpseApp.swift in Sources */,
+				27E2C5822BD98AB50000FB40 /* Defaults.swift in Sources */,
 				2741EA072BD8AA74003EDEB2 /* Keychain.swift in Sources */,
 				2741EA0A2BD8AB2F003EDEB2 /* Constants.swift in Sources */,
 			);
@@ -671,7 +679,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Glimpse/Glimpse.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"Glimpse/Preview Content\"";
 				DEVELOPMENT_TEAM = ZEAD23GG77;
 				ENABLE_PREVIEWS = YES;
@@ -704,7 +712,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Glimpse/Glimpse.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"Glimpse/Preview Content\"";
 				DEVELOPMENT_TEAM = ZEAD23GG77;
 				ENABLE_PREVIEWS = YES;

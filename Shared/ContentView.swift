@@ -10,18 +10,18 @@ import KeychainAccess
 import WidgetKit
 
 struct ContentView: View {
-    @State private var username: String = Keychain.shared.username ?? ""
-    @State private var password: String = Keychain.shared.password ?? ""
+    @State private var username: String = UserDefaults.shared.username ?? ""
+    @State private var password: String = UserDefaults.shared.password ?? ""
 
     var body: some View {
         ScrollView {
             VStack {
                 TextField("Username", text: $username)
-                SecureField("Password", text: $password)
+                TextField("Password", text: $password)
 
                 Button("Save") {
-                    Keychain.shared.username = username
-                    Keychain.shared.password = password
+                    UserDefaults.shared.username = username
+                    UserDefaults.shared.password = password
                     WidgetCenter.shared.reloadAllTimelines()
                 }
                 .padding()

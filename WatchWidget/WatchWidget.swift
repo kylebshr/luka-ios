@@ -13,11 +13,11 @@ import KeychainAccess
 struct Provider: AppIntentTimelineProvider {
     class Delegate: DexcomClientDelegate {
         func didUpdateAccountID(_ accountID: UUID) {
-            Keychain.shared.accountID = accountID
+            UserDefaults.shared.accountID = accountID
         }
 
         func didUpdateSessionID(_ sessionID: UUID) {
-            Keychain.shared.sessionID = sessionID
+            UserDefaults.shared.sessionID = sessionID
         }
     }
 
@@ -68,15 +68,15 @@ struct Provider: AppIntentTimelineProvider {
     }
 
     func makeState(outsideUS: Bool) async -> SimpleEntry.State {
-        guard let username = Keychain.shared.username, let password = Keychain.shared.password else {
+        guard let username = UserDefaults.shared.username, let password = UserDefaults.shared.password else {
             return .loggedOut
         }
 
         let client = DexcomClient(
             username: username,
             password: password,
-            existingAccountID: Keychain.shared.accountID,
-            existingSessionID: Keychain.shared.sessionID,
+            existingAccountID: UserDefaults.shared.accountID,
+            existingSessionID: UserDefaults.shared.sessionID,
             outsideUS: outsideUS
         )
 
@@ -139,13 +139,13 @@ struct WatchWidgetEntryView : View {
             value: 0,
             label: {},
             currentValueLabel: {
-                VStack(spacing: -3) {
+                VStack(spacing: -4) {
                     Text("\(reading.value)")
-                        .minimumScaleFactor(0.75)
+                        .minimumScaleFactor(0.8)
                     Text(timestamp(for: reading.date))
                         .foregroundStyle(.secondary)
                 }
-                .padding(-3)
+                .padding(-2)
             }
         )
         .gaugeStyle(.accessoryCircularCapacity)
@@ -186,17 +186,17 @@ struct WatchWidgetEntryView : View {
             .fill(.clear)
             .overlay(alignment: .top) {
                 Image(systemName: "chevron.compact.up")
-                    .font(.system(size: 12))
+                    .font(.system(size: 13))
                     .fontWeight(.bold)
             }
             .rotationEffect(.degrees(degrees))
     }
 
     private func timestamp(for date: Date) -> String {
-        if date.timeIntervalSinceNow <= 61 {
+        if Date.now.timeIntervalSince(date) < 60 {
             return "now"
         } else {
-            return formatter.string(from: .now, to: date)!
+            return formatter.string(from: date, to: .now)!
         }
     }
 }
@@ -219,14 +219,14 @@ struct WatchWidget: Widget {
 }
 
 extension GlucoseReading {
-    static let placeholder = GlucoseReading(value: 104, trend: .flat, date: .now.addingTimeInterval(140))
+    static let placeholder = GlucoseReading(value: 104, trend: .flat, date: .now)
 }
 
 #Preview(as: .accessoryCircular) {
     WatchWidget()
 } timeline: {
     SimpleEntry(date: .now, state: .reading(.placeholder))
-    SimpleEntry(date: .now, state: .reading(.init(value: 180, trend: .fortyFiveUp, date: .now)))
+    SimpleEntry(date: .now, state: .reading(.init(value: 180, trend: .fortyFiveUp, date: .now - 60)))
     SimpleEntry(date: .now, state: .reading(.init(value: 180, trend: .doubleDown, date: .now)))
     SimpleEntry(date: .now, state: .reading(.init(value: 180, trend: .doubleUp, date: .now)))
     SimpleEntry(date: .now, state: .reading(nil))
