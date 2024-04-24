@@ -7,6 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		270332482BD99E81009535EE /* TimelineProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270332452BD99E79009535EE /* TimelineProvider.swift */; };
+		2703324E2BD99E90009535EE /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2741EA272BD8AF08003EDEB2 /* WidgetKit.framework */; };
+		2703324F2BD99E90009535EE /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2741EA292BD8AF08003EDEB2 /* SwiftUI.framework */; };
+		270332522BD99E90009535EE /* GlimpseWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270332512BD99E90009535EE /* GlimpseWidgetBundle.swift */; };
+		270332542BD99E90009535EE /* GlimpseWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270332532BD99E90009535EE /* GlimpseWidget.swift */; };
+		270332562BD99E91009535EE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 270332552BD99E91009535EE /* Assets.xcassets */; };
+		2703325A2BD99E91009535EE /* GlimpseWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2703324D2BD99E90009535EE /* GlimpseWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		270332602BD99F43009535EE /* TimelineProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270332452BD99E79009535EE /* TimelineProvider.swift */; };
+		270332612BD99F5F009535EE /* AppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA2E2BD8AF08003EDEB2 /* AppIntent.swift */; };
+		270332632BD9A09F009535EE /* Dexcom in Frameworks */ = {isa = PBXBuildFile; productRef = 270332622BD9A09F009535EE /* Dexcom */; };
+		270332652BD9A09F009535EE /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 270332642BD9A09F009535EE /* KeychainAccess */; };
+		270332662BD9A0B5009535EE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA092BD8AB2F003EDEB2 /* Constants.swift */; };
+		270332672BD9A0B9009535EE /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA062BD8AA74003EDEB2 /* Keychain.swift */; };
+		270332682BD9A0B9009535EE /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E2C5812BD98AB50000FB40 /* Defaults.swift */; };
 		271CD1D92BD96B1500FBE5DB /* Dexcom in Frameworks */ = {isa = PBXBuildFile; productRef = 271CD1D82BD96B1500FBE5DB /* Dexcom */; };
 		271CD1DB2BD96B1700FBE5DB /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 271CD1DA2BD96B1700FBE5DB /* KeychainAccess */; };
 		271CD1DD2BD96B1C00FBE5DB /* Dexcom in Frameworks */ = {isa = PBXBuildFile; productRef = 271CD1DC2BD96B1C00FBE5DB /* Dexcom */; };
@@ -42,6 +56,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		270332582BD99E91009535EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 27F5775F2BCF38330012D66C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2703324C2BD99E90009535EE;
+			remoteInfo = GlimpseWidgetExtension;
+		};
 		2741EA1A2BD8AEBB003EDEB2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 27F5775F2BCF38330012D66C /* Project object */;
@@ -59,6 +80,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		2703325E2BD99E91009535EE /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				2703325A2BD99E91009535EE /* GlimpseWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2741EA202BD8AEBB003EDEB2 /* Embed Watch Content */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -84,6 +116,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		270332452BD99E79009535EE /* TimelineProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineProvider.swift; sourceTree = "<group>"; };
+		2703324D2BD99E90009535EE /* GlimpseWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = GlimpseWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		270332512BD99E90009535EE /* GlimpseWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlimpseWidgetBundle.swift; sourceTree = "<group>"; };
+		270332532BD99E90009535EE /* GlimpseWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlimpseWidget.swift; sourceTree = "<group>"; };
+		270332552BD99E91009535EE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		270332572BD99E91009535EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2703325F2BD99EA4009535EE /* GlimpseWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GlimpseWidget.entitlements; sourceTree = "<group>"; };
 		2741EA062BD8AA74003EDEB2 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		2741EA082BD8AA84003EDEB2 /* Glimpse.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Glimpse.entitlements; sourceTree = "<group>"; };
 		2741EA092BD8AB2F003EDEB2 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -110,6 +149,17 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		2703324A2BD99E90009535EE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				270332652BD9A09F009535EE /* KeychainAccess in Frameworks */,
+				2703324F2BD99E90009535EE /* SwiftUI.framework in Frameworks */,
+				2703324E2BD99E90009535EE /* WidgetKit.framework in Frameworks */,
+				270332632BD9A09F009535EE /* Dexcom in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2741EA0C2BD8AEBA003EDEB2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -142,6 +192,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		270332502BD99E90009535EE /* GlimpseWidget */ = {
+			isa = PBXGroup;
+			children = (
+				2703325F2BD99EA4009535EE /* GlimpseWidget.entitlements */,
+				270332512BD99E90009535EE /* GlimpseWidgetBundle.swift */,
+				270332532BD99E90009535EE /* GlimpseWidget.swift */,
+				270332552BD99E91009535EE /* Assets.xcassets */,
+				270332572BD99E91009535EE /* Info.plist */,
+			);
+			path = GlimpseWidget;
+			sourceTree = "<group>";
+		};
 		271CD1E02BD96B2000FBE5DB /* Shared */ = {
 			isa = PBXGroup;
 			children = (
@@ -151,6 +213,8 @@
 				27E2C5812BD98AB50000FB40 /* Defaults.swift */,
 				27F5776C2BCF38330012D66C /* ContentView.swift */,
 				27E2C5852BD993F60000FB40 /* CloudDefaults.swift */,
+				270332452BD99E79009535EE /* TimelineProvider.swift */,
+				2741EA2E2BD8AF08003EDEB2 /* AppIntent.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -187,7 +251,6 @@
 			children = (
 				27E2C57E2BD980CF0000FB40 /* WatchWidget.entitlements */,
 				2741EA2C2BD8AF08003EDEB2 /* WatchWidget.swift */,
-				2741EA2E2BD8AF08003EDEB2 /* AppIntent.swift */,
 				2741EA302BD8AF0A003EDEB2 /* Assets.xcassets */,
 				2741EA322BD8AF0A003EDEB2 /* Info.plist */,
 			);
@@ -199,6 +262,7 @@
 			children = (
 				271CD1E02BD96B2000FBE5DB /* Shared */,
 				27F577692BCF38330012D66C /* Glimpse */,
+				270332502BD99E90009535EE /* GlimpseWidget */,
 				2741EA102BD8AEBA003EDEB2 /* Watch */,
 				2741EA2B2BD8AF08003EDEB2 /* WatchWidget */,
 				2741EA262BD8AF08003EDEB2 /* Frameworks */,
@@ -212,6 +276,7 @@
 				27F577672BCF38330012D66C /* Glimpse.app */,
 				2741EA0F2BD8AEBA003EDEB2 /* Glimpse.app */,
 				2741EA252BD8AF08003EDEB2 /* WatchWidget.appex */,
+				2703324D2BD99E90009535EE /* GlimpseWidget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -238,6 +303,27 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		2703324C2BD99E90009535EE /* GlimpseWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2703325B2BD99E91009535EE /* Build configuration list for PBXNativeTarget "GlimpseWidget" */;
+			buildPhases = (
+				270332492BD99E90009535EE /* Sources */,
+				2703324A2BD99E90009535EE /* Frameworks */,
+				2703324B2BD99E90009535EE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GlimpseWidget;
+			packageProductDependencies = (
+				270332622BD9A09F009535EE /* Dexcom */,
+				270332642BD9A09F009535EE /* KeychainAccess */,
+			);
+			productName = GlimpseWidgetExtension;
+			productReference = 2703324D2BD99E90009535EE /* GlimpseWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		2741EA0E2BD8AEBA003EDEB2 /* Watch */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2741EA1D2BD8AEBB003EDEB2 /* Build configuration list for PBXNativeTarget "Watch" */;
@@ -290,11 +376,13 @@
 				27F577642BCF38330012D66C /* Frameworks */,
 				27F577652BCF38330012D66C /* Resources */,
 				2741EA202BD8AEBB003EDEB2 /* Embed Watch Content */,
+				2703325E2BD99E91009535EE /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				2741EA1B2BD8AEBB003EDEB2 /* PBXTargetDependency */,
+				270332592BD99E91009535EE /* PBXTargetDependency */,
 			);
 			name = Glimpse;
 			packageProductDependencies = (
@@ -315,6 +403,9 @@
 				LastSwiftUpdateCheck = 1530;
 				LastUpgradeCheck = 1530;
 				TargetAttributes = {
+					2703324C2BD99E90009535EE = {
+						CreatedOnToolsVersion = 15.3;
+					};
 					2741EA0E2BD8AEBA003EDEB2 = {
 						CreatedOnToolsVersion = 15.3;
 					};
@@ -344,6 +435,7 @@
 			projectRoot = "";
 			targets = (
 				27F577662BCF38330012D66C /* Glimpse */,
+				2703324C2BD99E90009535EE /* GlimpseWidget */,
 				2741EA0E2BD8AEBA003EDEB2 /* Watch */,
 				2741EA242BD8AF08003EDEB2 /* WatchWidget */,
 			);
@@ -351,6 +443,14 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		2703324B2BD99E90009535EE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				270332562BD99E91009535EE /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2741EA0D2BD8AEBA003EDEB2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -380,6 +480,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		270332492BD99E90009535EE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				270332662BD9A0B5009535EE /* Constants.swift in Sources */,
+				270332602BD99F43009535EE /* TimelineProvider.swift in Sources */,
+				270332612BD99F5F009535EE /* AppIntent.swift in Sources */,
+				270332522BD99E90009535EE /* GlimpseWidgetBundle.swift in Sources */,
+				270332672BD9A0B9009535EE /* Keychain.swift in Sources */,
+				270332682BD9A0B9009535EE /* Defaults.swift in Sources */,
+				270332542BD99E90009535EE /* GlimpseWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2741EA0B2BD8AEBA003EDEB2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -400,6 +514,7 @@
 				2741EA2D2BD8AF08003EDEB2 /* WatchWidget.swift in Sources */,
 				2741EA2F2BD8AF08003EDEB2 /* AppIntent.swift in Sources */,
 				27E2C5842BD98B3B0000FB40 /* Defaults.swift in Sources */,
+				270332482BD99E81009535EE /* TimelineProvider.swift in Sources */,
 				271CD1E32BD96B3200FBE5DB /* Constants.swift in Sources */,
 				271CD1E42BD96B3200FBE5DB /* Keychain.swift in Sources */,
 			);
@@ -421,6 +536,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		270332592BD99E91009535EE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2703324C2BD99E90009535EE /* GlimpseWidget */;
+			targetProxy = 270332582BD99E91009535EE /* PBXContainerItemProxy */;
+		};
 		2741EA1B2BD8AEBB003EDEB2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 2741EA0E2BD8AEBA003EDEB2 /* Watch */;
@@ -434,6 +554,60 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		2703325C2BD99E91009535EE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = GlimpseWidget/GlimpseWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZEAD23GG77;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GlimpseWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = GlimpseWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kylebashour.Glimpse.GlimpseWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		2703325D2BD99E91009535EE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = GlimpseWidget/GlimpseWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZEAD23GG77;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GlimpseWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = GlimpseWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kylebashour.Glimpse.GlimpseWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		2741EA1E2BD8AEBB003EDEB2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -460,7 +634,6 @@
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
 			};
 			name = Debug;
 		};
@@ -490,7 +663,6 @@
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
 			};
 			name = Release;
 		};
@@ -520,7 +692,6 @@
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
 			};
 			name = Debug;
 		};
@@ -550,7 +721,6 @@
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
 			};
 			name = Release;
 		};
@@ -683,7 +853,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Glimpse/Glimpse.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "\"Glimpse/Preview Content\"";
 				DEVELOPMENT_TEAM = ZEAD23GG77;
 				ENABLE_PREVIEWS = YES;
@@ -704,7 +874,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -716,7 +885,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Glimpse/Glimpse.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "\"Glimpse/Preview Content\"";
 				DEVELOPMENT_TEAM = ZEAD23GG77;
 				ENABLE_PREVIEWS = YES;
@@ -737,13 +906,21 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		2703325B2BD99E91009535EE /* Build configuration list for PBXNativeTarget "GlimpseWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2703325C2BD99E91009535EE /* Debug */,
+				2703325D2BD99E91009535EE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		2741EA1D2BD8AEBB003EDEB2 /* Build configuration list for PBXNativeTarget "Watch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -802,6 +979,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		270332622BD9A09F009535EE /* Dexcom */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 27C6E25D2BCF386E006BAE98 /* XCRemoteSwiftPackageReference "dexcom-swift" */;
+			productName = Dexcom;
+		};
+		270332642BD9A09F009535EE /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 27C6E2602BCF387A006BAE98 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
+		};
 		271CD1D82BD96B1500FBE5DB /* Dexcom */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 27C6E25D2BCF386E006BAE98 /* XCRemoteSwiftPackageReference "dexcom-swift" */;

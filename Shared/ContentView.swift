@@ -21,6 +21,8 @@ struct ContentView: View {
             VStack {
                 TextField("Username", text: $username)
                     .textContentType(.username)
+                    .textInputAutocapitalization(.never)
+
                 SecureField("Password", text: $password)
                     .textContentType(.password)
 
@@ -32,10 +34,12 @@ struct ContentView: View {
                 .padding(.top)
 
                 if let accountID {
+                    Text("Account ID")
                     Text(accountID.uuidString)
                 }
 
                 if let sessionID {
+                    Text("Session ID")
                     Text(sessionID.uuidString)
                 }
             }

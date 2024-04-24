@@ -10,97 +10,10 @@ import SwiftUI
 import Dexcom
 import KeychainAccess
 
-struct Provider: AppIntentTimelineProvider {
-    class Delegate: DexcomClientDelegate {
-        func didUpdateAccountID(_ accountID: UUID) {
-            UserDefaults.shared.accountID = accountID
-        }
-
-        func didUpdateSessionID(_ sessionID: UUID) {
-            UserDefaults.shared.sessionID = sessionID
-        }
-    }
-
-    func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), state: .reading(.placeholder))
-    }
-
-    func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
-        let state = await makeState(outsideUS: configuration.outsideUS)
-        return SimpleEntry(date: Date(), state: state)
-    }
-    
-    func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
-        let state = await makeState(outsideUS: configuration.outsideUS)
-        let currentDate = Date()
-        let refreshDate = Calendar.current.date(byAdding: .minute, value: 15, to: currentDate)!
-
-        switch state {
-        case .loggedOut, .expired:
-            return Timeline(entries: [SimpleEntry(date: .now, state: state)], policy: .after(refreshDate))
-        case .reading(let glucoseReading):
-            if let glucoseReading {
-                let entries = (1...15).map {
-                    let date = Calendar.current.date(byAdding: .minute, value: $0, to: currentDate)!
-                    return SimpleEntry(date: date, state: .reading(glucoseReading))
-                }
-
-                let expired = SimpleEntry(
-                    date: Calendar.current.date(byAdding: .minute, value: 20, to: currentDate)!,
-                    state: .expired
-                )
-
-                return Timeline(entries: entries + [expired], policy: .after(refreshDate))
-            } else {
-                return Timeline(entries: [SimpleEntry(date: .now, state: state)], policy: .after(refreshDate))
-            }
-        }
-    }
-
-    func recommendations() -> [AppIntentRecommendation<ConfigurationAppIntent>] {
-        let outsideUS = ConfigurationAppIntent()
-        outsideUS.outsideUS = true
-
-        return [
-            AppIntentRecommendation(intent: ConfigurationAppIntent(), description: "Inside US"),
-            AppIntentRecommendation(intent: outsideUS, description: "Outside US"),
-        ]
-    }
-
-    func makeState(outsideUS: Bool) async -> SimpleEntry.State {
-        guard let username = UserDefaults.shared.username, let password = UserDefaults.shared.password else {
-            return .loggedOut
-        }
-
-        let client = DexcomClient(
-            username: username,
-            password: password,
-            existingAccountID: UserDefaults.shared.accountID,
-            existingSessionID: UserDefaults.shared.sessionID,
-            outsideUS: outsideUS
-        )
-
-        do {
-            return try await .reading(client.getCurrentGlucoseReading())
-        } catch {
-            return .reading(nil)
-        }
-    }
-}
-
-struct SimpleEntry: TimelineEntry {
-    enum State {
-        case loggedOut
-        case expired
-        case reading(GlucoseReading?)
-    }
-
-    let date: Date
-    let state: State
-}
-
 struct WatchWidgetEntryView : View {
     var entry: Provider.Entry
+
+    @Environment(\.redactionReasons) private var redactionReasons
 
     private var formatter: DateComponentsFormatter {
         let formatter = DateComponentsFormatter()
@@ -108,19 +21,26 @@ struct WatchWidgetEntryView : View {
         formatter.maximumUnitCount = 1
         return formatter
     }
+    
+    private var isExpired: Bool {
+        entry.date.timeIntervalSince(.now) > 15 * 60
+    }
 
     var body: some View {
         switch entry.state {
         case .reading(let reading):
             if let reading {
-                readingView(reading: reading)
+                if entry.isExpired {
+                    readingView(reading: reading)
+                        .redacted(reason: .placeholder)
+                } else {
+                    readingView(reading: reading)
+                }
             } else {
                 imageView(systemName: "icloud.slash")
             }
         case .loggedOut:
             imageView(systemName: "person.slash")
-        case .expired:
-            imageView(systemName: "exclamationmark.arrow.circlepath")
         }
     }
 
@@ -142,23 +62,27 @@ struct WatchWidgetEntryView : View {
                 VStack(spacing: -4) {
                     Text("\(reading.value)")
                         .minimumScaleFactor(0.8)
-                    Text(timestamp(for: reading.date))
-                        .foregroundStyle(.secondary)
+                    if redactionReasons.isEmpty {
+                        Text(timestamp(for: reading.date))
+                            .foregroundStyle(.secondary)
+                    }
                 }
                 .padding(-2)
             }
         )
         .gaugeStyle(.accessoryCircularCapacity)
         .overlay {
-            if let rotationDegrees = rotationDegrees(for: reading.trend) {
-                arrow(degrees: rotationDegrees)
-
-                switch reading.trend {
-                case .doubleUp, .doubleDown:
+            if redactionReasons.isEmpty {
+                if let rotationDegrees = rotationDegrees(for: reading.trend) {
                     arrow(degrees: rotationDegrees)
-                        .padding(3)
-                default:
-                    EmptyView()
+
+                    switch reading.trend {
+                    case .doubleUp, .doubleDown:
+                        arrow(degrees: rotationDegrees)
+                            .padding(3)
+                    default:
+                        EmptyView()
+                    }
                 }
             }
         }
@@ -211,24 +135,26 @@ struct WatchWidget: Widget {
             intent: ConfigurationAppIntent.self,
             provider: Provider()
         ) { entry in
-            WatchWidgetEntryView(entry: entry)
-                .containerBackground(.fill.tertiary, for: .widget)
+            if entry.isExpired {
+                WatchWidgetEntryView(entry: entry)
+                    .containerBackground(.fill.tertiary, for: .widget)
+                    .redacted(reason: .placeholder)
+            } else {
+                WatchWidgetEntryView(entry: entry)
+                    .containerBackground(.fill.tertiary, for: .widget)
+            }
         }
         .supportedFamilies([.accessoryCircular])
     }
 }
 
-extension GlucoseReading {
-    static let placeholder = GlucoseReading(value: 104, trend: .flat, date: .now)
-}
-
 #Preview(as: .accessoryCircular) {
     WatchWidget()
 } timeline: {
-    SimpleEntry(date: .now, state: .reading(.placeholder))
-    SimpleEntry(date: .now, state: .reading(.init(value: 94, trend: .fortyFiveUp, date: .now - 60)))
-    SimpleEntry(date: .now, state: .reading(.init(value: 102, trend: .doubleDown, date: .now - 400)))
-    SimpleEntry(date: .now, state: .reading(.init(value: 183, trend: .doubleUp, date: .now - 900)))
-    SimpleEntry(date: .now, state: .reading(nil))
-    SimpleEntry(date: .now, state: .loggedOut)
+    GlucoseEntry(date: .now, state: .reading(.placeholder))
+    GlucoseEntry(date: .now, state: .reading(.init(value: 94, trend: .fortyFiveUp, date: .now - 60)))
+    GlucoseEntry(date: .now, state: .reading(.init(value: 102, trend: .doubleDown, date: .now - 400)))
+    GlucoseEntry(date: .now.addingTimeInterval(20 * 60), state: .reading(.init(value: 183, trend: .doubleUp, date: .now - 900)))
+    GlucoseEntry(date: .now, state: .reading(nil))
+    GlucoseEntry(date: .now, state: .loggedOut)
 }
