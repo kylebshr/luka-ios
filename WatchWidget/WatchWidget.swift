@@ -7,67 +7,196 @@
 
 import WidgetKit
 import SwiftUI
+import Dexcom
+import KeychainAccess
 
 struct Provider: AppIntentTimelineProvider {
+    class Delegate: DexcomClientDelegate {
+        func didUpdateAccountID(_ accountID: UUID) {
+            Keychain.shared.accountID = accountID
+        }
+
+        func didUpdateSessionID(_ sessionID: UUID) {
+            Keychain.shared.sessionID = sessionID
+        }
+    }
+
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationAppIntent())
+        SimpleEntry(date: Date(), state: .reading(.placeholder))
     }
 
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: configuration)
+        let state = await makeState(outsideUS: configuration.outsideUS)
+        return SimpleEntry(date: Date(), state: state)
     }
     
     func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
-        var entries: [SimpleEntry] = []
-
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
+        let state = await makeState(outsideUS: configuration.outsideUS)
         let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, configuration: configuration)
-            entries.append(entry)
-        }
+        let refreshDate = Calendar.current.date(byAdding: .minute, value: 10, to: currentDate)!
 
-        return Timeline(entries: entries, policy: .atEnd)
+        switch state {
+        case .loggedOut, .expired:
+            return Timeline(entries: [SimpleEntry(date: .now, state: state)], policy: .after(refreshDate))
+        case .reading(let glucoseReading):
+            if let glucoseReading {
+                let entries = (1...15).map {
+                    let date = Calendar.current.date(byAdding: .minute, value: $0, to: currentDate)!
+                    return SimpleEntry(date: date, state: .reading(glucoseReading))
+                }
+
+                let expired = SimpleEntry(
+                    date: Calendar.current.date(byAdding: .minute, value: 20, to: currentDate)!,
+                    state: .expired
+                )
+
+                return Timeline(entries: entries + [expired], policy: .after(refreshDate))
+            } else {
+                return Timeline(entries: [SimpleEntry(date: .now, state: state)], policy: .after(refreshDate))
+            }
+        }
     }
 
     func recommendations() -> [AppIntentRecommendation<ConfigurationAppIntent>] {
-        // Create an array with all the preconfigured widgets to show.
-        [AppIntentRecommendation(intent: ConfigurationAppIntent(), description: "Example Widget")]
+        let outsideUS = ConfigurationAppIntent()
+        outsideUS.outsideUS = true
+
+        return [
+            AppIntentRecommendation(intent: ConfigurationAppIntent(), description: "Inside US"),
+            AppIntentRecommendation(intent: outsideUS, description: "Outside US"),
+        ]
+    }
+
+    func makeState(outsideUS: Bool) async -> SimpleEntry.State {
+        guard let username = Keychain.shared.username, let password = Keychain.shared.password else {
+            return .loggedOut
+        }
+
+        let client = DexcomClient(
+            username: username,
+            password: password,
+            existingAccountID: Keychain.shared.accountID,
+            existingSessionID: Keychain.shared.sessionID,
+            outsideUS: outsideUS
+        )
+
+        do {
+            return try await .reading(client.getCurrentGlucoseReading())
+        } catch {
+            return .reading(nil)
+        }
     }
 }
 
 struct SimpleEntry: TimelineEntry {
+    enum State {
+        case loggedOut
+        case expired
+        case reading(GlucoseReading?)
+    }
+
     let date: Date
-    let configuration: ConfigurationAppIntent
+    let state: State
 }
 
 struct WatchWidgetEntryView : View {
     var entry: Provider.Entry
 
+    private var formatter: DateComponentsFormatter {
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = .abbreviated
+        formatter.maximumUnitCount = 1
+        return formatter
+    }
+
     var body: some View {
+        switch entry.state {
+        case .reading(let reading):
+            if let reading {
+                readingView(reading: reading)
+            } else {
+                imageView(systemName: "icloud.slash")
+            }
+        case .loggedOut:
+            imageView(systemName: "person.slash")
+        case .expired:
+            imageView(systemName: "exclamationmark.arrow.circlepath")
+        }
+    }
+
+    private func imageView(systemName: String) -> some View {
+        ZStack {
+            Circle().fill(.fill.secondary)
+            Image(systemName: systemName)
+                .font(.title3)
+                .fontDesign(.rounded)
+                .fontWeight(.semibold)
+        }
+    }
+
+    private func readingView(reading: GlucoseReading) -> some View {
         Gauge(
             value: 0,
             label: {},
             currentValueLabel: {
                 VStack(spacing: -3) {
-                    Text("137")
+                    Text("\(reading.value)")
                         .minimumScaleFactor(0.75)
-                    Text("4m")
+                    Text(timestamp(for: reading.date))
                         .foregroundStyle(.secondary)
                 }
-                .padding(-2)
+                .padding(-3)
             }
         )
         .gaugeStyle(.accessoryCircularCapacity)
         .overlay {
-            Rectangle()
-                .fill(.clear)
-                .overlay(alignment: .top) {
-                    Image(systemName: "triangle.fill")
-                        .font(.system(size: 7))
+            if let rotationDegrees = rotationDegrees(for: reading.trend) {
+                arrow(degrees: rotationDegrees)
+
+                switch reading.trend {
+                case .doubleUp, .doubleDown:
+                    arrow(degrees: rotationDegrees)
+                        .padding(3)
+                default:
+                    EmptyView()
                 }
-                .rotationEffect(.degrees(90))
+            }
+        }
+    }
+
+    private func rotationDegrees(for trend: TrendDirection) -> Double? {
+        switch trend {
+        case .none, .notComputable, .rateOutOfRange:
+            nil
+        case .doubleUp, .singleUp:
+            0
+        case .fortyFiveUp:
+            45
+        case .flat:
+            90
+        case .fortyFiveDown:
+            135
+        case .singleDown, .doubleDown:
+            180
+        }
+    }
+
+    private func arrow(degrees: Double) -> some View {
+        Rectangle()
+            .fill(.clear)
+            .overlay(alignment: .top) {
+                Image(systemName: "chevron.compact.up")
+                    .font(.system(size: 12))
+                    .fontWeight(.bold)
+            }
+            .rotationEffect(.degrees(degrees))
+    }
+
+    private func timestamp(for date: Date) -> String {
+        if date.timeIntervalSinceNow <= 61 {
+            return "now"
+        } else {
+            return formatter.string(from: .now, to: date)!
         }
     }
 }
@@ -89,23 +218,17 @@ struct WatchWidget: Widget {
     }
 }
 
-extension ConfigurationAppIntent {
-    fileprivate static var smiley: ConfigurationAppIntent {
-        let intent = ConfigurationAppIntent()
-        intent.favoriteEmoji = "😀"
-        return intent
-    }
-    
-    fileprivate static var starEyes: ConfigurationAppIntent {
-        let intent = ConfigurationAppIntent()
-        intent.favoriteEmoji = "🤩"
-        return intent
-    }
+extension GlucoseReading {
+    static let placeholder = GlucoseReading(value: 104, trend: .flat, date: .now.addingTimeInterval(140))
 }
 
-#Preview(as: .accessoryRectangular) {
+#Preview(as: .accessoryCircular) {
     WatchWidget()
 } timeline: {
-    SimpleEntry(date: .now, configuration: .smiley)
-    SimpleEntry(date: .now, configuration: .starEyes)
-}    
+    SimpleEntry(date: .now, state: .reading(.placeholder))
+    SimpleEntry(date: .now, state: .reading(.init(value: 180, trend: .fortyFiveUp, date: .now)))
+    SimpleEntry(date: .now, state: .reading(.init(value: 180, trend: .doubleDown, date: .now)))
+    SimpleEntry(date: .now, state: .reading(.init(value: 180, trend: .doubleUp, date: .now)))
+    SimpleEntry(date: .now, state: .reading(nil))
+    SimpleEntry(date: .now, state: .loggedOut)
+}

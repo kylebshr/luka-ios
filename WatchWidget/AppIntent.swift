@@ -9,10 +9,9 @@ import WidgetKit
 import AppIntents
 
 struct ConfigurationAppIntent: WidgetConfigurationIntent {
-    static var title: LocalizedStringResource = "Configuration"
-    static var description = IntentDescription("This is an example widget.")
+    static var title: LocalizedStringResource = "Dexcom Settings"
+    static var description = IntentDescription("Configure Dexcom widget settings.")
 
-    // An example configurable parameter.
-    @Parameter(title: "Favorite Emoji", default: "😃")
-    var favoriteEmoji: String
+    @Parameter(title: "Outside US", default: false)
+    var outsideUS: Bool
 }
