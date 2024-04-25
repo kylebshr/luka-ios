@@ -10,11 +10,11 @@ import KeychainAccess
 import WidgetKit
 
 struct ContentView: View {
-    @State private var username: String = UserDefaults.shared.username ?? ""
-    @State private var password: String = UserDefaults.shared.password ?? ""
+    @State private var username: String = Keychain.shared.username ?? ""
+    @State private var password: String = Keychain.shared.password ?? ""
 
-    @State private var accountID = UserDefaults.shared.accountID
-    @State private var sessionID = UserDefaults.shared.sessionID
+    @State private var accountID = Keychain.shared.accountID
+    @State private var sessionID = Keychain.shared.sessionID
 
     var body: some View {
         ScrollView {
@@ -27,8 +27,8 @@ struct ContentView: View {
                     .textContentType(.password)
 
                 Button("Save") {
-                    UserDefaults.shared.username = username
-                    UserDefaults.shared.password = password
+                    Keychain.shared.username = username
+                    Keychain.shared.password = password
                     WidgetCenter.shared.reloadAllTimelines()
                 }
                 .padding(.top)

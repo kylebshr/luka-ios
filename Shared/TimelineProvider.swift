@@ -12,11 +12,11 @@ import KeychainAccess
 struct Provider: AppIntentTimelineProvider {
     class Delegate: DexcomClientDelegate {
         func didUpdateAccountID(_ accountID: UUID) {
-            UserDefaults.shared.accountID = accountID
+            Keychain.shared.accountID = accountID
         }
 
         func didUpdateSessionID(_ sessionID: UUID) {
-            UserDefaults.shared.sessionID = sessionID
+            Keychain.shared.sessionID = sessionID
         }
     }
 
@@ -70,15 +70,15 @@ struct Provider: AppIntentTimelineProvider {
     }
 
     func makeState(outsideUS: Bool) async -> GlucoseEntry.State {
-        guard let username = UserDefaults.shared.username, let password = UserDefaults.shared.password else {
+        guard let username = Keychain.shared.username, let password = Keychain.shared.password else {
             return .loggedOut
         }
 
         let client = DexcomClient(
             username: username,
             password: password,
-            existingAccountID: UserDefaults.shared.accountID,
-            existingSessionID: UserDefaults.shared.sessionID,
+            existingAccountID: Keychain.shared.accountID,
+            existingSessionID: Keychain.shared.sessionID,
             outsideUS: outsideUS
         )
 
