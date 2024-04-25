@@ -21,6 +21,12 @@
 		270332662BD9A0B5009535EE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA092BD8AB2F003EDEB2 /* Constants.swift */; };
 		270332672BD9A0B9009535EE /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA062BD8AA74003EDEB2 /* Keychain.swift */; };
 		270332682BD9A0B9009535EE /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E2C5812BD98AB50000FB40 /* Defaults.swift */; };
+		270E185F2BDA082A00CB7D4D /* CircularWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E185E2BDA082A00CB7D4D /* CircularWidgetView.swift */; };
+		270E18602BDA082A00CB7D4D /* CircularWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E185E2BDA082A00CB7D4D /* CircularWidgetView.swift */; };
+		270E18622BDA084E00CB7D4D /* WidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E18612BDA084E00CB7D4D /* WidgetView.swift */; };
+		270E18632BDA084E00CB7D4D /* WidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E18612BDA084E00CB7D4D /* WidgetView.swift */; };
+		270E18652BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E18642BDA0A1400CB7D4D /* ReloadWidgetIntent.swift */; };
+		270E18662BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E18642BDA0A1400CB7D4D /* ReloadWidgetIntent.swift */; };
 		271CD1D92BD96B1500FBE5DB /* Dexcom in Frameworks */ = {isa = PBXBuildFile; productRef = 271CD1D82BD96B1500FBE5DB /* Dexcom */; };
 		271CD1DB2BD96B1700FBE5DB /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 271CD1DA2BD96B1700FBE5DB /* KeychainAccess */; };
 		271CD1DD2BD96B1C00FBE5DB /* Dexcom in Frameworks */ = {isa = PBXBuildFile; productRef = 271CD1DC2BD96B1C00FBE5DB /* Dexcom */; };
@@ -123,6 +129,9 @@
 		270332552BD99E91009535EE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		270332572BD99E91009535EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2703325F2BD99EA4009535EE /* GlimpseWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GlimpseWidget.entitlements; sourceTree = "<group>"; };
+		270E185E2BDA082A00CB7D4D /* CircularWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularWidgetView.swift; sourceTree = "<group>"; };
+		270E18612BDA084E00CB7D4D /* WidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetView.swift; sourceTree = "<group>"; };
+		270E18642BDA0A1400CB7D4D /* ReloadWidgetIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReloadWidgetIntent.swift; sourceTree = "<group>"; };
 		2741EA062BD8AA74003EDEB2 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		2741EA082BD8AA84003EDEB2 /* Glimpse.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Glimpse.entitlements; sourceTree = "<group>"; };
 		2741EA092BD8AB2F003EDEB2 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -215,6 +224,9 @@
 				27E2C5852BD993F60000FB40 /* CloudDefaults.swift */,
 				270332452BD99E79009535EE /* TimelineProvider.swift */,
 				2741EA2E2BD8AF08003EDEB2 /* AppIntent.swift */,
+				270E185E2BDA082A00CB7D4D /* CircularWidgetView.swift */,
+				270E18612BDA084E00CB7D4D /* WidgetView.swift */,
+				270E18642BDA0A1400CB7D4D /* ReloadWidgetIntent.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -486,10 +498,13 @@
 			files = (
 				270332662BD9A0B5009535EE /* Constants.swift in Sources */,
 				270332602BD99F43009535EE /* TimelineProvider.swift in Sources */,
+				270E18652BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */,
 				270332612BD99F5F009535EE /* AppIntent.swift in Sources */,
 				270332522BD99E90009535EE /* GlimpseWidgetBundle.swift in Sources */,
+				270E18622BDA084E00CB7D4D /* WidgetView.swift in Sources */,
 				270332672BD9A0B9009535EE /* Keychain.swift in Sources */,
 				270332682BD9A0B9009535EE /* Defaults.swift in Sources */,
+				270E185F2BDA082A00CB7D4D /* CircularWidgetView.swift in Sources */,
 				270332542BD99E90009535EE /* GlimpseWidget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -511,8 +526,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				270E18662BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */,
 				2741EA2D2BD8AF08003EDEB2 /* WatchWidget.swift in Sources */,
 				2741EA2F2BD8AF08003EDEB2 /* AppIntent.swift in Sources */,
+				270E18632BDA084E00CB7D4D /* WidgetView.swift in Sources */,
+				270E18602BDA082A00CB7D4D /* CircularWidgetView.swift in Sources */,
 				27E2C5842BD98B3B0000FB40 /* Defaults.swift in Sources */,
 				270332482BD99E81009535EE /* TimelineProvider.swift in Sources */,
 				271CD1E32BD96B3200FBE5DB /* Constants.swift in Sources */,
@@ -853,7 +871,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Glimpse/Glimpse.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_ASSET_PATHS = "\"Glimpse/Preview Content\"";
 				DEVELOPMENT_TEAM = ZEAD23GG77;
 				ENABLE_PREVIEWS = YES;
@@ -885,7 +903,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Glimpse/Glimpse.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_ASSET_PATHS = "\"Glimpse/Preview Content\"";
 				DEVELOPMENT_TEAM = ZEAD23GG77;
 				ENABLE_PREVIEWS = YES;
