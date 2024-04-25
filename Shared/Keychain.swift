@@ -11,7 +11,10 @@ import Foundation
 
 extension Keychain {
     static var shared: Keychain {
-        Keychain(service: "group.com.kylebashour.Glimpse").synchronizable(true)
+        Keychain(
+            service: "group.com.kylebashour.Glimpse",
+            accessGroup: "group.com.kylebashour.Glimpse"
+        ).synchronizable(true)
     }
 
     var username: String? {

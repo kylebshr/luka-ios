@@ -22,6 +22,8 @@ struct GlimpseWidget: Widget {
         }
         .supportedFamilies([
             .systemSmall,
+            .systemMedium,
+            .systemLarge,
             .accessoryInline,
             .accessoryCircular,
             .accessoryRectangular,
