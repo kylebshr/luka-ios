@@ -21,8 +21,8 @@
 		270332662BD9A0B5009535EE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA092BD8AB2F003EDEB2 /* Constants.swift */; };
 		270332672BD9A0B9009535EE /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA062BD8AA74003EDEB2 /* Keychain.swift */; };
 		270332682BD9A0B9009535EE /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E2C5812BD98AB50000FB40 /* Defaults.swift */; };
-		270E185F2BDA082A00CB7D4D /* CircularWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E185E2BDA082A00CB7D4D /* CircularWidgetView.swift */; };
-		270E18602BDA082A00CB7D4D /* CircularWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E185E2BDA082A00CB7D4D /* CircularWidgetView.swift */; };
+		270E185F2BDA082A00CB7D4D /* CircularWidgetReadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E185E2BDA082A00CB7D4D /* CircularWidgetReadingView.swift */; };
+		270E18602BDA082A00CB7D4D /* CircularWidgetReadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E185E2BDA082A00CB7D4D /* CircularWidgetReadingView.swift */; };
 		270E18622BDA084E00CB7D4D /* WidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E18612BDA084E00CB7D4D /* WidgetView.swift */; };
 		270E18632BDA084E00CB7D4D /* WidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E18612BDA084E00CB7D4D /* WidgetView.swift */; };
 		270E18652BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E18642BDA0A1400CB7D4D /* ReloadWidgetIntent.swift */; };
@@ -46,6 +46,20 @@
 		2741EA2F2BD8AF08003EDEB2 /* AppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA2E2BD8AF08003EDEB2 /* AppIntent.swift */; };
 		2741EA312BD8AF0A003EDEB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2741EA302BD8AF0A003EDEB2 /* Assets.xcassets */; };
 		2741EA352BD8AF0A003EDEB2 /* WatchWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2741EA252BD8AF08003EDEB2 /* WatchWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		27AB80432BDAD7C60071E482 /* SystemWidgetReadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80422BDAD7C60071E482 /* SystemWidgetReadingView.swift */; };
+		27AB80442BDAD7C60071E482 /* SystemWidgetReadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80422BDAD7C60071E482 /* SystemWidgetReadingView.swift */; };
+		27AB80462BDAD8C20071E482 /* GlucoseReading+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80452BDAD8C20071E482 /* GlucoseReading+Extensions.swift */; };
+		27AB80472BDAD8C20071E482 /* GlucoseReading+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80452BDAD8C20071E482 /* GlucoseReading+Extensions.swift */; };
+		27AB804A2BDAD96D0071E482 /* InlineWidgetReadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80492BDAD96D0071E482 /* InlineWidgetReadingView.swift */; };
+		27AB804B2BDAD96D0071E482 /* InlineWidgetReadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80492BDAD96D0071E482 /* InlineWidgetReadingView.swift */; };
+		27AB804D2BDAD9B10071E482 /* RectangularWidgetReadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB804C2BDAD9B10071E482 /* RectangularWidgetReadingView.swift */; };
+		27AB804E2BDAD9B10071E482 /* RectangularWidgetReadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB804C2BDAD9B10071E482 /* RectangularWidgetReadingView.swift */; };
+		27AB80502BDADF030071E482 /* SystemWidgetErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB804F2BDADF030071E482 /* SystemWidgetErrorView.swift */; };
+		27AB80512BDADF030071E482 /* SystemWidgetErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB804F2BDADF030071E482 /* SystemWidgetErrorView.swift */; };
+		27AB80532BDAE51C0071E482 /* RectangularWidgetErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80522BDAE51C0071E482 /* RectangularWidgetErrorView.swift */; };
+		27AB80542BDAE51C0071E482 /* RectangularWidgetErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80522BDAE51C0071E482 /* RectangularWidgetErrorView.swift */; };
+		27AB80562BDAF27C0071E482 /* CircularWidgetErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80552BDAF27C0071E482 /* CircularWidgetErrorView.swift */; };
+		27AB80572BDAF27C0071E482 /* CircularWidgetErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80552BDAF27C0071E482 /* CircularWidgetErrorView.swift */; };
 		27C6E25F2BCF386E006BAE98 /* Dexcom in Frameworks */ = {isa = PBXBuildFile; productRef = 27C6E25E2BCF386E006BAE98 /* Dexcom */; };
 		27C6E2622BCF387A006BAE98 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 27C6E2612BCF387A006BAE98 /* KeychainAccess */; };
 		27E2C5802BD984F70000FB40 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5776C2BCF38330012D66C /* ContentView.swift */; };
@@ -129,7 +143,7 @@
 		270332552BD99E91009535EE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		270332572BD99E91009535EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2703325F2BD99EA4009535EE /* GlimpseWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GlimpseWidget.entitlements; sourceTree = "<group>"; };
-		270E185E2BDA082A00CB7D4D /* CircularWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularWidgetView.swift; sourceTree = "<group>"; };
+		270E185E2BDA082A00CB7D4D /* CircularWidgetReadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularWidgetReadingView.swift; sourceTree = "<group>"; };
 		270E18612BDA084E00CB7D4D /* WidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetView.swift; sourceTree = "<group>"; };
 		270E18642BDA0A1400CB7D4D /* ReloadWidgetIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReloadWidgetIntent.swift; sourceTree = "<group>"; };
 		2741EA062BD8AA74003EDEB2 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
@@ -145,6 +159,13 @@
 		2741EA2E2BD8AF08003EDEB2 /* AppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntent.swift; sourceTree = "<group>"; };
 		2741EA302BD8AF0A003EDEB2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2741EA322BD8AF0A003EDEB2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		27AB80422BDAD7C60071E482 /* SystemWidgetReadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemWidgetReadingView.swift; sourceTree = "<group>"; };
+		27AB80452BDAD8C20071E482 /* GlucoseReading+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GlucoseReading+Extensions.swift"; sourceTree = "<group>"; };
+		27AB80492BDAD96D0071E482 /* InlineWidgetReadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InlineWidgetReadingView.swift; sourceTree = "<group>"; };
+		27AB804C2BDAD9B10071E482 /* RectangularWidgetReadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangularWidgetReadingView.swift; sourceTree = "<group>"; };
+		27AB804F2BDADF030071E482 /* SystemWidgetErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemWidgetErrorView.swift; sourceTree = "<group>"; };
+		27AB80522BDAE51C0071E482 /* RectangularWidgetErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangularWidgetErrorView.swift; sourceTree = "<group>"; };
+		27AB80552BDAF27C0071E482 /* CircularWidgetErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularWidgetErrorView.swift; sourceTree = "<group>"; };
 		27E2C57D2BD980C60000FB40 /* Watch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Watch.entitlements; sourceTree = "<group>"; };
 		27E2C57E2BD980CF0000FB40 /* WatchWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WatchWidget.entitlements; sourceTree = "<group>"; };
 		27E2C57F2BD981D80000FB40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -224,9 +245,9 @@
 				27E2C5852BD993F60000FB40 /* CloudDefaults.swift */,
 				270332452BD99E79009535EE /* TimelineProvider.swift */,
 				2741EA2E2BD8AF08003EDEB2 /* AppIntent.swift */,
-				270E185E2BDA082A00CB7D4D /* CircularWidgetView.swift */,
-				270E18612BDA084E00CB7D4D /* WidgetView.swift */,
 				270E18642BDA0A1400CB7D4D /* ReloadWidgetIntent.swift */,
+				27AB80452BDAD8C20071E482 /* GlucoseReading+Extensions.swift */,
+				27AB80482BDAD9500071E482 /* WidgetViews */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -267,6 +288,21 @@
 				2741EA322BD8AF0A003EDEB2 /* Info.plist */,
 			);
 			path = WatchWidget;
+			sourceTree = "<group>";
+		};
+		27AB80482BDAD9500071E482 /* WidgetViews */ = {
+			isa = PBXGroup;
+			children = (
+				270E18612BDA084E00CB7D4D /* WidgetView.swift */,
+				27AB80422BDAD7C60071E482 /* SystemWidgetReadingView.swift */,
+				27AB804F2BDADF030071E482 /* SystemWidgetErrorView.swift */,
+				27AB80492BDAD96D0071E482 /* InlineWidgetReadingView.swift */,
+				27AB804C2BDAD9B10071E482 /* RectangularWidgetReadingView.swift */,
+				27AB80522BDAE51C0071E482 /* RectangularWidgetErrorView.swift */,
+				270E185E2BDA082A00CB7D4D /* CircularWidgetReadingView.swift */,
+				27AB80552BDAF27C0071E482 /* CircularWidgetErrorView.swift */,
+			);
+			path = WidgetViews;
 			sourceTree = "<group>";
 		};
 		27F5775E2BCF38330012D66C = {
@@ -498,13 +534,20 @@
 			files = (
 				270332662BD9A0B5009535EE /* Constants.swift in Sources */,
 				270332602BD99F43009535EE /* TimelineProvider.swift in Sources */,
+				27AB804D2BDAD9B10071E482 /* RectangularWidgetReadingView.swift in Sources */,
+				27AB80432BDAD7C60071E482 /* SystemWidgetReadingView.swift in Sources */,
 				270E18652BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */,
 				270332612BD99F5F009535EE /* AppIntent.swift in Sources */,
 				270332522BD99E90009535EE /* GlimpseWidgetBundle.swift in Sources */,
+				27AB80502BDADF030071E482 /* SystemWidgetErrorView.swift in Sources */,
+				27AB80562BDAF27C0071E482 /* CircularWidgetErrorView.swift in Sources */,
+				27AB80532BDAE51C0071E482 /* RectangularWidgetErrorView.swift in Sources */,
 				270E18622BDA084E00CB7D4D /* WidgetView.swift in Sources */,
 				270332672BD9A0B9009535EE /* Keychain.swift in Sources */,
+				27AB804A2BDAD96D0071E482 /* InlineWidgetReadingView.swift in Sources */,
 				270332682BD9A0B9009535EE /* Defaults.swift in Sources */,
-				270E185F2BDA082A00CB7D4D /* CircularWidgetView.swift in Sources */,
+				27AB80462BDAD8C20071E482 /* GlucoseReading+Extensions.swift in Sources */,
+				270E185F2BDA082A00CB7D4D /* CircularWidgetReadingView.swift in Sources */,
 				270332542BD99E90009535EE /* GlimpseWidget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -526,14 +569,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27AB804B2BDAD96D0071E482 /* InlineWidgetReadingView.swift in Sources */,
+				27AB80542BDAE51C0071E482 /* RectangularWidgetErrorView.swift in Sources */,
 				270E18662BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */,
 				2741EA2D2BD8AF08003EDEB2 /* WatchWidget.swift in Sources */,
+				27AB804E2BDAD9B10071E482 /* RectangularWidgetReadingView.swift in Sources */,
 				2741EA2F2BD8AF08003EDEB2 /* AppIntent.swift in Sources */,
+				27AB80572BDAF27C0071E482 /* CircularWidgetErrorView.swift in Sources */,
 				270E18632BDA084E00CB7D4D /* WidgetView.swift in Sources */,
-				270E18602BDA082A00CB7D4D /* CircularWidgetView.swift in Sources */,
+				270E18602BDA082A00CB7D4D /* CircularWidgetReadingView.swift in Sources */,
+				27AB80472BDAD8C20071E482 /* GlucoseReading+Extensions.swift in Sources */,
+				27AB80512BDADF030071E482 /* SystemWidgetErrorView.swift in Sources */,
 				27E2C5842BD98B3B0000FB40 /* Defaults.swift in Sources */,
 				270332482BD99E81009535EE /* TimelineProvider.swift in Sources */,
 				271CD1E32BD96B3200FBE5DB /* Constants.swift in Sources */,
+				27AB80442BDAD7C60071E482 /* SystemWidgetReadingView.swift in Sources */,
 				271CD1E42BD96B3200FBE5DB /* Keychain.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
