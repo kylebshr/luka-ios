@@ -16,39 +16,42 @@ struct CircularWidgetView : View {
     @Environment(\.redactionReasons) private var redactionReasons
 
     var body: some View {
-        Gauge(
-            value: 0,
-            label: {},
-            currentValueLabel: {
-                VStack(spacing: watchOS ? -4 : -2) {
-                    Text("\(reading.value)")
-                        .contentTransition(.numericText(value: Double(reading.value)))
-                        .minimumScaleFactor(watchOS ? 0.8 : 0.6)
-                        .fontWeight(.bold)
-
-                    if redactionReasons.isEmpty {
-                        Text(reading.timestamp(for: entry.date, style: .abbreviated))
-                            .contentTransition(.numericText(value: reading.date.timeIntervalSinceNow))
-                            .foregroundStyle(watchOS ? .secondary : .primary)
+        Button(intent: ReloadWidgetIntent()) {
+            Gauge(
+                value: 0,
+                label: {},
+                currentValueLabel: {
+                    VStack(spacing: watchOS ? -4 : -2) {
+                        Text("\(reading.value)")
+                            .contentTransition(.numericText(value: Double(reading.value)))
+                            .minimumScaleFactor(watchOS ? 0.8 : 0.6)
                             .fontWeight(.bold)
+
+                        if redactionReasons.isEmpty {
+                            Text(reading.timestamp(for: entry.date, style: .abbreviated))
+                                .contentTransition(.numericText(value: reading.date.timeIntervalSinceNow))
+                                .foregroundStyle(watchOS ? .secondary : .primary)
+                                .fontWeight(.bold)
+                        }
                     }
+                    .padding(-2)
                 }
-                .padding(-2)
-            }
-        )
-        .gaugeStyle(.accessoryCircularCapacity)
-        .tint(reading.color)
-        .overlay {
-            if redactionReasons.isEmpty {
-                if let rotationDegrees = rotationDegrees(for: reading.trend) {
-                    arrow(degrees: rotationDegrees)
-                    arrow(degrees: rotationDegrees)
-                        .padding(doubleArrow ? (watchOS ? 3.5 : 4) : 0)
+            )
+            .gaugeStyle(.accessoryCircularCapacity)
+            .tint(reading.color)
+            .overlay {
+                if redactionReasons.isEmpty {
+                    if let rotationDegrees = rotationDegrees(for: reading.trend) {
+                        arrow(degrees: rotationDegrees)
+                        arrow(degrees: rotationDegrees)
+                            .padding(doubleArrow ? (watchOS ? 3.5 : 4) : 0)
+                    }
                 }
             }
         }
-        .containerBackground(.fill, for: .widget)
+        .buttonStyle(.plain)
         .fontDesign(.rounded)
+        .containerBackground(.fill, for: .widget)
     }
 
     private func rotationDegrees(for trend: TrendDirection) -> Double? {

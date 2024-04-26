@@ -12,12 +12,15 @@ struct CircularWidgetErrorView: View {
     let imageName: String
 
     var body: some View {
-        ZStack {
-            Circle().fill(.fill.secondary)
-            Image(systemName: imageName)
-                .font(.title3)
-                .fontWeight(.semibold)
+        Button(intent: ReloadWidgetIntent()) {
+            ZStack {
+                Circle().fill(.fill.secondary)
+                Image(systemName: imageName)
+                    .font(.title3)
+                    .fontWeight(.semibold)
+            }
         }
+        .buttonStyle(.plain)
         .containerBackground(.fill, for: .widget)
     }
 }
