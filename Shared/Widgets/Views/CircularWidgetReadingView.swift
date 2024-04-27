@@ -24,12 +24,17 @@ struct CircularWidgetView : View {
                     VStack(spacing: watchOS ? -4 : -2) {
                         Text("\(reading.value)")
                             .contentTransition(.numericText(value: Double(reading.value)))
-                            .minimumScaleFactor(watchOS ? 0.8 : 0.6)
+                            .minimumScaleFactor(0.5)
                             .fontWeight(.bold)
                             .invalidatableContent()
 
                         if redactionReasons.isEmpty {
                             Text(reading.timestamp(for: entry.date, style: .abbreviated))
+                                .font(
+                                    watchOS
+                                    ? .system(size: 10)
+                                    : .footnote
+                                )
                                 .contentTransition(.numericText(value: reading.date.timeIntervalSinceNow))
                                 .foregroundStyle(watchOS ? .secondary : .primary)
                                 .fontWeight(.bold)
@@ -45,13 +50,12 @@ struct CircularWidgetView : View {
                     if let rotationDegrees = rotationDegrees(for: reading.trend) {
                         arrow(degrees: rotationDegrees)
                         arrow(degrees: rotationDegrees)
-                            .padding(doubleArrow ? (watchOS ? 3.5 : 4) : 0)
+                            .padding(doubleArrow ? (watchOS ? 4 : 4.5) : 0)
                     }
                 }
             }
         }
         .buttonStyle(.plain)
-        .fontDesign(.rounded)
         .containerBackground(.fill, for: .widget)
     }
 
@@ -77,7 +81,7 @@ struct CircularWidgetView : View {
             .fill(.clear)
             .overlay(alignment: .top) {
                 Image(systemName: "chevron.compact.up")
-                    .font(.system(size: watchOS ? 14 : 18))
+                    .font(.system(size: watchOS ? 15 : 21))
                     .fontWeight(watchOS ? .bold : .medium)
             }
             .rotationEffect(.degrees(degrees))
