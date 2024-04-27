@@ -12,56 +12,24 @@ import Dexcom
 @Observable class RootViewModel {
     private let keychain = Keychain.shared
 
-    var username: String? {
-        get {
-            access(keyPath: \.username)
-            return keychain.username
-        }
-        set {
-            withMutation(keyPath: \.username) {
-                keychain.username = newValue
-            }
-        }
+    var username: String? = Keychain.shared.username {
+        didSet { keychain.username = username }
     }
 
-    var password: String? {
-        get {
-            access(keyPath: \.password)
-            return keychain.password
-        }
-        set {
-            withMutation(keyPath: \.password) {
-                keychain.password = newValue
-            }
-        }
+    var password: String? = Keychain.shared.password {
+        didSet { keychain.password = password }
     }
 
-    var accountID: UUID? {
-        get {
-            access(keyPath: \.accountID)
-            return keychain.accountID
-        }
-        set {
-            withMutation(keyPath: \.accountID) {
-                keychain.accountID = newValue
-            }
-        }
+    var accountID: UUID? = Keychain.shared.accountID {
+        didSet { keychain.accountID = accountID }
     }
 
-    var sessionID: UUID? {
-        get {
-            access(keyPath: \.sessionID)
-            return keychain.sessionID
-        }
-        set {
-            withMutation(keyPath: \.sessionID) {
-                keychain.sessionID = newValue
-            }
-        }
+    var sessionID: UUID? = Keychain.shared.sessionID {
+        didSet { keychain.sessionID = sessionID }
     }
 
     var isSignedIn: Bool {
-        sessionID != nil
+        username != nil && password != nil
     }
 
     func signIn(

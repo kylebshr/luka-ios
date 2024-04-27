@@ -8,17 +8,19 @@
 import SwiftUI
 
 struct RootView: View {
-    private let viewModel = RootViewModel()
+    @Environment(RootViewModel.self) private var viewModel
 
     var body: some View {
         NavigationStack {
             if viewModel.isSignedIn {
                 MainView()
+                    .transition(.blurReplace)
             } else {
                 SignInView()
+                    .transition(.blurReplace)
             }
         }
-        .environment(viewModel)
+        .animation(.default, value: viewModel.username)
     }
 }
 

@@ -12,9 +12,11 @@ import WidgetKit
 struct GlimpseApp: App {
     @Environment(\.scenePhase) private var scenePhase
 
+    @State private var viewModel = RootViewModel()
+
     var body: some Scene {
         WindowGroup {
-            RootView()
+            RootView().environment(viewModel)
         }
         .onChange(of: scenePhase) {
             if scenePhase == .background {
