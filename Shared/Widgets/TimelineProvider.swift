@@ -42,18 +42,13 @@ struct Provider: AppIntentTimelineProvider {
             return Timeline(entries: [GlucoseEntry(date: .now, state: state)], policy: .after(refreshDate))
         case .reading(let glucoseReading):
             if let glucoseReading {
-                let entries = (1...15).map {
+                let entries = (1...20).map {
                     let date = Calendar.current.date(byAdding: .minute, value: $0, to: currentDate)!
                     return GlucoseEntry(date: date, state: state)
                 }
 
-                let expired = GlucoseEntry(
-                    date: Calendar.current.date(byAdding: .minute, value: 20, to: currentDate)!,
-                    state: state
-                )
-
                 let refreshDate = Calendar.current.date(byAdding: .minute, value: 11, to: glucoseReading.date)!
-                return Timeline(entries: entries + [expired], policy: .after(refreshDate))
+                return Timeline(entries: entries, policy: .after(refreshDate))
             } else {
                 return Timeline(entries: [GlucoseEntry(date: .now, state: state)], policy: .after(refreshDate))
             }

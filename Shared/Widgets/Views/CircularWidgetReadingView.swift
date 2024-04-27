@@ -22,23 +22,22 @@ struct CircularWidgetView : View {
                 label: {},
                 currentValueLabel: {
                     VStack(spacing: watchOS ? -4 : -2) {
-                        Text("\(reading.value)")
+                        Text(redactionReasons.isEmpty ? reading.value.formatted() : "11")
                             .contentTransition(.numericText(value: Double(reading.value)))
                             .minimumScaleFactor(0.5)
                             .fontWeight(.bold)
                             .invalidatableContent()
 
-                        if redactionReasons.isEmpty {
-                            Text(reading.timestamp(for: entry.date, style: .abbreviated))
-                                .font(
-                                    watchOS
-                                    ? .system(size: 10)
-                                    : .footnote
-                                )
-                                .contentTransition(.numericText(value: reading.date.timeIntervalSinceNow))
-                                .foregroundStyle(watchOS ? .secondary : .primary)
-                                .fontWeight(.bold)
-                        }
+                        Text(reading.timestamp(for: entry.date, style: .abbreviated))
+                            .font(
+                                watchOS
+                                ? .system(size: 10, design: .rounded)
+                                : .footnote
+                            )
+                            .contentTransition(.numericText(value: reading.date.timeIntervalSinceNow))
+                            .foregroundStyle(watchOS ? .secondary : .primary)
+                            .fontWeight(.bold)
+                            .fontDesign(.rounded)
                     }
                     .padding(-2)
                 }
@@ -56,6 +55,7 @@ struct CircularWidgetView : View {
             }
         }
         .buttonStyle(.plain)
+        .fontDesign(.rounded)
         .containerBackground(.fill, for: .widget)
     }
 
