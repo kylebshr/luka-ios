@@ -27,12 +27,12 @@ struct Provider: AppIntentTimelineProvider {
     }
 
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> GlucoseEntry {
-        let state = await makeState(outsideUS: configuration.outsideUS)
+        let state = await makeState()
         return GlucoseEntry(date: Date(), state: state)
     }
 
     func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<GlucoseEntry> {
-        let state = await makeState(outsideUS: configuration.outsideUS)
+        let state = await makeState()
 
         let currentDate = Date()
         let refreshDate = Calendar.current.date(byAdding: .minute, value: 15, to: currentDate)!
@@ -60,16 +60,12 @@ struct Provider: AppIntentTimelineProvider {
     }
 
     func recommendations() -> [AppIntentRecommendation<ConfigurationAppIntent>] {
-        let outsideUS = ConfigurationAppIntent()
-        outsideUS.outsideUS = true
-
         return [
-            AppIntentRecommendation(intent: ConfigurationAppIntent(), description: "Inside US"),
-            AppIntentRecommendation(intent: outsideUS, description: "Outside US"),
+            AppIntentRecommendation(intent: ConfigurationAppIntent(), description: "Default"),
         ]
     }
 
-    func makeState(outsideUS: Bool) async -> GlucoseEntry.State {
+    func makeState() async -> GlucoseEntry.State {
         guard let username = Keychain.shared.username, let password = Keychain.shared.password else {
             return .loggedOut
         }
@@ -79,7 +75,7 @@ struct Provider: AppIntentTimelineProvider {
             password: password,
             existingAccountID: Keychain.shared.accountID,
             existingSessionID: Keychain.shared.sessionID,
-            outsideUS: outsideUS
+            outsideUS: UserDefaults.shared.outsideUS
         )
 
         client.delegate = delegate

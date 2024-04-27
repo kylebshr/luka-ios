@@ -13,4 +13,6 @@ extension String {
 
     static let accountIDKey = "accountID"
     static let sessionIDKey = "sessionID"
+
+    static let outsideUSKey = "outsideUS"
 }
