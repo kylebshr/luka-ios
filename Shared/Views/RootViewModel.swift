@@ -60,6 +60,10 @@ import Dexcom
         }
     }
 
+    var isSignedIn: Bool {
+        sessionID != nil
+    }
+
     func signIn(
         username: String,
         password: String,
@@ -77,5 +81,12 @@ import Dexcom
         self.password = password
 
         UserDefaults.shared.outsideUS = outsideUS
+    }
+
+    func signOut() {
+        username = nil
+        password = nil
+        accountID = nil
+        sessionID = nil
     }
 }

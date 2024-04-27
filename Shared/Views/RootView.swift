@@ -12,9 +12,13 @@ struct RootView: View {
 
     var body: some View {
         NavigationStack {
-            SignInView()
-                .environment(viewModel)
+            if viewModel.isSignedIn {
+                MainView()
+            } else {
+                SignInView()
+            }
         }
+        .environment(viewModel)
     }
 }
 
