@@ -26,6 +26,7 @@ struct CircularWidgetView : View {
                             .contentTransition(.numericText(value: Double(reading.value)))
                             .minimumScaleFactor(watchOS ? 0.8 : 0.6)
                             .fontWeight(.bold)
+                            .invalidatableContent()
 
                         if redactionReasons.isEmpty {
                             Text(reading.timestamp(for: entry.date, style: .abbreviated))

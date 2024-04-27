@@ -20,6 +20,7 @@ struct RectangularWidgetReadingView: View {
                 HStack(spacing: 2) {
                     Text("\(reading.value)")
                         .contentTransition(.numericText(value: Double(reading.value)))
+                        .invalidatableContent()
                     
                     if redactionReasons.isEmpty {
                         reading.image
