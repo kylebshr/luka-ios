@@ -31,11 +31,11 @@ struct CircularWidgetView : View {
                         Text(reading.timestamp(for: entry.date, style: .abbreviated))
                             .font(
                                 watchOS
-                                ? .system(size: 10, design: .rounded)
+                                ? .system(size: 10, design: .rounded).bold()
                                 : .footnote
                             )
                             .contentTransition(.numericText(value: reading.date.timeIntervalSinceNow))
-                            .foregroundStyle(watchOS ? .secondary : .primary)
+                            .foregroundStyle(.secondary)
                             .fontWeight(.bold)
                             .fontDesign(.rounded)
                     }
