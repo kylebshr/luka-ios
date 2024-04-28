@@ -13,6 +13,7 @@ struct SystemWidgetReadingView: View {
     let entry: Provider.Entry
     let reading: GlucoseReading
 
+    @Environment(\.showsWidgetContainerBackground) var showsWidgetContainerBackground
     @Environment(\.redactionReasons) private var redactionReasons
 
     var body: some View {
@@ -33,6 +34,7 @@ struct SystemWidgetReadingView: View {
             }
             .font(.largeTitle)
             .fontWeight(.regular)
+            .foregroundStyle(showsWidgetContainerBackground ? .primary : reading.color)
 
             Spacer()
 
