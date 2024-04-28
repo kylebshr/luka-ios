@@ -53,6 +53,6 @@ struct SystemWidgetReadingView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .fontDesign(.rounded)
-        .containerBackground(reading.color.opacity(0.5).gradient, for: .widget)
+        .containerBackground(reading.color.gradient, for: .widget)
     }
 }

@@ -9,28 +9,45 @@ import SwiftUI
 import WidgetKit
 
 struct SystemWidgetErrorView: View {
-    let imageName: String
+    let error: GlucoseEntry.Error
 
     var body: some View {
         VStack(alignment: .leading) {
-            Image(systemName: imageName)
+            Image(systemName: error.image)
                 .unredacted()
 
             Spacer()
 
-            Button(intent: ReloadWidgetIntent()) {
-                HStack {
-                    Text("Reload")
-
-                    Spacer()
-
-                    Image(systemName: "arrow.circlepath")
-                        .unredacted()
+            switch error {
+            case .loggedOut:
+                // Not a real button, just launch the app
+                Button {} label: {
+                    ButtonContent(error: error)
                 }
-                .font(.footnote)
-                .fontWeight(.medium)
+            case .failedToLoad, .noRecentReadings:
+                Button(intent: ReloadWidgetIntent()) {
+                    ButtonContent(error: error)
+                }
             }
         }
         .containerBackground(.fill.tertiary, for: .widget)
+        .tint(.primary)
+    }
+}
+
+private struct ButtonContent: View {
+    let error: GlucoseEntry.Error
+
+    var body: some View {
+        HStack {
+            Text(error.buttonText)
+
+            Spacer()
+
+            Image(systemName: error.buttonImage)
+                .unredacted()
+        }
+        .font(.footnote)
+        .fontWeight(.medium)
     }
 }

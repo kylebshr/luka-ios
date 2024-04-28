@@ -38,20 +38,16 @@ struct Provider: AppIntentTimelineProvider {
         let refreshDate = Calendar.current.date(byAdding: .minute, value: 15, to: currentDate)!
 
         switch state {
-        case .loggedOut:
+        case .error:
             return Timeline(entries: [GlucoseEntry(date: .now, state: state)], policy: .after(refreshDate))
         case .reading(let glucoseReading):
-            if let glucoseReading {
-                let entries = (1...20).map {
-                    let date = Calendar.current.date(byAdding: .minute, value: $0, to: currentDate)!
-                    return GlucoseEntry(date: date, state: state)
-                }
-
-                let refreshDate = Calendar.current.date(byAdding: .minute, value: 11, to: glucoseReading.date)!
-                return Timeline(entries: entries, policy: .after(refreshDate))
-            } else {
-                return Timeline(entries: [GlucoseEntry(date: .now, state: state)], policy: .after(refreshDate))
+            let entries = (1...20).map {
+                let date = Calendar.current.date(byAdding: .minute, value: $0, to: currentDate)!
+                return GlucoseEntry(date: date, state: state)
             }
+
+            let refreshDate = Calendar.current.date(byAdding: .minute, value: 11, to: glucoseReading.date)!
+            return Timeline(entries: entries, policy: .after(refreshDate))
         }
     }
 
@@ -63,7 +59,7 @@ struct Provider: AppIntentTimelineProvider {
 
     func makeState() async -> GlucoseEntry.State {
         guard let username = Keychain.shared.username, let password = Keychain.shared.password else {
-            return .loggedOut
+            return .error(.loggedOut)
         }
 
         let client = DexcomClient(
@@ -77,17 +73,27 @@ struct Provider: AppIntentTimelineProvider {
         client.delegate = delegate
 
         do {
-            return try await .reading(client.getCurrentGlucoseReading())
+            if let reading = try await client.getCurrentGlucoseReading() {
+                return .reading(reading)
+            } else {
+                return .error(.noRecentReadings)
+            }
         } catch {
-            return .reading(nil)
+            return .error(.failedToLoad)
         }
     }
 }
 
 struct GlucoseEntry: TimelineEntry {
     enum State {
+        case error(Error)
+        case reading(GlucoseReading)
+    }
+
+    enum Error {
         case loggedOut
-        case reading(GlucoseReading?)
+        case noRecentReadings
+        case failedToLoad
     }
 
     let date: Date
@@ -100,4 +106,35 @@ struct GlucoseEntry: TimelineEntry {
 
 extension GlucoseReading {
     static let placeholder = GlucoseReading(value: 104, trend: .flat, date: .now)
+}
+
+extension GlucoseEntry.Error {
+    var buttonImage: String {
+        switch self {
+        case .loggedOut:
+            "arrow.up.right"
+        case .failedToLoad, .noRecentReadings:
+            "arrow.circlepath"
+        }
+    }
+
+    var buttonText: String {
+        switch self {
+        case .loggedOut:
+            "Sign In"
+        case .failedToLoad, .noRecentReadings:
+            "Reload"
+        }
+    }
+
+    var image: String {
+        switch self {
+        case .loggedOut:
+            "person.slash"
+        case .failedToLoad:
+            "wifi.slash"
+        case .noRecentReadings:
+            "icloud.slash"
+        }
+    }
 }

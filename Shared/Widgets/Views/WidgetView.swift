@@ -17,18 +17,14 @@ struct GlimpseWidgetEntryView: View {
     var body: some View {
         switch entry.state {
         case .reading(let reading):
-            if let reading {
-                if entry.isExpired {
-                    readingView(for: reading)
-                        .redacted(reason: .placeholder)
-                } else {
-                    readingView(for: reading)
-                }
+            if entry.isExpired {
+                readingView(for: reading)
+                    .redacted(reason: .placeholder)
             } else {
-                errorView(imageName: "icloud.slash")
+                readingView(for: reading)
             }
-        case .loggedOut:
-            errorView(imageName: "person.slash")
+        case .error(let error):
+            errorView(error: error)
         }
     }
 
@@ -47,16 +43,16 @@ struct GlimpseWidgetEntryView: View {
         }
     }
 
-    @ViewBuilder private func errorView(imageName: String) -> some View {
+    @ViewBuilder private func errorView(error: GlucoseEntry.Error) -> some View {
         switch family {
         case .systemLarge, .systemMedium, .systemSmall:
-            SystemWidgetErrorView(imageName: imageName)
+            SystemWidgetErrorView(error: error)
         case .accessoryInline:
-            Image(systemName: imageName)
+            Image(systemName: error.image)
         case .accessoryRectangular:
-            RectangularWidgetErrorView(imageName: imageName)
+            RectangularWidgetErrorView(error: error)
         case .accessoryCircular:
-            CircularWidgetErrorView(imageName: imageName)
+            CircularWidgetErrorView(imageName: error.image)
         default:
             fatalError()
         }

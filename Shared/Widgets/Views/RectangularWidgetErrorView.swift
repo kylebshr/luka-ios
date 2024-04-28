@@ -9,22 +9,24 @@ import SwiftUI
 import Dexcom
 
 struct RectangularWidgetErrorView: View {
-    let imageName: String
+    let error: GlucoseEntry.Error
 
     @Environment(\.redactionReasons) private var redactionReasons
 
     var body: some View {
-        Button(intent: ReloadWidgetIntent()) {
-            HStack {
-                Image(systemName: imageName)
+        VStack(alignment: .leading) {
+            Button(intent: ReloadWidgetIntent()) {
+                HStack(spacing: 5) {
+                    Image(systemName: error.image)
+                    Text(error.buttonText)
 
-                Spacer()
+                    Spacer()
 
-                Image(systemName: "arrow.circlepath")
+                    Image(systemName: error.buttonImage)
+                }
             }
         }
         .fontWeight(.medium)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .containerBackground(.fill, for: .widget)
     }
 }
