@@ -10,30 +10,32 @@ import WidgetKit
 
 struct MainView: View {
     @Environment(RootViewModel.self) private var viewModel
+    @State private var isPresentingSettings = false
 
     var body: some View {
         ScrollView {
 
         }
-        .safeAreaInset(edge: .bottom) {
-            Button {
-                viewModel.signOut()
-            } label: {
-                Text("Sign Out")
-                    .frame(maxWidth: .infinity)
-                    .padding(8)
-                    .fontWeight(.semibold)
-            }
-            .buttonStyle(.borderedProminent)
-            .buttonBorderShape(.capsule)
-            .padding()
-            #if os(iOS)
-            .background(Material.bar)
-            .overlay(alignment: .top) {
-                Divider()
-            }
-            #endif
-        }
         .navigationTitle("Glimpse")
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    isPresentingSettings = true
+                } label: {
+                    Image(systemName: "person.crop.circle.fill")
+                }
+            }
+        }
+        .sheet(isPresented: $isPresentingSettings) {
+            NavigationStack {
+                SettingsView()
+            }
+        }
+    }
+}
+
+#Preview {
+    NavigationStack {
+        MainView().environment(RootViewModel())
     }
 }

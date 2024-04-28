@@ -19,7 +19,7 @@ struct SignInView: View {
     @Environment(RootViewModel.self) private var viewModel
 
     var body: some View {
-        ScrollView {
+        FooterScrollView {
             VStack(alignment: .leading) {
                 TextField("Username", text: $username)
                     .textContentType(.username)
@@ -44,8 +44,7 @@ struct SignInView: View {
                 .foregroundStyle(.secondary)
             }
             .padding()
-        }
-        .safeAreaInset(edge: .bottom) {
+        } footer: {
             Button {
                 Task<Void, Never> {
                     isSigningIn = true
@@ -81,12 +80,6 @@ struct SignInView: View {
             .buttonStyle(.borderedProminent)
             .buttonBorderShape(.capsule)
             .padding()
-            #if os(iOS)
-            .background(Material.bar)
-            .overlay(alignment: .top) {
-                Divider()
-            }
-            #endif
         }
         #if os(iOS)
         .textFieldStyle(CardTextFieldStyle())

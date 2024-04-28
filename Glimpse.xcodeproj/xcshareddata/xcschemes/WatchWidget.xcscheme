@@ -74,12 +74,21 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
+            BlueprintIdentifier = "2741EA242BD8AF08003EDEB2"
+            BuildableName = "WatchWidget.appex"
+            BlueprintName = "WatchWidget"
+            ReferencedContainer = "container:Glimpse.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
             BlueprintIdentifier = "27F577662BCF38330012D66C"
             BuildableName = "Glimpse.app"
             BlueprintName = "Glimpse"
             ReferencedContainer = "container:Glimpse.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "_XCWidgetKind"
