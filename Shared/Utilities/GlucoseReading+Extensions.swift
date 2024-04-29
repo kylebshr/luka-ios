@@ -81,3 +81,15 @@ extension GlucoseReading {
         return formatter
     }
 }
+
+extension [GlucoseReading] {
+    static var placeholder: [GlucoseReading] {
+        (0..<(24*60/5)).map {
+            .init(
+                value: $0,
+                trend: .flat,
+                date: Date.now.addingTimeInterval(Double(-$0 * 5 * 60))
+            )
+        }
+    }
+}

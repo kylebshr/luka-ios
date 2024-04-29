@@ -23,7 +23,7 @@ struct Provider: AppIntentTimelineProvider {
     private let delegate = Delegate()
 
     func placeholder(in context: Context) -> GlucoseEntry {
-        GlucoseEntry(date: Date(), state: .reading(.placeholder))
+        GlucoseEntry(date: Date(), state: .reading(.placeholder, history: [.placeholder]))
     }
 
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> GlucoseEntry {
@@ -40,13 +40,13 @@ struct Provider: AppIntentTimelineProvider {
         switch state {
         case .error:
             return Timeline(entries: [GlucoseEntry(date: .now, state: state)], policy: .after(refreshDate))
-        case .reading(let glucoseReading):
+        case .reading(let reading, _):
             let entries = (1...20).map {
                 let date = Calendar.current.date(byAdding: .minute, value: $0, to: currentDate)!
                 return GlucoseEntry(date: date, state: state)
             }
 
-            let refreshDate = Calendar.current.date(byAdding: .minute, value: 11, to: glucoseReading.date)!
+            let refreshDate = Calendar.current.date(byAdding: .minute, value: 11, to: reading.date)!
             return Timeline(entries: entries, policy: .after(refreshDate))
         }
     }
@@ -73,8 +73,9 @@ struct Provider: AppIntentTimelineProvider {
         client.delegate = delegate
 
         do {
-            if let reading = try await client.getCurrentGlucoseReading() {
-                return .reading(reading)
+            let readings = try await client.getGlucoseReadings()
+            if let latest = readings.first {
+                return .reading(latest, history: readings)
             } else {
                 return .error(.noRecentReadings)
             }
@@ -87,7 +88,7 @@ struct Provider: AppIntentTimelineProvider {
 struct GlucoseEntry: TimelineEntry {
     enum State {
         case error(Error)
-        case reading(GlucoseReading)
+        case reading(GlucoseReading, history: [GlucoseReading])
     }
 
     enum Error {
@@ -100,7 +101,11 @@ struct GlucoseEntry: TimelineEntry {
     let state: State
 
     var isExpired: Bool {
-        date.timeIntervalSince(.now) > 15 * 60
+        switch state {
+        case .error: false
+        case .reading(let reading, _):
+            Date.now.timeIntervalSince(reading.date) > 20 * 60
+        }
     }
 }
 

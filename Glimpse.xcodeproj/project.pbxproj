@@ -57,6 +57,12 @@
 		279BA40B2BDED8D5006C87B6 /* FooterScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA4092BDED8D5006C87B6 /* FooterScrollView.swift */; };
 		279BA40D2BDEDAAC006C87B6 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA40C2BDEDAAC006C87B6 /* SettingsView.swift */; };
 		279BA40E2BDEDAAC006C87B6 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA40C2BDEDAAC006C87B6 /* SettingsView.swift */; };
+		279BA4102BDFC65B006C87B6 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA40F2BDFC65B006C87B6 /* ChartView.swift */; };
+		279BA4112BDFC65B006C87B6 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA40F2BDFC65B006C87B6 /* ChartView.swift */; };
+		279BA4122BDFC65B006C87B6 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA40F2BDFC65B006C87B6 /* ChartView.swift */; };
+		279BA4132BDFC65B006C87B6 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA40F2BDFC65B006C87B6 /* ChartView.swift */; };
+		279BA4142BDFCA4C006C87B6 /* GlucoseReading+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80452BDAD8C20071E482 /* GlucoseReading+Extensions.swift */; };
+		279BA4152BDFCA4C006C87B6 /* GlucoseReading+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80452BDAD8C20071E482 /* GlucoseReading+Extensions.swift */; };
 		27AB80432BDAD7C60071E482 /* SystemWidgetReadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80422BDAD7C60071E482 /* SystemWidgetReadingView.swift */; };
 		27AB80442BDAD7C60071E482 /* SystemWidgetReadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80422BDAD7C60071E482 /* SystemWidgetReadingView.swift */; };
 		27AB80462BDAD8C20071E482 /* GlucoseReading+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80452BDAD8C20071E482 /* GlucoseReading+Extensions.swift */; };
@@ -174,6 +180,7 @@
 		2741EA322BD8AF0A003EDEB2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		279BA4092BDED8D5006C87B6 /* FooterScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterScrollView.swift; sourceTree = "<group>"; };
 		279BA40C2BDEDAAC006C87B6 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		279BA40F2BDFC65B006C87B6 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		27AB80422BDAD7C60071E482 /* SystemWidgetReadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemWidgetReadingView.swift; sourceTree = "<group>"; };
 		27AB80452BDAD8C20071E482 /* GlucoseReading+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GlucoseReading+Extensions.swift"; sourceTree = "<group>"; };
 		27AB80492BDAD96D0071E482 /* InlineWidgetReadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InlineWidgetReadingView.swift; sourceTree = "<group>"; };
@@ -307,6 +314,7 @@
 				2731E0892BDC9D7C00695EBF /* MainView.swift */,
 				279BA40C2BDEDAAC006C87B6 /* SettingsView.swift */,
 				279BA4092BDED8D5006C87B6 /* FooterScrollView.swift */,
+				279BA40F2BDFC65B006C87B6 /* ChartView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -596,6 +604,7 @@
 				27AB804D2BDAD9B10071E482 /* RectangularWidgetReadingView.swift in Sources */,
 				27AB80432BDAD7C60071E482 /* SystemWidgetReadingView.swift in Sources */,
 				270E18652BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */,
+				279BA4112BDFC65B006C87B6 /* ChartView.swift in Sources */,
 				270332612BD99F5F009535EE /* ConfigurationAppIntent.swift in Sources */,
 				270332522BD99E90009535EE /* GlimpseWidgetBundle.swift in Sources */,
 				27AB80502BDADF030071E482 /* SystemWidgetErrorView.swift in Sources */,
@@ -622,7 +631,9 @@
 				271CD1E12BD96B3200FBE5DB /* Constants.swift in Sources */,
 				279BA40E2BDEDAAC006C87B6 /* SettingsView.swift in Sources */,
 				271CD1E22BD96B3200FBE5DB /* Keychain.swift in Sources */,
+				279BA4122BDFC65B006C87B6 /* ChartView.swift in Sources */,
 				279BA40B2BDED8D5006C87B6 /* FooterScrollView.swift in Sources */,
+				279BA4152BDFCA4C006C87B6 /* GlucoseReading+Extensions.swift in Sources */,
 				2731E0802BDC6DB000695EBF /* RootView.swift in Sources */,
 				27E2C5882BD994730000FB40 /* GlimpseApp.swift in Sources */,
 			);
@@ -642,6 +653,7 @@
 				270E18632BDA084E00CB7D4D /* WidgetView.swift in Sources */,
 				270E18602BDA082A00CB7D4D /* CircularWidgetReadingView.swift in Sources */,
 				27AB80472BDAD8C20071E482 /* GlucoseReading+Extensions.swift in Sources */,
+				279BA4132BDFC65B006C87B6 /* ChartView.swift in Sources */,
 				27AB80512BDADF030071E482 /* SystemWidgetErrorView.swift in Sources */,
 				27E2C5842BD98B3B0000FB40 /* Defaults.swift in Sources */,
 				270332482BD99E81009535EE /* TimelineProvider.swift in Sources */,
@@ -663,9 +675,11 @@
 				2731E07D2BDC6CB400695EBF /* CardTextFieldStyle.swift in Sources */,
 				279BA40A2BDED8D5006C87B6 /* FooterScrollView.swift in Sources */,
 				2741EA072BD8AA74003EDEB2 /* Keychain.swift in Sources */,
+				279BA4142BDFCA4C006C87B6 /* GlucoseReading+Extensions.swift in Sources */,
 				2731E0822BDC735300695EBF /* RootViewModel.swift in Sources */,
 				2741EA0A2BD8AB2F003EDEB2 /* Constants.swift in Sources */,
 				279BA40D2BDEDAAC006C87B6 /* SettingsView.swift in Sources */,
+				279BA4102BDFC65B006C87B6 /* ChartView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
