@@ -72,6 +72,7 @@ struct SystemWidgetReadingView: View {
             .tint(.primary)
         }
         .fontDesign(.rounded)
+        .standByMargins()
         .containerBackground(.fill.tertiary, for: .widget)
     }
 }

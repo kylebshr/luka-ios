@@ -18,9 +18,10 @@ struct ChartView: View {
     var body: some View {
         Chart {
             ForEach(readings) { reading in
+                let value = min(reading.value, maximumY)
                 PointMark(
                     x: .value("", reading.date),
-                    y: .value(reading.value.formatted(), reading.value)
+                    y: .value(value.formatted(), value)
                 )
                 .symbol {
                     Circle()

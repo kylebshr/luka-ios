@@ -24,6 +24,7 @@ struct RectangularWidgetErrorView: View {
 
                     Image(systemName: error.buttonImage)
                 }
+                .invalidatableContent()
             }
         }
         .fontWeight(.medium)

@@ -18,6 +18,7 @@ struct CircularWidgetErrorView: View {
                 Image(systemName: imageName)
                     .font(.title3)
                     .fontWeight(.semibold)
+                    .invalidatableContent()
             }
         }
         .buttonStyle(.plain)

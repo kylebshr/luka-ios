@@ -14,6 +14,7 @@ struct SystemWidgetErrorView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Image(systemName: error.image)
+                .invalidatableContent()
                 .unredacted()
 
             Spacer()
