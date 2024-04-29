@@ -12,7 +12,7 @@ struct ConfigurationAppIntent: WidgetConfigurationIntent {
     static var title: LocalizedStringResource = "Widget Settings"
     static var description = IntentDescription("Configure Glimpse widget settings.")
 
-    @Parameter(title: "Chart range", default: .sixHours)
+    @Parameter(title: "Chart range", default: .eightHours)
     var chartRange: ChartRange
 }
 
