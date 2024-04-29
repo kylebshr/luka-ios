@@ -38,6 +38,7 @@ struct RectangularWidgetReadingView: View {
 
                 Text(entry.chartRangeTitle)
                     .unredacted()
+                    .foregroundStyle(.secondary)
             }
 
             ChartView(
@@ -48,7 +49,7 @@ struct RectangularWidgetReadingView: View {
                 vibrantRenderingMode: widgetRenderingMode == .vibrant
             )
         }
-        .font(.caption2)
+        .font(.footnote)
         .fontWeight(.semibold)
         .containerBackground(.fill.tertiary, for: .widget)
     }
