@@ -17,15 +17,17 @@ struct RectangularWidgetReadingView: View {
     @Environment(\.widgetRenderingMode) private var widgetRenderingMode
 
     var body: some View {
-        VStack {
-            HStack(spacing: 2) {
-                Text("\(reading.value)")
-                    .contentTransition(.numericText(value: Double(reading.value)))
-                    .invalidatableContent()
+        VStack(spacing: 2) {
+            HStack {
+                HStack(spacing: 2) {
+                    Text("\(reading.value)")
+                        .contentTransition(.numericText(value: Double(reading.value)))
+                        .invalidatableContent()
 
-                if redactionReasons.isEmpty {
-                    reading.image
-                        .contentTransition(.symbolEffect(.replace))
+                    if redactionReasons.isEmpty {
+                        reading.image
+                            .contentTransition(.symbolEffect(.replace))
+                    }
                 }
 
                 Text(reading.timestamp(for: entry.date, style: .abbreviated))
@@ -35,6 +37,7 @@ struct RectangularWidgetReadingView: View {
                 Spacer()
 
                 Text(entry.chartRangeTitle)
+                    .unredacted()
             }
 
             ChartView(

@@ -86,7 +86,7 @@ extension [GlucoseReading] {
     static var placeholder: [GlucoseReading] {
         (0..<(24*60/5)).map { (value: Int) in
             .init(
-                value: Int(sin(Double(value * 1200)) * 60) + 130 + Int.random(in: -4...4),
+                value: Int(sin(Double(value * 1200)) * 60) + 130,
                 trend: .flat,
                 date: Date.now.addingTimeInterval(Double(-value * 5 * 60))
             )

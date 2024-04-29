@@ -26,7 +26,7 @@ extension UserDefaults {
     }
 
     var chartUpperBound: Int {
-        get { self[.chartUpperBound] ?? 350 }
+        get { self[.chartUpperBound] ?? 300 }
         set { self[.chartUpperBound] = newValue }
     }
 }
