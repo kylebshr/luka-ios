@@ -15,7 +15,6 @@
 		270332562BD99E91009535EE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 270332552BD99E91009535EE /* Assets.xcassets */; };
 		2703325A2BD99E91009535EE /* GlimpseWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2703324D2BD99E90009535EE /* GlimpseWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		270332602BD99F43009535EE /* TimelineProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270332452BD99E79009535EE /* TimelineProvider.swift */; };
-		270332612BD99F5F009535EE /* ConfigurationAppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA2E2BD8AF08003EDEB2 /* ConfigurationAppIntent.swift */; };
 		270332632BD9A09F009535EE /* Dexcom in Frameworks */ = {isa = PBXBuildFile; productRef = 270332622BD9A09F009535EE /* Dexcom */; };
 		270332652BD9A09F009535EE /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 270332642BD9A09F009535EE /* KeychainAccess */; };
 		270332662BD9A0B5009535EE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA092BD8AB2F003EDEB2 /* Constants.swift */; };
@@ -27,6 +26,9 @@
 		270E18632BDA084E00CB7D4D /* WidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E18612BDA084E00CB7D4D /* WidgetView.swift */; };
 		270E18652BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E18642BDA0A1400CB7D4D /* ReloadWidgetIntent.swift */; };
 		270E18662BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E18642BDA0A1400CB7D4D /* ReloadWidgetIntent.swift */; };
+		271522592BE009C80009D8EA /* ConfigurationAppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA2E2BD8AF08003EDEB2 /* ConfigurationAppIntent.swift */; };
+		2715225C2BE009FC0009D8EA /* ChartView+ChartRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2715225B2BE009FC0009D8EA /* ChartView+ChartRange.swift */; };
+		2715225D2BE009FC0009D8EA /* ChartView+ChartRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2715225B2BE009FC0009D8EA /* ChartView+ChartRange.swift */; };
 		271CD1D92BD96B1500FBE5DB /* Dexcom in Frameworks */ = {isa = PBXBuildFile; productRef = 271CD1D82BD96B1500FBE5DB /* Dexcom */; };
 		271CD1DB2BD96B1700FBE5DB /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 271CD1DA2BD96B1700FBE5DB /* KeychainAccess */; };
 		271CD1DD2BD96B1C00FBE5DB /* Dexcom in Frameworks */ = {isa = PBXBuildFile; productRef = 271CD1DC2BD96B1C00FBE5DB /* Dexcom */; };
@@ -163,6 +165,7 @@
 		270E185E2BDA082A00CB7D4D /* CircularWidgetReadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularWidgetReadingView.swift; sourceTree = "<group>"; };
 		270E18612BDA084E00CB7D4D /* WidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetView.swift; sourceTree = "<group>"; };
 		270E18642BDA0A1400CB7D4D /* ReloadWidgetIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReloadWidgetIntent.swift; sourceTree = "<group>"; };
+		2715225B2BE009FC0009D8EA /* ChartView+ChartRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChartView+ChartRange.swift"; sourceTree = "<group>"; };
 		2731E07C2BDC6CB400695EBF /* CardTextFieldStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTextFieldStyle.swift; sourceTree = "<group>"; };
 		2731E07E2BDC6D8F00695EBF /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		2731E0812BDC735300695EBF /* RootViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
@@ -372,6 +375,7 @@
 				270E185E2BDA082A00CB7D4D /* CircularWidgetReadingView.swift */,
 				27AB80552BDAF27C0071E482 /* CircularWidgetErrorView.swift */,
 				279BA4162BDFFACF006C87B6 /* StandByMargins.swift */,
+				2715225B2BE009FC0009D8EA /* ChartView+ChartRange.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -606,11 +610,12 @@
 				270332662BD9A0B5009535EE /* Constants.swift in Sources */,
 				270332602BD99F43009535EE /* TimelineProvider.swift in Sources */,
 				27AB804D2BDAD9B10071E482 /* RectangularWidgetReadingView.swift in Sources */,
+				271522592BE009C80009D8EA /* ConfigurationAppIntent.swift in Sources */,
 				27AB80432BDAD7C60071E482 /* SystemWidgetReadingView.swift in Sources */,
 				270E18652BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */,
 				279BA4112BDFC65B006C87B6 /* ChartView.swift in Sources */,
-				270332612BD99F5F009535EE /* ConfigurationAppIntent.swift in Sources */,
 				270332522BD99E90009535EE /* GlimpseWidgetBundle.swift in Sources */,
+				2715225C2BE009FC0009D8EA /* ChartView+ChartRange.swift in Sources */,
 				279BA4172BDFFAD0006C87B6 /* StandByMargins.swift in Sources */,
 				27AB80502BDADF030071E482 /* SystemWidgetErrorView.swift in Sources */,
 				27AB80562BDAF27C0071E482 /* CircularWidgetErrorView.swift in Sources */,
@@ -662,6 +667,7 @@
 				27AB80512BDADF030071E482 /* SystemWidgetErrorView.swift in Sources */,
 				27E2C5842BD98B3B0000FB40 /* Defaults.swift in Sources */,
 				270332482BD99E81009535EE /* TimelineProvider.swift in Sources */,
+				2715225D2BE009FC0009D8EA /* ChartView+ChartRange.swift in Sources */,
 				271CD1E32BD96B3200FBE5DB /* Constants.swift in Sources */,
 				27AB80442BDAD7C60071E482 /* SystemWidgetReadingView.swift in Sources */,
 				271CD1E42BD96B3200FBE5DB /* Keychain.swift in Sources */,

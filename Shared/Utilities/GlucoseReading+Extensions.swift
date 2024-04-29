@@ -84,11 +84,11 @@ extension GlucoseReading {
 
 extension [GlucoseReading] {
     static var placeholder: [GlucoseReading] {
-        (0..<(24*60/5)).map {
+        (0..<(24*60/5)).map { (value: Int) in
             .init(
-                value: $0,
+                value: Int(sin(Double(value * 1200)) * 60) + 130 + Int.random(in: -4...4),
                 trend: .flat,
-                date: Date.now.addingTimeInterval(Double(-$0 * 5 * 60))
+                date: Date.now.addingTimeInterval(Double(-value * 5 * 60))
             )
         }
     }

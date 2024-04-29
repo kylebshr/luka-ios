@@ -11,42 +11,42 @@ import Dexcom
 struct RectangularWidgetReadingView: View {
     let entry: Provider.Entry
     let reading: GlucoseReading
+    let history: [GlucoseReading]
 
     @Environment(\.redactionReasons) private var redactionReasons
+    @Environment(\.widgetRenderingMode) private var widgetRenderingMode
 
     var body: some View {
-        HStack {
-            VStack(alignment: .leading) {
-                HStack(spacing: 2) {
-                    Text("\(reading.value)")
-                        .contentTransition(.numericText(value: Double(reading.value)))
-                        .invalidatableContent()
-                    
-                    if redactionReasons.isEmpty {
-                        reading.image
-                            .contentTransition(.symbolEffect(.replace))
-                    }
+        VStack {
+            HStack(spacing: 2) {
+                Text("\(reading.value)")
+                    .contentTransition(.numericText(value: Double(reading.value)))
+                    .invalidatableContent()
+
+                if redactionReasons.isEmpty {
+                    reading.image
+                        .contentTransition(.symbolEffect(.replace))
                 }
 
-                Text(reading.timestamp(for: entry.date))
+                Text(reading.timestamp(for: entry.date, style: .abbreviated))
                     .contentTransition(.numericText(value: Double(entry.date.timeIntervalSinceNow)))
                     .foregroundStyle(.secondary)
+
+                Spacer()
+
+                Text(entry.chartRangeTitle)
             }
 
-            Spacer()
-
-            #if !os(watchOS)
-            Button(intent: ReloadWidgetIntent()) {
-                Image(systemName: "arrow.circlepath")
-            }
-            .unredacted()
-            #endif
+            ChartView(
+                range: entry.configuration.chartRange,
+                readings: history,
+                chartUpperBound: entry.chartUpperBound,
+                targetRange: entry.targetLowerBound...entry.targetUpperBound,
+                vibrantRenderingMode: widgetRenderingMode == .vibrant
+            )
         }
+        .font(.caption2)
         .fontWeight(.semibold)
-        .frame(
-            maxWidth: .infinity,
-            maxHeight: .infinity
-        )
-        .containerBackground(reading.color.gradient, for: .widget)
+        .containerBackground(.fill.tertiary, for: .widget)
     }
 }

@@ -17,8 +17,7 @@ struct RectangularWidgetErrorView: View {
         VStack(alignment: .leading) {
             Button(intent: ReloadWidgetIntent()) {
                 HStack(spacing: 5) {
-                    Image(systemName: error.image)
-                    Text(error.buttonText)
+                    Text(error.description)
 
                     Spacer()
 
@@ -26,7 +25,9 @@ struct RectangularWidgetErrorView: View {
                 }
                 .invalidatableContent()
             }
+            .buttonStyle(.plain)
         }
+        .font(.footnote)
         .fontWeight(.medium)
         .containerBackground(.fill, for: .widget)
     }

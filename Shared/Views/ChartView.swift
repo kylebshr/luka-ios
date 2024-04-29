@@ -12,37 +12,36 @@ import Dexcom
 struct ChartView: View {
     let range: ClosedRange<Date>
     let readings: [GlucoseReading]
-    let maximumY: Int
+    let chartUpperBound: Int
     let targetRange: ClosedRange<Int>
+    let vibrantRenderingMode: Bool
 
     var body: some View {
         Chart {
             ForEach(readings) { reading in
-                let value = min(reading.value, maximumY)
-                PointMark(
-                    x: .value("", reading.date),
-                    y: .value(value.formatted(), value)
-                )
-                .symbol {
-                    Circle()
-                        .frame(width: 2.5)
-                        .foregroundStyle(.foreground)
+                if range.contains(reading.date) {
+                    let value = min(reading.value, chartUpperBound)
+                    PointMark(
+                        x: .value("", reading.date),
+                        y: .value(value.formatted(), value)
+                    )
+                    .symbol {
+                        Circle()
+                            .frame(width: 2.5)
+                            .foregroundStyle(.foreground)
+                    }
                 }
             }
         }
         .chartXScale(domain: range)
-        .chartYScale(domain: 0...maximumY)
+        .chartYScale(domain: 0...chartUpperBound)
         .chartYAxis {
-            let values = [55, maximumY]
+            let values = [55, targetRange.lowerBound, targetRange.upperBound, chartUpperBound]
             AxisMarks(values: values) { value in
                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 2]))
             }
         }
-        .chartXAxis {
-//            AxisMarks(values: .stride(by: .hour, count: 1)) {
-//                AxisGridLine()
-//            }
-        }
+        .chartXAxis {}
         .chartOverlay { chart in
             GeometryReader { geometry in
                 if let plotFrame = chart.plotFrame {
@@ -50,12 +49,12 @@ struct ChartView: View {
                     if let origin = chart.position(for: (range.lowerBound, targetRange.upperBound)), let max = chart.position(for: (range.upperBound, targetRange.lowerBound)) {
 
                         Rectangle()
-                            .fill(.green.quinary)
+                            .fill(vibrantRenderingMode ? AnyShapeStyle(.green.secondary) : AnyShapeStyle(.green.quinary))
                             .frame(width: frame.width, height: max.y - origin.y)
                             .position(x: (max.x - origin.x) / 2, y: (max.y - origin.y) / 2 + origin.y)
                     }
 
-                    if let origin = chart.position(for: (range.lowerBound, targetRange.lowerBound)), let max = chart.position(for: (range.upperBound, 0)) {
+                    if !vibrantRenderingMode, let origin = chart.position(for: (range.lowerBound, targetRange.lowerBound)), let max = chart.position(for: (range.upperBound, 0)) {
 
                         Rectangle()
                             .fill(.red.quinary)
@@ -76,7 +75,8 @@ extension GlucoseReading: Identifiable {
     ChartView(
         range: Date.now.addingTimeInterval(-60 * 60 * 3)...Date.now,
         readings: .placeholder,
-        maximumY: 300,
-        targetRange: 70...180
+        chartUpperBound: 300,
+        targetRange: 70...180,
+        vibrantRenderingMode: false
     ).frame(height: 200)
 }

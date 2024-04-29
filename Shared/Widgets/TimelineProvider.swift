@@ -23,12 +23,16 @@ struct Provider: AppIntentTimelineProvider {
     private let delegate = Delegate()
 
     func placeholder(in context: Context) -> GlucoseEntry {
-        GlucoseEntry(date: Date(), state: .reading(.placeholder, history: [.placeholder]))
+        GlucoseEntry(
+            configuration: ConfigurationAppIntent(),
+            date: Date(),
+            state: .reading(.placeholder, history: .placeholder)
+        )
     }
 
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> GlucoseEntry {
         let state = await makeState()
-        return GlucoseEntry(date: Date(), state: state)
+        return GlucoseEntry(configuration: configuration, date: Date(), state: state)
     }
 
     func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<GlucoseEntry> {
@@ -39,11 +43,18 @@ struct Provider: AppIntentTimelineProvider {
 
         switch state {
         case .error:
-            return Timeline(entries: [GlucoseEntry(date: .now, state: state)], policy: .after(refreshDate))
+            return Timeline(
+                entries: [GlucoseEntry(
+                    configuration: configuration,
+                    date: .now,
+                    state: state
+                )],
+                policy: .after(refreshDate)
+            )
         case .reading(let reading, _):
             let entries = (1...20).map {
                 let date = Calendar.current.date(byAdding: .minute, value: $0, to: currentDate)!
-                return GlucoseEntry(date: date, state: state)
+                return GlucoseEntry(configuration: configuration, date: date, state: state)
             }
 
             let refreshDate = Calendar.current.date(byAdding: .minute, value: 11, to: reading.date)!
@@ -74,7 +85,7 @@ struct Provider: AppIntentTimelineProvider {
 
         do {
             let readings = try await client.getGlucoseReadings()
-            if let latest = readings.first {
+            if let latest = readings.first, Date.now.timeIntervalSince(latest.date) < 60 * 15 {
                 return .reading(latest, history: readings)
             } else {
                 return .error(.noRecentReadings)
@@ -97,8 +108,12 @@ struct GlucoseEntry: TimelineEntry {
         case failedToLoad
     }
 
+    let configuration: ConfigurationAppIntent
     let date: Date
     let state: State
+    let targetUpperBound: Int = UserDefaults.shared.targetRangeUpperBound
+    let targetLowerBound: Int = UserDefaults.shared.targetRangeLowerBound
+    let chartUpperBound: Int = UserDefaults.shared.chartUpperBound
 
     var isExpired: Bool {
         switch state {
@@ -106,6 +121,10 @@ struct GlucoseEntry: TimelineEntry {
         case .reading(let reading, _):
             Date.now.timeIntervalSince(reading.date) > 20 * 60
         }
+    }
+
+    var chartRangeTitle: LocalizedStringResource {
+        ChartRange.caseDisplayRepresentations[configuration.chartRange]!.title
     }
 }
 
@@ -140,6 +159,17 @@ extension GlucoseEntry.Error {
             "wifi.slash"
         case .noRecentReadings:
             "icloud.slash"
+        }
+    }
+
+    var description: String {
+        switch self {
+        case .loggedOut:
+            "Sign in to use widgets"
+        case .noRecentReadings:
+            "No recent glucose readings"
+        case .failedToLoad:
+            "Network error"
         }
     }
 }

@@ -39,7 +39,11 @@ struct GlimpseWidgetEntryView: View {
         case .accessoryInline:
             InlineWidgetReadingView(entry: entry, reading: reading)
         case .accessoryRectangular:
-            RectangularWidgetReadingView(entry: entry, reading: reading)
+            RectangularWidgetReadingView(
+                entry: entry,
+                reading: reading,
+                history: history
+            )
         case .accessoryCircular:
             CircularWidgetView(entry: entry, reading: reading)
         default:

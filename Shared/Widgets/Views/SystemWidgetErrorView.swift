@@ -14,8 +14,11 @@ struct SystemWidgetErrorView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Image(systemName: error.image)
-                .invalidatableContent()
-                .unredacted()
+
+            Spacer()
+
+            Text(error.description)
+                .font(.subheadline)
 
             Spacer()
 
@@ -28,6 +31,7 @@ struct SystemWidgetErrorView: View {
             case .failedToLoad, .noRecentReadings:
                 Button(intent: ReloadWidgetIntent()) {
                     ButtonContent(error: error)
+                        .invalidatableContent()
                 }
             }
         }

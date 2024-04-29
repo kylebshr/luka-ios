@@ -17,6 +17,7 @@ struct SystemWidgetReadingView: View {
     @Environment(\.showsWidgetContainerBackground) var showsWidgetContainerBackground
     @Environment(\.redactionReasons) private var redactionReasons
     @Environment(\.widgetContentMargins) private var widgetContentMargins
+    @Environment(\.widgetRenderingMode) private var widgetRenderingMode
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -33,7 +34,7 @@ struct SystemWidgetReadingView: View {
 
                 Spacer()
 
-                Text("8H")
+                Text(entry.chartRangeTitle)
                     .foregroundStyle(.secondary)
                     .font(.caption2)
                     .fontWeight(.medium)
@@ -43,10 +44,11 @@ struct SystemWidgetReadingView: View {
             .fontWeight(.semibold)
 
             ChartView(
-                range: Date.now.addingTimeInterval(-60 * 60 * 3)...Date.now,
+                range: entry.configuration.chartRange,
                 readings: history,
-                maximumY: 300,
-                targetRange: 70...180
+                chartUpperBound: entry.chartUpperBound,
+                targetRange: entry.targetLowerBound...entry.targetUpperBound,
+                vibrantRenderingMode: widgetRenderingMode == .vibrant
             )
             .padding(.leading, -widgetContentMargins.leading)
             .padding(.trailing, -widgetContentMargins.trailing)
