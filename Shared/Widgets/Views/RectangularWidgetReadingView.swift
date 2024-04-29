@@ -17,7 +17,7 @@ struct RectangularWidgetReadingView: View {
     @Environment(\.widgetRenderingMode) private var widgetRenderingMode
 
     var body: some View {
-        VStack(spacing: 4) {
+        VStack(spacing: 5) {
             HStack {
                 HStack(spacing: 2) {
                     Text("\(reading.value)")
