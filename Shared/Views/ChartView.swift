@@ -32,6 +32,7 @@ struct ChartView: View {
                 .symbol {
                     if reading.hashValue == highlight?.hashValue {
                         Circle()
+                            .fill(vibrantRenderingMode ? AnyShapeStyle(.clear) : AnyShapeStyle(.background))
                             .stroke(.foreground, lineWidth: 1)
                             .frame(width: 3.5, height: 3.5)
                     } else {
@@ -78,8 +79,8 @@ struct ChartView: View {
                 }
             }
         }
+        .mask { Rectangle().padding(.vertical, -5) }
         .animation(.default, value: adjustedRange)
-        .clipped()
     }
 }
 
