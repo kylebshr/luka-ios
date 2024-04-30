@@ -54,7 +54,7 @@ struct ChartView: View {
 
             AxisMarks(values: [55]) { value in
                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 2]))
-                    .foregroundStyle(.foreground)
+                    .foregroundStyle(.foreground.secondary)
             }
         }
         .chartXAxis {}
@@ -70,7 +70,7 @@ struct ChartView: View {
                             .position(x: (max.x - origin.x) / 2, y: (max.y - origin.y) / 2 + origin.y)
                     }
 
-                    if !vibrantRenderingMode, let origin = chart.position(for: (adjustedRange.lowerBound, targetRange.lowerBound)), let max = chart.position(for: (adjustedRange.upperBound, 0)) {
+                    if let origin = chart.position(for: (adjustedRange.lowerBound, targetRange.lowerBound)), let max = chart.position(for: (adjustedRange.upperBound, 0)) {
 
                         Rectangle()
                             .fill(.red.quinary)

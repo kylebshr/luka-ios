@@ -31,7 +31,7 @@ struct GlimpseWidget: Widget {
     }
 }
 
-#Preview(as: .accessoryCircular) {
+#Preview(as: .accessoryRectangular) {
     GlimpseWidget()
 } timeline: {
     GlucoseEntry(
