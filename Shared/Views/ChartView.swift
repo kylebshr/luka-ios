@@ -33,7 +33,7 @@ struct ChartView: View {
                     .symbol {
                         if reading.hashValue == highlight?.hashValue {
                             Circle()
-                                .stroke(.foreground, lineWidth: 1.5)
+                                .stroke(.foreground, lineWidth: 1)
                                 .frame(width: 3.5, height: 3.5)
                         } else {
                             Circle()
