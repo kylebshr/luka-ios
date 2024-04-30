@@ -10,6 +10,10 @@ import Dexcom
 
 extension DexcomClient {
     func getGlucoseReadingsWithCache() async throws -> [GlucoseReading] {
+        #if os(watchOS)
+        return try await getGlucoseReadings()
+            .sorted { $0.date < $1.date }
+        #else
         let oldestCacheDate = Date.now.addingTimeInterval(-60 * 60 * 24)
         let cachedReadings = UserDefaults.shared.cachedReadings
             .filter { $0.date >= oldestCacheDate }
@@ -22,6 +26,7 @@ extension DexcomClient {
         UserDefaults.shared.cachedReadings = Set(readings)
 
         return readings
+        #endif
     }
 
     func getGlucoseReadings(since reading: GlucoseReading?) async throws -> [GlucoseReading] {
