@@ -11,7 +11,7 @@ import Dexcom
 extension DexcomClient {
     func getGlucoseReadingsWithCache() async throws -> [GlucoseReading] {
         let oldestCacheDate = Date.now.addingTimeInterval(-60 * 60 * 24)
-        let cachedReadings = UserDefaults.standard.cachedReadings
+        let cachedReadings = UserDefaults.shared.cachedReadings
             .filter { $0.date >= oldestCacheDate }
             .sorted { $0.date < $1.date }
 
@@ -19,7 +19,7 @@ extension DexcomClient {
             .sorted { $0.date < $1.date }
 
         let readings = cachedReadings + newReadings
-        UserDefaults.standard.cachedReadings = Set(readings)
+        UserDefaults.shared.cachedReadings = Set(readings)
 
         return readings
     }
