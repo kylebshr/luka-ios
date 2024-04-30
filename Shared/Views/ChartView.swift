@@ -68,6 +68,7 @@ struct ChartView: View {
                 }
             }
         }
+        .animation(.default, value: adjustedRange)
     }
 }
 
