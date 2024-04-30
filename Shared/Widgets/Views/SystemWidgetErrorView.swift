@@ -35,7 +35,7 @@ struct SystemWidgetErrorView: View {
                 }
             }
         }
-        .containerBackground(.fill.tertiary, for: .widget)
+        .containerBackground(.fill.secondary, for: .widget)
         .tint(.primary)
     }
 }

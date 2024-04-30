@@ -23,13 +23,13 @@ enum ChartRange: String, AppEnum {
 
     static var caseDisplayRepresentations: [ChartRange : DisplayRepresentation] {
         [
-            .oneHour: "1H",
-            .threeHours: "3H",
-            .sixHours: "6H",
-            .eightHours: "8H",
-            .twelveHours: "12H",
-            .sixteenHours: "16H",
-            .twentyFourHours: "24H",
+            .oneHour: "1 Hour",
+            .threeHours: "3 Hours",
+            .sixHours: "6 Hours",
+            .eightHours: "8 Hours",
+            .twelveHours: "12 Hours",
+            .sixteenHours: "16 Hours",
+            .twentyFourHours: "24 Hours",
 
         ]
     }
@@ -56,5 +56,9 @@ enum ChartRange: String, AppEnum {
 
     var timeInterval: TimeInterval {
         60 * 60 * hours
+    }
+
+    var abbreviatedName: String {
+        "\(hours)h"
     }
 }

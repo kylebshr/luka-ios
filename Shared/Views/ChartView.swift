@@ -33,7 +33,7 @@ struct ChartView: View {
                 }
             }
         }
-        .chartXScale(domain: range)
+        .chartXScale(domain: range.lowerBound...range.upperBound.addingTimeInterval(5 * 60))
         .chartYScale(domain: 0...chartUpperBound)
         .chartYAxis {
             let values = [55, chartUpperBound]
@@ -42,7 +42,7 @@ struct ChartView: View {
             }
         }
         .chartXAxis {}
-        .chartOverlay { chart in
+        .chartBackground { chart in
             GeometryReader { geometry in
                 if let plotFrame = chart.plotFrame {
                     let frame = geometry[plotFrame]

@@ -75,6 +75,6 @@ struct SystemWidgetReadingView: View {
         }
         .fontDesign(.rounded)
         .standByMargins()
-        .containerBackground(.fill.tertiary, for: .widget)
+        .containerBackground(.fill.secondary, for: .widget)
     }
 }

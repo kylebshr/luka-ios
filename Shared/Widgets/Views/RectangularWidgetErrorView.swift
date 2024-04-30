@@ -14,19 +14,17 @@ struct RectangularWidgetErrorView: View {
     @Environment(\.redactionReasons) private var redactionReasons
 
     var body: some View {
-        VStack(alignment: .leading) {
-            Button(intent: ReloadWidgetIntent()) {
-                HStack(spacing: 5) {
-                    Text(error.description)
+        Button(intent: ReloadWidgetIntent()) {
+            HStack(spacing: 5) {
+                Text(error.description)
 
-                    Spacer()
+                Spacer()
 
-                    Image(systemName: error.buttonImage)
-                }
-                .invalidatableContent()
+                Image(systemName: error.buttonImage)
             }
-            .buttonStyle(.plain)
+            .invalidatableContent()
         }
+        .buttonStyle(.plain)
         .font(.footnote)
         .fontWeight(.medium)
         .containerBackground(.fill, for: .widget)

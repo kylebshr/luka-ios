@@ -15,42 +15,48 @@ struct RectangularWidgetReadingView: View {
 
     @Environment(\.redactionReasons) private var redactionReasons
     @Environment(\.widgetRenderingMode) private var widgetRenderingMode
+    @Environment(\.widgetContentMargins) private var widgetContentMargins
 
     var body: some View {
-        VStack(spacing: 5) {
-            HStack {
-                HStack(spacing: 2) {
-                    Text("\(reading.value)")
-                        .contentTransition(.numericText(value: Double(reading.value)))
-                        .invalidatableContent()
+        Button(intent: ReloadWidgetIntent()) {
+            VStack(spacing: 5) {
+                HStack {
+                    HStack(spacing: 2) {
+                        Text("\(reading.value)")
+                            .contentTransition(.numericText(value: Double(reading.value)))
+                            .invalidatableContent()
 
-                    if redactionReasons.isEmpty {
-                        reading.image
-                            .contentTransition(.symbolEffect(.replace))
+                        if redactionReasons.isEmpty {
+                            reading.image
+                                .contentTransition(.symbolEffect(.replace))
+                        }
                     }
+
+                    Text(reading.timestamp(for: entry.date, style: .abbreviated))
+                        .contentTransition(.numericText(value: Double(entry.date.timeIntervalSinceNow)))
+                        .foregroundStyle(.secondary)
+
+                    Spacer()
+
+                    Text(entry.chartRangeTitle)
+                        .unredacted()
+                        .foregroundStyle(.secondary)
                 }
 
-                Text(reading.timestamp(for: entry.date, style: .abbreviated))
-                    .contentTransition(.numericText(value: Double(entry.date.timeIntervalSinceNow)))
-                    .foregroundStyle(.secondary)
-
-                Spacer()
-
-                Text(entry.chartRangeTitle)
-                    .unredacted()
-                    .foregroundStyle(.secondary)
+                ChartView(
+                    range: entry.configuration.chartRange,
+                    readings: history,
+                    chartUpperBound: entry.chartUpperBound,
+                    targetRange: entry.targetLowerBound...entry.targetUpperBound,
+                    vibrantRenderingMode: widgetRenderingMode == .vibrant
+                )
+                .padding(.leading, widgetContentMargins.leading)
+                .padding(.trailing, widgetContentMargins.trailing)
             }
-
-            ChartView(
-                range: entry.configuration.chartRange,
-                readings: history,
-                chartUpperBound: entry.chartUpperBound,
-                targetRange: entry.targetLowerBound...entry.targetUpperBound,
-                vibrantRenderingMode: widgetRenderingMode == .vibrant
-            )
+            .font(.footnote)
+            .fontWeight(.semibold)
         }
-        .font(.footnote)
-        .fontWeight(.semibold)
+        .buttonStyle(.plain)
         .containerBackground(.fill.tertiary, for: .widget)
     }
 }

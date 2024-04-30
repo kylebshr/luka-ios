@@ -123,8 +123,8 @@ struct GlucoseEntry: TimelineEntry {
         }
     }
 
-    var chartRangeTitle: LocalizedStringResource {
-        ChartRange.caseDisplayRepresentations[configuration.chartRange]!.title
+    var chartRangeTitle: String {
+        configuration.chartRange.abbreviatedName
     }
 }
 
