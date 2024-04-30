@@ -32,7 +32,7 @@ struct RectangularWidgetReadingView: View {
                         }
                     }
 
-                    Text(reading.timestamp(for: entry.date))
+                    Text(reading.timestamp(for: entry.date, style: .abbreviated))
                         .contentTransition(.numericText(value: Double(entry.date.timeIntervalSinceNow)))
                         .foregroundStyle(.secondary)
 

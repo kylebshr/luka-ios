@@ -39,37 +39,34 @@ extension GlucoseReading {
         case .doubleDown:
             Image("arrow.down.double")
         case .notComputable:
-            Image(systemName: "questionmark")
+            nil
         case .rateOutOfRange:
-            Image(systemName: "exclamationmark")
+            nil
         }
     }
 
     func timestamp(
         for currentDate: Date,
         style: DateComponentsFormatter.UnitsStyle = .short,
+        appendRelativeText: Bool = true,
         nowText: String? = nil
     ) -> String {
         if currentDate.timeIntervalSince(date) < 60 {
             if let nowText {
                 return nowText
+            } else if appendRelativeText {
+                return "Just now"
             } else {
-                switch style {
-                case .abbreviated:
-                    return "now"
-                default:
-                    return "Just now"
-                }
+                return "now"
             }
         } else {
             let formatter = formatter(style: style)
             let text = formatter.string(from: date, to: currentDate)!
 
-            switch style {
-            case .abbreviated:
-                return text
-            default:
+            if appendRelativeText {
                 return text + " ago"
+            } else {
+                return text
             }
         }
     }

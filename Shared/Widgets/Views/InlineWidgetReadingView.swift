@@ -23,6 +23,7 @@ struct InlineWidgetReadingView: View {
             let timestamp = reading.timestamp(
                 for: entry.date,
                 style: .abbreviated,
+                appendRelativeText: false,
                 nowText: "1m"
             )
 

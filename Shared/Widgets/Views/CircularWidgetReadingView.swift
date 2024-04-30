@@ -28,7 +28,7 @@ struct CircularWidgetView : View {
                             .fontWeight(.bold)
                             .invalidatableContent()
 
-                        Text(reading.timestamp(for: entry.date, style: .abbreviated))
+                        Text(reading.timestamp(for: entry.date, style: .abbreviated, appendRelativeText: false))
                             .font(
                                 watchOS
                                 ? .system(size: 10, design: .rounded).bold()

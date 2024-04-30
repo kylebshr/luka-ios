@@ -24,6 +24,7 @@ struct SystemWidgetReadingView: View {
             HStack(alignment: .firstTextBaseline, spacing: 4) {
                 Text("\(reading.value)")
                     .contentTransition(.numericText(value: Double(reading.value)))
+                    .fontWeight(.medium)
                     .invalidatableContent()
 
                 if redactionReasons.isEmpty {
@@ -37,10 +38,8 @@ struct SystemWidgetReadingView: View {
                 Text(entry.chartRangeTitle)
                     .foregroundStyle(.secondary)
                     .font(.caption2)
-                    .fontWeight(.medium)
             }
             .font(.title3)
-            .fontWeight(.semibold)
 
             ChartView(
                 range: entry.configuration.chartRange,
@@ -52,7 +51,7 @@ struct SystemWidgetReadingView: View {
             .padding(.leading, -widgetContentMargins.leading)
             .padding(.trailing, -widgetContentMargins.trailing)
 
-            Spacer(minLength: 10)
+            Spacer(minLength: 15)
 
             Button(intent: ReloadWidgetIntent()) {
                 HStack {
@@ -67,11 +66,11 @@ struct SystemWidgetReadingView: View {
                         .unredacted()
                 }
                 .font(.caption2)
-                .fontWeight(.medium)
             }
             .buttonStyle(.plain)
             .tint(.primary)
         }
+        .fontWeight(.semibold)
         .standByMargins()
         .containerBackground(.background, for: .widget)
     }
