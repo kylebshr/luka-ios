@@ -16,6 +16,12 @@ struct ConfigurationAppIntent: WidgetConfigurationIntent {
     var chartRange: ChartRange
 }
 
+extension ConfigurationAppIntent {
+    init(chartRange: ChartRange) {
+        self.chartRange = chartRange
+    }
+}
+
 enum ChartRange: String, AppEnum {
     static var typeDisplayRepresentation: TypeDisplayRepresentation {
         "Chart range"

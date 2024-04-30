@@ -21,16 +21,19 @@ struct SystemWidgetReadingView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            HStack(alignment: .firstTextBaseline, spacing: 4) {
-                Text("\(reading.value)")
-                    .contentTransition(.numericText(value: Double(reading.value)))
-                    .invalidatableContent()
+            HStack(alignment: .firstTextBaseline) {
+                HStack(alignment: .firstTextBaseline, spacing: 4) {
+                    Text(reading.value.formatted())
+                        .contentTransition(.numericText(value: Double(reading.value)))
+                        .invalidatableContent()
 
-                if redactionReasons.isEmpty {
-                    reading.image
-                        .imageScale(.small)
-                        .contentTransition(.symbolEffect(.replace))
+                    if redactionReasons.isEmpty {
+                        reading.image
+                            .imageScale(.small)
+                            .contentTransition(.symbolEffect(.replace))
+                    }
                 }
+                .font(.system(.headline, design: .rounded, weight: .semibold))
 
                 Spacer()
 
@@ -38,7 +41,6 @@ struct SystemWidgetReadingView: View {
                     .foregroundStyle(.secondary)
                     .font(.caption2)
             }
-            .font(.title3)
 
             ChartView(
                 range: entry.configuration.chartRange,
