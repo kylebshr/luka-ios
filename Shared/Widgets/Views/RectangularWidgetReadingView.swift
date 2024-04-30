@@ -50,8 +50,8 @@ struct RectangularWidgetReadingView: View {
                     targetRange: entry.targetLowerBound...entry.targetUpperBound,
                     vibrantRenderingMode: widgetRenderingMode == .vibrant
                 )
-                .padding(.leading, widgetContentMargins.leading)
-                .padding(.trailing, widgetContentMargins.trailing)
+                .padding(.leading, -widgetContentMargins.leading)
+                .padding(.trailing, -widgetContentMargins.trailing)
             }
             .font(.footnote)
             .fontWeight(.semibold)
