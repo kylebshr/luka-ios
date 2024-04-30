@@ -22,6 +22,6 @@ struct CircularWidgetErrorView: View {
             }
         }
         .buttonStyle(.plain)
-        .containerBackground(.fill, for: .widget)
+        .containerBackground(.background, for: .widget)
     }
 }

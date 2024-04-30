@@ -26,7 +26,7 @@ struct RectangularWidgetErrorView: View {
         }
         .buttonStyle(.plain)
         .font(.footnote)
-        .fontWeight(.medium)
-        .containerBackground(.fill, for: .widget)
+        .fontWeight(.semibold)
+        .containerBackground(.background, for: .widget)
     }
 }

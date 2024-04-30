@@ -67,6 +67,10 @@
 		279BA4152BDFCA4C006C87B6 /* GlucoseReading+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80452BDAD8C20071E482 /* GlucoseReading+Extensions.swift */; };
 		279BA4172BDFFAD0006C87B6 /* StandByMargins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA4162BDFFACF006C87B6 /* StandByMargins.swift */; };
 		279BA4182BDFFAD0006C87B6 /* StandByMargins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA4162BDFFACF006C87B6 /* StandByMargins.swift */; };
+		27A367E62BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A367E52BE153B600FC07FB /* DexcomClient+Extensions.swift */; };
+		27A367E72BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A367E52BE153B600FC07FB /* DexcomClient+Extensions.swift */; };
+		27A367E82BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A367E52BE153B600FC07FB /* DexcomClient+Extensions.swift */; };
+		27A367E92BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A367E52BE153B600FC07FB /* DexcomClient+Extensions.swift */; };
 		27AB80432BDAD7C60071E482 /* SystemWidgetReadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80422BDAD7C60071E482 /* SystemWidgetReadingView.swift */; };
 		27AB80442BDAD7C60071E482 /* SystemWidgetReadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80422BDAD7C60071E482 /* SystemWidgetReadingView.swift */; };
 		27AB80462BDAD8C20071E482 /* GlucoseReading+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80452BDAD8C20071E482 /* GlucoseReading+Extensions.swift */; };
@@ -187,6 +191,7 @@
 		279BA40C2BDEDAAC006C87B6 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		279BA40F2BDFC65B006C87B6 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		279BA4162BDFFACF006C87B6 /* StandByMargins.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandByMargins.swift; sourceTree = "<group>"; };
+		27A367E52BE153B600FC07FB /* DexcomClient+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DexcomClient+Extensions.swift"; sourceTree = "<group>"; };
 		27AB80422BDAD7C60071E482 /* SystemWidgetReadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemWidgetReadingView.swift; sourceTree = "<group>"; };
 		27AB80452BDAD8C20071E482 /* GlucoseReading+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GlucoseReading+Extensions.swift"; sourceTree = "<group>"; };
 		27AB80492BDAD96D0071E482 /* InlineWidgetReadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InlineWidgetReadingView.swift; sourceTree = "<group>"; };
@@ -281,6 +286,7 @@
 				2741EA062BD8AA74003EDEB2 /* Keychain.swift */,
 				27E2C5812BD98AB50000FB40 /* Defaults.swift */,
 				27AB80452BDAD8C20071E482 /* GlucoseReading+Extensions.swift */,
+				27A367E52BE153B600FC07FB /* DexcomClient+Extensions.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -610,6 +616,7 @@
 				270332662BD9A0B5009535EE /* Constants.swift in Sources */,
 				270332602BD99F43009535EE /* TimelineProvider.swift in Sources */,
 				27AB804D2BDAD9B10071E482 /* RectangularWidgetReadingView.swift in Sources */,
+				27A367E72BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */,
 				271522592BE009C80009D8EA /* ConfigurationAppIntent.swift in Sources */,
 				27AB80432BDAD7C60071E482 /* SystemWidgetReadingView.swift in Sources */,
 				270E18652BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */,
@@ -636,6 +643,7 @@
 			files = (
 				27E2C5802BD984F70000FB40 /* SignInView.swift in Sources */,
 				2731E08B2BDC9D7C00695EBF /* MainView.swift in Sources */,
+				27A367E82BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */,
 				2731E0882BDC775600695EBF /* RootViewModel.swift in Sources */,
 				27E2C5832BD98B3B0000FB40 /* Defaults.swift in Sources */,
 				271CD1E12BD96B3200FBE5DB /* Constants.swift in Sources */,
@@ -655,6 +663,7 @@
 			files = (
 				27AB804B2BDAD96D0071E482 /* InlineWidgetReadingView.swift in Sources */,
 				27AB80542BDAE51C0071E482 /* RectangularWidgetErrorView.swift in Sources */,
+				27A367E92BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */,
 				270E18662BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */,
 				2741EA2D2BD8AF08003EDEB2 /* WatchWidget.swift in Sources */,
 				27AB804E2BDAD9B10071E482 /* RectangularWidgetReadingView.swift in Sources */,
@@ -689,6 +698,7 @@
 				2741EA072BD8AA74003EDEB2 /* Keychain.swift in Sources */,
 				279BA4142BDFCA4C006C87B6 /* GlucoseReading+Extensions.swift in Sources */,
 				2731E0822BDC735300695EBF /* RootViewModel.swift in Sources */,
+				27A367E62BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */,
 				2741EA0A2BD8AB2F003EDEB2 /* Constants.swift in Sources */,
 				279BA40D2BDEDAAC006C87B6 /* SettingsView.swift in Sources */,
 				279BA4102BDFC65B006C87B6 /* ChartView.swift in Sources */,

@@ -18,4 +18,5 @@ extension String {
     static let targetRangeLowerBound = "targetRangeLowerBound"
     static let targetRangeUpperBound = "targetRangeUpperBound"
     static let chartUpperBound = "chartUpperBound"
+    static let cachedReadings = "chachedReadings"
 }

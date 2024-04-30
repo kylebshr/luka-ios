@@ -84,8 +84,8 @@ struct Provider: AppIntentTimelineProvider {
         client.delegate = delegate
 
         do {
-            let readings = try await client.getGlucoseReadings()
-            if let latest = readings.first, Date.now.timeIntervalSince(latest.date) < 60 * 15 {
+            let readings = try await client.getGlucoseReadingsWithCache()
+            if let latest = readings.last, Date.now.timeIntervalSince(latest.date) < 60 * 15 {
                 return .reading(latest, history: readings)
             } else {
                 return .error(.noRecentReadings)

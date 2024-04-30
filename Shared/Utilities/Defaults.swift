@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Dexcom
 
 extension UserDefaults {
     static let shared = UserDefaults(suiteName: "group.com.kylebashour.Glimpse")!
@@ -29,6 +30,11 @@ extension UserDefaults {
         get { self[.chartUpperBound] ?? 300 }
         set { self[.chartUpperBound] = newValue }
     }
+
+    var cachedReadings: Set<GlucoseReading> {
+        get { self[.cachedReadings] ?? [] }
+        set { self[.cachedReadings] = newValue }
+    }
 }
 
 extension UserDefaults {
@@ -45,5 +51,23 @@ extension UserDefaults {
     subscript(key: String) -> Int? {
         get { value(forKey: key) as? Int }
         set { set(newValue, forKey: key) }
+    }
+
+    subscript<T: Codable>(key: String) -> T? {
+        get { codable(forKey: key) }
+        set { set(codable: newValue, forKey: key) }
+    }
+
+    func codable<T: Codable>(forKey key: String) -> T? {
+        guard let data = data(forKey: key) else {
+            return nil
+        }
+
+        return try? JSONDecoder().decode(T.self, from: data)
+    }
+
+    func set<T: Codable>(codable value: T, forKey key: String) {
+        let data = try? JSONEncoder().encode(value)
+        set(data, forKey: key)
     }
 }

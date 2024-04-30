@@ -56,7 +56,7 @@ struct CircularWidgetView : View {
         }
         .buttonStyle(.plain)
         .fontDesign(.rounded)
-        .containerBackground(.fill, for: .widget)
+        .containerBackground(.background, for: .widget)
     }
 
     private func rotationDegrees(for trend: TrendDirection) -> Double? {

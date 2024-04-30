@@ -32,14 +32,13 @@ struct RectangularWidgetReadingView: View {
                         }
                     }
 
-                    Text(reading.timestamp(for: entry.date, style: .abbreviated))
+                    Text(reading.timestamp(for: entry.date))
                         .contentTransition(.numericText(value: Double(entry.date.timeIntervalSinceNow)))
                         .foregroundStyle(.secondary)
 
                     Spacer()
 
                     Text(entry.chartRangeTitle)
-                        .unredacted()
                         .foregroundStyle(.secondary)
                 }
 
@@ -57,6 +56,6 @@ struct RectangularWidgetReadingView: View {
             .fontWeight(.semibold)
         }
         .buttonStyle(.plain)
-        .containerBackground(.fill.tertiary, for: .widget)
+        .containerBackground(.background, for: .widget)
     }
 }

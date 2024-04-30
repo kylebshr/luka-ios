@@ -29,6 +29,6 @@ struct InlineWidgetReadingView: View {
             Text("\(reading.value) \(timestamp)")
                 .font(.body.lowercaseSmallCaps())
         }
-        .containerBackground(.fill, for: .widget)
+        .containerBackground(.background, for: .widget)
     }
 }

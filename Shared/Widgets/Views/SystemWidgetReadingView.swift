@@ -38,7 +38,6 @@ struct SystemWidgetReadingView: View {
                     .foregroundStyle(.secondary)
                     .font(.caption2)
                     .fontWeight(.medium)
-                    .unredacted()
             }
             .font(.title3)
             .fontWeight(.semibold)
@@ -73,8 +72,7 @@ struct SystemWidgetReadingView: View {
             .buttonStyle(.plain)
             .tint(.primary)
         }
-        .fontDesign(.rounded)
         .standByMargins()
-        .containerBackground(.fill.secondary, for: .widget)
+        .containerBackground(.background, for: .widget)
     }
 }
