@@ -24,7 +24,6 @@ struct SystemWidgetReadingView: View {
             HStack(alignment: .firstTextBaseline, spacing: 4) {
                 Text("\(reading.value)")
                     .contentTransition(.numericText(value: Double(reading.value)))
-                    .fontWeight(.medium)
                     .invalidatableContent()
 
                 if redactionReasons.isEmpty {
