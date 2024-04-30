@@ -63,11 +63,11 @@ extension UserDefaults {
             return nil
         }
 
-        return try? JSONDecoder().decode(T.self, from: data)
+        return try? PropertyListDecoder().decode(T.self, from: data)
     }
 
     func set<T: Codable>(codable value: T, forKey key: String) {
-        let data = try? JSONEncoder().encode(value)
+        let data = try? PropertyListEncoder().encode(value)
         set(data, forKey: key)
     }
 }
