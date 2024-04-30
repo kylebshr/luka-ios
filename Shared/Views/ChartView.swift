@@ -48,10 +48,13 @@ struct ChartView: View {
         .chartXScale(domain: adjustedRange)
         .chartYScale(domain: 0...chartUpperBound)
         .chartYAxis {
-            let values = [55, chartUpperBound]
-            AxisMarks(values: values) { value in
-                AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [4, 3]))
-                    .foregroundStyle(vibrantRenderingMode ? AnyShapeStyle(.foreground) : AnyShapeStyle(.tertiary))
+            AxisMarks(values: [chartUpperBound]) { value in
+                AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 2]))
+            }
+
+            AxisMarks(values: [55]) { value in
+                AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 2]))
+                    .foregroundStyle(.foreground)
             }
         }
         .chartXAxis {}
