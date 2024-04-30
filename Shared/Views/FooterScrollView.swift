@@ -34,7 +34,12 @@ struct FooterScrollView<Content: View, Footer: View>: View {
                     )
                 }
             }
+
+            #if os(watchOS)
+            footer
+            #endif
         }
+        #if !os(watchOS)
         .safeAreaInset(edge: .bottom) {
             if Footer.self != EmptyView.self {
                 footer
@@ -57,6 +62,7 @@ struct FooterScrollView<Content: View, Footer: View>: View {
                     }
             }
         }
+        #endif
         .onPreferenceChange(Frames.self) { frames in
             guard let footer = frames.footer, let content = frames.content else {
                 return
