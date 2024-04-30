@@ -42,7 +42,7 @@ enum ChartRange: String, AppEnum {
     case sixteenHours
     case twentyFourHours
 
-    private var hours: Double {
+    private var hours: Int {
         switch self {
         case .oneHour: 1
         case .threeHours: 3
@@ -55,7 +55,7 @@ enum ChartRange: String, AppEnum {
     }
 
     var timeInterval: TimeInterval {
-        60 * 60 * hours
+        60 * 60 * TimeInterval(hours)
     }
 
     var abbreviatedName: String {
