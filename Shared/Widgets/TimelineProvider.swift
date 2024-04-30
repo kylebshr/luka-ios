@@ -26,7 +26,7 @@ struct Provider: AppIntentTimelineProvider {
         GlucoseEntry(
             configuration: ConfigurationAppIntent(),
             date: Date(),
-            state: .reading(.placeholder, history: .placeholder)
+            state: .reading(.placeholder, history: [])
         )
     }
 
