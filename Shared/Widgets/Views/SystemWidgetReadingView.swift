@@ -51,7 +51,7 @@ struct SystemWidgetReadingView: View {
             .padding(.leading, -widgetContentMargins.leading)
             .padding(.trailing, -widgetContentMargins.trailing)
 
-            Spacer(minLength: 15)
+            Spacer(minLength: 12)
 
             Button(intent: ReloadWidgetIntent()) {
                 HStack {
