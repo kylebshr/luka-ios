@@ -87,6 +87,6 @@ extension [GlucoseReading] {
                 trend: .flat,
                 date: Date.now.addingTimeInterval(Double(-value * 5 * 60))
             )
-        }
+        }.reversed()
     }
 }

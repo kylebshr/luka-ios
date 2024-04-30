@@ -43,6 +43,7 @@ struct SystemWidgetReadingView: View {
             ChartView(
                 range: entry.configuration.chartRange,
                 readings: history,
+                highlight: reading,
                 chartUpperBound: entry.chartUpperBound,
                 targetRange: entry.targetLowerBound...entry.targetUpperBound,
                 vibrantRenderingMode: widgetRenderingMode == .vibrant

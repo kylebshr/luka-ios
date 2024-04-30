@@ -12,6 +12,7 @@ import Dexcom
 struct ChartView: View {
     let range: ClosedRange<Date>
     let readings: [GlucoseReading]
+    let highlight: GlucoseReading?
     let chartUpperBound: Int
     let targetRange: ClosedRange<Int>
     let vibrantRenderingMode: Bool
@@ -30,13 +31,20 @@ struct ChartView: View {
                         y: .value(value.formatted(), value)
                     )
                     .symbol {
-                        Circle()
-                            .frame(width: 2.5)
-                            .foregroundStyle(.foreground)
+                        if reading.hashValue == highlight?.hashValue {
+                            Circle()
+                                .stroke(.foreground, lineWidth: 1.5)
+                                .frame(width: 3.5, height: 3.5)
+                        } else {
+                            Circle()
+                                .frame(width: 2.5)
+                                .foregroundStyle(.foreground)
+                        }
                     }
                 }
             }
         }
+        .foregroundStyle(.foreground)
         .chartXScale(domain: adjustedRange)
         .chartYScale(domain: 0...chartUpperBound)
         .chartYAxis {
@@ -80,6 +88,7 @@ extension GlucoseReading: Identifiable {
     ChartView(
         range: Date.now.addingTimeInterval(-60 * 60 * 3)...Date.now,
         readings: .placeholder,
+        highlight: [GlucoseReading].placeholder.last,
         chartUpperBound: 300,
         targetRange: 70...180,
         vibrantRenderingMode: false
