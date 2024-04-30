@@ -16,6 +16,10 @@ struct ChartView: View {
     let targetRange: ClosedRange<Int>
     let vibrantRenderingMode: Bool
 
+    private var adjustedRange: ClosedRange<Date> {
+        range.lowerBound...range.upperBound.addingTimeInterval(5 * 60)
+    }
+
     var body: some View {
         Chart {
             ForEach(readings) { reading in
@@ -33,7 +37,7 @@ struct ChartView: View {
                 }
             }
         }
-        .chartXScale(domain: range.lowerBound...range.upperBound.addingTimeInterval(5 * 60))
+        .chartXScale(domain: adjustedRange)
         .chartYScale(domain: 0...chartUpperBound)
         .chartYAxis {
             let values = [55, chartUpperBound]
@@ -46,7 +50,7 @@ struct ChartView: View {
             GeometryReader { geometry in
                 if let plotFrame = chart.plotFrame {
                     let frame = geometry[plotFrame]
-                    if let origin = chart.position(for: (range.lowerBound, targetRange.upperBound)), let max = chart.position(for: (range.upperBound, targetRange.lowerBound)) {
+                    if let origin = chart.position(for: (adjustedRange.lowerBound, targetRange.upperBound)), let max = chart.position(for: (adjustedRange.upperBound, targetRange.lowerBound)) {
 
                         Rectangle()
                             .fill(vibrantRenderingMode ? AnyShapeStyle(.green.secondary) : AnyShapeStyle(.green.quinary))
@@ -54,7 +58,7 @@ struct ChartView: View {
                             .position(x: (max.x - origin.x) / 2, y: (max.y - origin.y) / 2 + origin.y)
                     }
 
-                    if !vibrantRenderingMode, let origin = chart.position(for: (range.lowerBound, targetRange.lowerBound)), let max = chart.position(for: (range.upperBound, 0)) {
+                    if !vibrantRenderingMode, let origin = chart.position(for: (adjustedRange.lowerBound, targetRange.lowerBound)), let max = chart.position(for: (adjustedRange.upperBound, 0)) {
 
                         Rectangle()
                             .fill(.red.quinary)
