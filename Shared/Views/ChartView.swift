@@ -24,21 +24,23 @@ struct ChartView: View {
     var body: some View {
         Chart {
             ForEach(readings) { reading in
-                let value = min(reading.value, chartUpperBound)
-                PointMark(
-                    x: .value("", reading.date),
-                    y: .value(value.formatted(), value)
-                )
-                .symbol {
-                    if reading.hashValue == highlight?.hashValue {
-                        Circle()
-                            .fill(vibrantRenderingMode ? AnyShapeStyle(.clear) : AnyShapeStyle(.background))
-                            .stroke(.foreground, lineWidth: 1)
-                            .frame(width: 3.5, height: 3.5)
-                    } else {
-                        Circle()
-                            .frame(width: 2.5)
-                            .foregroundStyle(.foreground)
+                if adjustedRange.contains(reading.date) {
+                    let value = min(reading.value, chartUpperBound)
+                    PointMark(
+                        x: .value("", reading.date),
+                        y: .value(value.formatted(), value)
+                    )
+                    .symbol {
+                        if reading.hashValue == highlight?.hashValue {
+                            Circle()
+                                .fill(vibrantRenderingMode ? AnyShapeStyle(.clear) : AnyShapeStyle(.background))
+                                .stroke(.foreground, lineWidth: 1)
+                                .frame(width: 3.5, height: 3.5)
+                        } else {
+                            Circle()
+                                .frame(width: 2.5)
+                                .foregroundStyle(.foreground)
+                        }
                     }
                 }
             }
@@ -79,7 +81,6 @@ struct ChartView: View {
                 }
             }
         }
-        .mask { Rectangle().padding(.vertical, -5) }
         .animation(.default, value: adjustedRange)
     }
 }

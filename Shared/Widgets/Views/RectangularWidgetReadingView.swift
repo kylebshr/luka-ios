@@ -15,7 +15,6 @@ struct RectangularWidgetReadingView: View {
 
     @Environment(\.redactionReasons) private var redactionReasons
     @Environment(\.widgetRenderingMode) private var widgetRenderingMode
-    @Environment(\.widgetContentMargins) private var widgetContentMargins
 
     var body: some View {
         Button(intent: ReloadWidgetIntent()) {
@@ -50,8 +49,6 @@ struct RectangularWidgetReadingView: View {
                     targetRange: entry.targetLowerBound...entry.targetUpperBound,
                     vibrantRenderingMode: widgetRenderingMode == .vibrant
                 )
-                .padding(.leading, -widgetContentMargins.leading)
-                .padding(.trailing, -widgetContentMargins.trailing)
             }
             .font(.footnote)
             .fontWeight(.semibold)
