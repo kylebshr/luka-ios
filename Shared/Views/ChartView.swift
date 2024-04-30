@@ -50,7 +50,8 @@ struct ChartView: View {
         .chartYAxis {
             let values = [55, chartUpperBound]
             AxisMarks(values: values) { value in
-                AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 2]))
+                AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [4, 3]))
+                    .foregroundStyle(vibrantRenderingMode ? AnyShapeStyle(.foreground) : AnyShapeStyle(.tertiary))
             }
         }
         .chartXAxis {}
