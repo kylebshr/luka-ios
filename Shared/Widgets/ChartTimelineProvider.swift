@@ -19,7 +19,7 @@ struct ChartTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider 
             date: .now,
             state: .reading(
                 ChartGlucoseData(
-                    configuration: ChartWidgetAppIntent(),
+                    configuration: ChartWidgetConfiguration(),
                     current: GlucoseReading.placeholder,
                     history: []
                 )
@@ -27,24 +27,24 @@ struct ChartTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider 
         )
     }
 
-    func snapshot(for configuration: ChartWidgetAppIntent, in context: Context) async -> Entry {
+    func snapshot(for configuration: ChartWidgetConfiguration, in context: Context) async -> Entry {
         let state = await makeState(for: configuration)
         return GlucoseEntry(date: .now, state: state)
     }
 
-    func timeline(for configuration: ChartWidgetAppIntent, in context: Context) async -> Timeline<Entry> {
+    func timeline(for configuration: ChartWidgetConfiguration, in context: Context) async -> Timeline<Entry> {
         let state = await makeState(for: configuration)
         return buildTimeline(for: state)
     }
 
-    func recommendations() -> [AppIntentRecommendation<ChartWidgetAppIntent>] {
+    func recommendations() -> [AppIntentRecommendation<ChartWidgetConfiguration>] {
         ChartRange.allCases.map {
-            let configuration = ChartWidgetAppIntent(chartRange: $0)
+            let configuration = ChartWidgetConfiguration(chartRange: $0)
             return AppIntentRecommendation(intent: configuration, description: $0.abbreviatedName + " Chart")
         }
     }
 
-    private func makeState(for configuration: ChartWidgetAppIntent) async -> Entry.State {
+    private func makeState(for configuration: ChartWidgetConfiguration) async -> Entry.State {
         guard let username = Keychain.shared.username, let password = Keychain.shared.password else {
             return .error(.loggedOut)
         }

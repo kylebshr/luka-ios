@@ -39,17 +39,10 @@ struct SystemWidgetReadingView: View {
             Spacer()
 
             Button(intent: ReloadWidgetIntent()) {
-                HStack {
-                    Text(reading.timestamp(for: entry.date))
-                        .contentTransition(.numericText(value: reading.date.timeIntervalSinceNow))
-
-                    Spacer()
-
-                    Image(systemName: "arrow.circlepath")
-                        .unredacted()
-                }
-                .font(.footnote)
-                .fontWeight(.medium)
+                WidgetButtonContent(
+                    text: reading.timestamp(for: entry.date),
+                    image: "arrow.circlepath"
+                )
             }
             .tint(.primary)
         }

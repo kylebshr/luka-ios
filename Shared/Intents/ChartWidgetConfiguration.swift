@@ -8,7 +8,7 @@
 import WidgetKit
 import AppIntents
 
-struct ChartWidgetAppIntent: WidgetConfigurationIntent {
+struct ChartWidgetConfiguration: WidgetConfigurationIntent {
     static var title: LocalizedStringResource = "Chart Widget"
     static var description = IntentDescription("Configure chart widget settings.")
 
@@ -16,7 +16,7 @@ struct ChartWidgetAppIntent: WidgetConfigurationIntent {
     var chartRange: ChartRange
 }
 
-extension ChartWidgetAppIntent {
+extension ChartWidgetConfiguration {
     init(chartRange: ChartRange) {
         self.chartRange = chartRange
     }

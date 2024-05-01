@@ -26,7 +26,7 @@
 		270E18632BDA084E00CB7D4D /* ReadingWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E18612BDA084E00CB7D4D /* ReadingWidgetView.swift */; };
 		270E18652BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E18642BDA0A1400CB7D4D /* ReloadWidgetIntent.swift */; };
 		270E18662BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E18642BDA0A1400CB7D4D /* ReloadWidgetIntent.swift */; };
-		271522592BE009C80009D8EA /* ConfigurationAppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA2E2BD8AF08003EDEB2 /* ConfigurationAppIntent.swift */; };
+		271522592BE009C80009D8EA /* ChartWidgetConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA2E2BD8AF08003EDEB2 /* ChartWidgetConfiguration.swift */; };
 		2715225C2BE009FC0009D8EA /* ChartView+ChartRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2715225B2BE009FC0009D8EA /* ChartView+ChartRange.swift */; };
 		2715225D2BE009FC0009D8EA /* ChartView+ChartRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2715225B2BE009FC0009D8EA /* ChartView+ChartRange.swift */; };
 		271CD1D92BD96B1500FBE5DB /* Dexcom in Frameworks */ = {isa = PBXBuildFile; productRef = 271CD1D82BD96B1500FBE5DB /* Dexcom */; };
@@ -51,7 +51,7 @@
 		2741EA1C2BD8AEBB003EDEB2 /* Glimpse.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 2741EA0F2BD8AEBA003EDEB2 /* Glimpse.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2741EA282BD8AF08003EDEB2 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2741EA272BD8AF08003EDEB2 /* WidgetKit.framework */; };
 		2741EA2A2BD8AF08003EDEB2 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2741EA292BD8AF08003EDEB2 /* SwiftUI.framework */; };
-		2741EA2F2BD8AF08003EDEB2 /* ConfigurationAppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA2E2BD8AF08003EDEB2 /* ConfigurationAppIntent.swift */; };
+		2741EA2F2BD8AF08003EDEB2 /* ChartWidgetConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA2E2BD8AF08003EDEB2 /* ChartWidgetConfiguration.swift */; };
 		2741EA312BD8AF0A003EDEB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2741EA302BD8AF0A003EDEB2 /* Assets.xcassets */; };
 		2741EA352BD8AF0A003EDEB2 /* WatchWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2741EA252BD8AF08003EDEB2 /* WatchWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		274E9A492BE1C8E60035F216 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274E9A482BE1C8E60035F216 /* View+Extensions.swift */; };
@@ -80,6 +80,8 @@
 		27558D612BE2FA20000CACB4 /* DexcomTimelineProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D5F2BE2FA20000CACB4 /* DexcomTimelineProvider.swift */; };
 		27558D632BE3006F000CACB4 /* SystemWidgetReadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D622BE3006F000CACB4 /* SystemWidgetReadingView.swift */; };
 		27558D642BE3006F000CACB4 /* SystemWidgetReadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D622BE3006F000CACB4 /* SystemWidgetReadingView.swift */; };
+		27558D662BE30944000CACB4 /* WidgetButtonContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D652BE30944000CACB4 /* WidgetButtonContent.swift */; };
+		27558D672BE30944000CACB4 /* WidgetButtonContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D652BE30944000CACB4 /* WidgetButtonContent.swift */; };
 		279BA40A2BDED8D5006C87B6 /* FooterScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA4092BDED8D5006C87B6 /* FooterScrollView.swift */; };
 		279BA40B2BDED8D5006C87B6 /* FooterScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA4092BDED8D5006C87B6 /* FooterScrollView.swift */; };
 		279BA40D2BDEDAAC006C87B6 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA40C2BDEDAAC006C87B6 /* SettingsView.swift */; };
@@ -208,7 +210,7 @@
 		2741EA252BD8AF08003EDEB2 /* WatchWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WatchWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		2741EA272BD8AF08003EDEB2 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		2741EA292BD8AF08003EDEB2 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		2741EA2E2BD8AF08003EDEB2 /* ConfigurationAppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationAppIntent.swift; sourceTree = "<group>"; };
+		2741EA2E2BD8AF08003EDEB2 /* ChartWidgetConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartWidgetConfiguration.swift; sourceTree = "<group>"; };
 		2741EA302BD8AF0A003EDEB2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2741EA322BD8AF0A003EDEB2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		274E9A482BE1C8E60035F216 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 		27558D5C2BE2F9A5000CACB4 /* ReadingTimelineProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingTimelineProvider.swift; sourceTree = "<group>"; };
 		27558D5F2BE2FA20000CACB4 /* DexcomTimelineProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DexcomTimelineProvider.swift; sourceTree = "<group>"; };
 		27558D622BE3006F000CACB4 /* SystemWidgetReadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemWidgetReadingView.swift; sourceTree = "<group>"; };
+		27558D652BE30944000CACB4 /* WidgetButtonContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetButtonContent.swift; sourceTree = "<group>"; };
 		279BA4092BDED8D5006C87B6 /* FooterScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterScrollView.swift; sourceTree = "<group>"; };
 		279BA40C2BDEDAAC006C87B6 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		279BA40F2BDFC65B006C87B6 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
@@ -328,7 +331,7 @@
 		2731E0842BDC737200695EBF /* Intents */ = {
 			isa = PBXGroup;
 			children = (
-				2741EA2E2BD8AF08003EDEB2 /* ConfigurationAppIntent.swift */,
+				2741EA2E2BD8AF08003EDEB2 /* ChartWidgetConfiguration.swift */,
 				270E18642BDA0A1400CB7D4D /* ReloadWidgetIntent.swift */,
 			);
 			path = Intents;
@@ -432,6 +435,7 @@
 				270E185E2BDA082A00CB7D4D /* CircularWidgetReadingView.swift */,
 				27AB80552BDAF27C0071E482 /* CircularWidgetErrorView.swift */,
 				279BA4162BDFFACF006C87B6 /* StandByMargins.swift */,
+				27558D652BE30944000CACB4 /* WidgetButtonContent.swift */,
 				2715225B2BE009FC0009D8EA /* ChartView+ChartRange.swift */,
 			);
 			path = Views;
@@ -671,7 +675,7 @@
 				27AB804D2BDAD9B10071E482 /* RectangularWidgetChartView.swift in Sources */,
 				27558D602BE2FA20000CACB4 /* DexcomTimelineProvider.swift in Sources */,
 				27A367E72BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */,
-				271522592BE009C80009D8EA /* ConfigurationAppIntent.swift in Sources */,
+				271522592BE009C80009D8EA /* ChartWidgetConfiguration.swift in Sources */,
 				27AB80432BDAD7C60071E482 /* SystemWidgetChartView.swift in Sources */,
 				270E18652BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */,
 				274E9A4A2BE1C8E60035F216 /* View+Extensions.swift in Sources */,
@@ -679,6 +683,7 @@
 				270332522BD99E90009535EE /* GlimpseWidgetBundle.swift in Sources */,
 				27558D532BE2F441000CACB4 /* GlucoseChartMark.swift in Sources */,
 				2715225C2BE009FC0009D8EA /* ChartView+ChartRange.swift in Sources */,
+				27558D662BE30944000CACB4 /* WidgetButtonContent.swift in Sources */,
 				27558D632BE3006F000CACB4 /* SystemWidgetReadingView.swift in Sources */,
 				279BA4172BDFFAD0006C87B6 /* StandByMargins.swift in Sources */,
 				27AB80502BDADF030071E482 /* SystemWidgetErrorView.swift in Sources */,
@@ -734,11 +739,12 @@
 				27AB804E2BDAD9B10071E482 /* RectangularWidgetChartView.swift in Sources */,
 				274E9A4C2BE1C8E60035F216 /* View+Extensions.swift in Sources */,
 				27558D0C2BE2D57C000CACB4 /* GlimpseWidgetBundle.swift in Sources */,
-				2741EA2F2BD8AF08003EDEB2 /* ConfigurationAppIntent.swift in Sources */,
+				2741EA2F2BD8AF08003EDEB2 /* ChartWidgetConfiguration.swift in Sources */,
 				27AB80572BDAF27C0071E482 /* CircularWidgetErrorView.swift in Sources */,
 				270E18632BDA084E00CB7D4D /* ReadingWidgetView.swift in Sources */,
 				27558D552BE2F441000CACB4 /* GlucoseChartMark.swift in Sources */,
 				270E18602BDA082A00CB7D4D /* CircularWidgetReadingView.swift in Sources */,
+				27558D672BE30944000CACB4 /* WidgetButtonContent.swift in Sources */,
 				27558D642BE3006F000CACB4 /* SystemWidgetReadingView.swift in Sources */,
 				27AB80472BDAD8C20071E482 /* GlucoseReading+Extensions.swift in Sources */,
 				279BA4132BDFC65B006C87B6 /* ChartView.swift in Sources */,

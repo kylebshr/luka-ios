@@ -15,7 +15,7 @@ struct GlimpseChartWidget: Widget {
     var body: some WidgetConfiguration {
         AppIntentConfiguration(
             kind: kind,
-            intent: ChartWidgetAppIntent.self,
+            intent: ChartWidgetConfiguration.self,
             provider: ChartTimelineProvider()
         ) { entry in
             ChartWidgetView(entry: entry)
