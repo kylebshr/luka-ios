@@ -27,6 +27,7 @@ struct RectangularWidgetReadingView: View {
 
                         if redactionReasons.isEmpty {
                             reading.image
+                                .imageScale(.small)
                                 .contentTransition(.symbolEffect(.replace))
                         }
                     }
@@ -50,8 +51,7 @@ struct RectangularWidgetReadingView: View {
                     vibrantRenderingMode: widgetRenderingMode == .vibrant
                 )
             }
-            .font(.footnote)
-            .fontWeight(.semibold)
+            .font(.system(size: watchOS ? 13 : 12, weight: .semibold))
         }
         .buttonStyle(.plain)
         .containerBackground(.background, for: .widget)

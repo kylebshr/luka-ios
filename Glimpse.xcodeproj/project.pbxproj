@@ -55,6 +55,10 @@
 		2741EA2F2BD8AF08003EDEB2 /* ConfigurationAppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA2E2BD8AF08003EDEB2 /* ConfigurationAppIntent.swift */; };
 		2741EA312BD8AF0A003EDEB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2741EA302BD8AF0A003EDEB2 /* Assets.xcassets */; };
 		2741EA352BD8AF0A003EDEB2 /* WatchWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2741EA252BD8AF08003EDEB2 /* WatchWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		274E9A492BE1C8E60035F216 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274E9A482BE1C8E60035F216 /* View+Extensions.swift */; };
+		274E9A4A2BE1C8E60035F216 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274E9A482BE1C8E60035F216 /* View+Extensions.swift */; };
+		274E9A4B2BE1C8E60035F216 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274E9A482BE1C8E60035F216 /* View+Extensions.swift */; };
+		274E9A4C2BE1C8E60035F216 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274E9A482BE1C8E60035F216 /* View+Extensions.swift */; };
 		279BA40A2BDED8D5006C87B6 /* FooterScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA4092BDED8D5006C87B6 /* FooterScrollView.swift */; };
 		279BA40B2BDED8D5006C87B6 /* FooterScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA4092BDED8D5006C87B6 /* FooterScrollView.swift */; };
 		279BA40D2BDEDAAC006C87B6 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA40C2BDEDAAC006C87B6 /* SettingsView.swift */; };
@@ -187,6 +191,7 @@
 		2741EA2E2BD8AF08003EDEB2 /* ConfigurationAppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationAppIntent.swift; sourceTree = "<group>"; };
 		2741EA302BD8AF0A003EDEB2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2741EA322BD8AF0A003EDEB2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		274E9A482BE1C8E60035F216 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		279BA4092BDED8D5006C87B6 /* FooterScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterScrollView.swift; sourceTree = "<group>"; };
 		279BA40C2BDEDAAC006C87B6 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		279BA40F2BDFC65B006C87B6 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
@@ -287,6 +292,7 @@
 				27E2C5812BD98AB50000FB40 /* Defaults.swift */,
 				27AB80452BDAD8C20071E482 /* GlucoseReading+Extensions.swift */,
 				27A367E52BE153B600FC07FB /* DexcomClient+Extensions.swift */,
+				274E9A482BE1C8E60035F216 /* View+Extensions.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -620,6 +626,7 @@
 				271522592BE009C80009D8EA /* ConfigurationAppIntent.swift in Sources */,
 				27AB80432BDAD7C60071E482 /* SystemWidgetReadingView.swift in Sources */,
 				270E18652BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */,
+				274E9A4A2BE1C8E60035F216 /* View+Extensions.swift in Sources */,
 				279BA4112BDFC65B006C87B6 /* ChartView.swift in Sources */,
 				270332522BD99E90009535EE /* GlimpseWidgetBundle.swift in Sources */,
 				2715225C2BE009FC0009D8EA /* ChartView+ChartRange.swift in Sources */,
@@ -654,6 +661,7 @@
 				279BA4152BDFCA4C006C87B6 /* GlucoseReading+Extensions.swift in Sources */,
 				2731E0802BDC6DB000695EBF /* RootView.swift in Sources */,
 				27E2C5882BD994730000FB40 /* GlimpseApp.swift in Sources */,
+				274E9A4B2BE1C8E60035F216 /* View+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -667,6 +675,7 @@
 				270E18662BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */,
 				2741EA2D2BD8AF08003EDEB2 /* WatchWidget.swift in Sources */,
 				27AB804E2BDAD9B10071E482 /* RectangularWidgetReadingView.swift in Sources */,
+				274E9A4C2BE1C8E60035F216 /* View+Extensions.swift in Sources */,
 				2741EA2F2BD8AF08003EDEB2 /* ConfigurationAppIntent.swift in Sources */,
 				27AB80572BDAF27C0071E482 /* CircularWidgetErrorView.swift in Sources */,
 				270E18632BDA084E00CB7D4D /* WidgetView.swift in Sources */,
@@ -694,6 +703,7 @@
 				27F5776B2BCF38330012D66C /* GlimpseApp.swift in Sources */,
 				27E2C5822BD98AB50000FB40 /* Defaults.swift in Sources */,
 				2731E07D2BDC6CB400695EBF /* CardTextFieldStyle.swift in Sources */,
+				274E9A492BE1C8E60035F216 /* View+Extensions.swift in Sources */,
 				279BA40A2BDED8D5006C87B6 /* FooterScrollView.swift in Sources */,
 				2741EA072BD8AA74003EDEB2 /* Keychain.swift in Sources */,
 				279BA4142BDFCA4C006C87B6 /* GlucoseReading+Extensions.swift in Sources */,

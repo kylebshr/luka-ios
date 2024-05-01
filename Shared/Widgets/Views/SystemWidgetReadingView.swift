@@ -22,7 +22,7 @@ struct SystemWidgetReadingView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .firstTextBaseline) {
-                HStack(alignment: .firstTextBaseline, spacing: 4) {
+                HStack(alignment: .firstTextBaseline, spacing: 3) {
                     Text(reading.value.formatted())
                         .contentTransition(.numericText(value: Double(reading.value)))
                         .invalidatableContent()

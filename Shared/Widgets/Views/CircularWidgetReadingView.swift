@@ -88,14 +88,6 @@ struct CircularWidgetView : View {
             .padding(watchOS ? -0.5 : -1)
     }
 
-    var watchOS: Bool {
-        #if os(watchOS)
-        return true
-        #else
-        return false
-        #endif
-    }
-
     var doubleArrow: Bool {
         switch reading.trend {
         case .doubleUp, .doubleDown: true
