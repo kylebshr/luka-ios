@@ -20,13 +20,20 @@ struct RectangularWidgetErrorView: View {
 
                 Spacer()
 
+                #if os(watchOS)
+                Image(systemName: error.image)
+                #else
                 Image(systemName: error.buttonImage)
+                #endif
             }
             .invalidatableContent()
+            .frame(maxHeight: .infinity)
         }
+        #if os(watchOS)
         .buttonStyle(.plain)
-        .font(.footnote)
-        .fontWeight(.semibold)
+        #endif
+        .font(.system(size: watchOS ? 14 : 13, weight: .semibold))
+        .buttonBorderShape(.roundedRectangle)
         .containerBackground(.background, for: .widget)
     }
 }

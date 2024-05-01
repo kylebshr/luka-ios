@@ -165,9 +165,9 @@ extension GlucoseEntry.Error {
     var description: String {
         switch self {
         case .loggedOut:
-            "Sign in to use widgets"
+            "No account"
         case .noRecentReadings:
-            "No recent glucose readings"
+            "No recent readings"
         case .failedToLoad:
             "Network error"
         }

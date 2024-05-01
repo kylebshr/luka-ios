@@ -51,7 +51,7 @@ struct RectangularWidgetReadingView: View {
                     vibrantRenderingMode: widgetRenderingMode == .vibrant
                 )
             }
-            .font(.system(size: watchOS ? 13 : 12, weight: .semibold))
+            .font(.system(size: watchOS ? 14 : 13, weight: .semibold))
         }
         .buttonStyle(.plain)
         .containerBackground(.background, for: .widget)
