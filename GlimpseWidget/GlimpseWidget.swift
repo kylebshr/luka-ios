@@ -37,7 +37,7 @@ struct GlimpseWidget: Widget {
     GlucoseEntry(
         configuration: .init(chartRange: .threeHours),
         date: .now,
-        state: .reading(.placeholder, history: .placeholder)
+        state: .reading([GlucoseReading].placeholder.last!, history: .placeholder)
     )
     GlucoseEntry(
         configuration: .init(),

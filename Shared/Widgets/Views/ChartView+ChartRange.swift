@@ -15,7 +15,6 @@ extension ChartView {
         highlight: GlucoseReading?,
         chartUpperBound: Int,
         targetRange: ClosedRange<Int>,
-        vibrantRenderingMode: Bool,
         roundBottomCorners: Bool
     ) {
         self.init(
@@ -24,7 +23,6 @@ extension ChartView {
             highlight: highlight, 
             chartUpperBound: chartUpperBound,
             targetRange: targetRange,
-            vibrantRenderingMode: vibrantRenderingMode,
             roundBottomCorners: roundBottomCorners
         )
     }

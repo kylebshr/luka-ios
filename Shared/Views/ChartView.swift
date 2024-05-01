@@ -15,7 +15,6 @@ struct ChartView: View {
     let highlight: GlucoseReading?
     let chartUpperBound: Int
     let targetRange: ClosedRange<Int>
-    let vibrantRenderingMode: Bool
     let roundBottomCorners: Bool
 
     private var adjustedRange: ClosedRange<Date> {
@@ -34,7 +33,7 @@ struct ChartView: View {
                     .symbol {
                         if reading.hashValue == highlight?.hashValue {
                             Circle()
-                                .fill(vibrantRenderingMode ? AnyShapeStyle(.clear) : AnyShapeStyle(.background))
+                                .fill(.background)
                                 .stroke(.foreground, lineWidth: 1)
                                 .frame(width: 3.5, height: 3.5)
                         } else {
@@ -67,26 +66,27 @@ struct ChartView: View {
                     if let origin = chart.position(for: (adjustedRange.lowerBound, targetRange.upperBound)), let max = chart.position(for: (adjustedRange.upperBound, targetRange.lowerBound)) {
 
                         Rectangle()
-                            .fill(vibrantRenderingMode ? AnyShapeStyle(.green.secondary) : AnyShapeStyle(.green.quinary))
+                            .fill(.green.tertiary)
                             .frame(width: frame.width, height: max.y - origin.y)
                             .position(x: (max.x - origin.x) / 2, y: (max.y - origin.y) / 2 + origin.y)
                     }
 
                     if let origin = chart.position(for: (adjustedRange.lowerBound, targetRange.lowerBound)), let max = chart.position(for: (adjustedRange.upperBound, 0)) {
                         let height = max.y - origin.y
+                        let adjustedHeight = roundBottomCorners ? height / 2 : height
 
                         Rectangle()
-                            .fill(.red.quinary)
-                            .frame(width: frame.width, height: roundBottomCorners ? height / 2 : height)
-                            .position(x: (max.x - origin.x) / 2, y: (height) / 2 + origin.y)
+                            .fill(.red.quaternary)
+                            .frame(width: frame.width, height: adjustedHeight)
+                            .position(x: (max.x - origin.x) / 2, y: adjustedHeight / 2 + origin.y)
 
                         if roundBottomCorners {
                             ContainerRelativeShape()
                                 .fill(.red.quinary)
                                 .frame(width: frame.width, height: height)
-                                .position(x: (max.x - origin.x) / 2, y: height / 2 + origin.y)
+                                .position(x: (max.x - origin.x) / 2, y: adjustedHeight / 2 + origin.y)
                                 .mask(alignment: .bottom) {
-                                    Rectangle().frame(width: frame.width, height: height / 2)
+                                    Rectangle().frame(width: frame.width, height: adjustedHeight)
                                 }
                         }
                     }
@@ -108,7 +108,6 @@ extension GlucoseReading: Identifiable {
         highlight: [GlucoseReading].placeholder.last,
         chartUpperBound: 300,
         targetRange: 70...180,
-        vibrantRenderingMode: false,
         roundBottomCorners: false
     ).frame(height: 200)
 }

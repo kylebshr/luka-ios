@@ -17,7 +17,6 @@ struct SystemWidgetReadingView: View {
     @Environment(\.showsWidgetContainerBackground) var showsWidgetContainerBackground
     @Environment(\.redactionReasons) private var redactionReasons
     @Environment(\.widgetContentMargins) private var widgetContentMargins
-    @Environment(\.widgetRenderingMode) private var widgetRenderingMode
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -48,7 +47,6 @@ struct SystemWidgetReadingView: View {
                 highlight: reading,
                 chartUpperBound: entry.chartUpperBound,
                 targetRange: entry.targetLowerBound...entry.targetUpperBound,
-                vibrantRenderingMode: widgetRenderingMode == .vibrant,
                 roundBottomCorners: false
             )
             .padding(.leading, -widgetContentMargins.leading)

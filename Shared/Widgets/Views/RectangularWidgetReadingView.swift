@@ -14,7 +14,6 @@ struct RectangularWidgetReadingView: View {
     let history: [GlucoseReading]
 
     @Environment(\.redactionReasons) private var redactionReasons
-    @Environment(\.widgetRenderingMode) private var widgetRenderingMode
 
     var body: some View {
         Button(intent: ReloadWidgetIntent()) {
@@ -48,8 +47,7 @@ struct RectangularWidgetReadingView: View {
                     highlight: reading,
                     chartUpperBound: entry.chartUpperBound,
                     targetRange: entry.targetLowerBound...entry.targetUpperBound,
-                    vibrantRenderingMode: widgetRenderingMode == .vibrant,
-                    roundBottomCorners: true
+                    roundBottomCorners: watchOS
                 )
             }
             .font(.system(size: watchOS ? 14 : 13, weight: .semibold))
