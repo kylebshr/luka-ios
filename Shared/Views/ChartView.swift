@@ -16,6 +16,7 @@ struct ChartView: View {
     let chartUpperBound: Int
     let targetRange: ClosedRange<Int>
     let vibrantRenderingMode: Bool
+    let roundBottomCorners: Bool
 
     private var adjustedRange: ClosedRange<Date> {
         range.lowerBound...range.upperBound.addingTimeInterval(5 * 60)
@@ -72,11 +73,22 @@ struct ChartView: View {
                     }
 
                     if let origin = chart.position(for: (adjustedRange.lowerBound, targetRange.lowerBound)), let max = chart.position(for: (adjustedRange.upperBound, 0)) {
+                        let height = max.y - origin.y
 
                         Rectangle()
                             .fill(.red.quinary)
-                            .frame(width: frame.width, height: max.y - origin.y)
-                            .position(x: (max.x - origin.x) / 2, y: (max.y - origin.y) / 2 + origin.y)
+                            .frame(width: frame.width, height: roundBottomCorners ? height / 2 : height)
+                            .position(x: (max.x - origin.x) / 2, y: (height) / 2 + origin.y)
+
+                        if roundBottomCorners {
+                            ContainerRelativeShape()
+                                .fill(.red.quinary)
+                                .frame(width: frame.width, height: height)
+                                .position(x: (max.x - origin.x) / 2, y: height / 2 + origin.y)
+                                .mask(alignment: .bottom) {
+                                    Rectangle().frame(width: frame.width, height: height / 2)
+                                }
+                        }
                     }
                 }
             }
@@ -96,6 +108,7 @@ extension GlucoseReading: Identifiable {
         highlight: [GlucoseReading].placeholder.last,
         chartUpperBound: 300,
         targetRange: 70...180,
-        vibrantRenderingMode: false
+        vibrantRenderingMode: false,
+        roundBottomCorners: false
     ).frame(height: 200)
 }

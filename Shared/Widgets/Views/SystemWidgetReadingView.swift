@@ -48,7 +48,8 @@ struct SystemWidgetReadingView: View {
                 highlight: reading,
                 chartUpperBound: entry.chartUpperBound,
                 targetRange: entry.targetLowerBound...entry.targetUpperBound,
-                vibrantRenderingMode: widgetRenderingMode == .vibrant
+                vibrantRenderingMode: widgetRenderingMode == .vibrant,
+                roundBottomCorners: false
             )
             .padding(.leading, -widgetContentMargins.leading)
             .padding(.trailing, -widgetContentMargins.trailing)

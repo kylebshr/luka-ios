@@ -48,7 +48,8 @@ struct RectangularWidgetReadingView: View {
                     highlight: reading,
                     chartUpperBound: entry.chartUpperBound,
                     targetRange: entry.targetLowerBound...entry.targetUpperBound,
-                    vibrantRenderingMode: widgetRenderingMode == .vibrant
+                    vibrantRenderingMode: widgetRenderingMode == .vibrant,
+                    roundBottomCorners: true
                 )
             }
             .font(.system(size: watchOS ? 14 : 13, weight: .semibold))

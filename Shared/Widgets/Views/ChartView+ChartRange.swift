@@ -15,7 +15,8 @@ extension ChartView {
         highlight: GlucoseReading?,
         chartUpperBound: Int,
         targetRange: ClosedRange<Int>,
-        vibrantRenderingMode: Bool
+        vibrantRenderingMode: Bool,
+        roundBottomCorners: Bool
     ) {
         self.init(
             range: Date.now.addingTimeInterval(-range.timeInterval)...Date.now,
@@ -23,7 +24,8 @@ extension ChartView {
             highlight: highlight, 
             chartUpperBound: chartUpperBound,
             targetRange: targetRange,
-            vibrantRenderingMode: vibrantRenderingMode
+            vibrantRenderingMode: vibrantRenderingMode,
+            roundBottomCorners: roundBottomCorners
         )
     }
 }
