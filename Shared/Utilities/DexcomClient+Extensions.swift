@@ -9,7 +9,7 @@ import Foundation
 import Dexcom
 
 extension DexcomClient {
-    func getGlucoseReadingsWithCache() async throws -> [GlucoseReading] {
+    func getGlucoseReadingsWithCache(maxCount: Int?) async throws -> [GlucoseReading] {
         #if os(watchOS)
         return try await getGlucoseReadings()
             .sorted { $0.date < $1.date }
@@ -19,7 +19,7 @@ extension DexcomClient {
             .filter { $0.date >= oldestCacheDate }
             .sorted { $0.date < $1.date }
 
-        let newReadings = try await getGlucoseReadings(since: cachedReadings.last)
+        let newReadings = try await getGlucoseReadings(since: cachedReadings.last, maxCount: maxCount)
             .sorted { $0.date < $1.date }
 
         let readings = cachedReadings + newReadings
@@ -29,7 +29,7 @@ extension DexcomClient {
         #endif
     }
 
-    func getGlucoseReadings(since reading: GlucoseReading?) async throws -> [GlucoseReading] {
+    func getGlucoseReadings(since reading: GlucoseReading?, maxCount: Int?) async throws -> [GlucoseReading] {
         let date = reading?.date ?? .distantPast
         let seconds = abs(date.timeIntervalSinceNow).rounded()
         let duration = Measurement<UnitDuration>.init(value: seconds, unit: .seconds)
@@ -38,6 +38,9 @@ extension DexcomClient {
             return []
         }
 
-        return try await getGlucoseReadings(duration: min(duration, .maxGlucoseDuration))
+        return try await getGlucoseReadings(
+            duration: min(duration, .maxGlucoseDuration),
+            maxCount: maxCount ?? .maxGlucoseCount
+        )
     }
 }

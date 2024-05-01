@@ -9,7 +9,7 @@ import SwiftUI
 import Dexcom
 
 struct InlineWidgetReadingView: View {
-    let entry: Provider.Entry
+    let entry: ReadingTimelineProvider.Entry
     let reading: GlucoseReading
 
     @Environment(\.redactionReasons) private var redactionReasons

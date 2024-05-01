@@ -8,10 +8,9 @@
 import SwiftUI
 import Dexcom
 
-struct RectangularWidgetReadingView: View {
-    let entry: Provider.Entry
-    let reading: GlucoseReading
-    let history: [GlucoseReading]
+struct RectangularWidgetChartView: View {
+    let entry: ChartTimelineProvider.Entry
+    let data: ChartGlucoseData
 
     @Environment(\.redactionReasons) private var redactionReasons
 
@@ -20,33 +19,33 @@ struct RectangularWidgetReadingView: View {
             VStack(spacing: 5) {
                 HStack {
                     HStack(spacing: 2) {
-                        Text("\(reading.value)")
-                            .contentTransition(.numericText(value: Double(reading.value)))
+                        Text("\(data.current.value)")
+                            .contentTransition(.numericText(value: Double(data.current.value)))
                             .invalidatableContent()
 
                         if redactionReasons.isEmpty {
-                            reading.image
+                            data.current.image
                                 .imageScale(.small)
                                 .contentTransition(.symbolEffect(.replace))
                         }
                     }
 
-                    Text(reading.timestamp(for: entry.date, style: .abbreviated))
+                    Text(data.current.timestamp(for: entry.date, style: .abbreviated))
                         .contentTransition(.numericText(value: Double(entry.date.timeIntervalSinceNow)))
                         .foregroundStyle(.secondary)
 
                     Spacer()
 
-                    Text(entry.chartRangeTitle)
+                    Text(data.chartRangeTitle)
                         .foregroundStyle(.secondary)
                 }
 
                 ChartView(
-                    range: entry.configuration.chartRange,
-                    readings: history,
-                    highlight: reading,
-                    chartUpperBound: entry.chartUpperBound,
-                    targetRange: entry.targetLowerBound...entry.targetUpperBound,
+                    range: data.configuration.chartRange,
+                    readings: data.history,
+                    highlight: data.current,
+                    chartUpperBound: data.chartUpperBound,
+                    targetRange: data.targetLowerBound...data.targetUpperBound,
                     roundBottomCorners: watchOS
                 )
             }

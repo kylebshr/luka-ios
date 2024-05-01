@@ -8,21 +8,21 @@
 import WidgetKit
 import AppIntents
 
-struct ConfigurationAppIntent: WidgetConfigurationIntent {
-    static var title: LocalizedStringResource = "Widget Settings"
-    static var description = IntentDescription("Configure Glimpse widget settings.")
+struct ChartWidgetAppIntent: WidgetConfigurationIntent {
+    static var title: LocalizedStringResource = "Chart Widget"
+    static var description = IntentDescription("Configure chart widget settings.")
 
     @Parameter(title: "Chart range", default: .eightHours)
     var chartRange: ChartRange
 }
 
-extension ConfigurationAppIntent {
+extension ChartWidgetAppIntent {
     init(chartRange: ChartRange) {
         self.chartRange = chartRange
     }
 }
 
-enum ChartRange: String, AppEnum {
+enum ChartRange: String, AppEnum, CaseIterable {
     static var typeDisplayRepresentation: TypeDisplayRepresentation {
         "Chart range"
     }

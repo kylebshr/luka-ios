@@ -10,7 +10,7 @@ import SwiftUI
 import WidgetKit
 
 struct CircularWidgetView : View {
-    let entry: Provider.Entry
+    let entry: ReadingTimelineProvider.Entry
     let reading: GlucoseReading
 
     @Environment(\.redactionReasons) private var redactionReasons

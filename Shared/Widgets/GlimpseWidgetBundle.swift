@@ -11,6 +11,7 @@ import SwiftUI
 @main
 struct GlimpseWidgetBundle: WidgetBundle {
     var body: some Widget {
-        GlimpseWidget()
+        GlimpseChartWidget()
+        GlimpseReadingWidget()
     }
 }

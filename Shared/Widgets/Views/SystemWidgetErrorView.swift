@@ -9,7 +9,7 @@ import SwiftUI
 import WidgetKit
 
 struct SystemWidgetErrorView: View {
-    let error: GlucoseEntry.Error
+    let error: GlucoseEntryError
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -41,7 +41,7 @@ struct SystemWidgetErrorView: View {
 }
 
 private struct ButtonContent: View {
-    let error: GlucoseEntry.Error
+    let error: GlucoseEntryError
 
     var body: some View {
         HStack {

@@ -11,8 +11,8 @@ import Dexcom
 
 struct ChartView: View {
     let range: ClosedRange<Date>
-    let readings: [GlucoseReading]
-    let highlight: GlucoseReading?
+    let readings: [GlucoseChartMark]
+    let highlight: GlucoseChartMark?
     let chartUpperBound: Int
     let targetRange: ClosedRange<Int>
     let roundBottomCorners: Bool
@@ -105,7 +105,7 @@ extension GlucoseReading: Identifiable {
     ChartView(
         range: Date.now.addingTimeInterval(-60 * 60 * 3)...Date.now,
         readings: .placeholder,
-        highlight: [GlucoseReading].placeholder.last,
+        highlight: [GlucoseChartMark].placeholder.last,
         chartUpperBound: 300,
         targetRange: 70...180,
         roundBottomCorners: false

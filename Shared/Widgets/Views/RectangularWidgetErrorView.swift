@@ -9,7 +9,7 @@ import SwiftUI
 import Dexcom
 
 struct RectangularWidgetErrorView: View {
-    let error: GlucoseEntry.Error
+    let error: GlucoseEntryError
 
     @Environment(\.redactionReasons) private var redactionReasons
 
