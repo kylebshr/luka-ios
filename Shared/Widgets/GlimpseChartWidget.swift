@@ -39,3 +39,23 @@ struct GlimpseChartWidget: Widget {
         #endif
     }
 }
+
+#if os(iOS)
+#Preview(as: .systemSmall) {
+    GlimpseChartWidget()
+} timeline: {
+    GlucoseEntry<ChartGlucoseData>(
+        date: .now,
+        state: .reading(
+            .init(
+                configuration: ChartWidgetConfiguration(),
+                current: .placeholder,
+                history: .placeholder
+            )
+        )
+    )
+    GlucoseEntry<ChartGlucoseData>(date: .now, state: .error(.failedToLoad))
+    GlucoseEntry<ChartGlucoseData>(date: .now, state: .error(.noRecentReadings))
+    GlucoseEntry<ChartGlucoseData>(date: .now, state: .error(.loggedOut))
+}
+#endif

@@ -38,6 +38,7 @@ struct SystemWidgetChartView: View {
                     .foregroundStyle(.secondary)
                     .font(.caption2)
             }
+            .padding(.vertical, -2)
 
             ChartView(
                 range: data.configuration.chartRange,

@@ -12,13 +12,13 @@ struct SystemWidgetErrorView: View {
     let error: GlucoseEntryError
 
     var body: some View {
-        VStack(alignment: .leading) {
-            Image(systemName: error.image)
-
+        VStack(alignment: .center) {
             Spacer()
 
             Text(error.description)
-                .font(.subheadline)
+                .font(.body.weight(.medium))
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
 
             Spacer()
 
