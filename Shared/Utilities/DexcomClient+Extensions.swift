@@ -14,23 +14,37 @@ enum DexcomClientError: Error {
 
 extension DexcomClient {
     func getChartReadings() async throws -> GlucoseChartData? {
-        let expiration = Date.now.addingTimeInterval(-60 * 60 * 24)
-        var data = UserDefaults.shared.cachedReadings
-
-        let newReadings = try await getGlucoseReadings(since: data?.current)
+        #if os(watchOS)
+        let readings = try await getGlucoseReadings()
             .sorted { $0.date < $1.date }
-        let newChartReadings = newReadings.map(GlucoseChartMark.init)
+        
+        if let latest = readings.last {
+            return GlucoseChartData(current: latest, history: readings.map(GlucoseChartMark.init))
+        } else {
+            return nil
+        }
+        #else
+        let expiration = Date.now.addingTimeInterval(-60 * 60 * 24)
+        let cachedData = UserDefaults.shared.cachedReadings
 
-        guard let latestReading = newReadings.last ?? data?.current else {
+        let newReadings = try await getGlucoseReadings(since: cachedData?.current)
+            .sorted { $0.date < $1.date }
+
+        guard let latest = newReadings.last ?? cachedData?.current else {
             return nil
         }
 
-        data = data ?? .init(current: latestReading, history: [])
-        data?.history.removeAll { $0.date < expiration }
-        data?.history += newChartReadings
+        let cachedReadings = (cachedData?.history ?? [])
+            .filter { $0.date > expiration }
+
+        let data = GlucoseChartData(
+            current: latest,
+            history: cachedReadings + newReadings.map(GlucoseChartMark.init)
+        )
 
         UserDefaults.shared.cachedReadings = data
         return data
+        #endif
     }
 
     func getGlucoseReadings(since reading: GlucoseReading?) async throws -> [GlucoseReading] {
