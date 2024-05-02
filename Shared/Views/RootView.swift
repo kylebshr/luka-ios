@@ -14,10 +14,10 @@ struct RootView: View {
         NavigationStack {
             if viewModel.isSignedIn {
                 MainView()
-                    .transition(.blurReplace)
+                    .transition(.blurReplace(.downUp))
             } else {
                 SignInView()
-                    .transition(.blurReplace)
+                    .transition(.blurReplace(.downUp))
             }
         }
         .animation(.default, value: viewModel.username)
