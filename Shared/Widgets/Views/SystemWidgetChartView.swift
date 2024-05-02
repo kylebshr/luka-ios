@@ -30,7 +30,7 @@ struct SystemWidgetChartView: View {
                             .contentTransition(.symbolEffect(.replace))
                     }
                 }
-                .font(.system(.headline, design: .rounded, weight: .semibold))
+                .font(.system(.headline, design: .rounded))
 
                 Spacer()
 
@@ -69,7 +69,7 @@ struct SystemWidgetChartView: View {
             .buttonStyle(.plain)
             .tint(.primary)
         }
-        .fontWeight(.semibold)
+        .fontWeight(.medium)
         .standByMargins()
         .containerBackground(.background, for: .widget)
     }
