@@ -40,8 +40,7 @@ struct GlimpseChartWidget: Widget {
     }
 }
 
-#if os(iOS)
-#Preview(as: .systemSmall) {
+#Preview(as: .accessoryRectangular) {
     GlimpseChartWidget()
 } timeline: {
     GlucoseEntry<ChartGlucoseData>(
@@ -58,4 +57,3 @@ struct GlimpseChartWidget: Widget {
     GlucoseEntry<ChartGlucoseData>(date: .now, state: .error(.noRecentReadings))
     GlucoseEntry<ChartGlucoseData>(date: .now, state: .error(.loggedOut))
 }
-#endif

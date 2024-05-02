@@ -72,26 +72,18 @@ struct ChartView: View {
                     }
 
                     if let origin = chart.position(for: (adjustedRange.lowerBound, targetRange.lowerBound)), let max = chart.position(for: (adjustedRange.upperBound, 0)) {
-                        let height = max.y - origin.y
-                        let adjustedHeight = roundBottomCorners ? height / 2 : height
-
                         Rectangle()
                             .fill(.red.quaternary)
-                            .frame(width: frame.width, height: adjustedHeight)
-                            .position(x: (max.x - origin.x) / 2, y: adjustedHeight / 2 + origin.y)
-
-                        if roundBottomCorners {
-                            ContainerRelativeShape()
-                                .fill(.red.quinary)
-                                .frame(width: frame.width, height: height)
-                                .position(x: (max.x - origin.x) / 2, y: adjustedHeight / 2 + origin.y)
-                                .mask(alignment: .bottom) {
-                                    Rectangle().frame(width: frame.width, height: adjustedHeight)
-                                }
-                        }
+                            .frame(width: frame.width, height: max.y - origin.y)
+                            .position(x: (max.x - origin.x) / 2, y: (max.y - origin.y) / 2 + origin.y)
                     }
                 }
             }
+            .clipShape(
+                roundBottomCorners 
+                ? AnyShape(ContainerRelativeShape())
+                : AnyShape(Rectangle())
+            )
         }
         .animation(.default, value: adjustedRange)
     }
