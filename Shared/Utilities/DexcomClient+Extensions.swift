@@ -15,22 +15,19 @@ enum DexcomClientError: Error {
 extension DexcomClient {
     func getChartReadings() async throws -> GlucoseChartData? {
         let expiration = Date.now.addingTimeInterval(-60 * 60 * 24)
-        let cachedData = UserDefaults.shared.cachedReadings
+        var data = UserDefaults.shared.cachedReadings
 
-        let newReadings = try await getGlucoseReadings(since: cachedData?.current)
+        let newReadings = try await getGlucoseReadings(since: data?.current)
             .sorted { $0.date < $1.date }
+        let newChartReadings = newReadings.map(GlucoseChartMark.init)
 
-        guard let latestReading = newReadings.last ?? cachedData?.current else {
+        guard let latestReading = newReadings.last ?? data?.current else {
             return nil
         }
 
-        let cachedReadings = (cachedData?.history ?? [])
-            .filter { $0.date > expiration }
-
-        let data = GlucoseChartData(
-            current: latestReading,
-            history: cachedReadings + newReadings.map(GlucoseChartMark.init)
-        )
+        data = data ?? .init(current: latestReading, history: [])
+        data?.history.removeAll { $0.date < expiration }
+        data?.history += newChartReadings
 
         UserDefaults.shared.cachedReadings = data
         return data
