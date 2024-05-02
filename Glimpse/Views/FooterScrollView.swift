@@ -34,18 +34,12 @@ struct FooterScrollView<Content: View, Footer: View>: View {
                     )
                 }
             }
-
-            #if os(watchOS)
-            footer
-            #endif
         }
-        #if !os(watchOS)
         .safeAreaInset(edge: .bottom) {
             if Footer.self != EmptyView.self {
                 footer
                     .background {
                         GeometryReader { proxy in
-                            #if os(iOS)
                             Rectangle()
                                 .fill(Material.bar)
                                 .overlay(alignment: .top) {
@@ -57,12 +51,10 @@ struct FooterScrollView<Content: View, Footer: View>: View {
                                     key: Frames.self,
                                     value: .init(footer: proxy.frame(in: .global))
                                 )
-                            #endif
                         }
                     }
             }
         }
-        #endif
         .onPreferenceChange(Frames.self) { frames in
             guard let footer = frames.footer, let content = frames.content else {
                 return

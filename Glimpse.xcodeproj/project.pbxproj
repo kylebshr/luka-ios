@@ -39,11 +39,8 @@
 		271CD1E42BD96B3200FBE5DB /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA062BD8AA74003EDEB2 /* Keychain.swift */; };
 		2731E07D2BDC6CB400695EBF /* CardTextFieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2731E07C2BDC6CB400695EBF /* CardTextFieldStyle.swift */; };
 		2731E07F2BDC6D8F00695EBF /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2731E07E2BDC6D8F00695EBF /* RootView.swift */; };
-		2731E0802BDC6DB000695EBF /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2731E07E2BDC6D8F00695EBF /* RootView.swift */; };
 		2731E0822BDC735300695EBF /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2731E0812BDC735300695EBF /* RootViewModel.swift */; };
-		2731E0882BDC775600695EBF /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2731E0812BDC735300695EBF /* RootViewModel.swift */; };
 		2731E08A2BDC9D7C00695EBF /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2731E0892BDC9D7C00695EBF /* MainView.swift */; };
-		2731E08B2BDC9D7C00695EBF /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2731E0892BDC9D7C00695EBF /* MainView.swift */; };
 		2741EA072BD8AA74003EDEB2 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA062BD8AA74003EDEB2 /* Keychain.swift */; };
 		2741EA0A2BD8AB2F003EDEB2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA092BD8AB2F003EDEB2 /* Constants.swift */; };
 		2741EA162BD8AEBB003EDEB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2741EA152BD8AEBB003EDEB2 /* Assets.xcassets */; };
@@ -83,13 +80,8 @@
 		27558D662BE30944000CACB4 /* WidgetButtonContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D652BE30944000CACB4 /* WidgetButtonContent.swift */; };
 		27558D672BE30944000CACB4 /* WidgetButtonContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D652BE30944000CACB4 /* WidgetButtonContent.swift */; };
 		279BA40A2BDED8D5006C87B6 /* FooterScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA4092BDED8D5006C87B6 /* FooterScrollView.swift */; };
-		279BA40B2BDED8D5006C87B6 /* FooterScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA4092BDED8D5006C87B6 /* FooterScrollView.swift */; };
 		279BA40D2BDEDAAC006C87B6 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA40C2BDEDAAC006C87B6 /* SettingsView.swift */; };
-		279BA40E2BDEDAAC006C87B6 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA40C2BDEDAAC006C87B6 /* SettingsView.swift */; };
 		279BA4102BDFC65B006C87B6 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA40F2BDFC65B006C87B6 /* ChartView.swift */; };
-		279BA4112BDFC65B006C87B6 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA40F2BDFC65B006C87B6 /* ChartView.swift */; };
-		279BA4122BDFC65B006C87B6 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA40F2BDFC65B006C87B6 /* ChartView.swift */; };
-		279BA4132BDFC65B006C87B6 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA40F2BDFC65B006C87B6 /* ChartView.swift */; };
 		279BA4142BDFCA4C006C87B6 /* GlucoseReading+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80452BDAD8C20071E482 /* GlucoseReading+Extensions.swift */; };
 		279BA4152BDFCA4C006C87B6 /* GlucoseReading+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80452BDAD8C20071E482 /* GlucoseReading+Extensions.swift */; };
 		279BA4172BDFFAD0006C87B6 /* StandByMargins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA4162BDFFACF006C87B6 /* StandByMargins.swift */; };
@@ -114,11 +106,22 @@
 		27AB80572BDAF27C0071E482 /* CircularWidgetErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80552BDAF27C0071E482 /* CircularWidgetErrorView.swift */; };
 		27C6E25F2BCF386E006BAE98 /* Dexcom in Frameworks */ = {isa = PBXBuildFile; productRef = 27C6E25E2BCF386E006BAE98 /* Dexcom */; };
 		27C6E2622BCF387A006BAE98 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 27C6E2612BCF387A006BAE98 /* KeychainAccess */; };
-		27E2C5802BD984F70000FB40 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5776C2BCF38330012D66C /* SignInView.swift */; };
+		27D96EEF2BE4305F007F4720 /* FormHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96EE92BE4305F007F4720 /* FormHeader.swift */; };
+		27D96EF02BE4305F007F4720 /* FormRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96EEA2BE4305F007F4720 /* FormRow.swift */; };
+		27D96EF12BE4305F007F4720 /* FormSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96EEB2BE4305F007F4720 /* FormSection.swift */; };
+		27D96EF22BE4305F007F4720 /* FormSectionDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96EEC2BE4305F007F4720 /* FormSectionDivider.swift */; };
+		27D96EF32BE4305F007F4720 /* FormToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96EED2BE4305F007F4720 /* FormToggle.swift */; };
+		27D96EF52BE430E9007F4720 /* CardModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96EF42BE430E9007F4720 /* CardModifier.swift */; };
+		27D96EF72BE43110007F4720 /* EdgeInsets+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96EF62BE43110007F4720 /* EdgeInsets+Extensions.swift */; };
+		27D96EF92BE43192007F4720 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA40F2BDFC65B006C87B6 /* ChartView.swift */; };
+		27D96EFA2BE43195007F4720 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA40F2BDFC65B006C87B6 /* ChartView.swift */; };
+		27D96EFB2BE43196007F4720 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA40F2BDFC65B006C87B6 /* ChartView.swift */; };
+		27D96EFE2BE431A2007F4720 /* GlimpseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96EFC2BE4319E007F4720 /* GlimpseApp.swift */; };
+		27D96F002BE434F1007F4720 /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96EFF2BE434F1007F4720 /* Bundle+Extensions.swift */; };
+		27D96F012BE434FA007F4720 /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96EFF2BE434F1007F4720 /* Bundle+Extensions.swift */; };
 		27E2C5822BD98AB50000FB40 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E2C5812BD98AB50000FB40 /* Defaults.swift */; };
 		27E2C5832BD98B3B0000FB40 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E2C5812BD98AB50000FB40 /* Defaults.swift */; };
 		27E2C5842BD98B3B0000FB40 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E2C5812BD98AB50000FB40 /* Defaults.swift */; };
-		27E2C5882BD994730000FB40 /* GlimpseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5776A2BCF38330012D66C /* GlimpseApp.swift */; };
 		27F5776B2BCF38330012D66C /* GlimpseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5776A2BCF38330012D66C /* GlimpseApp.swift */; };
 		27F5776D2BCF38330012D66C /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5776C2BCF38330012D66C /* SignInView.swift */; };
 		27F5776F2BCF38340012D66C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27F5776E2BCF38340012D66C /* Assets.xcassets */; };
@@ -236,6 +239,15 @@
 		27AB804F2BDADF030071E482 /* SystemWidgetErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemWidgetErrorView.swift; sourceTree = "<group>"; };
 		27AB80522BDAE51C0071E482 /* RectangularWidgetErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangularWidgetErrorView.swift; sourceTree = "<group>"; };
 		27AB80552BDAF27C0071E482 /* CircularWidgetErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularWidgetErrorView.swift; sourceTree = "<group>"; };
+		27D96EE92BE4305F007F4720 /* FormHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormHeader.swift; sourceTree = "<group>"; };
+		27D96EEA2BE4305F007F4720 /* FormRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormRow.swift; sourceTree = "<group>"; };
+		27D96EEB2BE4305F007F4720 /* FormSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormSection.swift; sourceTree = "<group>"; };
+		27D96EEC2BE4305F007F4720 /* FormSectionDivider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormSectionDivider.swift; sourceTree = "<group>"; };
+		27D96EED2BE4305F007F4720 /* FormToggle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormToggle.swift; sourceTree = "<group>"; };
+		27D96EF42BE430E9007F4720 /* CardModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardModifier.swift; sourceTree = "<group>"; };
+		27D96EF62BE43110007F4720 /* EdgeInsets+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EdgeInsets+Extensions.swift"; sourceTree = "<group>"; };
+		27D96EFC2BE4319E007F4720 /* GlimpseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlimpseApp.swift; sourceTree = "<group>"; };
+		27D96EFF2BE434F1007F4720 /* Bundle+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extensions.swift"; sourceTree = "<group>"; };
 		27E2C57D2BD980C60000FB40 /* Watch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Watch.entitlements; sourceTree = "<group>"; };
 		27E2C57E2BD980CF0000FB40 /* WatchWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WatchWidget.entitlements; sourceTree = "<group>"; };
 		27E2C57F2BD981D80000FB40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -304,7 +316,6 @@
 		271CD1E02BD96B2000FBE5DB /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				27F5776A2BCF38330012D66C /* GlimpseApp.swift */,
 				2731E0872BDC73A400695EBF /* Views */,
 				27558D562BE2F452000CACB4 /* Models */,
 				2731E0862BDC739D00695EBF /* Style */,
@@ -319,8 +330,10 @@
 			isa = PBXGroup;
 			children = (
 				2741EA092BD8AB2F003EDEB2 /* Constants.swift */,
+				27D96EFF2BE434F1007F4720 /* Bundle+Extensions.swift */,
 				2741EA062BD8AA74003EDEB2 /* Keychain.swift */,
 				27E2C5812BD98AB50000FB40 /* Defaults.swift */,
+				27D96EF62BE43110007F4720 /* EdgeInsets+Extensions.swift */,
 				27AB80452BDAD8C20071E482 /* GlucoseReading+Extensions.swift */,
 				27A367E52BE153B600FC07FB /* DexcomClient+Extensions.swift */,
 				274E9A482BE1C8E60035F216 /* View+Extensions.swift */,
@@ -357,6 +370,7 @@
 			isa = PBXGroup;
 			children = (
 				2731E07C2BDC6CB400695EBF /* CardTextFieldStyle.swift */,
+				27D96EF42BE430E9007F4720 /* CardModifier.swift */,
 			);
 			path = Style;
 			sourceTree = "<group>";
@@ -364,12 +378,6 @@
 		2731E0872BDC73A400695EBF /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2731E07E2BDC6D8F00695EBF /* RootView.swift */,
-				2731E0812BDC735300695EBF /* RootViewModel.swift */,
-				27F5776C2BCF38330012D66C /* SignInView.swift */,
-				2731E0892BDC9D7C00695EBF /* MainView.swift */,
-				279BA40C2BDEDAAC006C87B6 /* SettingsView.swift */,
-				279BA4092BDED8D5006C87B6 /* FooterScrollView.swift */,
 				279BA40F2BDFC65B006C87B6 /* ChartView.swift */,
 			);
 			path = Views;
@@ -378,6 +386,7 @@
 		2741EA102BD8AEBA003EDEB2 /* Watch */ = {
 			isa = PBXGroup;
 			children = (
+				27D96EFC2BE4319E007F4720 /* GlimpseApp.swift */,
 				27E2C57D2BD980C60000FB40 /* Watch.entitlements */,
 				2741EA152BD8AEBB003EDEB2 /* Assets.xcassets */,
 				2741EA172BD8AEBB003EDEB2 /* Preview Content */,
@@ -441,6 +450,32 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		27D96EEE2BE4305F007F4720 /* Form */ = {
+			isa = PBXGroup;
+			children = (
+				27D96EE92BE4305F007F4720 /* FormHeader.swift */,
+				27D96EEA2BE4305F007F4720 /* FormRow.swift */,
+				27D96EEB2BE4305F007F4720 /* FormSection.swift */,
+				27D96EEC2BE4305F007F4720 /* FormSectionDivider.swift */,
+				27D96EED2BE4305F007F4720 /* FormToggle.swift */,
+			);
+			path = Form;
+			sourceTree = "<group>";
+		};
+		27D96EF82BE4318B007F4720 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2731E07E2BDC6D8F00695EBF /* RootView.swift */,
+				2731E0812BDC735300695EBF /* RootViewModel.swift */,
+				27F5776C2BCF38330012D66C /* SignInView.swift */,
+				2731E0892BDC9D7C00695EBF /* MainView.swift */,
+				279BA40C2BDEDAAC006C87B6 /* SettingsView.swift */,
+				279BA4092BDED8D5006C87B6 /* FooterScrollView.swift */,
+				27D96EEE2BE4305F007F4720 /* Form */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		27F5775E2BCF38330012D66C = {
 			isa = PBXGroup;
 			children = (
@@ -468,6 +503,8 @@
 		27F577692BCF38330012D66C /* Glimpse */ = {
 			isa = PBXGroup;
 			children = (
+				27F5776A2BCF38330012D66C /* GlimpseApp.swift */,
+				27D96EF82BE4318B007F4720 /* Views */,
 				27E2C57F2BD981D80000FB40 /* Info.plist */,
 				2741EA082BD8AA84003EDEB2 /* Glimpse.entitlements */,
 				27F5776E2BCF38340012D66C /* Assets.xcassets */,
@@ -679,7 +716,6 @@
 				27AB80432BDAD7C60071E482 /* SystemWidgetChartView.swift in Sources */,
 				270E18652BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */,
 				274E9A4A2BE1C8E60035F216 /* View+Extensions.swift in Sources */,
-				279BA4112BDFC65B006C87B6 /* ChartView.swift in Sources */,
 				270332522BD99E90009535EE /* GlimpseWidgetBundle.swift in Sources */,
 				27558D532BE2F441000CACB4 /* GlucoseChartMark.swift in Sources */,
 				2715225C2BE009FC0009D8EA /* ChartView+ChartRange.swift in Sources */,
@@ -692,6 +728,7 @@
 				27AB80532BDAE51C0071E482 /* RectangularWidgetErrorView.swift in Sources */,
 				270E18622BDA084E00CB7D4D /* ReadingWidgetView.swift in Sources */,
 				27558D1C2BE2D7B1000CACB4 /* GlucoseEntry.swift in Sources */,
+				27D96EFA2BE43195007F4720 /* ChartView.swift in Sources */,
 				270332672BD9A0B9009535EE /* Keychain.swift in Sources */,
 				27558D192BE2D6BE000CACB4 /* ChartWidgetView.swift in Sources */,
 				27AB804A2BDAD96D0071E482 /* InlineWidgetReadingView.swift in Sources */,
@@ -707,21 +744,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27E2C5802BD984F70000FB40 /* SignInView.swift in Sources */,
-				2731E08B2BDC9D7C00695EBF /* MainView.swift in Sources */,
 				27A367E82BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */,
-				2731E0882BDC775600695EBF /* RootViewModel.swift in Sources */,
+				27D96F012BE434FA007F4720 /* Bundle+Extensions.swift in Sources */,
 				27E2C5832BD98B3B0000FB40 /* Defaults.swift in Sources */,
 				271CD1E12BD96B3200FBE5DB /* Constants.swift in Sources */,
-				279BA40E2BDEDAAC006C87B6 /* SettingsView.swift in Sources */,
 				271CD1E22BD96B3200FBE5DB /* Keychain.swift in Sources */,
-				279BA4122BDFC65B006C87B6 /* ChartView.swift in Sources */,
-				279BA40B2BDED8D5006C87B6 /* FooterScrollView.swift in Sources */,
 				279BA4152BDFCA4C006C87B6 /* GlucoseReading+Extensions.swift in Sources */,
-				2731E0802BDC6DB000695EBF /* RootView.swift in Sources */,
-				27E2C5882BD994730000FB40 /* GlimpseApp.swift in Sources */,
 				274E9A4B2BE1C8E60035F216 /* View+Extensions.swift in Sources */,
+				27D96EFE2BE431A2007F4720 /* GlimpseApp.swift in Sources */,
 				27558D542BE2F441000CACB4 /* GlucoseChartMark.swift in Sources */,
+				27D96EF92BE43192007F4720 /* ChartView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -747,12 +779,12 @@
 				27558D672BE30944000CACB4 /* WidgetButtonContent.swift in Sources */,
 				27558D642BE3006F000CACB4 /* SystemWidgetReadingView.swift in Sources */,
 				27AB80472BDAD8C20071E482 /* GlucoseReading+Extensions.swift in Sources */,
-				279BA4132BDFC65B006C87B6 /* ChartView.swift in Sources */,
 				27AB80512BDADF030071E482 /* SystemWidgetErrorView.swift in Sources */,
 				27558D5E2BE2F9A5000CACB4 /* ReadingTimelineProvider.swift in Sources */,
 				27E2C5842BD98B3B0000FB40 /* Defaults.swift in Sources */,
 				270332482BD99E81009535EE /* ChartTimelineProvider.swift in Sources */,
 				27558D1D2BE2D7B1000CACB4 /* GlucoseEntry.swift in Sources */,
+				27D96EFB2BE43196007F4720 /* ChartView.swift in Sources */,
 				2715225D2BE009FC0009D8EA /* ChartView+ChartRange.swift in Sources */,
 				27558D1A2BE2D6BE000CACB4 /* ChartWidgetView.swift in Sources */,
 				271CD1E32BD96B3200FBE5DB /* Constants.swift in Sources */,
@@ -768,22 +800,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27D96EF02BE4305F007F4720 /* FormRow.swift in Sources */,
+				27D96EEF2BE4305F007F4720 /* FormHeader.swift in Sources */,
 				27558D522BE2F441000CACB4 /* GlucoseChartMark.swift in Sources */,
 				2731E07F2BDC6D8F00695EBF /* RootView.swift in Sources */,
+				27D96EF52BE430E9007F4720 /* CardModifier.swift in Sources */,
 				2731E08A2BDC9D7C00695EBF /* MainView.swift in Sources */,
+				27D96EF32BE4305F007F4720 /* FormToggle.swift in Sources */,
 				27F5776D2BCF38330012D66C /* SignInView.swift in Sources */,
 				27F5776B2BCF38330012D66C /* GlimpseApp.swift in Sources */,
 				27E2C5822BD98AB50000FB40 /* Defaults.swift in Sources */,
 				2731E07D2BDC6CB400695EBF /* CardTextFieldStyle.swift in Sources */,
 				274E9A492BE1C8E60035F216 /* View+Extensions.swift in Sources */,
 				279BA40A2BDED8D5006C87B6 /* FooterScrollView.swift in Sources */,
+				27D96EF72BE43110007F4720 /* EdgeInsets+Extensions.swift in Sources */,
 				2741EA072BD8AA74003EDEB2 /* Keychain.swift in Sources */,
+				27D96F002BE434F1007F4720 /* Bundle+Extensions.swift in Sources */,
 				279BA4142BDFCA4C006C87B6 /* GlucoseReading+Extensions.swift in Sources */,
 				2731E0822BDC735300695EBF /* RootViewModel.swift in Sources */,
 				27A367E62BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */,
 				2741EA0A2BD8AB2F003EDEB2 /* Constants.swift in Sources */,
 				279BA40D2BDEDAAC006C87B6 /* SettingsView.swift in Sources */,
 				279BA4102BDFC65B006C87B6 /* ChartView.swift in Sources */,
+				27D96EF12BE4305F007F4720 /* FormSection.swift in Sources */,
+				27D96EF22BE4305F007F4720 /* FormSectionDivider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
