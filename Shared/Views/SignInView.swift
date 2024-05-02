@@ -36,7 +36,7 @@ struct SignInView: View {
 
                     Divider().padding(.vertical, 10)
 
-                    Text("Sign in using your Dexcom username and password. Dexcom share must be enabled with at least one follower, and Glimpse only works with Dexcom accounts that have an email user ID.\n\nGlimpse is not owned by or affiliated with Dexcom. Your username and password are stored securely in iCloud Keychain.")
+                    Text("Sign in using your Dexcom username and password. Dexcom share must be enabled with at least one follower, and Luka only works with Dexcom accounts that have an email user ID.\n\nLuka is not owned by or affiliated with Dexcom. Your username and password are stored securely in iCloud Keychain.")
                         .font(.footnote)
                         .padding(.top, 5)
                 }

@@ -54,7 +54,7 @@ struct MainView: View {
             .padding()
         }
         .font(.subheadline.weight(.medium))
-        .navigationTitle("Glimpse")
+        .navigationTitle("Luka")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button {
