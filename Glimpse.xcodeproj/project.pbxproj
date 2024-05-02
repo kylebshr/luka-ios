@@ -119,6 +119,12 @@
 		27D96EFE2BE431A2007F4720 /* GlimpseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96EFC2BE4319E007F4720 /* GlimpseApp.swift */; };
 		27D96F002BE434F1007F4720 /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96EFF2BE434F1007F4720 /* Bundle+Extensions.swift */; };
 		27D96F012BE434FA007F4720 /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96EFF2BE434F1007F4720 /* Bundle+Extensions.swift */; };
+		27D96F042BE4490E007F4720 /* LiveViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96F032BE4490E007F4720 /* LiveViewModel.swift */; };
+		27D96F052BE4490E007F4720 /* LiveViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96F032BE4490E007F4720 /* LiveViewModel.swift */; };
+		27D96F072BE44BE2007F4720 /* GlucoseChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96F062BE44BE2007F4720 /* GlucoseChartData.swift */; };
+		27D96F082BE44BE2007F4720 /* GlucoseChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96F062BE44BE2007F4720 /* GlucoseChartData.swift */; };
+		27D96F092BE44C39007F4720 /* GlucoseChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96F062BE44BE2007F4720 /* GlucoseChartData.swift */; };
+		27D96F0A2BE44C39007F4720 /* GlucoseChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96F062BE44BE2007F4720 /* GlucoseChartData.swift */; };
 		27E2C5822BD98AB50000FB40 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E2C5812BD98AB50000FB40 /* Defaults.swift */; };
 		27E2C5832BD98B3B0000FB40 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E2C5812BD98AB50000FB40 /* Defaults.swift */; };
 		27E2C5842BD98B3B0000FB40 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E2C5812BD98AB50000FB40 /* Defaults.swift */; };
@@ -248,6 +254,8 @@
 		27D96EF62BE43110007F4720 /* EdgeInsets+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EdgeInsets+Extensions.swift"; sourceTree = "<group>"; };
 		27D96EFC2BE4319E007F4720 /* GlimpseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlimpseApp.swift; sourceTree = "<group>"; };
 		27D96EFF2BE434F1007F4720 /* Bundle+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extensions.swift"; sourceTree = "<group>"; };
+		27D96F032BE4490E007F4720 /* LiveViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveViewModel.swift; sourceTree = "<group>"; };
+		27D96F062BE44BE2007F4720 /* GlucoseChartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlucoseChartData.swift; sourceTree = "<group>"; };
 		27E2C57D2BD980C60000FB40 /* Watch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Watch.entitlements; sourceTree = "<group>"; };
 		27E2C57E2BD980CF0000FB40 /* WatchWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WatchWidget.entitlements; sourceTree = "<group>"; };
 		27E2C57F2BD981D80000FB40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -318,6 +326,7 @@
 			children = (
 				2731E0872BDC73A400695EBF /* Views */,
 				27558D562BE2F452000CACB4 /* Models */,
+				27D96F022BE448FB007F4720 /* View Models */,
 				2731E0862BDC739D00695EBF /* Style */,
 				2731E0852BDC738E00695EBF /* Widgets */,
 				2731E0842BDC737200695EBF /* Intents */,
@@ -425,6 +434,7 @@
 			isa = PBXGroup;
 			children = (
 				27558D512BE2F441000CACB4 /* GlucoseChartMark.swift */,
+				27D96F062BE44BE2007F4720 /* GlucoseChartData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -474,6 +484,14 @@
 				27D96EEE2BE4305F007F4720 /* Form */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		27D96F022BE448FB007F4720 /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				27D96F032BE4490E007F4720 /* LiveViewModel.swift */,
+			);
+			path = "View Models";
 			sourceTree = "<group>";
 		};
 		27F5775E2BCF38330012D66C = {
@@ -708,6 +726,7 @@
 				270332662BD9A0B5009535EE /* Constants.swift in Sources */,
 				27558D162BE2D662000CACB4 /* WidgetErrorView.swift in Sources */,
 				270332602BD99F43009535EE /* ChartTimelineProvider.swift in Sources */,
+				27D96F092BE44C39007F4720 /* GlucoseChartData.swift in Sources */,
 				27558D592BE2F464000CACB4 /* GlucoseEntryData.swift in Sources */,
 				27AB804D2BDAD9B10071E482 /* RectangularWidgetChartView.swift in Sources */,
 				27558D602BE2FA20000CACB4 /* DexcomTimelineProvider.swift in Sources */,
@@ -745,7 +764,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				27A367E82BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */,
+				27D96F052BE4490E007F4720 /* LiveViewModel.swift in Sources */,
 				27D96F012BE434FA007F4720 /* Bundle+Extensions.swift in Sources */,
+				27D96F082BE44BE2007F4720 /* GlucoseChartData.swift in Sources */,
 				27E2C5832BD98B3B0000FB40 /* Defaults.swift in Sources */,
 				271CD1E12BD96B3200FBE5DB /* Constants.swift in Sources */,
 				271CD1E22BD96B3200FBE5DB /* Keychain.swift in Sources */,
@@ -764,6 +785,7 @@
 				27AB804B2BDAD96D0071E482 /* InlineWidgetReadingView.swift in Sources */,
 				27558D172BE2D662000CACB4 /* WidgetErrorView.swift in Sources */,
 				27AB80542BDAE51C0071E482 /* RectangularWidgetErrorView.swift in Sources */,
+				27D96F0A2BE44C39007F4720 /* GlucoseChartData.swift in Sources */,
 				27558D5B2BE2F464000CACB4 /* GlucoseEntryData.swift in Sources */,
 				27A367E92BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */,
 				27558D612BE2FA20000CACB4 /* DexcomTimelineProvider.swift in Sources */,
@@ -812,12 +834,14 @@
 				27E2C5822BD98AB50000FB40 /* Defaults.swift in Sources */,
 				2731E07D2BDC6CB400695EBF /* CardTextFieldStyle.swift in Sources */,
 				274E9A492BE1C8E60035F216 /* View+Extensions.swift in Sources */,
+				27D96F042BE4490E007F4720 /* LiveViewModel.swift in Sources */,
 				279BA40A2BDED8D5006C87B6 /* FooterScrollView.swift in Sources */,
 				27D96EF72BE43110007F4720 /* EdgeInsets+Extensions.swift in Sources */,
 				2741EA072BD8AA74003EDEB2 /* Keychain.swift in Sources */,
 				27D96F002BE434F1007F4720 /* Bundle+Extensions.swift in Sources */,
 				279BA4142BDFCA4C006C87B6 /* GlucoseReading+Extensions.swift in Sources */,
 				2731E0822BDC735300695EBF /* RootViewModel.swift in Sources */,
+				27D96F072BE44BE2007F4720 /* GlucoseChartData.swift in Sources */,
 				27A367E62BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */,
 				2741EA0A2BD8AB2F003EDEB2 /* Constants.swift in Sources */,
 				279BA40D2BDEDAAC006C87B6 /* SettingsView.swift in Sources */,

@@ -24,7 +24,7 @@ struct ChartWidgetView: View {
         }
     }
 
-    @ViewBuilder private func readingView(for data: ChartGlucoseData) -> some View {
+    @ViewBuilder private func readingView(for data: GlucoseChartEntryData) -> some View {
         switch family {
         case .systemLarge, .systemMedium, .systemSmall:
             SystemWidgetChartView(entry: entry, data: data)

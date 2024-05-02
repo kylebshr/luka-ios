@@ -16,7 +16,7 @@ extension GlucoseReading: GlucoseEntryData {
     var current: GlucoseReading { self }
 }
 
-struct ChartGlucoseData: GlucoseEntryData {
+struct GlucoseChartEntryData: GlucoseEntryData {
     var configuration: ChartWidgetConfiguration
     var current: GlucoseReading
     var history: [GlucoseChartMark]

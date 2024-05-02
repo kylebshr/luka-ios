@@ -10,7 +10,7 @@ import Dexcom
 
 struct RectangularWidgetChartView: View {
     let entry: ChartTimelineProvider.Entry
-    let data: ChartGlucoseData
+    let data: GlucoseChartEntryData
 
     @Environment(\.redactionReasons) private var redactionReasons
 

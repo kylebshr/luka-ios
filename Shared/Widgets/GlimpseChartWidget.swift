@@ -43,7 +43,7 @@ struct GlimpseChartWidget: Widget {
 #Preview(as: .accessoryRectangular) {
     GlimpseChartWidget()
 } timeline: {
-    GlucoseEntry<ChartGlucoseData>(
+    GlucoseEntry<GlucoseChartEntryData>(
         date: .now,
         state: .reading(
             .init(
@@ -53,7 +53,7 @@ struct GlimpseChartWidget: Widget {
             )
         )
     )
-    GlucoseEntry<ChartGlucoseData>(date: .now, state: .error(.failedToLoad))
-    GlucoseEntry<ChartGlucoseData>(date: .now, state: .error(.noRecentReadings))
-    GlucoseEntry<ChartGlucoseData>(date: .now, state: .error(.loggedOut))
+    GlucoseEntry<GlucoseChartEntryData>(date: .now, state: .error(.failedToLoad))
+    GlucoseEntry<GlucoseChartEntryData>(date: .now, state: .error(.noRecentReadings))
+    GlucoseEntry<GlucoseChartEntryData>(date: .now, state: .error(.loggedOut))
 }

@@ -10,7 +10,7 @@ import Dexcom
 import KeychainAccess
 
 struct ChartTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider {
-    typealias Entry = GlucoseEntry<ChartGlucoseData>
+    typealias Entry = GlucoseEntry<GlucoseChartEntryData>
 
     let delegate = DexcomDelegate()
 
@@ -18,7 +18,7 @@ struct ChartTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider 
         GlucoseEntry(
             date: .now,
             state: .reading(
-                ChartGlucoseData(
+                GlucoseChartEntryData(
                     configuration: ChartWidgetConfiguration(),
                     current: GlucoseReading.placeholder,
                     history: []
@@ -52,13 +52,13 @@ struct ChartTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider 
         let client = makeClient(username: username, password: password)
 
         do {
-            let readings = try await client.getGlucoseReadingsWithCache(maxCount: nil)
-            if let current = readings.last, Date.now.timeIntervalSince(current.date) < 60 * 15 {
+            let readings = try await client.getChartReadings()
+            if let readings, Date.now.timeIntervalSince(readings.current.date) < 60 * 15 {
                 return .reading(
-                    ChartGlucoseData(
+                    GlucoseChartEntryData(
                         configuration: configuration,
-                        current: current,
-                        history: readings.map(GlucoseChartMark.init)
+                        current: readings.current,
+                        history: readings.history
                     )
                 )
             } else {

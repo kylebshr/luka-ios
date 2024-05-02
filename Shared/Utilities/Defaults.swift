@@ -31,8 +31,8 @@ extension UserDefaults {
         set { self[.chartUpperBound] = newValue }
     }
 
-    var cachedReadings: Set<GlucoseReading> {
-        get { self[.cachedReadings] ?? [] }
+    var cachedReadings: GlucoseChartData? {
+        get { self[.cachedReadings] }
         set { self[.cachedReadings] = newValue }
     }
 }

@@ -11,7 +11,7 @@ import Dexcom
 
 struct SystemWidgetChartView: View {
     let entry: ChartTimelineProvider.Entry
-    let data: ChartGlucoseData
+    let data: GlucoseChartEntryData
 
     @Environment(\.redactionReasons) private var redactionReasons
     @Environment(\.widgetContentMargins) private var widgetContentMargins
