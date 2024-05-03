@@ -31,12 +31,13 @@ struct SystemWidgetChartView: View {
                     }
                 }
                 .font(.system(.headline, design: .rounded))
+                .fontWeight(.semibold)
 
                 Spacer()
 
                 Text(data.chartRangeTitle)
                     .foregroundStyle(.secondary)
-                    .font(.caption2)
+                    .font(.caption)
             }
 
             ChartView(
@@ -53,18 +54,11 @@ struct SystemWidgetChartView: View {
             Spacer(minLength: 12)
 
             Button(intent: ReloadWidgetIntent()) {
-                HStack {
-                    Text(data.current.timestamp(for: entry.date))
-                        .contentTransition(.numericText(value: data.current.date.timeIntervalSinceNow))
-                        .foregroundStyle(.secondary)
-
-                    Spacer()
-
-                    Image(systemName: "arrow.circlepath")
-                        .foregroundStyle(.secondary)
-                        .unredacted()
-                }
-                .font(.caption2)
+                WidgetButtonContent(
+                    text: data.current.timestamp(for: entry.date),
+                    image: "arrow.circlepath"
+                )
+                .foregroundStyle(.secondary)
             }
             .buttonStyle(.plain)
             .tint(.primary)

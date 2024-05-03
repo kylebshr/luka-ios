@@ -45,6 +45,18 @@ struct GlimpseReadingWidget: Widget {
     GlimpseReadingWidget()
 } timeline: {
     GlucoseEntry<GlucoseReading>(date: .now, state: .reading(.placeholder))
+    GlucoseEntry<GlucoseReading>(
+        date: .now,
+        state: .reading(.init(value: 240, trend: .doubleDown, date: .now))
+    )
+    GlucoseEntry<GlucoseReading>(
+        date: .now,
+        state: .reading(.init(value: 45, trend: .fortyFiveUp, date: .now))
+    )
+    GlucoseEntry<GlucoseReading>(
+        date: .now.addingTimeInterval(30 * 60),
+        state: .reading(.init(value: 240, trend: .doubleDown, date: .now))
+    )
     GlucoseEntry<GlucoseReading>(date: .now, state: .error(.failedToLoad))
     GlucoseEntry<GlucoseReading>(date: .now, state: .error(.noRecentReadings))
     GlucoseEntry<GlucoseReading>(date: .now, state: .error(.loggedOut))

@@ -44,7 +44,7 @@ struct SystemWidgetReadingView: View {
                     image: "arrow.circlepath"
                 )
             }
-            .tint(.primary)
+            .buttonStyle(.plain)
         }
         .standByMargins()
         .containerBackground(reading.color.gradient, for: .widget)

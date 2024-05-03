@@ -27,13 +27,17 @@ struct GlucoseEntry<Data: GlucoseEntryData>: TimelineEntry {
         switch state {
         case .error: false
         case .reading(let reading):
-            Date.now.timeIntervalSince(reading.current.date) > 20 * 60
+            date.timeIntervalSince(reading.current.date) > 20 * 60
         }
     }
 }
 
 extension GlucoseReading {
-    static let placeholder = GlucoseReading(value: 104, trend: .flat, date: .now)
+    static let placeholder = GlucoseReading(
+        value: 104,
+        trend: .flat,
+        date: .now
+    )
 }
 
 extension GlucoseEntryError {

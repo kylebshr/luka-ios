@@ -24,13 +24,14 @@ struct WidgetButtonContent: View {
     var body: some View {
         HStack {
             Text(text)
+                .contentTransition(.numericText())
 
             Spacer()
 
             Image(systemName: image)
                 .unredacted()
         }
-        .font(.footnote)
+        .font(.caption)
         .fontWeight(.medium)
     }
 }
