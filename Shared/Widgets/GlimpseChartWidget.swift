@@ -54,6 +54,26 @@ struct GlimpseChartWidget: Widget {
         )
     )
     GlucoseEntry<GlucoseChartEntryData>(
+        date: .now.addingTimeInterval(80),
+        state: .reading(
+            .init(
+                configuration: ChartWidgetConfiguration(),
+                current: .placeholder,
+                history: .placeholder
+            )
+        )
+    )
+    GlucoseEntry<GlucoseChartEntryData>(
+        date: .now.addingTimeInterval(300),
+        state: .reading(
+            .init(
+                configuration: ChartWidgetConfiguration(),
+                current: .placeholder,
+                history: .placeholder
+            )
+        )
+    )
+    GlucoseEntry<GlucoseChartEntryData>(
         date: .now.addingTimeInterval(60 * 30),
         state: .reading(
             .init(

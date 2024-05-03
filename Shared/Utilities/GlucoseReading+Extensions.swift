@@ -83,8 +83,8 @@ extension [GlucoseChartMark] {
     static let placeholder: [GlucoseChartMark] = {
         (0..<(24*60/5)).map { (value: Int) in
             GlucoseChartMark(
-                value: Int(sin(Double(value * 1200)) * 60) + 130,
-                date: Date.now.addingTimeInterval(Double(-value * 5 * 60) - 60)
+                value: Int(sin(Double(value * 1200)) * 60) + 100,
+                date: Date.now.addingTimeInterval(Double(-value * 5 * 60))
             )
         }.reversed()
     }()
