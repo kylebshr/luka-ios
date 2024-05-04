@@ -12,7 +12,7 @@ struct ChartWidgetConfiguration: WidgetConfigurationIntent {
     static var title: LocalizedStringResource = "Chart Widget"
     static var description = IntentDescription("Configure chart widget settings.")
 
-    @Parameter(title: "Chart range", default: .eightHours)
+    @Parameter(title: "Chart range", default: .twentyFourHours)
     var chartRange: ChartRange
 }
 
@@ -36,7 +36,6 @@ enum ChartRange: String, AppEnum, CaseIterable {
             .twelveHours: "12 Hours",
             .sixteenHours: "16 Hours",
             .twentyFourHours: "24 Hours",
-
         ]
     }
 
