@@ -16,7 +16,6 @@ struct SystemWidgetGraphView: View {
 
     @Environment(\.redactionReasons) private var redactionReasons
     @Environment(\.widgetContentMargins) private var widgetContentMargins
-    @Environment(\.widgetFamily) private var family
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -35,16 +34,10 @@ struct SystemWidgetGraphView: View {
                             }
                         }
 
-                        if family != .systemSmall {
-                            timeLabels
-                        }
+                        timeLabels
                     }
                     .font(.headline)
                     .fontWeight(.semibold)
-
-                    if family == .systemSmall {
-                        timeLabels
-                    }
                 }
             }
             .buttonStyle(.plain)
@@ -75,12 +68,12 @@ struct SystemWidgetGraphView: View {
 //                    .transition(.blurReplace(.downUp))
 //            }
 
-            Spacer(minLength: 10)
+            Spacer()
 
             Text(data.graphRangeTitle)
         }
         .foregroundStyle(.secondary)
-        .font(.caption2.weight(.medium).lowercaseSmallCaps())
+        .font(.footnote.weight(.medium))
     }
 }
 #endif

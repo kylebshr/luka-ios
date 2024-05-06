@@ -18,12 +18,8 @@ extension DexcomClient {
         let readings = if duration > .init(value: 8, unit: .hours) {
              try await getGlucoseReadings(duration: duration)
                 .enumerated()
-                .filter {
-                    $0.offset % 2 == 0
-                }
-                .map {
-                    $0.1
-                }
+                .filter { $0.offset % 3 == 0 }
+                .map { $0.1 }
                 .sorted { $0.date < $1.date }
         } else {
             try await getGlucoseReadings(duration: duration)
