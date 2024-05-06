@@ -19,7 +19,7 @@ extension GlucoseReading: GlucoseEntryData {
 struct GlucoseChartEntryData: GlucoseEntryData {
     var configuration: ChartWidgetConfiguration
     var current: GlucoseReading
-    var history: [GlucoseChartMark]
+    var history: [GlucoseReading]
 
     var chartRangeTitle: String {
         configuration.chartRange.abbreviatedName

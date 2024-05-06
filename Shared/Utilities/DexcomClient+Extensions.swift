@@ -13,27 +13,15 @@ enum DexcomClientError: Error {
 }
 
 extension DexcomClient {
-    func getChartReadings() async throws -> GlucoseChartData? {
-        let expiration = Date.now.addingTimeInterval(-60 * 60 * 24)
-        let cachedData = try? DiskCache.load(.chartData)
-
-        let newReadings = try await getGlucoseReadings(since: cachedData?.current)
+    func getChartReadings(duration: Measurement<UnitDuration>) async throws -> [GlucoseReading]? {
+        let readings = try await getGlucoseReadings(duration: duration)
             .sorted { $0.date < $1.date }
 
-        guard let latest = newReadings.last ?? cachedData?.current else {
+        guard !readings.isEmpty else {
             return nil
         }
 
-        let cachedReadings = (cachedData?.history ?? [])
-            .filter { $0.date > expiration }
-
-        let data = GlucoseChartData(
-            current: latest,
-            history: cachedReadings + newReadings.map(GlucoseChartMark.init)
-        )
-
-        try? DiskCache.save(data, for: .chartData)
-        return data
+        return readings
     }
 
     func getGlucoseReadings(since reading: GlucoseReading?) async throws -> [GlucoseReading] {

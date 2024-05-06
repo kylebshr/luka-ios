@@ -19,13 +19,13 @@ import WidgetKit
             switch liveViewModel.reading {
             case .initial:
                 Text("Loading...")
-            case .loaded(let glucoseReading):
-                Text(glucoseReading.current.value.formatted())
+            case .loaded(let readings):
+                Text(readings.last!.value.formatted())
 
                 ChartView(
                     range: Date.now.addingTimeInterval(-60 * 60 * 3)...Date.now,
-                    readings: glucoseReading.history,
-                    highlight: GlucoseChartMark(glucoseReading.current),
+                    readings: readings,
+                    highlight: readings.last,
                     chartUpperBound: UserDefaults.shared.chartUpperBound,
                     targetRange: UserDefaults.shared.targetRangeLowerBound...UserDefaults.shared.targetRangeUpperBound,
                     roundBottomCorners: false

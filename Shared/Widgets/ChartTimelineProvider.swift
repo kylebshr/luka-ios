@@ -52,13 +52,19 @@ struct ChartTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider 
         let client = makeClient(username: username, password: password)
 
         do {
-            let readings = try await client.getChartReadings()
-            if let readings, Date.now.timeIntervalSince(readings.current.date) < 60 * 15 {
+            let readings = try await client.getChartReadings(
+                duration: .init(
+                    value: configuration.chartRange.timeInterval,
+                    unit: .seconds
+                )
+            )
+
+            if let readings, let current = readings.last, Date.now.timeIntervalSince(current.date) < 60 * 15 {
                 return .reading(
                     GlucoseChartEntryData(
                         configuration: configuration,
-                        current: readings.current,
-                        history: readings.history
+                        current: current,
+                        history: readings
                     )
                 )
             } else {

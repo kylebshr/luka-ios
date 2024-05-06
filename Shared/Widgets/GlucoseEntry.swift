@@ -34,9 +34,9 @@ struct GlucoseEntry<Data: GlucoseEntryData>: TimelineEntry {
 
 extension GlucoseReading {
     static let placeholder = GlucoseReading(
-        value: [GlucoseChartMark].placeholder.last!.value,
+        value: [GlucoseReading].placeholder.last!.value,
         trend: .flat,
-        date: [GlucoseChartMark].placeholder.last!.date
+        date: [GlucoseReading].placeholder.last!.date
     )
 }
 

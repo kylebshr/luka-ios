@@ -12,7 +12,7 @@ import Dexcom
 @MainActor @Observable class LiveViewModel {
     enum State {
         case initial
-        case loaded(GlucoseChartData)
+        case loaded([GlucoseReading])
         case noRecentReading
         case error(Error)
     }
@@ -42,8 +42,8 @@ import Dexcom
         switch reading {
         case .initial, .error, .noRecentReading:
             return true
-        case .loaded(let reading):
-            return reading.current.date.timeIntervalSinceNow < -60 * 5
+        case .loaded(let readings):
+            return readings.last!.date.timeIntervalSinceNow < -60 * 5
         }
     }
 
@@ -81,8 +81,8 @@ import Dexcom
                 print("Refreshing reading")
 
                 do {
-                    if let current = try await client.getChartReadings() {
-                        reading = .loaded(current)
+                    if let readings = try await client.getChartReadings(duration: .init(value: 24, unit: .hours)) {
+                        reading = .loaded(readings)
                     } else {
                         reading = .noRecentReading
                     }
@@ -100,9 +100,9 @@ import Dexcom
                 switch reading {
                 case .initial:
                     return nil
-                case .loaded(let reading):
+                case .loaded(let readings):
                     // 5:10 after the last reading.
-                    let fiveMinuteRefresh = 60 * 5 + reading.current.date.timeIntervalSinceNow + 10
+                    let fiveMinuteRefresh = 60 * 5 + readings.last!.date.timeIntervalSinceNow + 10
                     // Refresh 5:10 after reading, then every 10s.
                     return max(10, fiveMinuteRefresh)
                 case .noRecentReading:
@@ -135,11 +135,11 @@ import Dexcom
         switch reading {
         case .initial:
             message = "Loading..."
-        case .loaded(let reading):
-            if reading.current.date.timeIntervalSinceNow > -60 {
+        case .loaded(let readings):
+            if readings.last!.date.timeIntervalSinceNow > -60 {
                 message = "Just now"
             } else {
-                message = reading.current.date.formatted(.relative(presentation: .numeric))
+                message = readings.last!.date.formatted(.relative(presentation: .numeric))
             }
         case .noRecentReading:
             message = "No recent glucose readings"

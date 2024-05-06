@@ -11,7 +11,7 @@ import Dexcom
 extension ChartView {
     init(
         range: ChartRange,
-        readings: [GlucoseChartMark],
+        readings: [GlucoseReading],
         highlight: GlucoseReading?,
         chartUpperBound: Int,
         targetRange: ClosedRange<Int>,
@@ -20,7 +20,7 @@ extension ChartView {
         self.init(
             range: Date.now.addingTimeInterval(-range.timeInterval)...Date.now,
             readings: readings,
-            highlight: highlight.map(GlucoseChartMark.init), 
+            highlight: highlight, 
             chartUpperBound: chartUpperBound,
             targetRange: targetRange,
             roundBottomCorners: roundBottomCorners

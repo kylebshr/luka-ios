@@ -79,11 +79,12 @@ extension GlucoseReading {
     }
 }
 
-extension [GlucoseChartMark] {
-    static let placeholder: [GlucoseChartMark] = {
+extension [GlucoseReading] {
+    static let placeholder: [GlucoseReading] = {
         (0..<(24*60/5)).map { (value: Int) in
-            GlucoseChartMark(
+            GlucoseReading(
                 value: Int(sin(Double(value * 1200)) * 60) + 100,
+                trend: .flat,
                 date: Date.now.addingTimeInterval(Double(-value * 5 * 60))
             )
         }.reversed()
