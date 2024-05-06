@@ -49,7 +49,6 @@ struct WidgetGraphView: View {
                             Text(data.graphRangeTitle)
                         }
                         .foregroundStyle(.secondary)
-                        .fontWeight(.medium)
                     }
 
                     GraphView(
@@ -61,7 +60,7 @@ struct WidgetGraphView: View {
                         roundBottomCorners: !isInStandby
                     )
                 }
-                .font(.footnote.weight(.semibold))
+                .font(.system(size: watchOS ? 15 : 13, weight: .semibold))
             }
         }
         .buttonStyle(.plain)
