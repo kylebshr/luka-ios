@@ -28,10 +28,10 @@ struct GraphWidgetView: View {
         switch family {
         #if os(iOS)
         case .systemLarge, .systemMedium, .systemSmall:
-            SystemWidgetGraphView(entry: entry, data: data)
+            WidgetGraphView(entry: entry, data: data)
         #endif
         case .accessoryRectangular:
-            RectangularWidgetGraphView(entry: entry, data: data)
+            WidgetGraphView(entry: entry, data: data)
         default:
             fatalError()
         }

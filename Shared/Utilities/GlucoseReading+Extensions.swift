@@ -57,7 +57,7 @@ extension GlucoseReading {
             } else if appendRelativeText {
                 return "Just now"
             } else {
-                return "now"
+                return "Now"
             }
         } else {
             let formatter = formatter(style: style)

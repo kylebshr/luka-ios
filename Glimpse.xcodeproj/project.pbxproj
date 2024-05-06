@@ -80,20 +80,16 @@
 		279BA4102BDFC65B006C87B6 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA40F2BDFC65B006C87B6 /* GraphView.swift */; };
 		279BA4142BDFCA4C006C87B6 /* GlucoseReading+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80452BDAD8C20071E482 /* GlucoseReading+Extensions.swift */; };
 		279BA4152BDFCA4C006C87B6 /* GlucoseReading+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80452BDAD8C20071E482 /* GlucoseReading+Extensions.swift */; };
-		279BA4172BDFFAD0006C87B6 /* StandByMargins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA4162BDFFACF006C87B6 /* StandByMargins.swift */; };
-		279BA4182BDFFAD0006C87B6 /* StandByMargins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA4162BDFFACF006C87B6 /* StandByMargins.swift */; };
 		27A367E62BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A367E52BE153B600FC07FB /* DexcomClient+Extensions.swift */; };
 		27A367E72BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A367E52BE153B600FC07FB /* DexcomClient+Extensions.swift */; };
 		27A367E82BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A367E52BE153B600FC07FB /* DexcomClient+Extensions.swift */; };
 		27A367E92BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A367E52BE153B600FC07FB /* DexcomClient+Extensions.swift */; };
-		27AB80432BDAD7C60071E482 /* SystemWidgetGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80422BDAD7C60071E482 /* SystemWidgetGraphView.swift */; };
-		27AB80442BDAD7C60071E482 /* SystemWidgetGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80422BDAD7C60071E482 /* SystemWidgetGraphView.swift */; };
 		27AB80462BDAD8C20071E482 /* GlucoseReading+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80452BDAD8C20071E482 /* GlucoseReading+Extensions.swift */; };
 		27AB80472BDAD8C20071E482 /* GlucoseReading+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80452BDAD8C20071E482 /* GlucoseReading+Extensions.swift */; };
 		27AB804A2BDAD96D0071E482 /* InlineWidgetReadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80492BDAD96D0071E482 /* InlineWidgetReadingView.swift */; };
 		27AB804B2BDAD96D0071E482 /* InlineWidgetReadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80492BDAD96D0071E482 /* InlineWidgetReadingView.swift */; };
-		27AB804D2BDAD9B10071E482 /* RectangularWidgetGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB804C2BDAD9B10071E482 /* RectangularWidgetGraphView.swift */; };
-		27AB804E2BDAD9B10071E482 /* RectangularWidgetGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB804C2BDAD9B10071E482 /* RectangularWidgetGraphView.swift */; };
+		27AB804D2BDAD9B10071E482 /* WidgetGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB804C2BDAD9B10071E482 /* WidgetGraphView.swift */; };
+		27AB804E2BDAD9B10071E482 /* WidgetGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB804C2BDAD9B10071E482 /* WidgetGraphView.swift */; };
 		27AB80502BDADF030071E482 /* SystemWidgetErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB804F2BDADF030071E482 /* SystemWidgetErrorView.swift */; };
 		27AB80512BDADF030071E482 /* SystemWidgetErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB804F2BDADF030071E482 /* SystemWidgetErrorView.swift */; };
 		27AB80532BDAE51C0071E482 /* RectangularWidgetErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80522BDAE51C0071E482 /* RectangularWidgetErrorView.swift */; };
@@ -229,12 +225,10 @@
 		279BA4092BDED8D5006C87B6 /* FooterScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterScrollView.swift; sourceTree = "<group>"; };
 		279BA40C2BDEDAAC006C87B6 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		279BA40F2BDFC65B006C87B6 /* GraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
-		279BA4162BDFFACF006C87B6 /* StandByMargins.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandByMargins.swift; sourceTree = "<group>"; };
 		27A367E52BE153B600FC07FB /* DexcomClient+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DexcomClient+Extensions.swift"; sourceTree = "<group>"; };
-		27AB80422BDAD7C60071E482 /* SystemWidgetGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemWidgetGraphView.swift; sourceTree = "<group>"; };
 		27AB80452BDAD8C20071E482 /* GlucoseReading+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GlucoseReading+Extensions.swift"; sourceTree = "<group>"; };
 		27AB80492BDAD96D0071E482 /* InlineWidgetReadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InlineWidgetReadingView.swift; sourceTree = "<group>"; };
-		27AB804C2BDAD9B10071E482 /* RectangularWidgetGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangularWidgetGraphView.swift; sourceTree = "<group>"; };
+		27AB804C2BDAD9B10071E482 /* WidgetGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetGraphView.swift; sourceTree = "<group>"; };
 		27AB804F2BDADF030071E482 /* SystemWidgetErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemWidgetErrorView.swift; sourceTree = "<group>"; };
 		27AB80522BDAE51C0071E482 /* RectangularWidgetErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangularWidgetErrorView.swift; sourceTree = "<group>"; };
 		27AB80552BDAF27C0071E482 /* CircularWidgetErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularWidgetErrorView.swift; sourceTree = "<group>"; };
@@ -429,15 +423,13 @@
 				270E18612BDA084E00CB7D4D /* ReadingWidgetView.swift */,
 				27558D182BE2D6BE000CACB4 /* GraphWidgetView.swift */,
 				27558D152BE2D662000CACB4 /* WidgetErrorView.swift */,
-				27AB80422BDAD7C60071E482 /* SystemWidgetGraphView.swift */,
+				27AB804C2BDAD9B10071E482 /* WidgetGraphView.swift */,
 				27558D622BE3006F000CACB4 /* SystemWidgetReadingView.swift */,
 				27AB804F2BDADF030071E482 /* SystemWidgetErrorView.swift */,
 				27AB80492BDAD96D0071E482 /* InlineWidgetReadingView.swift */,
-				27AB804C2BDAD9B10071E482 /* RectangularWidgetGraphView.swift */,
 				27AB80522BDAE51C0071E482 /* RectangularWidgetErrorView.swift */,
 				270E185E2BDA082A00CB7D4D /* CircularWidgetReadingView.swift */,
 				27AB80552BDAF27C0071E482 /* CircularWidgetErrorView.swift */,
-				279BA4162BDFFACF006C87B6 /* StandByMargins.swift */,
 				27558D652BE30944000CACB4 /* WidgetButtonContent.swift */,
 				2715225B2BE009FC0009D8EA /* GraphView+GraphRange.swift */,
 			);
@@ -711,11 +703,10 @@
 				27558D162BE2D662000CACB4 /* WidgetErrorView.swift in Sources */,
 				270332602BD99F43009535EE /* GraphTimelineProvider.swift in Sources */,
 				27558D592BE2F464000CACB4 /* GlucoseEntryData.swift in Sources */,
-				27AB804D2BDAD9B10071E482 /* RectangularWidgetGraphView.swift in Sources */,
+				27AB804D2BDAD9B10071E482 /* WidgetGraphView.swift in Sources */,
 				27558D602BE2FA20000CACB4 /* DexcomTimelineProvider.swift in Sources */,
 				27A367E72BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */,
 				271522592BE009C80009D8EA /* GraphWidgetConfiguration.swift in Sources */,
-				27AB80432BDAD7C60071E482 /* SystemWidgetGraphView.swift in Sources */,
 				270E18652BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */,
 				27AF390F2BE94332000491E1 /* GraphRange.swift in Sources */,
 				274E9A4A2BE1C8E60035F216 /* View+Extensions.swift in Sources */,
@@ -723,7 +714,6 @@
 				2715225C2BE009FC0009D8EA /* GraphView+GraphRange.swift in Sources */,
 				27558D662BE30944000CACB4 /* WidgetButtonContent.swift in Sources */,
 				27558D632BE3006F000CACB4 /* SystemWidgetReadingView.swift in Sources */,
-				279BA4172BDFFAD0006C87B6 /* StandByMargins.swift in Sources */,
 				27AB80502BDADF030071E482 /* SystemWidgetErrorView.swift in Sources */,
 				27AB80562BDAF27C0071E482 /* CircularWidgetErrorView.swift in Sources */,
 				27558D5D2BE2F9A5000CACB4 /* ReadingTimelineProvider.swift in Sources */,
@@ -770,7 +760,7 @@
 				27A367E92BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */,
 				27558D612BE2FA20000CACB4 /* DexcomTimelineProvider.swift in Sources */,
 				270E18662BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */,
-				27AB804E2BDAD9B10071E482 /* RectangularWidgetGraphView.swift in Sources */,
+				27AB804E2BDAD9B10071E482 /* WidgetGraphView.swift in Sources */,
 				274E9A4C2BE1C8E60035F216 /* View+Extensions.swift in Sources */,
 				27558D0C2BE2D57C000CACB4 /* GlimpseWidgetBundle.swift in Sources */,
 				27AF39102BE94332000491E1 /* GraphRange.swift in Sources */,
@@ -790,11 +780,9 @@
 				2715225D2BE009FC0009D8EA /* GraphView+GraphRange.swift in Sources */,
 				27558D1A2BE2D6BE000CACB4 /* GraphWidgetView.swift in Sources */,
 				271CD1E32BD96B3200FBE5DB /* Constants.swift in Sources */,
-				27AB80442BDAD7C60071E482 /* SystemWidgetGraphView.swift in Sources */,
 				27558D0D2BE2D57C000CACB4 /* GlimpseReadingWidget.swift in Sources */,
 				271CD1E42BD96B3200FBE5DB /* Keychain.swift in Sources */,
 				27558D142BE2D634000CACB4 /* GlimpseGraphWidget.swift in Sources */,
-				279BA4182BDFFAD0006C87B6 /* StandByMargins.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

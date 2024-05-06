@@ -46,7 +46,6 @@ struct SystemWidgetReadingView: View {
             }
             .buttonStyle(.plain)
         }
-        .standByMargins()
         .containerBackground(reading.color.gradient, for: .widget)
         .environment(\.colorScheme, .light)
     }
