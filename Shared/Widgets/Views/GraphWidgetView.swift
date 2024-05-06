@@ -26,8 +26,10 @@ struct GraphWidgetView: View {
 
     @ViewBuilder private func readingView(for data: GlucoseGraphEntryData) -> some View {
         switch family {
+        #if os(iOS)
         case .systemLarge, .systemMedium, .systemSmall:
             SystemWidgetGraphView(entry: entry, data: data)
+        #endif
         case .accessoryRectangular:
             RectangularWidgetGraphView(entry: entry, data: data)
         default:

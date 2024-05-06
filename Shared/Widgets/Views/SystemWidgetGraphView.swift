@@ -9,6 +9,7 @@ import SwiftUI
 import WidgetKit
 import Dexcom
 
+#if os(iOS)
 struct SystemWidgetGraphView: View {
     let entry: GraphTimelineProvider.Entry
     let data: GlucoseGraphEntryData
@@ -83,3 +84,4 @@ struct SystemWidgetGraphView: View {
         .fontWeight(.medium)
     }
 }
+#endif
