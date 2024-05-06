@@ -22,11 +22,11 @@ import WidgetKit
             case .loaded(let readings):
                 Text(readings.last!.value.formatted())
 
-                ChartView(
+                GraphView(
                     range: Date.now.addingTimeInterval(-60 * 60 * 3)...Date.now,
                     readings: readings,
                     highlight: readings.last,
-                    chartUpperBound: UserDefaults.shared.chartUpperBound,
+                    graphUpperBound: UserDefaults.shared.graphUpperBound,
                     targetRange: UserDefaults.shared.targetRangeLowerBound...UserDefaults.shared.targetRangeUpperBound,
                     roundBottomCorners: false
                 )

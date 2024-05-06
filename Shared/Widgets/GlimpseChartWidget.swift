@@ -1,5 +1,5 @@
 //
-//  GlimpseChartWidget.swift
+//  GlimpseGraphWidget.swift
 //  Glimpse
 //
 //  Created by Kyle Bashour on 5/1/24.
@@ -9,19 +9,19 @@ import WidgetKit
 import SwiftUI
 import Dexcom
 
-struct GlimpseChartWidget: Widget {
+struct GlimpseGraphWidget: Widget {
     let kind: String = "GlimpseChartWidget"
 
     var body: some WidgetConfiguration {
         AppIntentConfiguration(
             kind: kind,
-            intent: ChartWidgetConfiguration.self,
-            provider: ChartTimelineProvider()
+            intent: GraphWidgetConfiguration.self,
+            provider: GraphTimelineProvider()
         ) { entry in
-            ChartWidgetView(entry: entry)
+            GraphWidgetView(entry: entry)
         }
         .supportedFamilies(families)
-        .configurationDisplayName("Reading Chart")
+        .configurationDisplayName("Reading Graph")
     }
 
     private var families: [WidgetFamily] {
@@ -41,49 +41,49 @@ struct GlimpseChartWidget: Widget {
 }
 
 #Preview(as: .accessoryRectangular) {
-    GlimpseChartWidget()
+    GlimpseGraphWidget()
 } timeline: {
-    GlucoseEntry<GlucoseChartEntryData>(
+    GlucoseEntry<GlucoseGraphEntryData>(
         date: .now,
         state: .reading(
             .init(
-                configuration: ChartWidgetConfiguration(),
+                configuration: GraphWidgetConfiguration(),
                 current: .placeholder,
                 history: .placeholder
             )
         )
     )
-    GlucoseEntry<GlucoseChartEntryData>(
+    GlucoseEntry<GlucoseGraphEntryData>(
         date: .now.addingTimeInterval(80),
         state: .reading(
             .init(
-                configuration: ChartWidgetConfiguration(),
+                configuration: GraphWidgetConfiguration(),
                 current: .placeholder,
                 history: .placeholder
             )
         )
     )
-    GlucoseEntry<GlucoseChartEntryData>(
+    GlucoseEntry<GlucoseGraphEntryData>(
         date: .now.addingTimeInterval(300),
         state: .reading(
             .init(
-                configuration: ChartWidgetConfiguration(),
+                configuration: GraphWidgetConfiguration(),
                 current: .placeholder,
                 history: .placeholder
             )
         )
     )
-    GlucoseEntry<GlucoseChartEntryData>(
+    GlucoseEntry<GlucoseGraphEntryData>(
         date: .now.addingTimeInterval(60 * 30),
         state: .reading(
             .init(
-                configuration: ChartWidgetConfiguration(),
+                configuration: GraphWidgetConfiguration(),
                 current: .placeholder,
                 history: .placeholder
             )
         )
     )
-    GlucoseEntry<GlucoseChartEntryData>(date: .now, state: .error(.failedToLoad))
-    GlucoseEntry<GlucoseChartEntryData>(date: .now, state: .error(.noRecentReadings))
-    GlucoseEntry<GlucoseChartEntryData>(date: .now, state: .error(.loggedOut))
+    GlucoseEntry<GlucoseGraphEntryData>(date: .now, state: .error(.failedToLoad))
+    GlucoseEntry<GlucoseGraphEntryData>(date: .now, state: .error(.noRecentReadings))
+    GlucoseEntry<GlucoseGraphEntryData>(date: .now, state: .error(.loggedOut))
 }

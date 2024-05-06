@@ -1,5 +1,5 @@
 //
-//  ChartView+ChartRange.swift
+//  GraphView+GraphRange.swift
 //  Glimpse
 //
 //  Created by Kyle Bashour on 4/29/24.
@@ -8,12 +8,12 @@
 import Foundation
 import Dexcom
 
-extension ChartView {
+extension GraphView {
     init(
-        range: ChartRange,
+        range: GraphRange,
         readings: [GlucoseReading],
         highlight: GlucoseReading?,
-        chartUpperBound: Int,
+        graphUpperBound: Int,
         targetRange: ClosedRange<Int>,
         roundBottomCorners: Bool
     ) {
@@ -21,7 +21,7 @@ extension ChartView {
             range: Date.now.addingTimeInterval(-range.timeInterval)...Date.now,
             readings: readings,
             highlight: highlight, 
-            chartUpperBound: chartUpperBound,
+            graphUpperBound: graphUpperBound,
             targetRange: targetRange,
             roundBottomCorners: roundBottomCorners
         )

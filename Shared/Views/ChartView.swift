@@ -1,5 +1,5 @@
 //
-//  ChartView.swift
+//  GraphView.swift
 //  Glimpse
 //
 //  Created by Kyle Bashour on 4/29/24.
@@ -9,11 +9,11 @@ import SwiftUI
 import Charts
 import Dexcom
 
-struct ChartView: View {
+struct GraphView: View {
     let range: ClosedRange<Date>
     let readings: [GlucoseReading]
     let highlight: GlucoseReading?
-    let chartUpperBound: Int
+    let graphUpperBound: Int
     let targetRange: ClosedRange<Int>
     let roundBottomCorners: Bool
 
@@ -25,7 +25,7 @@ struct ChartView: View {
         Chart {
             ForEach(readings) { reading in
                 if adjustedRange.contains(reading.date) {
-                    let value = min(reading.value, chartUpperBound)
+                    let value = min(reading.value, graphUpperBound)
                     PointMark(
                         x: .value("", reading.date),
                         y: .value(value.formatted(), value)
@@ -47,9 +47,9 @@ struct ChartView: View {
         }
         .foregroundStyle(.foreground)
         .chartXScale(domain: adjustedRange)
-        .chartYScale(domain: 0...chartUpperBound)
+        .chartYScale(domain: 0...graphUpperBound)
         .chartYAxis {
-            AxisMarks(values: [chartUpperBound]) { value in
+            AxisMarks(values: [graphUpperBound]) { value in
                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 2]))
             }
 
@@ -59,11 +59,11 @@ struct ChartView: View {
             }
         }
         .chartXAxis {}
-        .chartBackground { chart in
+        .chartBackground { graph in
             GeometryReader { geometry in
-                if let plotFrame = chart.plotFrame {
+                if let plotFrame = graph.plotFrame {
                     let frame = geometry[plotFrame]
-                    if let origin = chart.position(for: (adjustedRange.lowerBound, targetRange.upperBound)), let max = chart.position(for: (adjustedRange.upperBound, targetRange.lowerBound)) {
+                    if let origin = graph.position(for: (adjustedRange.lowerBound, targetRange.upperBound)), let max = graph.position(for: (adjustedRange.upperBound, targetRange.lowerBound)) {
 
                         Rectangle()
                             .fill(.green.tertiary)
@@ -71,7 +71,7 @@ struct ChartView: View {
                             .position(x: (max.x - origin.x) / 2, y: (max.y - origin.y) / 2 + origin.y)
                     }
 
-                    if let origin = chart.position(for: (adjustedRange.lowerBound, targetRange.lowerBound)), let max = chart.position(for: (adjustedRange.upperBound, 0)) {
+                    if let origin = graph.position(for: (adjustedRange.lowerBound, targetRange.lowerBound)), let max = graph.position(for: (adjustedRange.upperBound, 0)) {
                         Rectangle()
                             .fill(.red.quaternary)
                             .frame(width: frame.width, height: max.y - origin.y)
@@ -94,11 +94,11 @@ extension GlucoseReading: Identifiable {
 }
 
 #Preview {
-    ChartView(
+    GraphView(
         range: Date.now.addingTimeInterval(-60 * 60 * 3)...Date.now,
         readings: .placeholder,
         highlight: [GlucoseReading].placeholder.last,
-        chartUpperBound: 300,
+        graphUpperBound: 300,
         targetRange: 70...180,
         roundBottomCorners: false
     ).frame(height: 200)

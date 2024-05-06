@@ -26,9 +26,9 @@ extension UserDefaults {
         set { self[.targetRangeUpperBound] = newValue }
     }
 
-    var chartUpperBound: Int {
-        get { self[.chartUpperBound] ?? 300 }
-        set { self[.chartUpperBound] = newValue }
+    var graphUpperBound: Int {
+        get { self[.graphUpperBound] ?? 300 }
+        set { self[.graphUpperBound] = newValue }
     }
 }
 

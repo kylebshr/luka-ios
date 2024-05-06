@@ -1,5 +1,5 @@
 //
-//  ChartWidgetView.swift
+//  GraphWidgetView.swift
 //  Glimpse
 //
 //  Created by Kyle Bashour on 5/1/24.
@@ -9,8 +9,8 @@ import Dexcom
 import SwiftUI
 import WidgetKit
 
-struct ChartWidgetView: View {
-    let entry: ChartTimelineProvider.Entry
+struct GraphWidgetView: View {
+    let entry: GraphTimelineProvider.Entry
 
     @Environment(\.widgetFamily) private var family
 
@@ -24,12 +24,12 @@ struct ChartWidgetView: View {
         }
     }
 
-    @ViewBuilder private func readingView(for data: GlucoseChartEntryData) -> some View {
+    @ViewBuilder private func readingView(for data: GlucoseGraphEntryData) -> some View {
         switch family {
         case .systemLarge, .systemMedium, .systemSmall:
-            SystemWidgetChartView(entry: entry, data: data)
+            SystemWidgetGraphView(entry: entry, data: data)
         case .accessoryRectangular:
-            RectangularWidgetChartView(entry: entry, data: data)
+            RectangularWidgetGraphView(entry: entry, data: data)
         default:
             fatalError()
         }

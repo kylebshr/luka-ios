@@ -17,7 +17,7 @@ extension String {
     static let outsideUSKey = "outsideUS"
     static let targetRangeLowerBound = "targetRangeLowerBound"
     static let targetRangeUpperBound = "targetRangeUpperBound"
-    static let chartUpperBound = "chartUpperBound"
+    static let graphUpperBound = "graphUpperBound"
     static let cachedReadings = "chachedReadings"
 }
 

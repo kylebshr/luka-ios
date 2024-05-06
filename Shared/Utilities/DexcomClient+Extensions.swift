@@ -13,7 +13,7 @@ enum DexcomClientError: Error {
 }
 
 extension DexcomClient {
-    func getChartReadings(duration: Measurement<UnitDuration>) async throws -> [GlucoseReading]? {
+    func getGraphReadings(duration: Measurement<UnitDuration>) async throws -> [GlucoseReading]? {
         let readings = try await getGlucoseReadings(duration: duration)
             .sorted { $0.date < $1.date }
 

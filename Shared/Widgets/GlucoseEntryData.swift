@@ -16,16 +16,16 @@ extension GlucoseReading: GlucoseEntryData {
     var current: GlucoseReading { self }
 }
 
-struct GlucoseChartEntryData: GlucoseEntryData {
-    var configuration: ChartWidgetConfiguration
+struct GlucoseGraphEntryData: GlucoseEntryData {
+    var configuration: GraphWidgetConfiguration
     var current: GlucoseReading
     var history: [GlucoseReading]
 
-    var chartRangeTitle: String {
-        configuration.chartRange.abbreviatedName
+    var graphRangeTitle: String {
+        configuration.graphRange.abbreviatedName
     }
 
     let targetUpperBound: Int = UserDefaults.shared.targetRangeUpperBound
     let targetLowerBound: Int = UserDefaults.shared.targetRangeLowerBound
-    let chartUpperBound: Int = UserDefaults.shared.chartUpperBound
+    let graphUpperBound: Int = UserDefaults.shared.graphUpperBound
 }

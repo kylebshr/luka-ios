@@ -13,25 +13,25 @@ struct SettingsView: View {
 
     @State private var lowerTargetRange = Double(UserDefaults.shared.targetRangeLowerBound)
     @State private var upperTargetRange = Double(UserDefaults.shared.targetRangeUpperBound)
-    @State private var upperChartRange = Double(UserDefaults.shared.chartUpperBound)
+    @State private var upperGraphRange = Double(UserDefaults.shared.graphUpperBound)
 
     var body: some View {
         FooterScrollView {
             VStack(alignment: .leading, spacing: .verticalSpacing) {
-                FormHeader(title: "Chart")
+                FormHeader(title: "Graph")
 
                 FormSection {
-                    ChartSliderView(
+                    GraphSliderView(
                         title: "Upper bound",
-                        currentValue: $upperChartRange,
+                        currentValue: $upperGraphRange,
                         range: 220...400
                     ) {
-                        UserDefaults.shared.chartUpperBound = $0
+                        UserDefaults.shared.graphUpperBound = $0
                     }
 
                     FormSectionDivider()
 
-                    ChartSliderView(
+                    GraphSliderView(
                         title: "Upper target range",
                         currentValue: $upperTargetRange,
                         range: 120...220
@@ -41,7 +41,7 @@ struct SettingsView: View {
 
                     FormSectionDivider()
 
-                    ChartSliderView(
+                    GraphSliderView(
                         title: "Lower target range",
                         currentValue: $lowerTargetRange,
                         range: 55...110
@@ -83,7 +83,7 @@ struct SettingsView: View {
     }
 }
 
-private struct ChartSliderView: View {
+private struct GraphSliderView: View {
     var title: String
     @Binding var currentValue: Double
     var range: ClosedRange<Double>

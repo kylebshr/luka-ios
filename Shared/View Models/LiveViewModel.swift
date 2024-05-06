@@ -81,7 +81,7 @@ import Dexcom
                 print("Refreshing reading")
 
                 do {
-                    if let readings = try await client.getChartReadings(duration: .init(value: 24, unit: .hours)) {
+                    if let readings = try await client.getGraphReadings(duration: .init(value: 24, unit: .hours)) {
                         reading = .loaded(readings)
                     } else {
                         reading = .noRecentReading

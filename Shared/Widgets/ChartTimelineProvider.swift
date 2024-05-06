@@ -9,8 +9,8 @@ import WidgetKit
 import Dexcom
 import KeychainAccess
 
-struct ChartTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider {
-    typealias Entry = GlucoseEntry<GlucoseChartEntryData>
+struct GraphTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider {
+    typealias Entry = GlucoseEntry<GlucoseGraphEntryData>
 
     let delegate = DexcomDelegate()
 
@@ -18,8 +18,8 @@ struct ChartTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider 
         GlucoseEntry(
             date: .now,
             state: .reading(
-                GlucoseChartEntryData(
-                    configuration: ChartWidgetConfiguration(),
+                GlucoseGraphEntryData(
+                    configuration: GraphWidgetConfiguration(),
                     current: GlucoseReading.placeholder,
                     history: []
                 )
@@ -27,24 +27,24 @@ struct ChartTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider 
         )
     }
 
-    func snapshot(for configuration: ChartWidgetConfiguration, in context: Context) async -> Entry {
+    func snapshot(for configuration: GraphWidgetConfiguration, in context: Context) async -> Entry {
         let state = await makeState(for: configuration)
         return GlucoseEntry(date: .now, state: state)
     }
 
-    func timeline(for configuration: ChartWidgetConfiguration, in context: Context) async -> Timeline<Entry> {
+    func timeline(for configuration: GraphWidgetConfiguration, in context: Context) async -> Timeline<Entry> {
         let state = await makeState(for: configuration)
         return buildTimeline(for: state)
     }
 
-    func recommendations() -> [AppIntentRecommendation<ChartWidgetConfiguration>] {
-        ChartRange.allCases.map {
-            let configuration = ChartWidgetConfiguration(chartRange: $0)
-            return AppIntentRecommendation(intent: configuration, description: $0.abbreviatedName + " Chart")
+    func recommendations() -> [AppIntentRecommendation<GraphWidgetConfiguration>] {
+        GraphRange.allCases.map {
+            let configuration = GraphWidgetConfiguration(graphRange: $0)
+            return AppIntentRecommendation(intent: configuration, description: $0.abbreviatedName + " Graph")
         }
     }
 
-    private func makeState(for configuration: ChartWidgetConfiguration) async -> Entry.State {
+    private func makeState(for configuration: GraphWidgetConfiguration) async -> Entry.State {
         guard let username = Keychain.shared.username, let password = Keychain.shared.password else {
             return .error(.loggedOut)
         }
@@ -52,16 +52,16 @@ struct ChartTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider 
         let client = makeClient(username: username, password: password)
 
         do {
-            let readings = try await client.getChartReadings(
+            let readings = try await client.getGraphReadings(
                 duration: .init(
-                    value: configuration.chartRange.timeInterval,
+                    value: configuration.graphRange.timeInterval,
                     unit: .seconds
                 )
             )
 
             if let readings, let current = readings.last, Date.now.timeIntervalSince(current.date) < 60 * 15 {
                 return .reading(
-                    GlucoseChartEntryData(
+                    GlucoseGraphEntryData(
                         configuration: configuration,
                         current: current,
                         history: readings

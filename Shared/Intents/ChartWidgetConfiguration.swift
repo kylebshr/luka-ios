@@ -8,26 +8,26 @@
 import WidgetKit
 import AppIntents
 
-struct ChartWidgetConfiguration: WidgetConfigurationIntent {
-    static var title: LocalizedStringResource = "Chart Widget"
-    static var description = IntentDescription("Configure chart widget settings.")
+struct GraphWidgetConfiguration: WidgetConfigurationIntent {
+    static var title: LocalizedStringResource = "Graph Widget"
+    static var description = IntentDescription("Configure graph widget settings.")
 
-    @Parameter(title: "Chart range", default: .twentyFourHours)
-    var chartRange: ChartRange
+    @Parameter(title: "Graph range", default: .twentyFourHours)
+    var graphRange: GraphRange
 }
 
-extension ChartWidgetConfiguration {
-    init(chartRange: ChartRange) {
-        self.chartRange = chartRange
+extension GraphWidgetConfiguration {
+    init(graphRange: GraphRange) {
+        self.graphRange = graphRange
     }
 }
 
-enum ChartRange: String, AppEnum, CaseIterable {
+enum GraphRange: String, AppEnum, CaseIterable {
     static var typeDisplayRepresentation: TypeDisplayRepresentation {
-        "Chart range"
+        "Graph range"
     }
 
-    static var caseDisplayRepresentations: [ChartRange : DisplayRepresentation] {
+    static var caseDisplayRepresentations: [GraphRange : DisplayRepresentation] {
         [
             .oneHour: "1 Hour",
             .threeHours: "3 Hours",

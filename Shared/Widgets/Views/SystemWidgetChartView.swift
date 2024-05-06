@@ -9,9 +9,9 @@ import SwiftUI
 import WidgetKit
 import Dexcom
 
-struct SystemWidgetChartView: View {
-    let entry: ChartTimelineProvider.Entry
-    let data: GlucoseChartEntryData
+struct SystemWidgetGraphView: View {
+    let entry: GraphTimelineProvider.Entry
+    let data: GlucoseGraphEntryData
 
     @Environment(\.redactionReasons) private var redactionReasons
     @Environment(\.widgetContentMargins) private var widgetContentMargins
@@ -35,16 +35,16 @@ struct SystemWidgetChartView: View {
 
                 Spacer()
 
-                Text(data.chartRangeTitle)
+                Text(data.graphRangeTitle)
                     .foregroundStyle(.secondary)
                     .font(.caption)
             }
 
-            ChartView(
-                range: data.configuration.chartRange,
+            GraphView(
+                range: data.configuration.graphRange,
                 readings: data.history,
                 highlight: data.current,
-                chartUpperBound: data.chartUpperBound,
+                graphUpperBound: data.graphUpperBound,
                 targetRange: data.targetLowerBound...data.targetUpperBound,
                 roundBottomCorners: false
             )
