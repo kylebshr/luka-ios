@@ -80,8 +80,7 @@ struct SystemWidgetGraphView: View {
             Text(data.graphRangeTitle)
         }
         .foregroundStyle(.secondary)
-        .font(.caption.lowercaseSmallCaps())
-        .fontWeight(.medium)
+        .font(.caption2.weight(.medium).lowercaseSmallCaps())
     }
 }
 #endif
