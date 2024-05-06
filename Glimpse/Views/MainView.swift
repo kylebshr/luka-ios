@@ -20,19 +20,19 @@ import WidgetKit
             case .initial:
                 Text("Loading...")
             case .loaded(let readings):
-                Text(readings.latest!.value.formatted())
+                Text(readings.last!.value.formatted())
 
                 GraphView(
                     range: Date.now.addingTimeInterval(-60 * 60 * 3)...Date.now,
                     readings: readings,
-                    highlight: readings.latest,
+                    highlight: readings.last,
                     graphUpperBound: UserDefaults.shared.graphUpperBound,
                     targetRange: UserDefaults.shared.targetRangeLowerBound...UserDefaults.shared.targetRangeUpperBound,
                     roundBottomCorners: false
                 )
             case .noRecentReading:
                 Text("No recent readings")
-            case .error:
+            case .error(let error):
                 Text("Error")
             }
         }
