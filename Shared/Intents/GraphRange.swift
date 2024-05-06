@@ -49,6 +49,6 @@ enum GraphRange: String, AppEnum, CaseIterable {
     }
 
     var abbreviatedName: String {
-        "\(hours)h"
+        "\(hours)ʜ"
     }
 }
