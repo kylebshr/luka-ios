@@ -15,7 +15,8 @@ extension GraphView {
         highlight: GlucoseReading?,
         graphUpperBound: Int,
         targetRange: ClosedRange<Int>,
-        roundBottomCorners: Bool
+        roundBottomCorners: Bool,
+        showMarkLabels: Bool
     ) {
         self.init(
             range: Date.now.addingTimeInterval(-range.timeInterval)...Date.now,
@@ -23,7 +24,8 @@ extension GraphView {
             highlight: highlight, 
             graphUpperBound: graphUpperBound,
             targetRange: targetRange,
-            roundBottomCorners: roundBottomCorners
+            roundBottomCorners: roundBottomCorners,
+            showMarkLabels: showMarkLabels
         )
     }
 }

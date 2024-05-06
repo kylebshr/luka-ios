@@ -1,6 +1,15 @@
 {
-  "originHash" : "015fe73fc528411c17267c6c67bddf241333024485b26f65697013b59f1afea7",
+  "originHash" : "db37a3279d59831fefbe1bbaeb3936347ecd5b162bdad6db5c8a43270bf95b8a",
   "pins" : [
+    {
+      "identity" : "defaults",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/sindresorhus/Defaults",
+      "state" : {
+        "branch" : "main",
+        "revision" : "d8a954e69ff13b0f7805f3757c8f8d0c8ef5a8cb"
+      }
+    },
     {
       "identity" : "dexcom-swift",
       "kind" : "remoteSourceControl",

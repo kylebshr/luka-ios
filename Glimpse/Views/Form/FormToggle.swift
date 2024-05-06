@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Defaults
 
 struct FormToggle: View {
     var title: String
@@ -27,14 +28,13 @@ struct FormToggle: View {
     init(
         title: String,
         description: String? = nil,
-        defaults: UserDefaults,
-        key: String
+        key: Defaults.Key<Bool>
     ) {
         self.title = title
         self.description = description
         self._isOn = .init(
-            get: { defaults[key] },
-            set: { defaults[key] = $0 }
+            get: { Defaults[key] },
+            set: { Defaults[key] = $0 }
         )
     }
 

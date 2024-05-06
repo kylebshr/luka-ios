@@ -81,11 +81,8 @@ import Dexcom
                 print("Refreshing reading")
 
                 do {
-                    if let readings = try await client.getGraphReadings(duration: .init(value: 24, unit: .hours)) {
-                        reading = .loaded(readings)
-                    } else {
-                        reading = .noRecentReading
-                    }
+                    let readings = try await client.getGraphReadings(duration: .init(value: 24, unit: .hours))
+                    reading = .loaded(readings)
                 } catch let error as DexcomError {
                     // Could be too many attempts; stop auto refreshing.
                     reading = .error(error)
@@ -134,21 +131,13 @@ import Dexcom
     private func updateMessage() {
         switch reading {
         case .initial:
-            message = "Loading..."
+            message = "-"
         case .loaded(let readings):
-            if readings.last!.date.timeIntervalSinceNow > -60 {
-                message = "Just now"
-            } else {
-                message = readings.last!.date.formatted(.relative(presentation: .numeric))
-            }
+            message = readings.last!.timestamp(for: .now)
         case .noRecentReading:
-            message = "No recent glucose readings"
+            message = "No recent readings"
         case .error(let error):
-            if error is DexcomError {
-                message = "Try refreshing in 10 minutes"
-            } else {
-                message = "Unknown error"
-            }
+            message = "Error loading readings"
         }
     }
 }

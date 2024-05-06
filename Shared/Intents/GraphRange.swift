@@ -6,8 +6,9 @@
 //
 
 import AppIntents
+import Defaults
 
-enum GraphRange: String, AppEnum, CaseIterable {
+enum GraphRange: String, Codable, AppEnum, CaseIterable, Defaults.Serializable, Identifiable {
     static var typeDisplayRepresentation: TypeDisplayRepresentation {
         "Graph range"
     }
@@ -23,6 +24,8 @@ enum GraphRange: String, AppEnum, CaseIterable {
             .twentyFourHours: "Twenty-four hours",
         ]
     }
+    
+    var id: Self { self }
 
     case oneHour
     case threeHours

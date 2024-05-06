@@ -16,6 +16,7 @@ struct GraphView: View {
     let graphUpperBound: Int
     let targetRange: ClosedRange<Int>
     let roundBottomCorners: Bool
+    let showMarkLabels: Bool
 
     private var adjustedRange: ClosedRange<Date> {
         range.lowerBound...range.upperBound.addingTimeInterval(5 * 60)
@@ -24,23 +25,21 @@ struct GraphView: View {
     var body: some View {
         Chart {
             ForEach(readings) { reading in
-                if adjustedRange.contains(reading.date) {
-                    let value = min(reading.value, graphUpperBound)
-                    PointMark(
-                        x: .value("", reading.date),
-                        y: .value(value.formatted(), value)
-                    )
-                    .symbol {
-                        if reading.hashValue == highlight?.hashValue {
-                            Circle()
-                                .fill(.background)
-                                .stroke(.foreground, lineWidth: 1)
-                                .frame(width: 3.5, height: 3.5)
-                        } else {
-                            Circle()
-                                .frame(width: 2.5)
-                                .foregroundStyle(.foreground)
-                        }
+                let value = min(reading.value, graphUpperBound)
+                PointMark(
+                    x: .value("", reading.date),
+                    y: .value(value.formatted(), value)
+                )
+                .symbol {
+                    if reading.hashValue == highlight?.hashValue {
+                        Circle()
+                            .fill(.background)
+                            .stroke(.foreground, lineWidth: 1)
+                            .frame(width: 3.5, height: 3.5)
+                    } else {
+                        Circle()
+                            .frame(width: 2.5)
+                            .foregroundStyle(.foreground)
                     }
                 }
             }
@@ -49,16 +48,34 @@ struct GraphView: View {
         .chartXScale(domain: adjustedRange)
         .chartYScale(domain: 0...graphUpperBound)
         .chartYAxis {
-            AxisMarks(values: [graphUpperBound]) { value in
+            let standardMarks = showMarkLabels ? [0, targetRange.lowerBound, targetRange.upperBound, graphUpperBound] : [graphUpperBound]
+
+            AxisMarks(values: standardMarks) { value in
                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 2]))
+
+                if showMarkLabels {
+                    AxisValueLabel()
+                }
             }
 
             AxisMarks(values: [55]) { value in
                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 2]))
                     .foregroundStyle(.foreground.secondary)
+
+                if showMarkLabels {
+                    AxisValueLabel()
+                }
             }
         }
-        .chartXAxis {}
+        .chartXAxis {
+            if showMarkLabels {
+                AxisMarks {
+                    AxisGridLine()
+                    AxisTick()
+                    AxisValueLabel(format: .dateTime.hour(), anchor: .topTrailing)
+                }
+            }
+        }
         .chartBackground { graph in
             GeometryReader { geometry in
                 if let plotFrame = graph.plotFrame {
@@ -100,6 +117,7 @@ extension GlucoseReading: Identifiable {
         highlight: [GlucoseReading].placeholder.last,
         graphUpperBound: 300,
         targetRange: 70...180,
-        roundBottomCorners: false
+        roundBottomCorners: false,
+        showMarkLabels: false
     ).frame(height: 200)
 }

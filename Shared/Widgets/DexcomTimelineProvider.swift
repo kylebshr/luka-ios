@@ -9,6 +9,7 @@ import Dexcom
 import Foundation
 import KeychainAccess
 import WidgetKit
+import Defaults
 
 class DexcomDelegate: DexcomClientDelegate {
     func didUpdateAccountID(_ accountID: UUID) {
@@ -33,7 +34,7 @@ extension DexcomTimelineProvider {
             password: password,
             existingAccountID: Keychain.shared.accountID,
             existingSessionID: Keychain.shared.sessionID,
-            outsideUS: UserDefaults.shared.outsideUS
+            outsideUS: Defaults[.outsideUS]
         )
 
         client.delegate = delegate

@@ -96,8 +96,16 @@
 		27AB80542BDAE51C0071E482 /* RectangularWidgetErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80522BDAE51C0071E482 /* RectangularWidgetErrorView.swift */; };
 		27AB80562BDAF27C0071E482 /* CircularWidgetErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80552BDAF27C0071E482 /* CircularWidgetErrorView.swift */; };
 		27AB80572BDAF27C0071E482 /* CircularWidgetErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80552BDAF27C0071E482 /* CircularWidgetErrorView.swift */; };
+		27AD76D02BE98F760037564B /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 27AD76CF2BE98F760037564B /* Defaults */; };
+		27AD76D22BE98F7D0037564B /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 27AD76D12BE98F7D0037564B /* Defaults */; };
+		27AD76D42BE98F820037564B /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 27AD76D32BE98F820037564B /* Defaults */; };
+		27AD76D62BE98F890037564B /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 27AD76D52BE98F890037564B /* Defaults */; };
+		27AD76D72BE9906F0037564B /* GraphRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AF390E2BE94332000491E1 /* GraphRange.swift */; };
+		27AD76D82BE990700037564B /* GraphRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AF390E2BE94332000491E1 /* GraphRange.swift */; };
+		27AD76D92BE990700037564B /* GraphRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AF390E2BE94332000491E1 /* GraphRange.swift */; };
+		27AD76DD2BE995F80037564B /* GraphView+GraphRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2715225B2BE009FC0009D8EA /* GraphView+GraphRange.swift */; };
+		27AD76DE2BE995F90037564B /* GraphView+GraphRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2715225B2BE009FC0009D8EA /* GraphView+GraphRange.swift */; };
 		27AF390F2BE94332000491E1 /* GraphRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AF390E2BE94332000491E1 /* GraphRange.swift */; };
-		27AF39102BE94332000491E1 /* GraphRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AF390E2BE94332000491E1 /* GraphRange.swift */; };
 		27C6E25F2BCF386E006BAE98 /* Dexcom in Frameworks */ = {isa = PBXBuildFile; productRef = 27C6E25E2BCF386E006BAE98 /* Dexcom */; };
 		27C6E2622BCF387A006BAE98 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 27C6E2612BCF387A006BAE98 /* KeychainAccess */; };
 		27D96EEF2BE4305F007F4720 /* FormHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96EE92BE4305F007F4720 /* FormHeader.swift */; };
@@ -263,6 +271,7 @@
 				2703324F2BD99E90009535EE /* SwiftUI.framework in Frameworks */,
 				2703324E2BD99E90009535EE /* WidgetKit.framework in Frameworks */,
 				270332632BD9A09F009535EE /* Dexcom in Frameworks */,
+				27AD76D22BE98F7D0037564B /* Defaults in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,6 +279,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27AD76D42BE98F820037564B /* Defaults in Frameworks */,
 				271CD1DB2BD96B1700FBE5DB /* KeychainAccess in Frameworks */,
 				271CD1D92BD96B1500FBE5DB /* Dexcom in Frameworks */,
 			);
@@ -283,6 +293,7 @@
 				2741EA2A2BD8AF08003EDEB2 /* SwiftUI.framework in Frameworks */,
 				2741EA282BD8AF08003EDEB2 /* WidgetKit.framework in Frameworks */,
 				271CD1DD2BD96B1C00FBE5DB /* Dexcom in Frameworks */,
+				27AD76D62BE98F890037564B /* Defaults in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,6 +301,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27AD76D02BE98F760037564B /* Defaults in Frameworks */,
 				27C6E2622BCF387A006BAE98 /* KeychainAccess in Frameworks */,
 				27C6E25F2BCF386E006BAE98 /* Dexcom in Frameworks */,
 			);
@@ -534,6 +546,7 @@
 			packageProductDependencies = (
 				270332622BD9A09F009535EE /* Dexcom */,
 				270332642BD9A09F009535EE /* KeychainAccess */,
+				27AD76D12BE98F7D0037564B /* Defaults */,
 			);
 			productName = GlimpseWidgetExtension;
 			productReference = 2703324D2BD99E90009535EE /* GlimpseWidget.appex */;
@@ -557,6 +570,7 @@
 			packageProductDependencies = (
 				271CD1D82BD96B1500FBE5DB /* Dexcom */,
 				271CD1DA2BD96B1700FBE5DB /* KeychainAccess */,
+				27AD76D32BE98F820037564B /* Defaults */,
 			);
 			productName = "GlimpseWatch Watch App";
 			productReference = 2741EA0F2BD8AEBA003EDEB2 /* Luka.app */;
@@ -578,6 +592,7 @@
 			packageProductDependencies = (
 				271CD1DC2BD96B1C00FBE5DB /* Dexcom */,
 				271CD1DE2BD96B1C00FBE5DB /* KeychainAccess */,
+				27AD76D52BE98F890037564B /* Defaults */,
 			);
 			productName = WatchWidgetExtension;
 			productReference = 2741EA252BD8AF08003EDEB2 /* WatchWidget.appex */;
@@ -603,6 +618,7 @@
 			packageProductDependencies = (
 				27C6E25E2BCF386E006BAE98 /* Dexcom */,
 				27C6E2612BCF387A006BAE98 /* KeychainAccess */,
+				27AD76CF2BE98F760037564B /* Defaults */,
 			);
 			productName = Glimpse;
 			productReference = 27F577672BCF38330012D66C /* Glimpse.app */;
@@ -644,6 +660,7 @@
 			packageReferences = (
 				27C6E25D2BCF386E006BAE98 /* XCRemoteSwiftPackageReference "dexcom-swift" */,
 				27C6E2602BCF387A006BAE98 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+				27AD76CE2BE98F760037564B /* XCRemoteSwiftPackageReference "Defaults" */,
 			);
 			productRefGroup = 27F577682BCF38330012D66C /* Products */;
 			projectDirPath = "";
@@ -736,6 +753,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27AD76D82BE990700037564B /* GraphRange.swift in Sources */,
 				27A367E82BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */,
 				27D96F052BE4490E007F4720 /* LiveViewModel.swift in Sources */,
 				27D96F012BE434FA007F4720 /* Bundle+Extensions.swift in Sources */,
@@ -743,6 +761,7 @@
 				271CD1E12BD96B3200FBE5DB /* Constants.swift in Sources */,
 				271CD1E22BD96B3200FBE5DB /* Keychain.swift in Sources */,
 				279BA4152BDFCA4C006C87B6 /* GlucoseReading+Extensions.swift in Sources */,
+				27AD76DE2BE995F90037564B /* GraphView+GraphRange.swift in Sources */,
 				274E9A4B2BE1C8E60035F216 /* View+Extensions.swift in Sources */,
 				27D96EFE2BE431A2007F4720 /* GlimpseApp.swift in Sources */,
 				27D96EF92BE43192007F4720 /* GraphView.swift in Sources */,
@@ -753,6 +772,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27AD76D92BE990700037564B /* GraphRange.swift in Sources */,
 				27AB804B2BDAD96D0071E482 /* InlineWidgetReadingView.swift in Sources */,
 				27558D172BE2D662000CACB4 /* WidgetErrorView.swift in Sources */,
 				27AB80542BDAE51C0071E482 /* RectangularWidgetErrorView.swift in Sources */,
@@ -763,7 +783,6 @@
 				27AB804E2BDAD9B10071E482 /* WidgetGraphView.swift in Sources */,
 				274E9A4C2BE1C8E60035F216 /* View+Extensions.swift in Sources */,
 				27558D0C2BE2D57C000CACB4 /* GlimpseWidgetBundle.swift in Sources */,
-				27AF39102BE94332000491E1 /* GraphRange.swift in Sources */,
 				2741EA2F2BD8AF08003EDEB2 /* GraphWidgetConfiguration.swift in Sources */,
 				27AB80572BDAF27C0071E482 /* CircularWidgetErrorView.swift in Sources */,
 				270E18632BDA084E00CB7D4D /* ReadingWidgetView.swift in Sources */,
@@ -795,6 +814,7 @@
 				2731E07F2BDC6D8F00695EBF /* RootView.swift in Sources */,
 				27D96EF52BE430E9007F4720 /* CardModifier.swift in Sources */,
 				2731E08A2BDC9D7C00695EBF /* MainView.swift in Sources */,
+				27AD76D72BE9906F0037564B /* GraphRange.swift in Sources */,
 				27D96EF32BE4305F007F4720 /* FormToggle.swift in Sources */,
 				27F5776D2BCF38330012D66C /* SignInView.swift in Sources */,
 				27F5776B2BCF38330012D66C /* GlimpseApp.swift in Sources */,
@@ -803,6 +823,7 @@
 				274E9A492BE1C8E60035F216 /* View+Extensions.swift in Sources */,
 				27D96F042BE4490E007F4720 /* LiveViewModel.swift in Sources */,
 				279BA40A2BDED8D5006C87B6 /* FooterScrollView.swift in Sources */,
+				27AD76DD2BE995F80037564B /* GraphView+GraphRange.swift in Sources */,
 				27D96EF72BE43110007F4720 /* EdgeInsets+Extensions.swift in Sources */,
 				2741EA072BD8AA74003EDEB2 /* Keychain.swift in Sources */,
 				27D96F002BE434F1007F4720 /* Bundle+Extensions.swift in Sources */,
@@ -1250,6 +1271,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		27AD76CE2BE98F760037564B /* XCRemoteSwiftPackageReference "Defaults" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/Defaults";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		27C6E25D2BCF386E006BAE98 /* XCRemoteSwiftPackageReference "dexcom-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kylebshr/dexcom-swift";
@@ -1298,6 +1327,26 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 27C6E2602BCF387A006BAE98 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
 			productName = KeychainAccess;
+		};
+		27AD76CF2BE98F760037564B /* Defaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 27AD76CE2BE98F760037564B /* XCRemoteSwiftPackageReference "Defaults" */;
+			productName = Defaults;
+		};
+		27AD76D12BE98F7D0037564B /* Defaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 27AD76CE2BE98F760037564B /* XCRemoteSwiftPackageReference "Defaults" */;
+			productName = Defaults;
+		};
+		27AD76D32BE98F820037564B /* Defaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 27AD76CE2BE98F760037564B /* XCRemoteSwiftPackageReference "Defaults" */;
+			productName = Defaults;
+		};
+		27AD76D52BE98F890037564B /* Defaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 27AD76CE2BE98F760037564B /* XCRemoteSwiftPackageReference "Defaults" */;
+			productName = Defaults;
 		};
 		27C6E25E2BCF386E006BAE98 /* Dexcom */ = {
 			isa = XCSwiftPackageProductDependency;

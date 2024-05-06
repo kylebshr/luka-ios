@@ -6,28 +6,27 @@
 //
 
 import SwiftUI
+import Defaults
 
 struct SettingsView: View {
     @Environment(RootViewModel.self) private var viewModel
     @Environment(\.dismiss) private var dismiss
 
-    @State private var lowerTargetRange = Double(UserDefaults.shared.targetRangeLowerBound)
-    @State private var upperTargetRange = Double(UserDefaults.shared.targetRangeUpperBound)
-    @State private var upperGraphRange = Double(UserDefaults.shared.graphUpperBound)
+    @Default(.targetRangeLowerBound) private var lowerTargetRange
+    @Default(.targetRangeUpperBound) private var upperTargetRange
+    @Default(.graphUpperBound) private var upperGraphRange
 
     var body: some View {
         FooterScrollView {
             VStack(alignment: .leading, spacing: .verticalSpacing) {
-                FormHeader(title: "Graph")
+                Spacer()
 
                 FormSection {
                     GraphSliderView(
                         title: "Upper bound",
                         currentValue: $upperGraphRange,
                         range: 220...400
-                    ) {
-                        UserDefaults.shared.graphUpperBound = $0
-                    }
+                    )
 
                     FormSectionDivider()
 
@@ -35,9 +34,7 @@ struct SettingsView: View {
                         title: "Upper target range",
                         currentValue: $upperTargetRange,
                         range: 120...220
-                    ) {
-                        UserDefaults.shared.targetRangeUpperBound = $0
-                    }
+                    )
 
                     FormSectionDivider()
 
@@ -45,9 +42,7 @@ struct SettingsView: View {
                         title: "Lower target range",
                         currentValue: $lowerTargetRange,
                         range: 55...110
-                    ) {
-                        UserDefaults.shared.targetRangeLowerBound = $0
-                    }
+                    )
                 }
 
                 Text("Version \(Bundle.main.fullVersion)")
@@ -87,7 +82,6 @@ private struct GraphSliderView: View {
     var title: String
     @Binding var currentValue: Double
     var range: ClosedRange<Double>
-    var update: (Int) -> Void
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -104,9 +98,6 @@ private struct GraphSliderView: View {
                 step: 1,
                 label: {
                     Text(title)
-                },
-                onEditingChanged: { bool in
-                    update(Int(currentValue))
                 }
             )
         }

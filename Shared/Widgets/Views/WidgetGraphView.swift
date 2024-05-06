@@ -57,7 +57,8 @@ struct WidgetGraphView: View {
                         highlight: data.current,
                         graphUpperBound: data.graphUpperBound,
                         targetRange: data.targetLowerBound...data.targetUpperBound,
-                        roundBottomCorners: !isInStandby
+                        roundBottomCorners: !isInStandby,
+                        showMarkLabels: false
                     )
                 }
                 .font(.system(size: watchOS ? 15 : 13, weight: .semibold))

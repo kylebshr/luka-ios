@@ -7,6 +7,7 @@
 
 import Dexcom
 import Foundation
+import Defaults
 
 protocol GlucoseEntryData {
     var current: GlucoseReading { get }
@@ -25,7 +26,7 @@ struct GlucoseGraphEntryData: GlucoseEntryData {
         configuration.graphRange.abbreviatedName
     }
 
-    let targetUpperBound: Int = UserDefaults.shared.targetRangeUpperBound
-    let targetLowerBound: Int = UserDefaults.shared.targetRangeLowerBound
-    let graphUpperBound: Int = UserDefaults.shared.graphUpperBound
+    let targetUpperBound: Int = Int(Defaults[.targetRangeUpperBound])
+    let targetLowerBound: Int = Int(Defaults[.targetRangeLowerBound])
+    let graphUpperBound: Int = Int(Defaults[.graphUpperBound])
 }

@@ -8,6 +8,7 @@
 import SwiftUI
 import KeychainAccess
 import Dexcom
+import Defaults
 
 @Observable class RootViewModel {
     private let keychain = Keychain.shared
@@ -48,7 +49,7 @@ import Dexcom
         self.username = username
         self.password = password
 
-        UserDefaults.shared.outsideUS = outsideUS
+        Defaults[.outsideUS] = outsideUS
     }
 
     func signOut() {
