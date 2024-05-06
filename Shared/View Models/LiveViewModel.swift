@@ -102,7 +102,7 @@ import Dexcom
                     return nil
                 case .loaded(let readings):
                     // 5:10 after the last reading.
-                    let fiveMinuteRefresh = 60 * 5 + readings.last!.date.timeIntervalSinceNow + 10
+                    let fiveMinuteRefresh = 60 * 5 + readings.latest!.date.timeIntervalSinceNow + 10
                     // Refresh 5:10 after reading, then every 10s.
                     return max(10, fiveMinuteRefresh)
                 case .noRecentReading:
@@ -136,10 +136,10 @@ import Dexcom
         case .initial:
             message = "Loading..."
         case .loaded(let readings):
-            if readings.last!.date.timeIntervalSinceNow > -60 {
+            if readings.latest!.date.timeIntervalSinceNow > -60 {
                 message = "Just now"
             } else {
-                message = readings.last!.date.formatted(.relative(presentation: .numeric))
+                message = readings.latest!.date.formatted(.relative(presentation: .numeric))
             }
         case .noRecentReading:
             message = "No recent glucose readings"

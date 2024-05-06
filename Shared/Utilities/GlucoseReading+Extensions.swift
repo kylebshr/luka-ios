@@ -89,4 +89,6 @@ extension [GlucoseReading] {
             )
         }.reversed()
     }()
+
+    var latest: GlucoseReading? { first }
 }

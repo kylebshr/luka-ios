@@ -59,7 +59,7 @@ struct GraphTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider 
                 )
             )
 
-            if let readings, let current = readings.last, Date.now.timeIntervalSince(current.date) < 60 * 15 {
+            if let readings, let current = readings.latest, Date.now.timeIntervalSince(current.date) < 60 * 15 {
                 return .reading(
                     GlucoseGraphEntryData(
                         configuration: configuration,

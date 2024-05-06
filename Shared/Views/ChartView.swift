@@ -97,7 +97,7 @@ extension GlucoseReading: Identifiable {
     GraphView(
         range: Date.now.addingTimeInterval(-60 * 60 * 3)...Date.now,
         readings: .placeholder,
-        highlight: [GlucoseReading].placeholder.last,
+        highlight: [GlucoseReading].placeholder.latest,
         graphUpperBound: 300,
         targetRange: 70...180,
         roundBottomCorners: false
