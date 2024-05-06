@@ -15,7 +15,7 @@ enum DexcomClientError: Error {
 extension DexcomClient {
     func getGraphReadings(duration: Measurement<UnitDuration>) async throws -> [GlucoseReading]? {
         #if os(watchOS)
-        let readings = if duration > .init(value: 8, unit: .hours) {
+        let readings = if duration > .init(value: 6, unit: .hours) {
              try await getGlucoseReadings(duration: duration)
                 .enumerated()
                 .filter { $0.offset % 3 == 0 }
