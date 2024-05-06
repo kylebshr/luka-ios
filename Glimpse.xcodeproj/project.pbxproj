@@ -45,7 +45,7 @@
 		2741EA0A2BD8AB2F003EDEB2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA092BD8AB2F003EDEB2 /* Constants.swift */; };
 		2741EA162BD8AEBB003EDEB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2741EA152BD8AEBB003EDEB2 /* Assets.xcassets */; };
 		2741EA192BD8AEBB003EDEB2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2741EA182BD8AEBB003EDEB2 /* Preview Assets.xcassets */; };
-		2741EA1C2BD8AEBB003EDEB2 /* Glimpse.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 2741EA0F2BD8AEBA003EDEB2 /* Glimpse.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		2741EA1C2BD8AEBB003EDEB2 /* Luka.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 2741EA0F2BD8AEBA003EDEB2 /* Luka.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2741EA282BD8AF08003EDEB2 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2741EA272BD8AF08003EDEB2 /* WidgetKit.framework */; };
 		2741EA2A2BD8AF08003EDEB2 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2741EA292BD8AF08003EDEB2 /* SwiftUI.framework */; };
 		2741EA2F2BD8AF08003EDEB2 /* ChartWidgetConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA2E2BD8AF08003EDEB2 /* ChartWidgetConfiguration.swift */; };
@@ -172,7 +172,7 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
-				2741EA1C2BD8AEBB003EDEB2 /* Glimpse.app in Embed Watch Content */,
+				2741EA1C2BD8AEBB003EDEB2 /* Luka.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -209,7 +209,7 @@
 		2741EA062BD8AA74003EDEB2 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		2741EA082BD8AA84003EDEB2 /* Glimpse.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Glimpse.entitlements; sourceTree = "<group>"; };
 		2741EA092BD8AB2F003EDEB2 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		2741EA0F2BD8AEBA003EDEB2 /* Glimpse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Glimpse.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2741EA0F2BD8AEBA003EDEB2 /* Luka.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Luka.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2741EA152BD8AEBB003EDEB2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2741EA182BD8AEBB003EDEB2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2741EA252BD8AF08003EDEB2 /* WatchWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WatchWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -505,7 +505,7 @@
 			isa = PBXGroup;
 			children = (
 				27F577672BCF38330012D66C /* Glimpse.app */,
-				2741EA0F2BD8AEBA003EDEB2 /* Glimpse.app */,
+				2741EA0F2BD8AEBA003EDEB2 /* Luka.app */,
 				2741EA252BD8AF08003EDEB2 /* WatchWidget.appex */,
 				2703324D2BD99E90009535EE /* GlimpseWidget.appex */,
 			);
@@ -577,7 +577,7 @@
 				271CD1DA2BD96B1700FBE5DB /* KeychainAccess */,
 			);
 			productName = "GlimpseWatch Watch App";
-			productReference = 2741EA0F2BD8AEBA003EDEB2 /* Glimpse.app */;
+			productReference = 2741EA0F2BD8AEBA003EDEB2 /* Luka.app */;
 			productType = "com.apple.product-type.application";
 		};
 		2741EA242BD8AF08003EDEB2 /* WatchWidget */ = {
@@ -937,7 +937,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kylebashour.Glimpse.watchkitapp;
-				PRODUCT_NAME = Glimpse;
+				PRODUCT_NAME = Luka;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -967,7 +967,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kylebashour.Glimpse.watchkitapp;
-				PRODUCT_NAME = Glimpse;
+				PRODUCT_NAME = Luka;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
