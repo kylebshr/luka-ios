@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		270332482BD99E81009535EE /* ChartTimelineProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270332452BD99E79009535EE /* ChartTimelineProvider.swift */; };
+		270332482BD99E81009535EE /* GraphTimelineProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270332452BD99E79009535EE /* GraphTimelineProvider.swift */; };
 		2703324E2BD99E90009535EE /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2741EA272BD8AF08003EDEB2 /* WidgetKit.framework */; };
 		2703324F2BD99E90009535EE /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2741EA292BD8AF08003EDEB2 /* SwiftUI.framework */; };
 		270332522BD99E90009535EE /* GlimpseWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270332512BD99E90009535EE /* GlimpseWidgetBundle.swift */; };
 		270332542BD99E90009535EE /* GlimpseReadingWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270332532BD99E90009535EE /* GlimpseReadingWidget.swift */; };
 		270332562BD99E91009535EE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 270332552BD99E91009535EE /* Assets.xcassets */; };
 		2703325A2BD99E91009535EE /* GlimpseWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2703324D2BD99E90009535EE /* GlimpseWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		270332602BD99F43009535EE /* ChartTimelineProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270332452BD99E79009535EE /* ChartTimelineProvider.swift */; };
+		270332602BD99F43009535EE /* GraphTimelineProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270332452BD99E79009535EE /* GraphTimelineProvider.swift */; };
 		270332632BD9A09F009535EE /* Dexcom in Frameworks */ = {isa = PBXBuildFile; productRef = 270332622BD9A09F009535EE /* Dexcom */; };
 		270332652BD9A09F009535EE /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 270332642BD9A09F009535EE /* KeychainAccess */; };
 		270332662BD9A0B5009535EE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA092BD8AB2F003EDEB2 /* Constants.swift */; };
@@ -26,9 +26,9 @@
 		270E18632BDA084E00CB7D4D /* ReadingWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E18612BDA084E00CB7D4D /* ReadingWidgetView.swift */; };
 		270E18652BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E18642BDA0A1400CB7D4D /* ReloadWidgetIntent.swift */; };
 		270E18662BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E18642BDA0A1400CB7D4D /* ReloadWidgetIntent.swift */; };
-		271522592BE009C80009D8EA /* ChartWidgetConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA2E2BD8AF08003EDEB2 /* ChartWidgetConfiguration.swift */; };
-		2715225C2BE009FC0009D8EA /* ChartView+ChartRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2715225B2BE009FC0009D8EA /* ChartView+ChartRange.swift */; };
-		2715225D2BE009FC0009D8EA /* ChartView+ChartRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2715225B2BE009FC0009D8EA /* ChartView+ChartRange.swift */; };
+		271522592BE009C80009D8EA /* GraphWidgetConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA2E2BD8AF08003EDEB2 /* GraphWidgetConfiguration.swift */; };
+		2715225C2BE009FC0009D8EA /* GraphView+GraphRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2715225B2BE009FC0009D8EA /* GraphView+GraphRange.swift */; };
+		2715225D2BE009FC0009D8EA /* GraphView+GraphRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2715225B2BE009FC0009D8EA /* GraphView+GraphRange.swift */; };
 		271CD1D92BD96B1500FBE5DB /* Dexcom in Frameworks */ = {isa = PBXBuildFile; productRef = 271CD1D82BD96B1500FBE5DB /* Dexcom */; };
 		271CD1DB2BD96B1700FBE5DB /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 271CD1DA2BD96B1700FBE5DB /* KeychainAccess */; };
 		271CD1DD2BD96B1C00FBE5DB /* Dexcom in Frameworks */ = {isa = PBXBuildFile; productRef = 271CD1DC2BD96B1C00FBE5DB /* Dexcom */; };
@@ -48,7 +48,7 @@
 		2741EA1C2BD8AEBB003EDEB2 /* Luka.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 2741EA0F2BD8AEBA003EDEB2 /* Luka.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2741EA282BD8AF08003EDEB2 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2741EA272BD8AF08003EDEB2 /* WidgetKit.framework */; };
 		2741EA2A2BD8AF08003EDEB2 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2741EA292BD8AF08003EDEB2 /* SwiftUI.framework */; };
-		2741EA2F2BD8AF08003EDEB2 /* ChartWidgetConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA2E2BD8AF08003EDEB2 /* ChartWidgetConfiguration.swift */; };
+		2741EA2F2BD8AF08003EDEB2 /* GraphWidgetConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA2E2BD8AF08003EDEB2 /* GraphWidgetConfiguration.swift */; };
 		2741EA312BD8AF0A003EDEB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2741EA302BD8AF0A003EDEB2 /* Assets.xcassets */; };
 		2741EA352BD8AF0A003EDEB2 /* WatchWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2741EA252BD8AF08003EDEB2 /* WatchWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		274E9A492BE1C8E60035F216 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274E9A482BE1C8E60035F216 /* View+Extensions.swift */; };
@@ -57,12 +57,12 @@
 		274E9A4C2BE1C8E60035F216 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274E9A482BE1C8E60035F216 /* View+Extensions.swift */; };
 		27558D0C2BE2D57C000CACB4 /* GlimpseWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270332512BD99E90009535EE /* GlimpseWidgetBundle.swift */; };
 		27558D0D2BE2D57C000CACB4 /* GlimpseReadingWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270332532BD99E90009535EE /* GlimpseReadingWidget.swift */; };
-		27558D132BE2D634000CACB4 /* GlimpseChartWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D122BE2D634000CACB4 /* GlimpseChartWidget.swift */; };
-		27558D142BE2D634000CACB4 /* GlimpseChartWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D122BE2D634000CACB4 /* GlimpseChartWidget.swift */; };
+		27558D132BE2D634000CACB4 /* GlimpseGraphWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D122BE2D634000CACB4 /* GlimpseGraphWidget.swift */; };
+		27558D142BE2D634000CACB4 /* GlimpseGraphWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D122BE2D634000CACB4 /* GlimpseGraphWidget.swift */; };
 		27558D162BE2D662000CACB4 /* WidgetErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D152BE2D662000CACB4 /* WidgetErrorView.swift */; };
 		27558D172BE2D662000CACB4 /* WidgetErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D152BE2D662000CACB4 /* WidgetErrorView.swift */; };
-		27558D192BE2D6BE000CACB4 /* ChartWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D182BE2D6BE000CACB4 /* ChartWidgetView.swift */; };
-		27558D1A2BE2D6BE000CACB4 /* ChartWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D182BE2D6BE000CACB4 /* ChartWidgetView.swift */; };
+		27558D192BE2D6BE000CACB4 /* GraphWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D182BE2D6BE000CACB4 /* GraphWidgetView.swift */; };
+		27558D1A2BE2D6BE000CACB4 /* GraphWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D182BE2D6BE000CACB4 /* GraphWidgetView.swift */; };
 		27558D1C2BE2D7B1000CACB4 /* GlucoseEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D1B2BE2D7B1000CACB4 /* GlucoseEntry.swift */; };
 		27558D1D2BE2D7B1000CACB4 /* GlucoseEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D1B2BE2D7B1000CACB4 /* GlucoseEntry.swift */; };
 		27558D592BE2F464000CACB4 /* GlucoseEntryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D572BE2F464000CACB4 /* GlucoseEntryData.swift */; };
@@ -86,20 +86,22 @@
 		27A367E72BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A367E52BE153B600FC07FB /* DexcomClient+Extensions.swift */; };
 		27A367E82BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A367E52BE153B600FC07FB /* DexcomClient+Extensions.swift */; };
 		27A367E92BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A367E52BE153B600FC07FB /* DexcomClient+Extensions.swift */; };
-		27AB80432BDAD7C60071E482 /* SystemWidgetChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80422BDAD7C60071E482 /* SystemWidgetChartView.swift */; };
-		27AB80442BDAD7C60071E482 /* SystemWidgetChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80422BDAD7C60071E482 /* SystemWidgetChartView.swift */; };
+		27AB80432BDAD7C60071E482 /* SystemWidgetGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80422BDAD7C60071E482 /* SystemWidgetGraphView.swift */; };
+		27AB80442BDAD7C60071E482 /* SystemWidgetGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80422BDAD7C60071E482 /* SystemWidgetGraphView.swift */; };
 		27AB80462BDAD8C20071E482 /* GlucoseReading+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80452BDAD8C20071E482 /* GlucoseReading+Extensions.swift */; };
 		27AB80472BDAD8C20071E482 /* GlucoseReading+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80452BDAD8C20071E482 /* GlucoseReading+Extensions.swift */; };
 		27AB804A2BDAD96D0071E482 /* InlineWidgetReadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80492BDAD96D0071E482 /* InlineWidgetReadingView.swift */; };
 		27AB804B2BDAD96D0071E482 /* InlineWidgetReadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80492BDAD96D0071E482 /* InlineWidgetReadingView.swift */; };
-		27AB804D2BDAD9B10071E482 /* RectangularWidgetChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB804C2BDAD9B10071E482 /* RectangularWidgetChartView.swift */; };
-		27AB804E2BDAD9B10071E482 /* RectangularWidgetChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB804C2BDAD9B10071E482 /* RectangularWidgetChartView.swift */; };
+		27AB804D2BDAD9B10071E482 /* RectangularWidgetGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB804C2BDAD9B10071E482 /* RectangularWidgetGraphView.swift */; };
+		27AB804E2BDAD9B10071E482 /* RectangularWidgetGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB804C2BDAD9B10071E482 /* RectangularWidgetGraphView.swift */; };
 		27AB80502BDADF030071E482 /* SystemWidgetErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB804F2BDADF030071E482 /* SystemWidgetErrorView.swift */; };
 		27AB80512BDADF030071E482 /* SystemWidgetErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB804F2BDADF030071E482 /* SystemWidgetErrorView.swift */; };
 		27AB80532BDAE51C0071E482 /* RectangularWidgetErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80522BDAE51C0071E482 /* RectangularWidgetErrorView.swift */; };
 		27AB80542BDAE51C0071E482 /* RectangularWidgetErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80522BDAE51C0071E482 /* RectangularWidgetErrorView.swift */; };
 		27AB80562BDAF27C0071E482 /* CircularWidgetErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80552BDAF27C0071E482 /* CircularWidgetErrorView.swift */; };
 		27AB80572BDAF27C0071E482 /* CircularWidgetErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB80552BDAF27C0071E482 /* CircularWidgetErrorView.swift */; };
+		27AF390F2BE94332000491E1 /* GraphRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AF390E2BE94332000491E1 /* GraphRange.swift */; };
+		27AF39102BE94332000491E1 /* GraphRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AF390E2BE94332000491E1 /* GraphRange.swift */; };
 		27C6E25F2BCF386E006BAE98 /* Dexcom in Frameworks */ = {isa = PBXBuildFile; productRef = 27C6E25E2BCF386E006BAE98 /* Dexcom */; };
 		27C6E2622BCF387A006BAE98 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 27C6E2612BCF387A006BAE98 /* KeychainAccess */; };
 		27D96EEF2BE4305F007F4720 /* FormHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96EE92BE4305F007F4720 /* FormHeader.swift */; };
@@ -187,7 +189,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		270332452BD99E79009535EE /* ChartTimelineProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartTimelineProvider.swift; sourceTree = "<group>"; };
+		270332452BD99E79009535EE /* GraphTimelineProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphTimelineProvider.swift; sourceTree = "<group>"; };
 		2703324D2BD99E90009535EE /* GlimpseWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = GlimpseWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		270332512BD99E90009535EE /* GlimpseWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlimpseWidgetBundle.swift; sourceTree = "<group>"; };
 		270332532BD99E90009535EE /* GlimpseReadingWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlimpseReadingWidget.swift; sourceTree = "<group>"; };
@@ -197,7 +199,7 @@
 		270E185E2BDA082A00CB7D4D /* CircularWidgetReadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularWidgetReadingView.swift; sourceTree = "<group>"; };
 		270E18612BDA084E00CB7D4D /* ReadingWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingWidgetView.swift; sourceTree = "<group>"; };
 		270E18642BDA0A1400CB7D4D /* ReloadWidgetIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReloadWidgetIntent.swift; sourceTree = "<group>"; };
-		2715225B2BE009FC0009D8EA /* ChartView+ChartRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChartView+ChartRange.swift"; sourceTree = "<group>"; };
+		2715225B2BE009FC0009D8EA /* GraphView+GraphRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GraphView+GraphRange.swift"; sourceTree = "<group>"; };
 		2731E07C2BDC6CB400695EBF /* CardTextFieldStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTextFieldStyle.swift; sourceTree = "<group>"; };
 		2731E07E2BDC6D8F00695EBF /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		2731E0812BDC735300695EBF /* RootViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
@@ -211,13 +213,13 @@
 		2741EA252BD8AF08003EDEB2 /* WatchWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WatchWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		2741EA272BD8AF08003EDEB2 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		2741EA292BD8AF08003EDEB2 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		2741EA2E2BD8AF08003EDEB2 /* ChartWidgetConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartWidgetConfiguration.swift; sourceTree = "<group>"; };
+		2741EA2E2BD8AF08003EDEB2 /* GraphWidgetConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphWidgetConfiguration.swift; sourceTree = "<group>"; };
 		2741EA302BD8AF0A003EDEB2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2741EA322BD8AF0A003EDEB2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		274E9A482BE1C8E60035F216 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
-		27558D122BE2D634000CACB4 /* GlimpseChartWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlimpseChartWidget.swift; sourceTree = "<group>"; };
+		27558D122BE2D634000CACB4 /* GlimpseGraphWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlimpseGraphWidget.swift; sourceTree = "<group>"; };
 		27558D152BE2D662000CACB4 /* WidgetErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetErrorView.swift; sourceTree = "<group>"; };
-		27558D182BE2D6BE000CACB4 /* ChartWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartWidgetView.swift; sourceTree = "<group>"; };
+		27558D182BE2D6BE000CACB4 /* GraphWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphWidgetView.swift; sourceTree = "<group>"; };
 		27558D1B2BE2D7B1000CACB4 /* GlucoseEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlucoseEntry.swift; sourceTree = "<group>"; };
 		27558D572BE2F464000CACB4 /* GlucoseEntryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlucoseEntryData.swift; sourceTree = "<group>"; };
 		27558D5C2BE2F9A5000CACB4 /* ReadingTimelineProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingTimelineProvider.swift; sourceTree = "<group>"; };
@@ -229,13 +231,14 @@
 		279BA40F2BDFC65B006C87B6 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		279BA4162BDFFACF006C87B6 /* StandByMargins.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandByMargins.swift; sourceTree = "<group>"; };
 		27A367E52BE153B600FC07FB /* DexcomClient+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DexcomClient+Extensions.swift"; sourceTree = "<group>"; };
-		27AB80422BDAD7C60071E482 /* SystemWidgetChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemWidgetChartView.swift; sourceTree = "<group>"; };
+		27AB80422BDAD7C60071E482 /* SystemWidgetGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemWidgetGraphView.swift; sourceTree = "<group>"; };
 		27AB80452BDAD8C20071E482 /* GlucoseReading+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GlucoseReading+Extensions.swift"; sourceTree = "<group>"; };
 		27AB80492BDAD96D0071E482 /* InlineWidgetReadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InlineWidgetReadingView.swift; sourceTree = "<group>"; };
-		27AB804C2BDAD9B10071E482 /* RectangularWidgetChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangularWidgetChartView.swift; sourceTree = "<group>"; };
+		27AB804C2BDAD9B10071E482 /* RectangularWidgetGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangularWidgetGraphView.swift; sourceTree = "<group>"; };
 		27AB804F2BDADF030071E482 /* SystemWidgetErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemWidgetErrorView.swift; sourceTree = "<group>"; };
 		27AB80522BDAE51C0071E482 /* RectangularWidgetErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangularWidgetErrorView.swift; sourceTree = "<group>"; };
 		27AB80552BDAF27C0071E482 /* CircularWidgetErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularWidgetErrorView.swift; sourceTree = "<group>"; };
+		27AF390E2BE94332000491E1 /* GraphRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphRange.swift; sourceTree = "<group>"; };
 		27D96EE92BE4305F007F4720 /* FormHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormHeader.swift; sourceTree = "<group>"; };
 		27D96EEA2BE4305F007F4720 /* FormRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormRow.swift; sourceTree = "<group>"; };
 		27D96EEB2BE4305F007F4720 /* FormSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormSection.swift; sourceTree = "<group>"; };
@@ -342,7 +345,8 @@
 		2731E0842BDC737200695EBF /* Intents */ = {
 			isa = PBXGroup;
 			children = (
-				2741EA2E2BD8AF08003EDEB2 /* ChartWidgetConfiguration.swift */,
+				2741EA2E2BD8AF08003EDEB2 /* GraphWidgetConfiguration.swift */,
+				27AF390E2BE94332000491E1 /* GraphRange.swift */,
 				270E18642BDA0A1400CB7D4D /* ReloadWidgetIntent.swift */,
 			);
 			path = Intents;
@@ -351,13 +355,13 @@
 		2731E0852BDC738E00695EBF /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
-				270332452BD99E79009535EE /* ChartTimelineProvider.swift */,
+				270332452BD99E79009535EE /* GraphTimelineProvider.swift */,
 				27558D5C2BE2F9A5000CACB4 /* ReadingTimelineProvider.swift */,
 				27558D5F2BE2FA20000CACB4 /* DexcomTimelineProvider.swift */,
 				27558D1B2BE2D7B1000CACB4 /* GlucoseEntry.swift */,
 				27558D572BE2F464000CACB4 /* GlucoseEntryData.swift */,
 				270332512BD99E90009535EE /* GlimpseWidgetBundle.swift */,
-				27558D122BE2D634000CACB4 /* GlimpseChartWidget.swift */,
+				27558D122BE2D634000CACB4 /* GlimpseGraphWidget.swift */,
 				270332532BD99E90009535EE /* GlimpseReadingWidget.swift */,
 				27AB80482BDAD9500071E482 /* Views */,
 			);
@@ -423,19 +427,19 @@
 			isa = PBXGroup;
 			children = (
 				270E18612BDA084E00CB7D4D /* ReadingWidgetView.swift */,
-				27558D182BE2D6BE000CACB4 /* ChartWidgetView.swift */,
+				27558D182BE2D6BE000CACB4 /* GraphWidgetView.swift */,
 				27558D152BE2D662000CACB4 /* WidgetErrorView.swift */,
-				27AB80422BDAD7C60071E482 /* SystemWidgetChartView.swift */,
+				27AB80422BDAD7C60071E482 /* SystemWidgetGraphView.swift */,
 				27558D622BE3006F000CACB4 /* SystemWidgetReadingView.swift */,
 				27AB804F2BDADF030071E482 /* SystemWidgetErrorView.swift */,
 				27AB80492BDAD96D0071E482 /* InlineWidgetReadingView.swift */,
-				27AB804C2BDAD9B10071E482 /* RectangularWidgetChartView.swift */,
+				27AB804C2BDAD9B10071E482 /* RectangularWidgetGraphView.swift */,
 				27AB80522BDAE51C0071E482 /* RectangularWidgetErrorView.swift */,
 				270E185E2BDA082A00CB7D4D /* CircularWidgetReadingView.swift */,
 				27AB80552BDAF27C0071E482 /* CircularWidgetErrorView.swift */,
 				279BA4162BDFFACF006C87B6 /* StandByMargins.swift */,
 				27558D652BE30944000CACB4 /* WidgetButtonContent.swift */,
-				2715225B2BE009FC0009D8EA /* ChartView+ChartRange.swift */,
+				2715225B2BE009FC0009D8EA /* GraphView+GraphRange.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -705,17 +709,18 @@
 			files = (
 				270332662BD9A0B5009535EE /* Constants.swift in Sources */,
 				27558D162BE2D662000CACB4 /* WidgetErrorView.swift in Sources */,
-				270332602BD99F43009535EE /* ChartTimelineProvider.swift in Sources */,
+				270332602BD99F43009535EE /* GraphTimelineProvider.swift in Sources */,
 				27558D592BE2F464000CACB4 /* GlucoseEntryData.swift in Sources */,
-				27AB804D2BDAD9B10071E482 /* RectangularWidgetChartView.swift in Sources */,
+				27AB804D2BDAD9B10071E482 /* RectangularWidgetGraphView.swift in Sources */,
 				27558D602BE2FA20000CACB4 /* DexcomTimelineProvider.swift in Sources */,
 				27A367E72BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */,
-				271522592BE009C80009D8EA /* ChartWidgetConfiguration.swift in Sources */,
-				27AB80432BDAD7C60071E482 /* SystemWidgetChartView.swift in Sources */,
+				271522592BE009C80009D8EA /* GraphWidgetConfiguration.swift in Sources */,
+				27AB80432BDAD7C60071E482 /* SystemWidgetGraphView.swift in Sources */,
 				270E18652BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */,
+				27AF390F2BE94332000491E1 /* GraphRange.swift in Sources */,
 				274E9A4A2BE1C8E60035F216 /* View+Extensions.swift in Sources */,
 				270332522BD99E90009535EE /* GlimpseWidgetBundle.swift in Sources */,
-				2715225C2BE009FC0009D8EA /* ChartView+ChartRange.swift in Sources */,
+				2715225C2BE009FC0009D8EA /* GraphView+GraphRange.swift in Sources */,
 				27558D662BE30944000CACB4 /* WidgetButtonContent.swift in Sources */,
 				27558D632BE3006F000CACB4 /* SystemWidgetReadingView.swift in Sources */,
 				279BA4172BDFFAD0006C87B6 /* StandByMargins.swift in Sources */,
@@ -727,12 +732,12 @@
 				27558D1C2BE2D7B1000CACB4 /* GlucoseEntry.swift in Sources */,
 				27D96EFA2BE43195007F4720 /* ChartView.swift in Sources */,
 				270332672BD9A0B9009535EE /* Keychain.swift in Sources */,
-				27558D192BE2D6BE000CACB4 /* ChartWidgetView.swift in Sources */,
+				27558D192BE2D6BE000CACB4 /* GraphWidgetView.swift in Sources */,
 				27AB804A2BDAD96D0071E482 /* InlineWidgetReadingView.swift in Sources */,
 				270332682BD9A0B9009535EE /* Defaults.swift in Sources */,
 				27AB80462BDAD8C20071E482 /* GlucoseReading+Extensions.swift in Sources */,
 				270E185F2BDA082A00CB7D4D /* CircularWidgetReadingView.swift in Sources */,
-				27558D132BE2D634000CACB4 /* GlimpseChartWidget.swift in Sources */,
+				27558D132BE2D634000CACB4 /* GlimpseGraphWidget.swift in Sources */,
 				270332542BD99E90009535EE /* GlimpseReadingWidget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -765,10 +770,11 @@
 				27A367E92BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */,
 				27558D612BE2FA20000CACB4 /* DexcomTimelineProvider.swift in Sources */,
 				270E18662BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */,
-				27AB804E2BDAD9B10071E482 /* RectangularWidgetChartView.swift in Sources */,
+				27AB804E2BDAD9B10071E482 /* RectangularWidgetGraphView.swift in Sources */,
 				274E9A4C2BE1C8E60035F216 /* View+Extensions.swift in Sources */,
 				27558D0C2BE2D57C000CACB4 /* GlimpseWidgetBundle.swift in Sources */,
-				2741EA2F2BD8AF08003EDEB2 /* ChartWidgetConfiguration.swift in Sources */,
+				27AF39102BE94332000491E1 /* GraphRange.swift in Sources */,
+				2741EA2F2BD8AF08003EDEB2 /* GraphWidgetConfiguration.swift in Sources */,
 				27AB80572BDAF27C0071E482 /* CircularWidgetErrorView.swift in Sources */,
 				270E18632BDA084E00CB7D4D /* ReadingWidgetView.swift in Sources */,
 				270E18602BDA082A00CB7D4D /* CircularWidgetReadingView.swift in Sources */,
@@ -778,16 +784,16 @@
 				27AB80512BDADF030071E482 /* SystemWidgetErrorView.swift in Sources */,
 				27558D5E2BE2F9A5000CACB4 /* ReadingTimelineProvider.swift in Sources */,
 				27E2C5842BD98B3B0000FB40 /* Defaults.swift in Sources */,
-				270332482BD99E81009535EE /* ChartTimelineProvider.swift in Sources */,
+				270332482BD99E81009535EE /* GraphTimelineProvider.swift in Sources */,
 				27558D1D2BE2D7B1000CACB4 /* GlucoseEntry.swift in Sources */,
 				27D96EFB2BE43196007F4720 /* ChartView.swift in Sources */,
-				2715225D2BE009FC0009D8EA /* ChartView+ChartRange.swift in Sources */,
-				27558D1A2BE2D6BE000CACB4 /* ChartWidgetView.swift in Sources */,
+				2715225D2BE009FC0009D8EA /* GraphView+GraphRange.swift in Sources */,
+				27558D1A2BE2D6BE000CACB4 /* GraphWidgetView.swift in Sources */,
 				271CD1E32BD96B3200FBE5DB /* Constants.swift in Sources */,
-				27AB80442BDAD7C60071E482 /* SystemWidgetChartView.swift in Sources */,
+				27AB80442BDAD7C60071E482 /* SystemWidgetGraphView.swift in Sources */,
 				27558D0D2BE2D57C000CACB4 /* GlimpseReadingWidget.swift in Sources */,
 				271CD1E42BD96B3200FBE5DB /* Keychain.swift in Sources */,
-				27558D142BE2D634000CACB4 /* GlimpseChartWidget.swift in Sources */,
+				27558D142BE2D634000CACB4 /* GlimpseGraphWidget.swift in Sources */,
 				279BA4182BDFFAD0006C87B6 /* StandByMargins.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

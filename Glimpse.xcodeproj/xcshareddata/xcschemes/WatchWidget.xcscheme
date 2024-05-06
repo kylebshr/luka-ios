@@ -44,7 +44,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2741EA0E2BD8AEBA003EDEB2"
-               BuildableName = "Glimpse.app"
+               BuildableName = "Luka.app"
                BlueprintName = "Watch"
                ReferencedContainer = "container:Glimpse.xcodeproj">
             </BuildableReference>

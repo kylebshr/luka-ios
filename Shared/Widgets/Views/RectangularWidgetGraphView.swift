@@ -49,7 +49,7 @@ struct RectangularWidgetGraphView: View {
                     roundBottomCorners: watchOS
                 )
             }
-            .font(.system(size: watchOS ? 15 : 13, weight: .semibold))
+            .font(.system(size: watchOS ? 15 : 13, weight: .semibold).lowercaseSmallCaps())
         }
         .buttonStyle(.plain)
         .containerBackground(.black, for: .widget)
