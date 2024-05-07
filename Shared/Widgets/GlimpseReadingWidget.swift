@@ -46,11 +46,11 @@ struct GlimpseReadingWidget: Widget {
 } timeline: {
     GlucoseEntry<GlucoseReading>(date: .now, state: .reading(.placeholder))
     GlucoseEntry<GlucoseReading>(
-        date: .now.addingTimeInterval(60),
+        date: .now.addingTimeInterval(150),
         state: .reading(.init(value: 240, trend: .doubleDown, date: .now))
     )
     GlucoseEntry<GlucoseReading>(
-        date: .now.addingTimeInterval(180),
+        date: .now.addingTimeInterval(800),
         state: .reading(.init(value: 45, trend: .fortyFiveUp, date: .now))
     )
     GlucoseEntry<GlucoseReading>(

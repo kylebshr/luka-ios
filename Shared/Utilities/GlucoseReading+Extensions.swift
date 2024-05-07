@@ -12,11 +12,11 @@ extension GlucoseReading {
     var color: Color {
         switch value {
         case ..<70:
-            Color.red
+            Color.pink
         case ...180:
             Color.green
         default:
-            Color.yellow
+            Color.orange
         }
     }
 

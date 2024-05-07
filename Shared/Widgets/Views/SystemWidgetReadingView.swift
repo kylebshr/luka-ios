@@ -15,6 +15,7 @@ struct SystemWidgetReadingView: View {
 
     @Environment(\.redactionReasons) private var redactionReasons
     @Environment(\.widgetContentMargins) private var widgetContentMargins
+    @Environment(\.widgetRenderingMode) private var renderingMode
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -30,24 +31,24 @@ struct SystemWidgetReadingView: View {
                             .contentTransition(.symbolEffect(.replace))
                     }
                 }
-                .font(.system(.largeTitle, design: .rounded))
+                .font(.largeTitle)
                 .fontWeight(.medium)
 
                 Spacer()
             }
+            .foregroundStyle(renderingMode == .fullColor ? .black : .primary)
 
-            Spacer()
+            Spacer(minLength: 0)
 
             Button(intent: ReloadWidgetIntent()) {
                 WidgetButtonContent(
                     text: reading.timestamp(for: entry.date),
-                    image: "arrow.circlepath"
+                    image: entry.shouldRefresh ? "arrow.triangle.2.circlepath" : ""
                 )
             }
             .buttonStyle(.plain)
         }
         .containerBackground(reading.color.gradient, for: .widget)
-        .environment(\.colorScheme, .light)
     }
 }
 

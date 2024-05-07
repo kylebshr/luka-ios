@@ -54,7 +54,7 @@ extension GlucoseEntryError {
         case .loggedOut:
             "arrow.up.right"
         case .failedToLoad, .noRecentReadings:
-            "arrow.circlepath"
+            "arrow.triangle.2.circlepath"
         }
     }
 

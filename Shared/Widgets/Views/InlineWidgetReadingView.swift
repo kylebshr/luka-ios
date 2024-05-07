@@ -24,11 +24,10 @@ struct InlineWidgetReadingView: View {
                 for: entry.date,
                 style: .abbreviated,
                 appendRelativeText: false,
-                nowText: "1m"
+                nowText: "Now"
             )
 
             Text("\(reading.value) \(timestamp)")
-                .font(.body.lowercaseSmallCaps())
         }
         .containerBackground(.background, for: .widget)
     }

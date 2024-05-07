@@ -26,7 +26,7 @@ struct ReadingWidgetView: View {
 
     @ViewBuilder private func readingView(for reading: GlucoseReading) -> some View {
         switch family {
-        case .systemLarge, .systemMedium, .systemSmall:
+        case .systemLarge, .systemMedium, .systemSmall, .accessoryRectangular:
             SystemWidgetReadingView(entry: entry, reading: reading)
         case .accessoryInline:
             InlineWidgetReadingView(entry: entry, reading: reading)
