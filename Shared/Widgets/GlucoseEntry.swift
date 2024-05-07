@@ -35,7 +35,7 @@ struct GlucoseEntry<Data: GlucoseEntryData>: TimelineEntry {
         switch state {
         case .error: false
         case .reading(let reading):
-            date.timeIntervalSince(reading.current.date) > 5 * 60
+            date.timeIntervalSince(reading.current.date) > 10 * 60
         }
     }
 }
