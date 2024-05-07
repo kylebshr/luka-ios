@@ -40,8 +40,8 @@ import SwiftUI
             VStack(alignment: .leading) {
                 GraphView(
                     range: selectedRange,
-                    readings: .placeholder,
-                    highlight: .placeholder,
+                    readings: readings,
+                    highlight: reading,
                     graphUpperBound: Int(upperGraphRange),
                     targetRange: Int(lowerTargetRange)...Int(upperTargetRange),
                     roundBottomCorners: false,
@@ -49,7 +49,7 @@ import SwiftUI
                 )
                 .padding(.leading, -2)
 
-                VStack(alignment: .leading, spacing: -2) {
+                VStack(alignment: .leading, spacing: -3) {
                     HStack(spacing: 3) {
                         Text(readingText)
                             .redacted(reason: reading == nil ? .placeholder : [])
