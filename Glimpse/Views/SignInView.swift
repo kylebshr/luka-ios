@@ -59,8 +59,8 @@ struct SignInView: View {
                 locationLinks
                 #endif
             }
-            .navigationDestination(for: AccountLocation.self) { location in
-                UsernamePasswordView(accountLocation: location)
+            .navigationDestination(for: AccountLocation.self) { accountLocation in
+                UsernamePasswordView(accountLocation: accountLocation)
             }
 
             #if os(iOS)
@@ -76,15 +76,15 @@ struct SignInView: View {
     }
 
     private var locationLinks: some View {
-        ForEach(locations) { location in
-            NavigationLink(value: location) {
-                FormRow(title: location.displayName) {
+        ForEach(locations) { accountLocation in
+            NavigationLink(value: accountLocation) {
+                FormRow(title: accountLocation.displayName) {
                     Image(systemName: "chevron.right")
                 }
             }
 
             #if os(iOS)
-            if location != locations.last {
+            if accountLocation != locations.last {
                 FormSectionDivider()
             }
             #endif

@@ -21,6 +21,10 @@ import Defaults
         didSet { keychain.password = password }
     }
 
+    var accountLocation: AccountLocation? = Defaults[.accountLocation] {
+        didSet { Defaults[.accountLocation] = accountLocation }
+    }
+
     var accountID: UUID? = Keychain.shared.accountID {
         didSet { keychain.accountID = accountID }
     }
@@ -30,7 +34,7 @@ import Defaults
     }
 
     var isSignedIn: Bool {
-        username != nil && password != nil
+        username != nil && password != nil && accountLocation != nil
     }
 
     func signIn(
@@ -48,8 +52,7 @@ import Defaults
 
         self.username = username
         self.password = password
-
-        Defaults[.accountLocation] = accountLocation
+        self.accountLocation = accountLocation
     }
 
     func signOut() {
