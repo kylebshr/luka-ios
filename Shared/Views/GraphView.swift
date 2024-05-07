@@ -28,7 +28,7 @@ struct GraphView: View {
 
     var body: some View {
         GeometryReader { geometry in
-            let markSize = min(max((geometry.size.width / interval) * 100, 2.25), 5)
+            let markSize = min(max((geometry.size.width / interval) * 250, 3), 6)
 
             Chart {
                 ForEach(readings) { reading in
@@ -41,8 +41,8 @@ struct GraphView: View {
                         if reading.hashValue == highlight?.hashValue {
                             Circle()
                                 .fill(.background)
-                                .stroke(.foreground, lineWidth: 1)
-                                .frame(width: markSize * 1.4)
+                                .stroke(.foreground, lineWidth: 1.5)
+                                .frame(width: markSize * 1.5)
                         } else {
                             Circle()
                                 .frame(width: markSize)
@@ -120,12 +120,12 @@ extension GlucoseReading: Identifiable {
 
 #Preview {
     GraphView(
-        range: Date.now.addingTimeInterval(-60 * 60 * 8)...Date.now,
+        range: Date.now.addingTimeInterval(-60 * 60 * 24)...Date.now,
         readings: .placeholder,
         highlight: [GlucoseReading].placeholder.last,
         graphUpperBound: 300,
         targetRange: 70...180,
         roundBottomCorners: false,
-        showMarkLabels: false
-    ).frame(height: 200)
+        showMarkLabels: true
+    ).frame(height: 500)
 }
