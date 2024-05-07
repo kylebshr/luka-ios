@@ -19,5 +19,5 @@ extension Defaults.Keys {
     static let graphUpperBound = Key<Double>(.graphUpperBound, default: 300, suite: .shared, iCloud: true)
     static let outsideUS = Key(.outsideUSKey, default: false, suite: .shared, iCloud: true)
 
-    static let selectedRange = Key("selectedRange", default: GraphRange.twentyFourHours)
+    static let selectedRange = Key("selectedRange", default: GraphRange.eightHours)
 }

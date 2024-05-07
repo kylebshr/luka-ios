@@ -21,7 +21,7 @@ enum GraphRange: String, Codable, AppEnum, CaseIterable, Defaults.Serializable, 
             .eightHours: "Eight hours",
             .twelveHours: "Twelve hours",
             .sixteenHours: "Sixteen hours",
-            .twentyFourHours: "Twenty-four hours",
+            .twentyFourHours: "24 hours",
         ]
     }
     
