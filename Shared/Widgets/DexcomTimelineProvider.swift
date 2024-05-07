@@ -50,9 +50,11 @@ extension DexcomTimelineProvider {
             let entry = GlucoseEntry(date: now, state: state)
             return Timeline(entries: [entry], policy: .after(refreshDate))
         case .reading(let data):
-            let entries = (1...20).map {
-                let date = Calendar.current.date(byAdding: .minute, value: $0, to: now)!
+            let entries = (1...21).map {
+                let date = Calendar.current.date(byAdding: .minute, value: $0, to: data.current.date)!
                 return GlucoseEntry(date: date, state: state)
+            }.filter {
+                $0.date > .now
             }
 
             let refreshDate = Calendar.current.date(byAdding: .minute, value: 11, to: data.current.date)!
