@@ -19,6 +19,10 @@ struct WidgetGraphView: View {
         margins.leading > 0 && margins.leading < 5
     }
 
+    private var font: Font {
+        .system(size: watchOS ? 15 : 14)
+    }
+
     var body: some View {
             GeometryReader { geometry in
                 VStack(spacing: geometry.size.height > 100 ? nil : 5) {
@@ -54,9 +58,11 @@ struct WidgetGraphView: View {
                                             .unredacted()
                                     } else {
                                         Text(data.graphRangeTitle)
+                                            .font(font.smallCaps())
                                     }
                                     #else
                                     Text(data.graphRangeTitle)
+                                        .font(font.smallCaps())
                                     #endif
                                 }
                             }
@@ -75,7 +81,7 @@ struct WidgetGraphView: View {
                         showMarkLabels: false
                     )
                 }
-                .font(.system(size: watchOS ? 15 : 13, weight: .semibold))
+                .font(font.weight(.semibold))
             }
         .buttonStyle(.plain)
         .containerBackground(.background, for: .widget)
