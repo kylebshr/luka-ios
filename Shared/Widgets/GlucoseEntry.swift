@@ -30,6 +30,14 @@ struct GlucoseEntry<Data: GlucoseEntryData>: TimelineEntry {
             date.timeIntervalSince(reading.current.date) > 20 * 60
         }
     }
+
+    var shouldRefresh: Bool {
+        switch state {
+        case .error: false
+        case .reading(let reading):
+            date.timeIntervalSince(reading.current.date) > 5 * 60
+        }
+    }
 }
 
 extension GlucoseReading {

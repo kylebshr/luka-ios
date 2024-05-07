@@ -20,35 +20,49 @@ struct WidgetGraphView: View {
     }
 
     var body: some View {
-        Button(intent: ReloadWidgetIntent()) {
             GeometryReader { geometry in
                 VStack(spacing: geometry.size.height > 100 ? nil : 5) {
-                    HStack {
-                        HStack(spacing: 2) {
-                            Text("\(data.current.value)")
-                                .contentTransition(.numericText(value: Double(data.current.value)))
-                                .invalidatableContent()
+                    Button(intent: ReloadWidgetIntent()) {
+                        HStack {
+                            HStack(spacing: 2) {
+                                Text("\(data.current.value)")
+                                    .contentTransition(.numericText(value: Double(data.current.value)))
+                                    .invalidatableContent()
 
-                            if redactionReasons.isEmpty {
-                                data.current.image
-                                    .imageScale(.small)
-                                    .contentTransition(.symbolEffect(.replace))
+                                if redactionReasons.isEmpty {
+                                    data.current.image
+                                        .imageScale(.small)
+                                        .contentTransition(.symbolEffect(.replace))
+                                }
                             }
-                        }
 
-                        Group {
-                            ViewThatFits {
-                                Text(data.current.timestamp(for: entry.date))
-                                Text(data.current.timestamp(for: entry.date, style: .abbreviated, appendRelativeText: true))
-                                Text(data.current.timestamp(for: entry.date, style: .abbreviated, appendRelativeText: false))
+                            Group {
+                                HStack(spacing: 2) {
+                                    ViewThatFits {
+                                        Text(data.current.timestamp(for: entry.date))
+                                        Text(data.current.timestamp(for: entry.date, style: .abbreviated, appendRelativeText: true))
+                                        Text(data.current.timestamp(for: entry.date, style: .abbreviated, appendRelativeText: false))
+                                    }
+                                    .contentTransition(.numericText())
+
+                                    Spacer(minLength: 5)
+
+                                    #if os(iOS)
+                                    if entry.shouldRefresh {
+                                        Image(systemName: "arrow.triangle.2.circlepath")
+                                            .imageScale(.small)
+                                            .unredacted()
+                                    } else {
+                                        Text(data.graphRangeTitle)
+                                    }
+                                    #else
+                                    Text(data.graphRangeTitle)
+                                    #endif
+                                }
                             }
-                            .contentTransition(.numericText())
-
-                            Spacer(minLength: 5)
-
-                            Text(data.graphRangeTitle)
+                            .foregroundStyle(.secondary)
+                            .fontWeight(.medium)
                         }
-                        .foregroundStyle(.secondary)
                     }
 
                     GraphView(
@@ -63,7 +77,6 @@ struct WidgetGraphView: View {
                 }
                 .font(.system(size: watchOS ? 15 : 13, weight: .semibold))
             }
-        }
         .buttonStyle(.plain)
         .containerBackground(.background, for: .widget)
     }
