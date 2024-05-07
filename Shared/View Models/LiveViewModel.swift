@@ -8,6 +8,7 @@
 import Foundation
 import KeychainAccess
 import Dexcom
+import Defaults
 
 @MainActor @Observable class LiveViewModel {
     enum State {
@@ -21,19 +22,12 @@ import Dexcom
         username != nil && password != nil
     }
 
-    var outsideUS: Bool = UserDefaults.standard.bool(forKey: .outsideUSKey) {
-        didSet {
-            if outsideUS != oldValue {
-                setUpClientAndBeginRefreshing()
-            }
-        }
-    }
-
     private(set) var reading: State = .initial
     private(set) var message: String?
 
     private(set) var username: String? = Keychain.shared[.usernameKey]
     private(set) var password: String? = Keychain.shared[.passwordKey]
+    private(set) var accountLocation: AccountLocation? = Defaults[.accountLocation]
 
     private var client: DexcomClient?
     private let decoder = JSONDecoder()
@@ -52,21 +46,22 @@ import Dexcom
         setUpClientAndBeginRefreshing()
     }
 
-    func logIn(username: String, password: String) {
+    func logIn(username: String, password: String, accountLocation: AccountLocation) {
         self.username = username
         self.password = password
+        self.accountLocation = accountLocation
 
         setUpClientAndBeginRefreshing()
     }
 
     private func setUpClientAndBeginRefreshing() {
-        if let username, let password {
+        if let username, let password, let accountLocation {
             reading = .initial
 
             client = DexcomClient(
                 username: username,
                 password: password,
-                outsideUS: outsideUS
+                accountLocation: accountLocation
             )
 
             beginRefreshing()

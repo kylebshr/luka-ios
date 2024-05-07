@@ -14,7 +14,7 @@ extension String {
     static let accountIDKey = "accountID"
     static let sessionIDKey = "sessionID"
 
-    static let outsideUSKey = "outsideUS"
+    static let accountLocation = "accountLocation"
     static let targetRangeLowerBound = "targetRangeLowerBound"
     static let targetRangeUpperBound = "targetRangeUpperBound"
     static let graphUpperBound = "graphUpperBound"

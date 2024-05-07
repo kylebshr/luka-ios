@@ -41,6 +41,11 @@
 		27221C7A2BEAB72900661B26 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5776C2BCF38330012D66C /* SignInView.swift */; };
 		27221C7B2BEAB73000661B26 /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2731E0812BDC735300695EBF /* RootViewModel.swift */; };
 		27221C7C2BEAB74800661B26 /* FooterScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA4092BDED8D5006C87B6 /* FooterScrollView.swift */; };
+		27221C7D2BEABE2700661B26 /* FormSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96EEB2BE4305F007F4720 /* FormSection.swift */; };
+		27221C7E2BEABE2E00661B26 /* FormRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96EEA2BE4305F007F4720 /* FormRow.swift */; };
+		27221C7F2BEABE3200661B26 /* FormSectionDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96EEC2BE4305F007F4720 /* FormSectionDivider.swift */; };
+		27221C802BEABE7800661B26 /* CardModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96EF42BE430E9007F4720 /* CardModifier.swift */; };
+		27221C812BEABE8F00661B26 /* EdgeInsets+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96EF62BE43110007F4720 /* EdgeInsets+Extensions.swift */; };
 		2731E07D2BDC6CB400695EBF /* CardTextFieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2731E07C2BDC6CB400695EBF /* CardTextFieldStyle.swift */; };
 		2731E07F2BDC6D8F00695EBF /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2731E07E2BDC6D8F00695EBF /* RootView.swift */; };
 		2731E0822BDC735300695EBF /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2731E0812BDC735300695EBF /* RootViewModel.swift */; };
@@ -767,6 +772,8 @@
 				27A367E82BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */,
 				27D96F052BE4490E007F4720 /* LiveViewModel.swift in Sources */,
 				27221C792BEAB65600661B26 /* RootView.swift in Sources */,
+				27221C802BEABE7800661B26 /* CardModifier.swift in Sources */,
+				27221C7E2BEABE2E00661B26 /* FormRow.swift in Sources */,
 				27D96F012BE434FA007F4720 /* Bundle+Extensions.swift in Sources */,
 				27221C7C2BEAB74800661B26 /* FooterScrollView.swift in Sources */,
 				27E2C5832BD98B3B0000FB40 /* Defaults.swift in Sources */,
@@ -779,6 +786,9 @@
 				27D96EFE2BE431A2007F4720 /* GlimpseApp.swift in Sources */,
 				27221C7B2BEAB73000661B26 /* RootViewModel.swift in Sources */,
 				27D96EF92BE43192007F4720 /* GraphView.swift in Sources */,
+				27221C7D2BEABE2700661B26 /* FormSection.swift in Sources */,
+				27221C812BEABE8F00661B26 /* EdgeInsets+Extensions.swift in Sources */,
+				27221C7F2BEABE3200661B26 /* FormSectionDivider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

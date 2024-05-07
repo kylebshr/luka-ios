@@ -7,86 +7,184 @@
 
 import SwiftUI
 import WidgetKit
+import Dexcom
 
 struct SignInView: View {
-    @State private var username = ""
-    @State private var password = ""
-    @State private var outsideUS = false
-
-    @State private var error: Error?
-    @State private var isSigningIn = false
-
     @Environment(RootViewModel.self) private var viewModel
+
+    private let locations: [AccountLocation] = [
+        .usa,
+        .worldwide,
+        .apac,
+    ]
 
     var body: some View {
         NavigationStack {
-            FooterScrollView {
-                VStack(alignment: .leading) {
-                    TextField("Username", text: $username)
-                        .textContentType(.username)
-                        .textInputAutocapitalization(.never)
-                        #if os(iOS)
-                        .keyboardType(.emailAddress)
-                        #endif
-
-                    SecureField("Password", text: $password)
-                        .textContentType(.password)
-
-                    VStack(alignment: .leading) {
-                        Toggle("Outside US", isOn: $outsideUS)
-
-                        Divider().padding(.vertical, 10)
-
-                        Text("Sign in using your Dexcom username and password. Dexcom share must be enabled with at least one follower, and Luka only works with Dexcom accounts that have an email user ID.\n\nLuka is not owned by or affiliated with Dexcom. Your username and password are stored securely in iCloud Keychain.")
-                            .font(.footnote)
-                            .padding(.top, 5)
-                    }
-                    .padding(.top)
-                    .foregroundStyle(.secondary)
-                }
-                .padding()
-            } footer: {
-                Button {
-                    Task<Void, Never> {
-                        isSigningIn = true
-
-                        do {
-                            try await viewModel.signIn(
-                                username: username,
-                                password: password,
-                                outsideUS: outsideUS
-                            )
-
-                            WidgetCenter.shared.reloadAllTimelines()
-                        } catch {
-                            self.error = error
-                        }
-
-                        isSigningIn = false
-                    }
-                } label: {
-                    ZStack {
-                        Text("Sign In")
-                            .frame(maxWidth: .infinity)
-                            .padding(8)
-                            .fontWeight(.semibold)
-                            .opacity(isSigningIn ? 0 : 1)
-
-                        ProgressView()
-                            .tint(.white)
-                            .opacity(isSigningIn ? 1 : 0)
-                    }
-                    .animation(.default, value: isSigningIn)
-                }
-                .buttonStyle(.borderedProminent)
-                .buttonBorderShape(.capsule)
-                .padding()
-            }
             #if os(iOS)
-            .textFieldStyle(CardTextFieldStyle())
+            content
+            #else
+            ScrollView {
+                content
+            }
             #endif
-            .navigationTitle("Sign in")
         }
+    }
+
+    private var content: some View {
+        VStack(alignment: .leading) {
+            Spacer()
+
+            (Text("Welcome to") + Text("\nLuka").foregroundStyle(.accent))
+            #if os(iOS)
+                .font(.largeTitle.weight(.heavy))
+            #else
+                .font(.title2.weight(.heavy))
+            #endif
+
+            Spacer()
+
+            #if os(watchOS)
+            Text("Select an account location to get started")
+                .foregroundStyle(.secondary)
+                .padding(.vertical)
+            #endif
+
+            Group {
+                #if os(iOS)
+                FormSection {
+                    locationLinks
+                }
+                .padding(.vertical)
+                #else
+                locationLinks
+                #endif
+            }
+            .navigationDestination(for: AccountLocation.self) { location in
+                UsernamePasswordView(accountLocation: location)
+            }
+
+            #if os(iOS)
+            Text("Select an account location to get started")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity)
+                .multilineTextAlignment(.center)
+            #endif
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding()
+    }
+
+    private var locationLinks: some View {
+        ForEach(locations) { location in
+            NavigationLink(value: location) {
+                FormRow(title: location.displayName) {
+                    Image(systemName: "chevron.right")
+                }
+            }
+
+            #if os(iOS)
+            if location != locations.last {
+                FormSectionDivider()
+            }
+            #endif
+        }
+    }
+}
+
+extension AccountLocation: Identifiable {
+    public var id: Self { self }
+
+    var displayName: String {
+        switch self {
+        case .usa:
+            "United States"
+        case .apac:
+            "Asia-Pacific"
+        case .worldwide:
+            "Europe"
+        }
+    }
+}
+
+private struct UsernamePasswordView: View {
+    var accountLocation: AccountLocation
+
+    @Environment(RootViewModel.self) private var viewModel
+
+    @State private var error: Error?
+    @State private var isSigningIn = false
+    @State private var username = ""
+    @State private var password = ""
+
+    @FocusState private var isUsernameFocused
+
+    var body: some View {
+        FooterScrollView {
+            VStack(alignment: .leading) {
+                TextField("Username", text: $username)
+                    .textContentType(.username)
+                    .textInputAutocapitalization(.never)
+                    #if os(iOS)
+                    .focused($isUsernameFocused)
+                    .keyboardType(.emailAddress)
+                    #endif
+
+                SecureField("Password", text: $password)
+                    .textContentType(.password)
+
+                VStack(alignment: .leading) {
+                    Divider().padding(.vertical, 10)
+
+                    Text("Sign in using your Dexcom username and password. Dexcom share must be enabled with at least one follower, and Luka only works with Dexcom accounts that have an email user ID.\n\nLuka is not owned by or affiliated with Dexcom. Your username and password are stored securely in iCloud Keychain.")
+                        .font(.footnote)
+                        .padding(.top, 5)
+                }
+                .padding(.top)
+                .foregroundStyle(.secondary)
+            }
+            .padding()
+        } footer: {
+            Button {
+                Task<Void, Never> {
+                    isSigningIn = true
+
+                    do {
+                        try await viewModel.signIn(
+                            username: username,
+                            password: password,
+                            accountLocation: accountLocation
+                        )
+
+                        WidgetCenter.shared.reloadAllTimelines()
+                    } catch {
+                        self.error = error
+                    }
+
+                    isSigningIn = false
+                }
+            } label: {
+                ZStack {
+                    Text("Sign In")
+                        .frame(maxWidth: .infinity)
+                        .padding(8)
+                        .fontWeight(.semibold)
+                        .opacity(isSigningIn ? 0 : 1)
+
+                    ProgressView()
+                        .tint(.white)
+                        .opacity(isSigningIn ? 1 : 0)
+                }
+                .animation(.default, value: isSigningIn)
+            }
+            .buttonStyle(.borderedProminent)
+            .buttonBorderShape(.capsule)
+            .padding()
+        }
+        #if os(iOS)
+        .textFieldStyle(CardTextFieldStyle())
+        #endif
+        .navigationTitle("Sign in")
         .alert(
             "Something Went Wrong",
             isPresented: .init(get: {
@@ -102,9 +200,12 @@ struct SignInView: View {
                 }
             },
             message: {
-                Text("Try again later")
+                Text("Try again in a few minutes")
             }
         )
+        .task {
+            isUsernameFocused = true
+        }
     }
 }
 

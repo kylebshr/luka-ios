@@ -36,12 +36,12 @@ import Defaults
     func signIn(
         username: String,
         password: String,
-        outsideUS: Bool
+        accountLocation: AccountLocation
     ) async throws {
         let client = DexcomClient(
             username: username,
             password: password,
-            outsideUS: outsideUS
+            accountLocation: accountLocation
         )
 
         (accountID, sessionID) = try await client.createSession()
@@ -49,7 +49,7 @@ import Defaults
         self.username = username
         self.password = password
 
-        Defaults[.outsideUS] = outsideUS
+        Defaults[.accountLocation] = accountLocation
     }
 
     func signOut() {

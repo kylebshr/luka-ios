@@ -28,13 +28,13 @@ protocol DexcomTimelineProvider {
 }
 
 extension DexcomTimelineProvider {
-    func makeClient(username: String, password: String) -> DexcomClient {
+    func makeClient(username: String, password: String, accountLocation: AccountLocation) -> DexcomClient {
         let client = DexcomClient(
             username: username,
             password: password,
             existingAccountID: Keychain.shared.accountID,
             existingSessionID: Keychain.shared.sessionID,
-            outsideUS: Defaults[.outsideUS]
+            accountLocation: accountLocation
         )
 
         client.delegate = delegate
