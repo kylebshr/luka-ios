@@ -136,7 +136,7 @@ import Dexcom
             message = readings.last!.timestamp(for: .now)
         case .noRecentReading:
             message = "No recent readings"
-        case .error(let error):
+        case .error:
             message = "Error loading readings"
         }
     }

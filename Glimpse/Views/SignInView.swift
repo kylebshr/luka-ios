@@ -19,72 +19,74 @@ struct SignInView: View {
     @Environment(RootViewModel.self) private var viewModel
 
     var body: some View {
-        FooterScrollView {
-            VStack(alignment: .leading) {
-                TextField("Username", text: $username)
-                    .textContentType(.username)
-                    .textInputAutocapitalization(.never)
-                    #if os(iOS)
-                    .keyboardType(.emailAddress)
-                    #endif
-
-                SecureField("Password", text: $password)
-                    .textContentType(.password)
-
+        NavigationStack {
+            FooterScrollView {
                 VStack(alignment: .leading) {
-                    Toggle("Outside US", isOn: $outsideUS)
+                    TextField("Username", text: $username)
+                        .textContentType(.username)
+                        .textInputAutocapitalization(.never)
+                        #if os(iOS)
+                        .keyboardType(.emailAddress)
+                        #endif
 
-                    Divider().padding(.vertical, 10)
+                    SecureField("Password", text: $password)
+                        .textContentType(.password)
 
-                    Text("Sign in using your Dexcom username and password. Dexcom share must be enabled with at least one follower, and Luka only works with Dexcom accounts that have an email user ID.\n\nLuka is not owned by or affiliated with Dexcom. Your username and password are stored securely in iCloud Keychain.")
-                        .font(.footnote)
-                        .padding(.top, 5)
-                }
-                .padding(.top)
-                .foregroundStyle(.secondary)
-            }
-            .padding()
-        } footer: {
-            Button {
-                Task<Void, Never> {
-                    isSigningIn = true
+                    VStack(alignment: .leading) {
+                        Toggle("Outside US", isOn: $outsideUS)
 
-                    do {
-                        try await viewModel.signIn(
-                            username: username,
-                            password: password,
-                            outsideUS: outsideUS
-                        )
+                        Divider().padding(.vertical, 10)
 
-                        WidgetCenter.shared.reloadAllTimelines()
-                    } catch {
-                        self.error = error
+                        Text("Sign in using your Dexcom username and password. Dexcom share must be enabled with at least one follower, and Luka only works with Dexcom accounts that have an email user ID.\n\nLuka is not owned by or affiliated with Dexcom. Your username and password are stored securely in iCloud Keychain.")
+                            .font(.footnote)
+                            .padding(.top, 5)
                     }
-
-                    isSigningIn = false
+                    .padding(.top)
+                    .foregroundStyle(.secondary)
                 }
-            } label: {
-                ZStack {
-                    Text("Sign In")
-                        .frame(maxWidth: .infinity)
-                        .padding(8)
-                        .fontWeight(.semibold)
-                        .opacity(isSigningIn ? 0 : 1)
+                .padding()
+            } footer: {
+                Button {
+                    Task<Void, Never> {
+                        isSigningIn = true
 
-                    ProgressView()
-                        .tint(.white)
-                        .opacity(isSigningIn ? 1 : 0)
+                        do {
+                            try await viewModel.signIn(
+                                username: username,
+                                password: password,
+                                outsideUS: outsideUS
+                            )
+
+                            WidgetCenter.shared.reloadAllTimelines()
+                        } catch {
+                            self.error = error
+                        }
+
+                        isSigningIn = false
+                    }
+                } label: {
+                    ZStack {
+                        Text("Sign In")
+                            .frame(maxWidth: .infinity)
+                            .padding(8)
+                            .fontWeight(.semibold)
+                            .opacity(isSigningIn ? 0 : 1)
+
+                        ProgressView()
+                            .tint(.white)
+                            .opacity(isSigningIn ? 1 : 0)
+                    }
+                    .animation(.default, value: isSigningIn)
                 }
-                .animation(.default, value: isSigningIn)
+                .buttonStyle(.borderedProminent)
+                .buttonBorderShape(.capsule)
+                .padding()
             }
-            .buttonStyle(.borderedProminent)
-            .buttonBorderShape(.capsule)
-            .padding()
+            #if os(iOS)
+            .textFieldStyle(CardTextFieldStyle())
+            #endif
+            .navigationTitle("Sign in")
         }
-        #if os(iOS)
-        .textFieldStyle(CardTextFieldStyle())
-        #endif
-        .navigationTitle("Sign in")
         .alert(
             "Something Went Wrong",
             isPresented: .init(get: {

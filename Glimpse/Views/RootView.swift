@@ -11,7 +11,7 @@ struct RootView: View {
     @Environment(RootViewModel.self) private var viewModel
 
     var body: some View {
-        NavigationStack {
+        Group {
             if viewModel.isSignedIn {
                 MainView()
                     .transition(.blurReplace(.downUp))

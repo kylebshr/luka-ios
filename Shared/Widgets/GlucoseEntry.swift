@@ -40,14 +40,6 @@ struct GlucoseEntry<Data: GlucoseEntryData>: TimelineEntry {
     }
 }
 
-extension GlucoseReading {
-    static let placeholder = GlucoseReading(
-        value: [GlucoseReading].placeholder.last!.value,
-        trend: .flat,
-        date: [GlucoseReading].placeholder.last!.date
-    )
-}
-
 extension GlucoseEntryError {
     var buttonImage: String {
         switch self {

@@ -34,7 +34,12 @@ struct FooterScrollView<Content: View, Footer: View>: View {
                     )
                 }
             }
+
+            #if os(watchOS)
+            footer
+            #endif
         }
+        #if os(iOS)
         .safeAreaInset(edge: .bottom) {
             if Footer.self != EmptyView.self {
                 footer
@@ -66,6 +71,7 @@ struct FooterScrollView<Content: View, Footer: View>: View {
                 footerBackgroundOpacity = opacity
             }
         }
+        #endif
     }
 }
 

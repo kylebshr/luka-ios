@@ -44,54 +44,56 @@ import WidgetKit
     }
 
     var body: some View {
-        VStack(alignment: .leading) {
+        NavigationStack {
             VStack(alignment: .leading) {
-                HStack {
-                    Text(readingText)
-                        .contentTransition(.numericText(value: Double(readings.last?.value ?? 0)))
-
-                    readings.last?.image
-                        .imageScale(.small)
-                        .contentTransition(.symbolEffect(.replace))
-                        .transition(.blurReplace)
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text(readingText)
+                            .contentTransition(.numericText(value: Double(readings.last?.value ?? 0)))
+                        
+                        readings.last?.image
+                            .imageScale(.small)
+                            .contentTransition(.symbolEffect(.replace))
+                            .transition(.blurReplace)
+                    }
+                    .font(.largeTitle.bold())
+                    
+                    Text(liveViewModel.message ?? "-")
+                        .font(.callout.weight(.medium))
+                        .foregroundStyle(.secondary)
+                        .contentTransition(.numericText())
                 }
-                .font(.largeTitle.bold())
-
-                Text(liveViewModel.message ?? "-")
-                    .font(.callout.weight(.medium))
-                    .foregroundStyle(.secondary)
-                    .contentTransition(.numericText())
-            }
-            .padding()
-            .animation(.default, value: readings.last)
-
-            GraphView(
-                range: selectedRange,
-                readings: readings,
-                highlight: readings.last,
-                graphUpperBound: Int(upperGraphRange),
-                targetRange: Int(lowerTargetRange)...Int(upperTargetRange),
-                roundBottomCorners: false,
-                showMarkLabels: true
-            )
-            .edgesIgnoringSafeArea(.leading)
-            .padding(.trailing)
-
-            Picker("Graph range", selection: $selectedRange) {
-                ForEach(GraphRange.allCases) {
-                    Text($0.abbreviatedName)
+                .padding()
+                .animation(.default, value: readings.last)
+                
+                GraphView(
+                    range: selectedRange,
+                    readings: readings,
+                    highlight: readings.last,
+                    graphUpperBound: Int(upperGraphRange),
+                    targetRange: Int(lowerTargetRange)...Int(upperTargetRange),
+                    roundBottomCorners: false,
+                    showMarkLabels: true
+                )
+                .edgesIgnoringSafeArea(.leading)
+                .padding(.trailing)
+                
+                Picker("Graph range", selection: $selectedRange) {
+                    ForEach(GraphRange.allCases) {
+                        Text($0.abbreviatedName)
+                    }
                 }
+                .pickerStyle(.segmented)
+                .padding()
+                .padding(.bottom, 20)
             }
-            .pickerStyle(.segmented)
-            .padding()
-            .padding(.bottom, 20)
-        }
-        .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                Button {
-                    isPresentingSettings = true
-                } label: {
-                    Image(systemName: "switch.2")
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    Button {
+                        isPresentingSettings = true
+                    } label: {
+                        Image(systemName: "switch.2")
+                    }
                 }
             }
         }
