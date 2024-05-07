@@ -53,10 +53,12 @@ import SwiftUI
                     HStack(spacing: 3) {
                         Text(readingText)
                             .redacted(reason: reading == nil ? .placeholder : [])
+                            .contentTransition(.numericText(value: Double(reading?.value ?? 0)))
 
                         if let reading {
                             reading.image
                                 .imageScale(.small)
+                                .contentTransition(.symbolEffect(.replace))
                         }
                     }
                     .font(.title2)
@@ -65,8 +67,10 @@ import SwiftUI
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                         .redacted(reason: liveViewModel.message == nil ? .placeholder : [])
+                        .contentTransition(.numericText())
                 }
                 .scenePadding(.horizontal)
+                .animation(.default, value: reading)
             }
             .padding(.bottom)
             .padding(.bottom)
