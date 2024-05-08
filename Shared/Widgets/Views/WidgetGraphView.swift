@@ -20,70 +20,77 @@ struct WidgetGraphView: View {
     }
 
     private var font: Font {
-        .system(size: watchOS ? 15 : 14)
+        (watchOS ? Font.footnote : .subheadline).weight(.semibold)
     }
 
     var body: some View {
-            GeometryReader { geometry in
-                VStack(spacing: geometry.size.height > 100 ? nil : 5) {
-                    Button(intent: ReloadWidgetIntent()) {
-                        HStack {
-                            HStack(spacing: 2) {
-                                Text("\(data.current.value)")
-                                    .contentTransition(.numericText(value: Double(data.current.value)))
-                                    .invalidatableContent()
+        GeometryReader { geometry in
+            VStack(spacing: geometry.size.height > 100 ? nil : 5) {
+                Button(intent: ReloadWidgetIntent()) {
+                    HStack(spacing: 5) {
+                        HStack(spacing: 2) {
+                            Text("\(data.current.value)")
+                                .contentTransition(.numericText(value: Double(data.current.value)))
+                                .invalidatableContent()
 
-                                if redactionReasons.isEmpty {
-                                    data.current.image
-                                        .imageScale(.small)
-                                        .contentTransition(.symbolEffect(.replace))
-                                }
+                            if redactionReasons.isEmpty {
+                                data.current.image
+                                    .imageScale(.small)
+                                    .contentTransition(.symbolEffect(.replace))
                             }
+                        }
 
-                            Group {
-                                HStack(spacing: 2) {
-                                    ViewThatFits {
-                                        Text(data.current.timestamp(for: entry.date))
-                                        Text(data.current.timestamp(for: entry.date, style: .abbreviated, appendRelativeText: true))
-                                        Text(data.current.timestamp(for: entry.date, style: .abbreviated, appendRelativeText: false))
-                                    }
-                                    .contentTransition(.numericText())
+                        Group {
+                            HStack(spacing: 2) {
+                                ViewThatFits {
+                                    Text(data.current.timestamp(for: entry.date))
+                                    Text(data.current.timestamp(for: entry.date, style: .abbreviated, appendRelativeText: true))
+                                    Text(data.current.timestamp(for: entry.date, style: .abbreviated, appendRelativeText: false))
+                                }
+                                .contentTransition(.numericText())
 
-                                    Spacer(minLength: 5)
+                                Spacer(minLength: 0)
 
-                                    #if os(iOS)
-                                    if entry.shouldRefresh {
-                                        Image(systemName: "arrow.triangle.2.circlepath")
-                                            .imageScale(.small)
-                                            .unredacted()
-                                    } else {
-                                        Text(data.graphRangeTitle)
-                                            .font(font.smallCaps())
-                                    }
-                                    #else
+                                #if os(iOS)
+                                if entry.shouldRefresh {
+                                    Image(systemName: "arrow.triangle.2.circlepath")
+                                        .imageScale(.small)
+                                        .unredacted()
+                                } else {
                                     Text(data.graphRangeTitle)
                                         .font(font.smallCaps())
-                                    #endif
                                 }
+                                #else
+                                Text(data.graphRangeTitle)
+                                    .font(font.smallCaps())
+                                #endif
                             }
-                            .foregroundStyle(.secondary)
-                            .fontWeight(.medium)
                         }
+                        .foregroundStyle(.secondary)
                     }
-
-                    GraphView(
-                        range: data.configuration.graphRange,
-                        readings: data.history,
-                        highlight: data.current,
-                        graphUpperBound: data.graphUpperBound,
-                        targetRange: data.targetLowerBound...data.targetUpperBound,
-                        roundBottomCorners: !isInStandby,
-                        showMarkLabels: false
-                    )
                 }
-                .font(font.weight(.semibold))
+
+                GraphView(
+                    range: data.configuration.graphRange,
+                    readings: data.history,
+                    highlight: data.current,
+                    graphUpperBound: data.graphUpperBound,
+                    targetRange: data.targetLowerBound...data.targetUpperBound,
+                    roundBottomCorners: !isInStandby,
+                    showMarkLabels: false
+                )
+                #if os(watchOS)
+                .padding(.leading, -margins.leading / 2)
+                .padding(.trailing, -margins.trailing / 2)
+                #endif
             }
+            .font(font.weight(.semibold))
+        }
         .buttonStyle(.plain)
+        #if os(watchOS)
+        .padding(.top, -margins.top / 2)
+        .padding(.bottom, -margins.bottom / 2)
+        #endif
         .containerBackground(.background, for: .widget)
     }
 }
