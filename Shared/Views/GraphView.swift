@@ -28,7 +28,10 @@ struct GraphView: View {
 
     var body: some View {
         GeometryReader { geometry in
-            let markSize: CGFloat = 3
+            let scale = geometry.size.width * geometry.size.height
+            let range = interval / 50
+            let size: CGFloat = scale * 0.015 * (1 / range)
+            let markSize = max(min(size, 5.5), 2.5)
 
             Chart {
                 ForEach(readings) { reading in
@@ -43,12 +46,21 @@ struct GraphView: View {
                                 .fill(.background)
                                 .stroke(.foreground, lineWidth: 1.5)
                                 .frame(width: markSize * 1.4)
+                                .animation(.default, value: markSize)
                         } else {
                             Circle()
                                 .frame(width: markSize)
                                 .foregroundStyle(.foreground)
+                                .animation(.default, value: markSize)
                         }
                     }
+                }
+            }
+            .overlay {
+                VStack {
+                    Text(scale.formatted())
+                    Text(markSize.formatted())
+                    Text(range.formatted())
                 }
             }
             .foregroundStyle(.foreground)
@@ -119,13 +131,45 @@ extension GlucoseReading: Identifiable {
 }
 
 #Preview {
-    GraphView(
-        range: Date.now.addingTimeInterval(-60 * 60 * 1)...Date.now,
-        readings: .placeholder,
-        highlight: [GlucoseReading].placeholder.last,
-        graphUpperBound: 300,
-        targetRange: 70...180,
-        roundBottomCorners: false,
-        showMarkLabels: false
-    ).frame(width: 150, height: 60)
+    VStack {
+        GraphView(
+            range: Date.now.addingTimeInterval(-60 * 60 * 1)...Date.now,
+            readings: .placeholder,
+            highlight: [GlucoseReading].placeholder.last,
+            graphUpperBound: 300,
+            targetRange: 70...180,
+            roundBottomCorners: false,
+            showMarkLabels: false
+        ).frame(width: 150, height: 60)
+
+        GraphView(
+            range: Date.now.addingTimeInterval(-60 * 60 * 6)...Date.now,
+            readings: .placeholder,
+            highlight: [GlucoseReading].placeholder.last,
+            graphUpperBound: 200,
+            targetRange: 70...180,
+            roundBottomCorners: false,
+            showMarkLabels: false
+        ).frame(height: 300)
+
+        GraphView(
+            range: Date.now.addingTimeInterval(-60 * 60 * 24)...Date.now,
+            readings: .placeholder,
+            highlight: [GlucoseReading].placeholder.last,
+            graphUpperBound: 300,
+            targetRange: 70...180,
+            roundBottomCorners: false,
+            showMarkLabels: false
+        ).frame(width: 150, height: 60)
+
+        GraphView(
+            range: Date.now.addingTimeInterval(-60 * 60 * 24)...Date.now,
+            readings: .placeholder,
+            highlight: [GlucoseReading].placeholder.last,
+            graphUpperBound: 200,
+            targetRange: 70...180,
+            roundBottomCorners: false,
+            showMarkLabels: false
+        ).frame(height: 300)
+    }
 }
