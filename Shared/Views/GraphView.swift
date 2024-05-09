@@ -23,14 +23,15 @@ struct GraphView: View {
     }
 
     private var interval: TimeInterval {
-        range.upperBound.timeIntervalSinceReferenceDate - range.lowerBound.timeIntervalSinceReferenceDate
+        adjustedRange.upperBound.timeIntervalSinceReferenceDate - adjustedRange.lowerBound.timeIntervalSinceReferenceDate
     }
 
     var body: some View {
         GeometryReader { geometry in
-            let scale = geometry.size.width * geometry.size.height
-            let range = interval / 50
-            let size: CGFloat = scale * 0.015 * (1 / range)
+            let width = geometry.size.width
+            let minutes = interval / 60
+            let points = minutes / 5
+            let size = width / points * 0.8
             let markSize = max(min(size, 5.5), 2.5)
 
             Chart {
@@ -44,7 +45,7 @@ struct GraphView: View {
                         if reading.hashValue == highlight?.hashValue {
                             Circle()
                                 .fill(.background)
-                                .stroke(.foreground, lineWidth: 1.5)
+                                .stroke(.foreground, lineWidth: markSize * 0.5)
                                 .frame(width: markSize * 1.4)
                                 .animation(.default, value: markSize)
                         } else {
@@ -58,9 +59,9 @@ struct GraphView: View {
             }
             .overlay {
                 VStack {
-                    Text(scale.formatted())
+                    Text(minutes.formatted())
+                    Text(points.formatted())
                     Text(markSize.formatted())
-                    Text(range.formatted())
                 }
             }
             .foregroundStyle(.foreground)
