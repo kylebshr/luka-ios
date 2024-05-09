@@ -18,12 +18,24 @@ struct GraphView: View {
     let roundBottomCorners: Bool
     let showMarkLabels: Bool
 
+    private func roundUp(_ value: Double, toNearest: Double) -> Double {
+        return ceil(value / toNearest) * toNearest
+    }
+
     private var adjustedRange: ClosedRange<Date> {
-        range.lowerBound...range.upperBound.addingTimeInterval(5 * 60)
+        let upperDate = if let highlight, range.upperBound.timeIntervalSince(highlight.date) < 5 * 60 {
+            highlight.date
+        } else {
+            range.upperBound
+        }
+
+        let roundedUpperDate = Date(timeIntervalSinceReferenceDate: upperDate.timeIntervalSinceReferenceDate.roundedUp(toNearest: 5 * 60))
+
+        return range.lowerBound...roundedUpperDate
     }
 
     private var interval: TimeInterval {
-        adjustedRange.upperBound.timeIntervalSinceReferenceDate - adjustedRange.lowerBound.timeIntervalSinceReferenceDate
+        range.upperBound.timeIntervalSinceReferenceDate - range.lowerBound.timeIntervalSinceReferenceDate
     }
 
     var body: some View {
@@ -31,8 +43,8 @@ struct GraphView: View {
             let width = geometry.size.width
             let minutes = interval / 60
             let points = minutes / 5
-            let size = width / points * 0.8
-            let markSize = max(min(size, 5.5), 2.5)
+            let size = width / points * 0.7
+            let markSize = max(min(size, 6), 2.5)
 
             Chart {
                 ForEach(readings) { reading in
@@ -42,18 +54,19 @@ struct GraphView: View {
                         y: .value(value.formatted(), value)
                     )
                     .symbol {
-                        if reading.hashValue == highlight?.hashValue {
-                            Circle()
-                                .fill(.background)
-                                .stroke(.foreground, lineWidth: markSize * 0.5)
-                                .frame(width: markSize * 1.4)
-                                .animation(.default, value: markSize)
-                        } else {
-                            Circle()
-                                .frame(width: markSize)
-                                .foregroundStyle(.foreground)
-                                .animation(.default, value: markSize)
+                        Group {
+                            if reading.hashValue == highlight?.hashValue {
+                                Circle()
+                                    .fill(.background)
+                                    .stroke(.foreground, lineWidth: markSize * 0.5)
+                                    .frame(width: markSize * 1.4)
+                            } else {
+                                Circle()
+                                    .frame(width: markSize)
+                                    .foregroundStyle(.foreground)
+                            }
                         }
+                        .animation(.smooth.speed(1.5), value: markSize)
                     }
                 }
             }
@@ -82,10 +95,19 @@ struct GraphView: View {
             }
             .chartXAxis {
                 if showMarkLabels {
-                    AxisMarks {
-                        AxisGridLine()
-                        AxisTick()
-                        AxisValueLabel(format: .dateTime.hour(), anchor: .topTrailing)
+                    if interval > 60 * 60 * 2 {
+                        AxisMarks(
+                            format: .dateTime.hour(),
+                            preset: .aligned,
+                            values: .automatic(desiredCount: 5)
+                        )
+                    } else {
+                        let roundedLowerBound = adjustedRange.upperBound - interval
+                        AxisMarks(
+                            format: .dateTime.hour().minute(), 
+                            preset: .aligned,
+                            values: Array(stride(from: adjustedRange.upperBound, to: roundedLowerBound, by: -interval / 4))
+                        )
                     }
                 }
             }
@@ -116,12 +138,18 @@ struct GraphView: View {
                 )
             }
         }
-        .animation(.default, value: adjustedRange)
+        .animation(.smooth.speed(1.5), value: adjustedRange)
     }
 }
 
 extension GlucoseReading: Identifiable {
     public var id: Self { self }
+}
+
+private extension TimeInterval {
+    func roundedUp(toNearest: TimeInterval) -> TimeInterval {
+        ceil(self / toNearest) * toNearest
+    }
 }
 
 #Preview {
@@ -133,17 +161,17 @@ extension GlucoseReading: Identifiable {
             graphUpperBound: 300,
             targetRange: 70...180,
             roundBottomCorners: false,
-            showMarkLabels: false
+            showMarkLabels: true
         ).frame(width: 150, height: 60)
 
         GraphView(
-            range: Date.now.addingTimeInterval(-60 * 60 * 6)...Date.now,
+            range: Date.now.addingTimeInterval(-60 * 60 * 1)...Date.now,
             readings: .placeholder,
             highlight: [GlucoseReading].placeholder.last,
             graphUpperBound: 200,
             targetRange: 70...180,
             roundBottomCorners: false,
-            showMarkLabels: false
+            showMarkLabels: true
         ).frame(height: 300)
 
         GraphView(
@@ -153,7 +181,7 @@ extension GlucoseReading: Identifiable {
             graphUpperBound: 300,
             targetRange: 70...180,
             roundBottomCorners: false,
-            showMarkLabels: false
+            showMarkLabels: true
         ).frame(width: 150, height: 60)
 
         GraphView(
@@ -163,7 +191,7 @@ extension GlucoseReading: Identifiable {
             graphUpperBound: 200,
             targetRange: 70...180,
             roundBottomCorners: false,
-            showMarkLabels: false
+            showMarkLabels: true
         ).frame(height: 300)
     }
 }

@@ -79,18 +79,10 @@ struct WidgetGraphView: View {
                     roundBottomCorners: !isInStandby,
                     showMarkLabels: false
                 )
-                #if os(watchOS)
-                .padding(.leading, -margins.leading / 2)
-                .padding(.trailing, -margins.trailing / 2)
-                #endif
             }
             .font(font.weight(.semibold))
         }
         .buttonStyle(.plain)
-        #if os(watchOS)
-        .padding(.top, -margins.top / 2)
-        .padding(.bottom, -margins.bottom / 2)
-        #endif
         .containerBackground(.background, for: .widget)
     }
 }
