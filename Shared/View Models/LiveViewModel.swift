@@ -29,6 +29,7 @@ import Defaults
     private(set) var password: String? = Keychain.shared[.passwordKey]
     private(set) var accountLocation: AccountLocation? = Defaults[.accountLocation]
 
+    private var timer: Timer?
     private var client: DexcomClient?
     private let decoder = JSONDecoder()
 
@@ -114,7 +115,8 @@ import Defaults
 
                 print("Scheduling refresh in \(refreshTime / 60) minutes")
 
-                Timer.scheduledTimer(withTimeInterval: refreshTime, repeats: false) { [weak self] _ in
+                timer?.invalidate()
+                timer = Timer.scheduledTimer(withTimeInterval: refreshTime, repeats: false) { [weak self] _ in
                     DispatchQueue.main.async { [weak self] in
                         self?.beginRefreshing()
                     }

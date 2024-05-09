@@ -10,28 +10,28 @@ import Dexcom
 import KeychainAccess
 import Defaults
 
-struct ReadingTimelineProvider: TimelineProvider, DexcomTimelineProvider {
+struct ReadingTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider {
     typealias Entry = GlucoseEntry<GlucoseReading>
 
     let delegate = DexcomDelegate()
 
     func placeholder(in context: Context) -> Entry {
-        GlucoseEntry(date: .now, state: .reading(.placeholder))
+        GlucoseEntry(date: .now, widgetURL: nil, state: .reading(.placeholder))
     }
     
-    func getSnapshot(in context: Context, completion: @escaping (Entry) -> Void) {
-        Task<Void, Never> {
-            completion(Entry(date: .now, state: await makeState()))
-        }
-    }
-    
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
-        Task<Void, Never> {
-            completion(buildTimeline(for: await makeState()))
-        }
+    func snapshot(for configuration: ReadingWidgetConfiguration, in context: Context) async -> Entry {
+        await Entry(date: .now, widgetURL: configuration.url, state: makeState(for: configuration))
     }
 
-    private func makeState() async -> Entry.State {
+    func timeline(for configuration: ReadingWidgetConfiguration, in context: Context) async -> Timeline<Entry> {
+        buildTimeline(for: await makeState(for: configuration), widgetURL: configuration.url)
+    }
+
+    func recommendations() -> [AppIntentRecommendation<ReadingWidgetConfiguration>] {
+        [AppIntentRecommendation(intent: ReadingWidgetConfiguration(), description: "Current Reading")]
+    }
+
+    private func makeState(for configuration: ReadingWidgetConfiguration) async -> Entry.State {
         guard let username = Keychain.shared.username, let password = Keychain.shared.password, let accountLocation = Defaults[.accountLocation] else {
             return .error(.loggedOut)
         }

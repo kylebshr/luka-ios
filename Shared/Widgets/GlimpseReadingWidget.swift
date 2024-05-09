@@ -13,11 +13,12 @@ struct GlimpseReadingWidget: Widget {
     let kind: String = "GlimpseReadingWidget"
 
     var body: some WidgetConfiguration {
-        StaticConfiguration(
+        AppIntentConfiguration(
             kind: kind,
             provider: ReadingTimelineProvider()
         ) { entry in
             ReadingWidgetView(entry: entry)
+                .widgetURL(entry.widgetURL)
         }
         .supportedFamilies(families)
         .configurationDisplayName("Current Reading")
@@ -44,20 +45,23 @@ struct GlimpseReadingWidget: Widget {
 #Preview(as: .accessoryRectangular) {
     GlimpseReadingWidget()
 } timeline: {
-    GlucoseEntry<GlucoseReading>(date: .now, state: .reading(.placeholder))
+    GlucoseEntry<GlucoseReading>(date: .now, widgetURL: nil, state: .reading(.placeholder))
     GlucoseEntry<GlucoseReading>(
         date: .now.addingTimeInterval(150),
+        widgetURL: nil,
         state: .reading(.init(value: 240, trend: .doubleDown, date: .now))
     )
     GlucoseEntry<GlucoseReading>(
         date: .now.addingTimeInterval(800),
+        widgetURL: nil,
         state: .reading(.init(value: 45, trend: .fortyFiveUp, date: .now))
     )
     GlucoseEntry<GlucoseReading>(
         date: .now.addingTimeInterval(30 * 60),
+        widgetURL: nil,
         state: .reading(.init(value: 240, trend: .doubleDown, date: .now))
     )
-    GlucoseEntry<GlucoseReading>(date: .now, state: .error(.failedToLoad))
-    GlucoseEntry<GlucoseReading>(date: .now, state: .error(.noRecentReadings))
-    GlucoseEntry<GlucoseReading>(date: .now, state: .error(.loggedOut))
+    GlucoseEntry<GlucoseReading>(date: .now, widgetURL: nil, state: .error(.failedToLoad))
+    GlucoseEntry<GlucoseReading>(date: .now, widgetURL: nil, state: .error(.noRecentReadings))
+    GlucoseEntry<GlucoseReading>(date: .now, widgetURL: nil, state: .error(.loggedOut))
 }

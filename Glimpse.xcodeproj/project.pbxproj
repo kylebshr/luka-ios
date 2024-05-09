@@ -84,7 +84,13 @@
 		27558D642BE3006F000CACB4 /* SystemWidgetReadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D622BE3006F000CACB4 /* SystemWidgetReadingView.swift */; };
 		27558D662BE30944000CACB4 /* WidgetButtonContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D652BE30944000CACB4 /* WidgetButtonContent.swift */; };
 		27558D672BE30944000CACB4 /* WidgetButtonContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D652BE30944000CACB4 /* WidgetButtonContent.swift */; };
+		2775BE452BED8269009B5973 /* LaunchableApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2775BE442BED8269009B5973 /* LaunchableApp.swift */; };
+		2775BE462BED8269009B5973 /* LaunchableApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2775BE442BED8269009B5973 /* LaunchableApp.swift */; };
 		27784DA02BE9E609000B2B3E /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27784D9F2BE9E609000B2B3E /* MainView.swift */; };
+		278663FE2BED88300016DA96 /* ReadingWidgetConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278663FD2BED88300016DA96 /* ReadingWidgetConfiguration.swift */; };
+		278663FF2BED88300016DA96 /* ReadingWidgetConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278663FD2BED88300016DA96 /* ReadingWidgetConfiguration.swift */; };
+		278664012BED8BBE0016DA96 /* WidgetTapAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278664002BED8BBE0016DA96 /* WidgetTapAction.swift */; };
+		278664022BED8BBE0016DA96 /* WidgetTapAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278664002BED8BBE0016DA96 /* WidgetTapAction.swift */; };
 		279BA40A2BDED8D5006C87B6 /* FooterScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA4092BDED8D5006C87B6 /* FooterScrollView.swift */; };
 		279BA40D2BDEDAAC006C87B6 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA40C2BDEDAAC006C87B6 /* SettingsView.swift */; };
 		279BA4102BDFC65B006C87B6 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA40F2BDFC65B006C87B6 /* GraphView.swift */; };
@@ -241,7 +247,10 @@
 		27558D5F2BE2FA20000CACB4 /* DexcomTimelineProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DexcomTimelineProvider.swift; sourceTree = "<group>"; };
 		27558D622BE3006F000CACB4 /* SystemWidgetReadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemWidgetReadingView.swift; sourceTree = "<group>"; };
 		27558D652BE30944000CACB4 /* WidgetButtonContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetButtonContent.swift; sourceTree = "<group>"; };
+		2775BE442BED8269009B5973 /* LaunchableApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchableApp.swift; sourceTree = "<group>"; };
 		27784D9F2BE9E609000B2B3E /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		278663FD2BED88300016DA96 /* ReadingWidgetConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingWidgetConfiguration.swift; sourceTree = "<group>"; };
+		278664002BED8BBE0016DA96 /* WidgetTapAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetTapAction.swift; sourceTree = "<group>"; };
 		279BA4092BDED8D5006C87B6 /* FooterScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterScrollView.swift; sourceTree = "<group>"; };
 		279BA40C2BDEDAAC006C87B6 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		279BA40F2BDFC65B006C87B6 /* GraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
@@ -364,7 +373,10 @@
 			isa = PBXGroup;
 			children = (
 				2741EA2E2BD8AF08003EDEB2 /* GraphWidgetConfiguration.swift */,
+				278663FD2BED88300016DA96 /* ReadingWidgetConfiguration.swift */,
 				27AF390E2BE94332000491E1 /* GraphRange.swift */,
+				2775BE442BED8269009B5973 /* LaunchableApp.swift */,
+				278664002BED8BBE0016DA96 /* WidgetTapAction.swift */,
 				270E18642BDA0A1400CB7D4D /* ReloadWidgetIntent.swift */,
 			);
 			path = Intents;
@@ -732,10 +744,12 @@
 			files = (
 				270332662BD9A0B5009535EE /* Constants.swift in Sources */,
 				27558D162BE2D662000CACB4 /* WidgetErrorView.swift in Sources */,
+				278663FE2BED88300016DA96 /* ReadingWidgetConfiguration.swift in Sources */,
 				270332602BD99F43009535EE /* GraphTimelineProvider.swift in Sources */,
 				27558D592BE2F464000CACB4 /* GlucoseEntryData.swift in Sources */,
 				27AB804D2BDAD9B10071E482 /* WidgetGraphView.swift in Sources */,
 				27558D602BE2FA20000CACB4 /* DexcomTimelineProvider.swift in Sources */,
+				278664012BED8BBE0016DA96 /* WidgetTapAction.swift in Sources */,
 				27A367E72BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */,
 				271522592BE009C80009D8EA /* GraphWidgetConfiguration.swift in Sources */,
 				270E18652BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */,
@@ -743,6 +757,7 @@
 				274E9A4A2BE1C8E60035F216 /* View+Extensions.swift in Sources */,
 				270332522BD99E90009535EE /* GlimpseWidgetBundle.swift in Sources */,
 				2715225C2BE009FC0009D8EA /* GraphView+GraphRange.swift in Sources */,
+				2775BE452BED8269009B5973 /* LaunchableApp.swift in Sources */,
 				27558D662BE30944000CACB4 /* WidgetButtonContent.swift in Sources */,
 				27558D632BE3006F000CACB4 /* SystemWidgetReadingView.swift in Sources */,
 				27AB80502BDADF030071E482 /* SystemWidgetErrorView.swift in Sources */,
@@ -798,10 +813,12 @@
 			files = (
 				27AD76D92BE990700037564B /* GraphRange.swift in Sources */,
 				27AB804B2BDAD96D0071E482 /* InlineWidgetReadingView.swift in Sources */,
+				278663FF2BED88300016DA96 /* ReadingWidgetConfiguration.swift in Sources */,
 				27558D172BE2D662000CACB4 /* WidgetErrorView.swift in Sources */,
 				27AB80542BDAE51C0071E482 /* RectangularWidgetErrorView.swift in Sources */,
 				27558D5B2BE2F464000CACB4 /* GlucoseEntryData.swift in Sources */,
 				27A367E92BE153B600FC07FB /* DexcomClient+Extensions.swift in Sources */,
+				278664022BED8BBE0016DA96 /* WidgetTapAction.swift in Sources */,
 				27558D612BE2FA20000CACB4 /* DexcomTimelineProvider.swift in Sources */,
 				270E18662BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */,
 				27AB804E2BDAD9B10071E482 /* WidgetGraphView.swift in Sources */,
@@ -809,6 +826,7 @@
 				27558D0C2BE2D57C000CACB4 /* GlimpseWidgetBundle.swift in Sources */,
 				2741EA2F2BD8AF08003EDEB2 /* GraphWidgetConfiguration.swift in Sources */,
 				27AB80572BDAF27C0071E482 /* CircularWidgetErrorView.swift in Sources */,
+				2775BE462BED8269009B5973 /* LaunchableApp.swift in Sources */,
 				270E18632BDA084E00CB7D4D /* ReadingWidgetView.swift in Sources */,
 				270E18602BDA082A00CB7D4D /* CircularWidgetReadingView.swift in Sources */,
 				27558D672BE30944000CACB4 /* WidgetButtonContent.swift in Sources */,

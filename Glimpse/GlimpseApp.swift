@@ -10,6 +10,7 @@ import WidgetKit
 
 @main
 struct GlimpseApp: App {
+    @Environment(\.openURL) private var openURL
     @Environment(\.scenePhase) private var scenePhase
 
     @State private var viewModel = RootViewModel()
@@ -17,6 +18,9 @@ struct GlimpseApp: App {
     var body: some Scene {
         WindowGroup {
             RootView().environment(viewModel)
+                .onOpenURL(perform: { url in
+                    openURL(url)
+                })
         }
         .onChange(of: scenePhase) {
             if scenePhase == .background {

@@ -10,7 +10,7 @@ import Defaults
 
 enum GraphRange: String, Codable, AppEnum, CaseIterable, Defaults.Serializable, Identifiable {
     static var typeDisplayRepresentation: TypeDisplayRepresentation {
-        "Graph range"
+        "Graph Range"
     }
 
     static var caseDisplayRepresentations: [GraphRange: DisplayRepresentation] {

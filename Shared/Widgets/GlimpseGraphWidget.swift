@@ -15,7 +15,6 @@ struct GlimpseGraphWidget: Widget {
     var body: some WidgetConfiguration {
         AppIntentConfiguration(
             kind: kind,
-            intent: GraphWidgetConfiguration.self,
             provider: GraphTimelineProvider()
         ) { entry in
             GraphWidgetView(entry: entry)
@@ -45,6 +44,7 @@ struct GlimpseGraphWidget: Widget {
 } timeline: {
     GlucoseEntry<GlucoseGraphEntryData>(
         date: .now,
+        widgetURL: nil,
         state: .reading(
             .init(
                 configuration: GraphWidgetConfiguration(),
@@ -55,6 +55,7 @@ struct GlimpseGraphWidget: Widget {
     )
     GlucoseEntry<GlucoseGraphEntryData>(
         date: .now.addingTimeInterval(80),
+        widgetURL: nil,
         state: .reading(
             .init(
                 configuration: GraphWidgetConfiguration(),
@@ -65,6 +66,7 @@ struct GlimpseGraphWidget: Widget {
     )
     GlucoseEntry<GlucoseGraphEntryData>(
         date: .now.addingTimeInterval(300),
+        widgetURL: nil,
         state: .reading(
             .init(
                 configuration: GraphWidgetConfiguration(),
@@ -75,6 +77,7 @@ struct GlimpseGraphWidget: Widget {
     )
     GlucoseEntry<GlucoseGraphEntryData>(
         date: .now.addingTimeInterval(60 * 30),
+        widgetURL: nil,
         state: .reading(
             .init(
                 configuration: GraphWidgetConfiguration(),
@@ -83,7 +86,7 @@ struct GlimpseGraphWidget: Widget {
             )
         )
     )
-    GlucoseEntry<GlucoseGraphEntryData>(date: .now, state: .error(.failedToLoad))
-    GlucoseEntry<GlucoseGraphEntryData>(date: .now, state: .error(.noRecentReadings))
-    GlucoseEntry<GlucoseGraphEntryData>(date: .now, state: .error(.loggedOut))
+    GlucoseEntry<GlucoseGraphEntryData>(date: .now, widgetURL: nil, state: .error(.failedToLoad))
+    GlucoseEntry<GlucoseGraphEntryData>(date: .now, widgetURL: nil, state: .error(.noRecentReadings))
+    GlucoseEntry<GlucoseGraphEntryData>(date: .now, widgetURL: nil, state: .error(.loggedOut))
 }

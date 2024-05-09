@@ -18,6 +18,7 @@ struct GraphTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider 
     func placeholder(in context: Context) -> Entry {
         GlucoseEntry(
             date: .now,
+            widgetURL: nil,
             state: .reading(
                 GlucoseGraphEntryData(
                     configuration: GraphWidgetConfiguration(),
@@ -30,12 +31,12 @@ struct GraphTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider 
 
     func snapshot(for configuration: GraphWidgetConfiguration, in context: Context) async -> Entry {
         let state = await makeState(for: configuration)
-        return GlucoseEntry(date: .now, state: state)
+        return GlucoseEntry(date: .now, widgetURL: configuration.app.url, state: state)
     }
 
     func timeline(for configuration: GraphWidgetConfiguration, in context: Context) async -> Timeline<Entry> {
         let state = await makeState(for: configuration)
-        return buildTimeline(for: state)
+        return buildTimeline(for: state, widgetURL: configuration.app.url)
     }
 
     func recommendations() -> [AppIntentRecommendation<GraphWidgetConfiguration>] {

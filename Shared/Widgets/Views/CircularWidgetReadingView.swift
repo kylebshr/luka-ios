@@ -16,47 +16,57 @@ struct CircularWidgetView : View {
     @Environment(\.redactionReasons) private var redactionReasons
 
     var body: some View {
-        Button(intent: ReloadWidgetIntent()) {
-            Gauge(
-                value: 0,
-                label: {},
-                currentValueLabel: {
-                    VStack(spacing: watchOS ? -4 : -2) {
-                        Text(redactionReasons.isEmpty ? reading.value.formatted() : "11")
-                            .contentTransition(.numericText(value: Double(reading.value)))
-                            .minimumScaleFactor(0.5)
-                            .fontWeight(.bold)
-                            .invalidatableContent()
-
-                        Text(reading.timestamp(for: entry.date, style: .abbreviated, appendRelativeText: false).localizedLowercase)
-                            .font(
-                                watchOS
-                                ? .system(size: 10, design: .rounded).bold()
-                                : .footnote
-                            )
-                            .contentTransition(.numericText(value: reading.date.timeIntervalSinceNow))
-                            .foregroundStyle(.secondary)
-                            .fontWeight(.bold)
-                            .fontDesign(.rounded)
-                    }
-                    .padding(-2)
+        Group {
+            if entry.widgetURL == nil {
+                Button(intent: ReloadWidgetIntent()) {
+                    content
                 }
-            )
-            .gaugeStyle(.accessoryCircularCapacity)
-            .tint(reading.color)
-            .overlay {
-                if redactionReasons.isEmpty {
-                    if let rotationDegrees = rotationDegrees(for: reading.trend) {
-                        arrow(degrees: rotationDegrees)
-                        arrow(degrees: rotationDegrees)
-                            .padding(doubleArrow ? (watchOS ? 4 : 4.5) : 0)
-                    }
-                }
+            } else {
+                content
             }
         }
         .buttonStyle(.plain)
-        .fontDesign(.rounded)
         .containerBackground(.background, for: .widget)
+    }
+
+    private var content: some View {
+        Gauge(
+            value: 0,
+            label: {},
+            currentValueLabel: {
+                VStack(spacing: watchOS ? -4 : -2) {
+                    Text(redactionReasons.isEmpty ? reading.value.formatted() : "11")
+                        .contentTransition(.numericText(value: Double(reading.value)))
+                        .minimumScaleFactor(0.5)
+                        .fontWeight(.bold)
+                        .invalidatableContent()
+
+                    Text(reading.timestamp(for: entry.date, style: .abbreviated, appendRelativeText: false).localizedLowercase)
+                        .font(
+                            watchOS
+                            ? .system(size: 10, design: .rounded).bold()
+                            : .footnote
+                        )
+                        .contentTransition(.numericText(value: reading.date.timeIntervalSinceNow))
+                        .foregroundStyle(.secondary)
+                        .fontWeight(.bold)
+                        .fontDesign(.rounded)
+                }
+                .padding(-2)
+            }
+        )
+        .gaugeStyle(.accessoryCircularCapacity)
+        .tint(reading.color)
+        .overlay {
+            if redactionReasons.isEmpty {
+                if let rotationDegrees = rotationDegrees(for: reading.trend) {
+                    arrow(degrees: rotationDegrees)
+                    arrow(degrees: rotationDegrees)
+                        .padding(doubleArrow ? (watchOS ? 4 : 4.5) : 0)
+                }
+            }
+        }
+        .fontDesign(.rounded)
     }
 
     private func rotationDegrees(for trend: TrendDirection) -> Double? {

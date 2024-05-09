@@ -19,6 +19,7 @@ struct ReadingWidgetView: View {
         case .reading(let reading):
             readingView(for: reading)
                 .redacted(reason: entry.isExpired ? .placeholder : [])
+                .widgetURL(entry.widgetURL)
         case .error(let error):
             WidgetErrorView(error: error)
         }

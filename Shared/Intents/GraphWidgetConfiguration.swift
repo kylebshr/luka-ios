@@ -12,8 +12,11 @@ struct GraphWidgetConfiguration: WidgetConfigurationIntent {
     static var title: LocalizedStringResource = "Graph Widget"
     static var description = IntentDescription("Configure graph widget settings.")
 
-    @Parameter(title: "Graph range", default: .eightHours)
+    @Parameter(title: "Graph Range", default: .eightHours)
     var graphRange: GraphRange
+
+    @Parameter(title: "Launch on Tap", default: .luka)
+    var app: LaunchableApp
 }
 
 extension GraphWidgetConfiguration {

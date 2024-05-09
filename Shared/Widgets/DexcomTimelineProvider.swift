@@ -41,18 +41,18 @@ extension DexcomTimelineProvider {
         return client
     }
 
-    func buildTimeline<Data>(for state: GlucoseEntry<Data>.State) -> Timeline<GlucoseEntry<Data>> {
+    func buildTimeline<Data>(for state: GlucoseEntry<Data>.State, widgetURL: URL?) -> Timeline<GlucoseEntry<Data>> {
         let now = Date.now
 
         switch state {
         case .error:
             let refreshDate = Calendar.current.date(byAdding: .minute, value: 15, to: now)!
-            let entry = GlucoseEntry(date: now, state: state)
+            let entry = GlucoseEntry(date: now, widgetURL: widgetURL, state: state)
             return Timeline(entries: [entry], policy: .after(refreshDate))
         case .reading(let data):
             let entries = (1...21).map {
                 let date = Calendar.current.date(byAdding: .minute, value: $0, to: data.current.date)!
-                return GlucoseEntry(date: date, state: state)
+                return GlucoseEntry(date: date, widgetURL: widgetURL, state: state)
             }.filter {
                 $0.date > .now
             }

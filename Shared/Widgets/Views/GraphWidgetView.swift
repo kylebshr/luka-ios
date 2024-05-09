@@ -19,6 +19,7 @@ struct GraphWidgetView: View {
         case .reading(let data):
             readingView(for: data)
                 .redacted(reason: entry.isExpired ? .placeholder : [])
+                .widgetURL(entry.widgetURL)
         case .error(let error):
             WidgetErrorView(error: error)
         }
