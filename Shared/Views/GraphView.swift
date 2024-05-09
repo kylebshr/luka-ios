@@ -57,13 +57,6 @@ struct GraphView: View {
                     }
                 }
             }
-            .overlay {
-                VStack {
-                    Text(minutes.formatted())
-                    Text(points.formatted())
-                    Text(markSize.formatted())
-                }
-            }
             .foregroundStyle(.foreground)
             .chartXScale(domain: adjustedRange)
             .chartYScale(domain: 0...graphUpperBound)
