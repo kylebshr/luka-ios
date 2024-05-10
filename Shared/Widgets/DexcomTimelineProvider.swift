@@ -57,7 +57,7 @@ extension DexcomTimelineProvider {
                 $0.date > .now
             }
 
-            let refreshDate = Calendar.current.date(byAdding: .minute, value: 11, to: data.current.date)!
+            let refreshDate = Calendar.current.date(byAdding: .second, value: 630, to: data.current.date)!
             return Timeline(entries: entries, policy: .after(refreshDate))
         }
     }
