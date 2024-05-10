@@ -7,12 +7,14 @@
 
 import SwiftUI
 import Dexcom
+import Defaults
 
 struct InlineWidgetReadingView: View {
     let entry: ReadingTimelineProvider.Entry
     let reading: GlucoseReading
 
     @Environment(\.redactionReasons) private var redactionReasons
+    @Default(.unit) private var unit
 
     var body: some View {
         HStack {
@@ -27,7 +29,7 @@ struct InlineWidgetReadingView: View {
                 nowText: "Now"
             )
 
-            Text("\(reading.value) \(timestamp)")
+            Text("\(reading.value.formatted(.glucose(unit))) \(timestamp)")
         }
         .containerBackground(.background, for: .widget)
     }

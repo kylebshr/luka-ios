@@ -27,11 +27,7 @@ struct GraphWidgetView: View {
 
     @ViewBuilder private func readingView(for data: GlucoseGraphEntryData) -> some View {
         switch family {
-        #if os(iOS)
-        case .systemLarge, .systemMedium, .systemSmall:
-            WidgetGraphView(entry: entry, data: data)
-        #endif
-        case .accessoryRectangular:
+        case .systemLarge, .systemMedium, .systemSmall, .accessoryRectangular:
             WidgetGraphView(entry: entry, data: data)
         default:
             fatalError()

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Dexcom
+import Defaults
 
 struct WidgetGraphView: View {
     let entry: GraphTimelineProvider.Entry
@@ -14,6 +15,8 @@ struct WidgetGraphView: View {
 
     @Environment(\.redactionReasons) private var redactionReasons
     @Environment(\.widgetContentMargins) private var margins
+
+    @Default(.unit) private var unit
 
     private var isInStandby: Bool {
         margins.leading > 0 && margins.leading < 5
@@ -29,7 +32,7 @@ struct WidgetGraphView: View {
                 Button(intent: ReloadWidgetIntent()) {
                     HStack(spacing: 5) {
                         HStack(spacing: 2) {
-                            Text("\(data.current.value)")
+                            Text(data.current.value.formatted(.glucose(unit)))
                                 .contentTransition(.numericText(value: Double(data.current.value)))
                                 .invalidatableContent()
 
