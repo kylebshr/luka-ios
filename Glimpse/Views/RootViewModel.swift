@@ -45,6 +45,8 @@ import Defaults
         let client = DexcomClient(
             username: username,
             password: password,
+            existingAccountID: accountID, 
+            existingSessionID: sessionID,
             accountLocation: accountLocation
         )
 

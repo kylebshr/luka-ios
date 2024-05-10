@@ -61,6 +61,8 @@ import Defaults
             client = DexcomClient(
                 username: username,
                 password: password,
+                existingAccountID: Keychain.shared.accountID,
+                existingSessionID: Keychain.shared.sessionID,
                 accountLocation: accountLocation
             )
 
