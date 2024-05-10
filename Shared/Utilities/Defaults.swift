@@ -18,8 +18,10 @@ extension Defaults.Keys {
     static let targetRangeUpperBound = Key<Double>(.targetRangeUpperBound, default: 180, suite: .shared, iCloud: true)
     static let graphUpperBound = Key<Double>(.graphUpperBound, default: 300, suite: .shared, iCloud: true)
     static let accountLocation = Key<AccountLocation?>(.accountLocation, default: nil, suite: .shared, iCloud: true)
+    static let unit = Key<GlucoseFormatter.Unit>("unit", default: .mgdl, suite: .shared, iCloud: true)
 
     static let selectedRange = Key("selectedRange", default: GraphRange.eightHours)
 }
 
 extension AccountLocation: Defaults.Serializable {}
+extension GlucoseFormatter.Unit: Defaults.Serializable {}

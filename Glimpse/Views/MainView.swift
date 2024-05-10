@@ -17,6 +17,7 @@ import WidgetKit
     @Default(.targetRangeLowerBound) private var lowerTargetRange
     @Default(.targetRangeUpperBound) private var upperTargetRange
     @Default(.graphUpperBound) private var upperGraphRange
+    @Default(.unit) private var unit
 
     @State private var isPresentingSettings = false
     @State private var liveViewModel = LiveViewModel()
@@ -32,14 +33,10 @@ import WidgetKit
 
     private var readingText: String {
         switch liveViewModel.reading {
-        case .initial:
-            return "80"
+        case .initial, .noRecentReading, .error:
+            return "100"
         case .loaded(_, let latest):
-            return latest.value.formatted()
-        case .noRecentReading:
-            return "80"
-        case .error:
-            return "80"
+            return latest.value.formatted(.glucose(unit))
         }
     }
 

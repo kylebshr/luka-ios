@@ -8,6 +8,7 @@
 import SwiftUI
 import WidgetKit
 import Dexcom
+import Defaults
 
 struct SystemWidgetReadingView: View {
     let entry: ReadingTimelineProvider.Entry
@@ -17,11 +18,13 @@ struct SystemWidgetReadingView: View {
     @Environment(\.widgetContentMargins) private var widgetContentMargins
     @Environment(\.widgetRenderingMode) private var renderingMode
 
+    @Default(.unit) private var unit
+
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .firstTextBaseline) {
                 HStack(alignment: .firstTextBaseline, spacing: 4) {
-                    Text(reading.value.formatted())
+                    Text(reading.value.formatted(.glucose(unit)))
                         .contentTransition(.numericText(value: Double(reading.value)))
                         .invalidatableContent()
 

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Defaults
+import Dexcom
 
 struct SettingsView: View {
     @Environment(RootViewModel.self) private var viewModel
@@ -15,11 +16,29 @@ struct SettingsView: View {
     @Default(.targetRangeLowerBound) private var lowerTargetRange
     @Default(.targetRangeUpperBound) private var upperTargetRange
     @Default(.graphUpperBound) private var upperGraphRange
+    @Default(.unit) private var unit
 
     var body: some View {
         FooterScrollView {
             VStack(alignment: .leading, spacing: .verticalSpacing) {
                 Spacer()
+
+                FormSection {
+                    FormRow(title: "Units") {
+                        Menu {
+                            Picker("Units", selection: $unit) {
+                                Text(GlucoseFormatter.Unit.mgdl.text)
+                                    .tag(GlucoseFormatter.Unit.mgdl)
+                                Text(GlucoseFormatter.Unit.mmolL.text)
+                                    .tag(GlucoseFormatter.Unit.mmolL)
+                            }
+                        } label: {
+                            Text(unit.text).fontWeight(.medium)
+                        }
+                    }
+                }
+
+                FormHeader(title: "Graphs")
 
                 FormSection {
                     GraphSliderView(
@@ -102,6 +121,17 @@ private struct GraphSliderView: View {
             )
         }
         .padding(.standardPadding / 2)
+    }
+}
+
+extension GlucoseFormatter.Unit {
+    var text: String {
+        switch self {
+        case .mgdl:
+            "mg/dl"
+        case .mmolL:
+            "mmol/L"
+        }
     }
 }
 

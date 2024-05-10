@@ -17,6 +17,7 @@ import SwiftUI
     @Default(.targetRangeLowerBound) private var lowerTargetRange
     @Default(.targetRangeUpperBound) private var upperTargetRange
     @Default(.graphUpperBound) private var upperGraphRange
+    @Default(.unit) private var unit
 
     private var readings: [GlucoseReading] {
         switch liveViewModel.reading {
@@ -32,7 +33,7 @@ import SwiftUI
     }
 
     private var readingText: String {
-        reading?.value.formatted() ?? "100"
+        reading?.value.formatted(.glucose(unit)) ?? "100"
     }
 
     var body: some View {

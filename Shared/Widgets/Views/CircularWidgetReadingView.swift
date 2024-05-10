@@ -8,12 +8,15 @@
 import Dexcom
 import SwiftUI
 import WidgetKit
+import Defaults
 
 struct CircularWidgetView : View {
     let entry: ReadingTimelineProvider.Entry
     let reading: GlucoseReading
 
     @Environment(\.redactionReasons) private var redactionReasons
+
+    @Default(.unit) private var unit
 
     var body: some View {
         Group {
@@ -35,7 +38,7 @@ struct CircularWidgetView : View {
             label: {},
             currentValueLabel: {
                 VStack(spacing: watchOS ? -4 : -2) {
-                    Text(redactionReasons.isEmpty ? reading.value.formatted() : "11")
+                    Text(redactionReasons.isEmpty ? reading.value.formatted(.glucose(unit)) : "80")
                         .contentTransition(.numericText(value: Double(reading.value)))
                         .minimumScaleFactor(0.5)
                         .fontWeight(.bold)
