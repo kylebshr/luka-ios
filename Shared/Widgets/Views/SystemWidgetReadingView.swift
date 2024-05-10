@@ -32,11 +32,10 @@ struct SystemWidgetReadingView: View {
                     }
                 }
                 .font(.largeTitle)
-                .fontWeight(.medium)
+                .fontWeight(.regular)
 
                 Spacer()
             }
-            .foregroundStyle(renderingMode == .fullColor ? .black : .primary)
 
             Spacer(minLength: 0)
 
@@ -49,6 +48,7 @@ struct SystemWidgetReadingView: View {
             .buttonStyle(.plain)
         }
         .containerBackground(reading.color.gradient, for: .widget)
+        .foregroundStyle(renderingMode == .fullColor ? .black : .primary)
     }
 }
 

@@ -37,6 +37,7 @@ struct GlimpseReadingWidget: Widget {
             .systemLarge,
             .accessoryInline,
             .accessoryCircular,
+            .accessoryRectangular,
         ]
         #endif
     }
