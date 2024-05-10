@@ -13,21 +13,29 @@ import Defaults
 @MainActor @Observable class LiveViewModel {
     enum State {
         case initial
-        case loaded([GlucoseReading])
+        case loaded([GlucoseReading], latest: GlucoseReading)
         case noRecentReading
         case error(Error)
     }
 
-    var isLoggedIn: Bool {
-        username != nil && password != nil
-    }
+    var reading: State = .initial
 
-    private(set) var reading: State = .initial
-    private(set) var message: String?
-
-    private(set) var username: String? = Keychain.shared[.usernameKey]
-    private(set) var password: String? = Keychain.shared[.passwordKey]
+    private(set) var username: String? = Keychain.shared.username
+    private(set) var password: String? = Keychain.shared.password
     private(set) var accountLocation: AccountLocation? = Defaults[.accountLocation]
+
+    var message: String {
+        switch reading {
+        case .initial:
+            return "Updating..."
+        case .loaded(_, let latest):
+            return latest.timestamp(for: .now)
+        case .noRecentReading:
+            return "No recent readings"
+        case .error:
+            return "Error loading readings"
+        }
+    }
 
     private var timer: Timer?
     private var client: DexcomClient?
@@ -37,21 +45,12 @@ import Defaults
         switch reading {
         case .initial, .error, .noRecentReading:
             return true
-        case .loaded(let readings):
-            return readings.last!.date.timeIntervalSinceNow < -60 * 5
+        case .loaded(_, let latest):
+            return latest.date.timeIntervalSinceNow < -60 * 5
         }
     }
-
     init() {
         decoder.dateDecodingStrategy = .iso8601
-        setUpClientAndBeginRefreshing()
-    }
-
-    func logIn(username: String, password: String, accountLocation: AccountLocation) {
-        self.username = username
-        self.password = password
-        self.accountLocation = accountLocation
-
         setUpClientAndBeginRefreshing()
     }
 
@@ -78,24 +77,23 @@ import Defaults
 
                 do {
                     let readings = try await client.getGraphReadings(duration: .init(value: 24, unit: .hours))
-                    reading = .loaded(readings)
-                } catch let error as DexcomError {
-                    // Could be too many attempts; stop auto refreshing.
-                    reading = .error(error)
+                    if let latest = readings.last {
+                        reading = .loaded(readings, latest: latest)
+                    } else {
+                        reading = .noRecentReading
+                    }
                 } catch {
                     reading = .error(error)
                 }
             }
 
-            updateMessage()
-
             let refreshTime: TimeInterval? = {
                 switch reading {
                 case .initial:
                     return nil
-                case .loaded(let readings):
+                case .loaded(_, let latest):
                     // 5:10 after the last reading.
-                    let fiveMinuteRefresh = 60 * 5 + readings.last!.date.timeIntervalSinceNow + 10
+                    let fiveMinuteRefresh = 60 * 5 + latest.date.timeIntervalSinceNow + 10
                     // Refresh 5:10 after reading, then every 10s.
                     return max(10, fiveMinuteRefresh)
                 case .noRecentReading:
@@ -122,19 +120,6 @@ import Defaults
                     }
                 }
             }
-        }
-    }
-
-    private func updateMessage() {
-        switch reading {
-        case .initial:
-            message = "-"
-        case .loaded(let readings):
-            message = readings.last!.timestamp(for: .now)
-        case .noRecentReading:
-            message = "No recent readings"
-        case .error:
-            message = "Error loading readings"
         }
     }
 }

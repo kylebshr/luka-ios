@@ -28,7 +28,7 @@ struct GlucoseEntry<Data: GlucoseEntryData>: TimelineEntry {
         switch state {
         case .error: false
         case .reading(let reading):
-            date.timeIntervalSince(reading.current.date) > 20 * 60
+            reading.current.isExpired(at: date)
         }
     }
 

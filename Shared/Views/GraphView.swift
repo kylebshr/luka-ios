@@ -99,7 +99,7 @@ struct GraphView: View {
                         AxisMarks(
                             format: .dateTime.hour(),
                             preset: .aligned,
-                            values: .automatic(desiredCount: 5)
+                            values: .automatic(desiredCount: 4)
                         )
                     } else {
                         let roundedLowerBound = adjustedRange.upperBound - interval

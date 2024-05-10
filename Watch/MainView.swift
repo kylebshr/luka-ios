@@ -20,7 +20,7 @@ import SwiftUI
 
     private var readings: [GlucoseReading] {
         switch liveViewModel.reading {
-        case .loaded(let readings):
+        case .loaded(let readings, _):
             return readings
         default:
             return []
@@ -63,10 +63,9 @@ import SwiftUI
                     }
                     .font(.title2)
 
-                    Text(liveViewModel.message ?? "Just now")
+                    Text(liveViewModel.message)
                         .font(.footnote)
                         .foregroundStyle(.secondary)
-                        .redacted(reason: liveViewModel.message == nil ? .placeholder : [])
                         .contentTransition(.numericText())
                 }
                 .scenePadding(.horizontal)

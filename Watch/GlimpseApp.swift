@@ -15,7 +15,7 @@ struct GlimpseApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MainView().environment(viewModel)
+            RootView().environment(viewModel)
         }
         .onChange(of: scenePhase) {
             if scenePhase == .background {

@@ -45,6 +45,10 @@ extension GlucoseReading {
         }
     }
 
+    func isExpired(at atDate: Date) -> Bool {
+        atDate.timeIntervalSince(date) > 20 * 60
+    }
+
     func timestamp(
         for currentDate: Date,
         style: DateComponentsFormatter.UnitsStyle = .short,

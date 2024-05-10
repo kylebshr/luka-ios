@@ -23,7 +23,7 @@ import WidgetKit
 
     private var readings: [GlucoseReading] {
         switch liveViewModel.reading {
-        case .loaded(let readings):
+        case .loaded(let readings, _):
             return readings
         default:
             return []
@@ -33,13 +33,26 @@ import WidgetKit
     private var readingText: String {
         switch liveViewModel.reading {
         case .initial:
-            return "-"
-        case .loaded(let array):
-            return array.last?.value.formatted() ?? "-"
+            return "80"
+        case .loaded(_, let latest):
+            return latest.value.formatted()
         case .noRecentReading:
-            return "-"
+            return "80"
         case .error:
-            return "-"
+            return "80"
+        }
+    }
+
+    private var isRedacted: Bool {
+        switch liveViewModel.reading {
+        case .initial:
+            return true
+        case .loaded(_, let latest):
+            return latest.isExpired(at: .now)
+        case .noRecentReading:
+            return true
+        case .error:
+            return true
         }
     }
 
@@ -50,7 +63,8 @@ import WidgetKit
                     HStack {
                         Text(readingText)
                             .contentTransition(.numericText(value: Double(readings.last?.value ?? 0)))
-                        
+                            .redacted(reason: isRedacted ? .placeholder : [])
+
                         readings.last?.image
                             .imageScale(.small)
                             .contentTransition(.symbolEffect(.replace))
@@ -58,7 +72,7 @@ import WidgetKit
                     }
                     .font(.largeTitle.bold())
                     
-                    Text(liveViewModel.message ?? "-")
+                    Text(liveViewModel.message)
                         .font(.callout.weight(.medium))
                         .foregroundStyle(.secondary)
                         .contentTransition(.numericText())
