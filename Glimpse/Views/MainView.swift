@@ -57,7 +57,7 @@ import WidgetKit
         NavigationStack {
             VStack(alignment: .leading) {
                 VStack(alignment: .leading) {
-                    HStack {
+                    HStack(spacing: 5) {
                         Text(readingText)
                             .contentTransition(.numericText(value: Double(readings.last?.value ?? 0)))
                             .redacted(reason: isRedacted ? .placeholder : [])

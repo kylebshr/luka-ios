@@ -57,7 +57,6 @@
 		2741EA072BD8AA74003EDEB2 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA062BD8AA74003EDEB2 /* Keychain.swift */; };
 		2741EA0A2BD8AB2F003EDEB2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA092BD8AB2F003EDEB2 /* Constants.swift */; };
 		2741EA162BD8AEBB003EDEB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2741EA152BD8AEBB003EDEB2 /* Assets.xcassets */; };
-		2741EA192BD8AEBB003EDEB2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2741EA182BD8AEBB003EDEB2 /* Preview Assets.xcassets */; };
 		2741EA1C2BD8AEBB003EDEB2 /* Luka.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 2741EA0F2BD8AEBA003EDEB2 /* Luka.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2741EA282BD8AF08003EDEB2 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2741EA272BD8AF08003EDEB2 /* WidgetKit.framework */; };
 		2741EA2A2BD8AF08003EDEB2 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2741EA292BD8AF08003EDEB2 /* SwiftUI.framework */; };
@@ -149,7 +148,6 @@
 		27F5776B2BCF38330012D66C /* GlimpseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5776A2BCF38330012D66C /* GlimpseApp.swift */; };
 		27F5776D2BCF38330012D66C /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5776C2BCF38330012D66C /* SignInView.swift */; };
 		27F5776F2BCF38340012D66C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27F5776E2BCF38340012D66C /* Assets.xcassets */; };
-		27F577722BCF38340012D66C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27F577712BCF38340012D66C /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -235,7 +233,6 @@
 		2741EA092BD8AB2F003EDEB2 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		2741EA0F2BD8AEBA003EDEB2 /* Luka.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Luka.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2741EA152BD8AEBB003EDEB2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		2741EA182BD8AEBB003EDEB2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2741EA252BD8AF08003EDEB2 /* WatchWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WatchWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		2741EA272BD8AF08003EDEB2 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		2741EA292BD8AF08003EDEB2 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -285,7 +282,6 @@
 		27F5776A2BCF38330012D66C /* GlimpseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlimpseApp.swift; sourceTree = "<group>"; };
 		27F5776C2BCF38330012D66C /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		27F5776E2BCF38340012D66C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		27F577712BCF38340012D66C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -429,17 +425,8 @@
 				27784D9F2BE9E609000B2B3E /* MainView.swift */,
 				27E2C57D2BD980C60000FB40 /* Watch.entitlements */,
 				2741EA152BD8AEBB003EDEB2 /* Assets.xcassets */,
-				2741EA172BD8AEBB003EDEB2 /* Preview Content */,
 			);
 			path = Watch;
-			sourceTree = "<group>";
-		};
-		2741EA172BD8AEBB003EDEB2 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				2741EA182BD8AEBB003EDEB2 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		2741EA262BD8AF08003EDEB2 /* Frameworks */ = {
@@ -546,17 +533,8 @@
 				27E2C57F2BD981D80000FB40 /* Info.plist */,
 				2741EA082BD8AA84003EDEB2 /* Glimpse.entitlements */,
 				27F5776E2BCF38340012D66C /* Assets.xcassets */,
-				27F577702BCF38340012D66C /* Preview Content */,
 			);
 			path = Glimpse;
-			sourceTree = "<group>";
-		};
-		27F577702BCF38340012D66C /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				27F577712BCF38340012D66C /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -721,7 +699,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				271166B02BEFD1C700C30ECC /* Images.xcassets in Resources */,
-				2741EA192BD8AEBB003EDEB2 /* Preview Assets.xcassets in Resources */,
 				2741EA162BD8AEBB003EDEB2 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -740,7 +717,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				271166AE2BEFD1B600C30ECC /* Images.xcassets in Resources */,
-				27F577722BCF38340012D66C /* Preview Assets.xcassets in Resources */,
 				27F5776F2BCF38340012D66C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -974,7 +950,6 @@
 				CODE_SIGN_ENTITLEMENTS = Watch/Watch.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 21;
-				DEVELOPMENT_ASSET_PATHS = "\"Watch/Preview Content\"";
 				DEVELOPMENT_TEAM = ZEAD23GG77;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1004,7 +979,6 @@
 				CODE_SIGN_ENTITLEMENTS = Watch/Watch.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 21;
-				DEVELOPMENT_ASSET_PATHS = "\"Watch/Preview Content\"";
 				DEVELOPMENT_TEAM = ZEAD23GG77;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1217,7 +1191,6 @@
 				CODE_SIGN_ENTITLEMENTS = Glimpse/Glimpse.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 21;
-				DEVELOPMENT_ASSET_PATHS = "\"Glimpse/Preview Content\"";
 				DEVELOPMENT_TEAM = ZEAD23GG77;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1249,7 +1222,6 @@
 				CODE_SIGN_ENTITLEMENTS = Glimpse/Glimpse.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 21;
-				DEVELOPMENT_ASSET_PATHS = "\"Glimpse/Preview Content\"";
 				DEVELOPMENT_TEAM = ZEAD23GG77;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
