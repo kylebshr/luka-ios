@@ -16,7 +16,7 @@ extension GlucoseReading {
         case ...180:
             Color.green
         default:
-            Color.orange
+            Color.yellow
         }
     }
 
