@@ -20,7 +20,7 @@ import SwiftUI
     @Default(.unit) private var unit
 
     private var readings: [GlucoseReading] {
-        switch liveViewModel.reading {
+        switch liveViewModel.state {
         case .loaded(let readings, _):
             return readings
         default:
@@ -39,16 +39,14 @@ import SwiftUI
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
-                GraphView(
-                    range: selectedRange,
+                MainGraphView(
+                    selectedRange: selectedRange,
                     readings: readings,
                     highlight: reading,
-                    graphUpperBound: Int(upperGraphRange),
-                    targetRange: Int(lowerTargetRange)...Int(upperTargetRange),
-                    roundBottomCorners: false,
-                    showMarkLabels: true
+                    upperGraphRange: upperGraphRange,
+                    lowerTargetRange: lowerTargetRange,
+                    upperTargetRange: upperTargetRange
                 )
-                .padding(.leading, -2)
 
                 VStack(alignment: .leading, spacing: -3) {
                     HStack(spacing: 3) {
@@ -63,22 +61,21 @@ import SwiftUI
                         }
                     }
                     .font(.title2)
+                    .animation(.default, value: reading)
 
                     Text(liveViewModel.message)
                         .font(.footnote)
                         .foregroundStyle(.secondary)
-                        .contentTransition(.numericText())
+                        .contentTransition(.numericText(value: liveViewModel.messageValue))
+                        .animation(.default, value: liveViewModel.message)
                 }
                 .scenePadding(.horizontal)
-                .animation(.default, value: reading)
+                .padding(.trailing, 40) // toolbar button
             }
             .padding(.bottom)
             .padding(.bottom)
             .ignoresSafeArea(.all, edges: .bottom)
-            .containerBackground(
-                ([GlucoseReading].placeholder.last?.color ?? .black).gradient,
-                for: .navigation
-            )
+            .containerBackground((reading?.color ?? .black).gradient, for: .navigation)
             .toolbar {
                 ToolbarItemGroup(placement: .bottomBar) {
                     Color.clear
@@ -95,6 +92,28 @@ import SwiftUI
         .sheet(isPresented: $isPresentingPicker, content: {
             RangePicker(selection: $selectedRange)
         })
+    }
+}
+
+private struct MainGraphView: View {
+    let selectedRange: GraphRange
+    let readings: [GlucoseReading]
+    let highlight: GlucoseReading?
+    let upperGraphRange: Double
+    let lowerTargetRange: Double
+    let upperTargetRange: Double
+
+    var body: some View {
+        GraphView(
+            range: selectedRange,
+            readings: readings,
+            highlight: highlight,
+            graphUpperBound: Int(upperGraphRange),
+            targetRange: Int(lowerTargetRange)...Int(upperTargetRange),
+            roundBottomCorners: false,
+            showMarkLabels: true
+        )
+        .padding(.leading, -2)
     }
 }
 

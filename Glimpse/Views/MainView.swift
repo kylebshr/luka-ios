@@ -23,7 +23,7 @@ import WidgetKit
     @State private var liveViewModel = LiveViewModel()
 
     private var readings: [GlucoseReading] {
-        switch liveViewModel.reading {
+        switch liveViewModel.state {
         case .loaded(let readings, _):
             return readings
         default:
@@ -32,7 +32,7 @@ import WidgetKit
     }
 
     private var readingText: String {
-        switch liveViewModel.reading {
+        switch liveViewModel.state {
         case .initial, .noRecentReading, .error:
             return "100"
         case .loaded(_, let latest):
@@ -41,7 +41,7 @@ import WidgetKit
     }
 
     private var isRedacted: Bool {
-        switch liveViewModel.reading {
+        switch liveViewModel.state {
         case .initial:
             return true
         case .loaded(_, let latest):
@@ -68,15 +68,16 @@ import WidgetKit
                             .transition(.blurReplace)
                     }
                     .font(.largeTitle.bold())
-                    
+                    .animation(.default, value: readingText)
+
                     Text(liveViewModel.message)
                         .font(.callout.weight(.medium))
                         .foregroundStyle(.secondary)
-                        .contentTransition(.numericText())
+                        .contentTransition(.numericText(value: liveViewModel.messageValue))
+                        .animation(.default, value: liveViewModel.message)
                 }
                 .padding()
-                .animation(.default, value: readings.last)
-                
+
                 GraphView(
                     range: selectedRange,
                     readings: readings,

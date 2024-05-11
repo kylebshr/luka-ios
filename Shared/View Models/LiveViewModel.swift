@@ -18,31 +18,27 @@ import Defaults
         case error(Error)
     }
 
-    var reading: State = .initial
+    private(set) var state: State = .initial
+    private(set) var message: String = LiveViewModel.message(for: .initial)
 
     private(set) var username: String? = Keychain.shared.username
     private(set) var password: String? = Keychain.shared.password
     private(set) var accountLocation: AccountLocation? = Defaults[.accountLocation]
 
-    var message: String {
-        switch reading {
-        case .initial:
-            return "Updating..."
-        case .loaded(_, let latest):
-            return latest.timestamp(for: .now)
-        case .noRecentReading:
-            return "No recent readings"
-        case .error:
-            return "Error loading readings"
-        }
-    }
-
+    private var timestampTimer: Timer?
     private var timer: Timer?
     private var client: DexcomClient?
     private let decoder = JSONDecoder()
 
+    var messageValue: TimeInterval {
+        switch state {
+        case .initial, .noRecentReading, .error: 0
+        case .loaded(_, let latest): latest.date.timeIntervalSince1970
+        }
+    }
+
     private var shouldRefreshReading: Bool {
-        switch reading {
+        switch state {
         case .initial, .error, .noRecentReading:
             return true
         case .loaded(_, let latest):
@@ -52,11 +48,18 @@ import Defaults
     init() {
         decoder.dateDecodingStrategy = .iso8601
         setUpClientAndBeginRefreshing()
+
+        timestampTimer = .scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+            guard let self else { return }
+            Task { @MainActor in
+                self.message = LiveViewModel.message(for: self.state)
+            }
+        }
     }
 
     private func setUpClientAndBeginRefreshing() {
         if let username, let password, let accountLocation {
-            reading = .initial
+            state = .initial
 
             client = DexcomClient(
                 username: username,
@@ -80,17 +83,19 @@ import Defaults
                 do {
                     let readings = try await client.getGraphReadings(duration: .init(value: 24, unit: .hours))
                     if let latest = readings.last {
-                        reading = .loaded(readings, latest: latest)
+                        state = .loaded(readings, latest: latest)
                     } else {
-                        reading = .noRecentReading
+                        state = .noRecentReading
                     }
                 } catch {
-                    reading = .error(error)
+                    state = .error(error)
                 }
             }
 
+            message = LiveViewModel.message(for: state)
+
             let refreshTime: TimeInterval? = {
-                switch reading {
+                switch state {
                 case .initial:
                     return nil
                 case .loaded(_, let latest):
@@ -122,6 +127,19 @@ import Defaults
                     }
                 }
             }
+        }
+    }
+
+    private static func message(for state: State) -> String {
+        switch state {
+        case .initial:
+            return "Updating"
+        case .loaded(_, let latest):
+            return latest.timestamp(for: .now)
+        case .noRecentReading:
+            return "No recent readings"
+        case .error:
+            return "Error loading readings"
         }
     }
 }
