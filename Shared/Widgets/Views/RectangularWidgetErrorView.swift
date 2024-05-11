@@ -15,18 +15,10 @@ struct RectangularWidgetErrorView: View {
 
     var body: some View {
         Button(intent: ReloadWidgetIntent()) {
-            HStack(spacing: 5) {
-                Text(error.description)
-
-                Spacer()
-
-                #if os(watchOS)
-                Image(systemName: error.image)
-                #else
-                Image(systemName: error.buttonImage)
-                #endif
-            }
-            .invalidatableContent()
+            WidgetButtonContent(
+                text: error.description,
+                image: watchOS ? error.image : error.buttonImage
+            )
             .frame(maxHeight: .infinity)
         }
         #if os(watchOS)

@@ -11,6 +11,10 @@ struct WidgetButtonContent: View {
     let text: String
     let image: String
 
+    private var font: Font {
+        (watchOS ? Font.footnote : .subheadline)
+    }
+
     init(text: String, image: String) {
         self.text = text
         self.image = image
@@ -31,7 +35,7 @@ struct WidgetButtonContent: View {
             Image(systemName: image)
                 .unredacted()
         }
-        .font(.caption)
+        .font(font)
         .fontWeight(.medium)
     }
 }

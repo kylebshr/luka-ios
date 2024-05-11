@@ -74,11 +74,11 @@ extension GlucoseEntryError {
     var description: String {
         switch self {
         case .loggedOut:
-            "No account"
+            "No Account"
         case .noRecentReadings:
-            "No recent readings"
+            "No Recent Readings"
         case .failedToLoad:
-            "Network error"
+            "Network Error"
         }
     }
 }

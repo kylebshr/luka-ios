@@ -26,6 +26,10 @@
 		270E18632BDA084E00CB7D4D /* ReadingWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E18612BDA084E00CB7D4D /* ReadingWidgetView.swift */; };
 		270E18652BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E18642BDA0A1400CB7D4D /* ReloadWidgetIntent.swift */; };
 		270E18662BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270E18642BDA0A1400CB7D4D /* ReloadWidgetIntent.swift */; };
+		271166AE2BEFD1B600C30ECC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 271166AD2BEFD1B600C30ECC /* Images.xcassets */; };
+		271166AF2BEFD1C600C30ECC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 271166AD2BEFD1B600C30ECC /* Images.xcassets */; };
+		271166B02BEFD1C700C30ECC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 271166AD2BEFD1B600C30ECC /* Images.xcassets */; };
+		271166B12BEFD1C700C30ECC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 271166AD2BEFD1B600C30ECC /* Images.xcassets */; };
 		271522592BE009C80009D8EA /* GraphWidgetConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2741EA2E2BD8AF08003EDEB2 /* GraphWidgetConfiguration.swift */; };
 		2715225C2BE009FC0009D8EA /* GraphView+GraphRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2715225B2BE009FC0009D8EA /* GraphView+GraphRange.swift */; };
 		2715225D2BE009FC0009D8EA /* GraphView+GraphRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2715225B2BE009FC0009D8EA /* GraphView+GraphRange.swift */; };
@@ -219,6 +223,7 @@
 		270E185E2BDA082A00CB7D4D /* CircularWidgetReadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularWidgetReadingView.swift; sourceTree = "<group>"; };
 		270E18612BDA084E00CB7D4D /* ReadingWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingWidgetView.swift; sourceTree = "<group>"; };
 		270E18642BDA0A1400CB7D4D /* ReloadWidgetIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReloadWidgetIntent.swift; sourceTree = "<group>"; };
+		271166AD2BEFD1B600C30ECC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		2715225B2BE009FC0009D8EA /* GraphView+GraphRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GraphView+GraphRange.swift"; sourceTree = "<group>"; };
 		27221C782BEAB65600661B26 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		2731E07C2BDC6CB400695EBF /* CardTextFieldStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTextFieldStyle.swift; sourceTree = "<group>"; };
@@ -350,6 +355,7 @@
 				2731E0852BDC738E00695EBF /* Widgets */,
 				2731E0842BDC737200695EBF /* Intents */,
 				2731E0832BDC736600695EBF /* Utilities */,
+				271166AD2BEFD1B600C30ECC /* Images.xcassets */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -706,6 +712,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				270332562BD99E91009535EE /* Assets.xcassets in Resources */,
+				271166AF2BEFD1C600C30ECC /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -713,6 +720,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				271166B02BEFD1C700C30ECC /* Images.xcassets in Resources */,
 				2741EA192BD8AEBB003EDEB2 /* Preview Assets.xcassets in Resources */,
 				2741EA162BD8AEBB003EDEB2 /* Assets.xcassets in Resources */,
 			);
@@ -723,6 +731,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2741EA312BD8AF0A003EDEB2 /* Assets.xcassets in Resources */,
+				271166B12BEFD1C700C30ECC /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -730,6 +739,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				271166AE2BEFD1B600C30ECC /* Images.xcassets in Resources */,
 				27F577722BCF38340012D66C /* Preview Assets.xcassets in Resources */,
 				27F5776F2BCF38340012D66C /* Assets.xcassets in Resources */,
 			);

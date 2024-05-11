@@ -15,6 +15,7 @@ struct WidgetGraphView: View {
 
     @Environment(\.redactionReasons) private var redactionReasons
     @Environment(\.widgetContentMargins) private var margins
+    @Environment(\.widgetFamily) private var family
 
     @Default(.unit) private var unit
 
@@ -23,7 +24,21 @@ struct WidgetGraphView: View {
     }
 
     private var font: Font {
-        (watchOS ? Font.footnote : .subheadline).weight(.semibold)
+        (watchOS ? Font.footnote : .subheadline)
+    }
+
+    private var graphPadding: EdgeInsets {
+        switch family {
+        case .systemSmall, .systemMedium, .systemLarge:
+            return EdgeInsets(
+                top: 0,
+                leading: -margins.leading,
+                bottom: -margins.bottom,
+                trailing: -margins.trailing
+            )
+        default:
+            return EdgeInsets()
+        }
     }
 
     var body: some View {
@@ -42,6 +57,7 @@ struct WidgetGraphView: View {
                                     .contentTransition(.symbolEffect(.replace))
                             }
                         }
+                        .fontWeight(.bold)
 
                         Group {
                             HStack(spacing: 2) {
@@ -70,6 +86,7 @@ struct WidgetGraphView: View {
                             }
                         }
                         .foregroundStyle(.secondary)
+                        .fontWeight(.medium)
                     }
                 }
 
@@ -82,8 +99,9 @@ struct WidgetGraphView: View {
                     roundBottomCorners: !isInStandby,
                     showMarkLabels: false
                 )
+                .padding(graphPadding)
             }
-            .font(font.weight(.semibold))
+            .font(font)
         }
         .buttonStyle(.plain)
         .containerBackground(.background, for: .widget)

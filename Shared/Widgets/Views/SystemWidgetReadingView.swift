@@ -21,24 +21,20 @@ struct SystemWidgetReadingView: View {
     @Default(.unit) private var unit
 
     var body: some View {
-        VStack(alignment: .leading) {
-            HStack(alignment: .firstTextBaseline) {
-                HStack(alignment: .firstTextBaseline, spacing: 4) {
-                    Text(reading.value.formatted(.glucose(unit)))
-                        .contentTransition(.numericText(value: Double(reading.value)))
-                        .invalidatableContent()
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(alignment: .firstTextBaseline, spacing: 4) {
+                Text(reading.value.formatted(.glucose(unit)))
+                    .contentTransition(.numericText(value: Double(reading.value)))
+                    .invalidatableContent()
 
-                    if redactionReasons.isEmpty {
-                        reading.image
-                            .imageScale(.small)
-                            .contentTransition(.symbolEffect(.replace))
-                    }
+                if redactionReasons.isEmpty {
+                    reading.image
+                        .imageScale(.small)
+                        .contentTransition(.symbolEffect(.replace))
                 }
-                .font(.largeTitle)
-                .fontWeight(.regular)
-
-                Spacer()
             }
+            .font(.largeTitle)
+            .fontWeight(.regular)
 
             Spacer(minLength: 0)
 
@@ -54,4 +50,3 @@ struct SystemWidgetReadingView: View {
         .foregroundStyle(renderingMode == .fullColor ? .black : .primary)
     }
 }
-
