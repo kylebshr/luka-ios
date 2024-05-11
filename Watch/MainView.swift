@@ -92,6 +92,9 @@ import SwiftUI
         .sheet(isPresented: $isPresentingPicker, content: {
             RangePicker(selection: $selectedRange)
         })
+        .onAppear {
+            liveViewModel.setUpClientAndBeginRefreshing()
+        }
     }
 }
 

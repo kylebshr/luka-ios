@@ -114,6 +114,9 @@ import WidgetKit
                 SettingsView()
             }
         }
+        .onAppear {
+            liveViewModel.setUpClientAndBeginRefreshing()
+        }
     }
 }
 

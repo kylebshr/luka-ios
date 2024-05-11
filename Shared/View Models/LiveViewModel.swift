@@ -21,14 +21,14 @@ import Defaults
     private(set) var state: State = .initial
     private(set) var message: String = LiveViewModel.message(for: .initial)
 
-    private(set) var username: String? = Keychain.shared.username
-    private(set) var password: String? = Keychain.shared.password
-    private(set) var accountLocation: AccountLocation? = Defaults[.accountLocation]
+    @ObservationIgnored private lazy var username: String? = Keychain.shared.username
+    @ObservationIgnored private lazy var password: String? = Keychain.shared.password
+    @ObservationIgnored private lazy var accountLocation: AccountLocation? = Defaults[.accountLocation]
 
-    private var timestampTimer: Timer?
-    private var timer: Timer?
-    private var client: DexcomClient?
-    private let decoder = JSONDecoder()
+    @ObservationIgnored private var timestampTimer: Timer?
+    @ObservationIgnored private var timer: Timer?
+    @ObservationIgnored private var client: DexcomClient?
+    @ObservationIgnored private let decoder = JSONDecoder()
 
     var messageValue: TimeInterval {
         switch state {
@@ -47,17 +47,15 @@ import Defaults
     }
     init() {
         decoder.dateDecodingStrategy = .iso8601
-        setUpClientAndBeginRefreshing()
-
         timestampTimer = .scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             guard let self else { return }
             Task { @MainActor in
-                self.message = LiveViewModel.message(for: self.state)
+                self.updateMessageIfNeeded()
             }
         }
     }
 
-    private func setUpClientAndBeginRefreshing() {
+    func setUpClientAndBeginRefreshing() {
         if let username, let password, let accountLocation {
             state = .initial
 
@@ -92,7 +90,7 @@ import Defaults
                 }
             }
 
-            message = LiveViewModel.message(for: state)
+            updateMessageIfNeeded()
 
             let refreshTime: TimeInterval? = {
                 switch state {
@@ -127,6 +125,13 @@ import Defaults
                     }
                 }
             }
+        }
+    }
+
+    private func updateMessageIfNeeded() {
+        let updated = Self.message(for: state)
+        if updated != message {
+            message = updated
         }
     }
 
