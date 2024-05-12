@@ -77,7 +77,7 @@ import Defaults
                 print("Refreshing reading")
 
                 do {
-                    let readings = try await client.getGraphReadings(duration: .init(value: 24, unit: .hours))
+                    let readings = try await client.getGlucoseReadings()
                     if let latest = readings.last {
                         state = .loaded(readings, latest: latest)
                     } else {
