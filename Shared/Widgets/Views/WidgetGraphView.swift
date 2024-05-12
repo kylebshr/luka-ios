@@ -32,9 +32,9 @@ struct WidgetGraphView: View {
         case .systemSmall, .systemMedium, .systemLarge:
             return EdgeInsets(
                 top: 0,
-                leading: -margins.leading,
-                bottom: -margins.bottom,
-                trailing: -margins.trailing
+                leading: -margins.leading / 2,
+                bottom: -margins.bottom / 2,
+                trailing: -margins.trailing / 2
             )
         default:
             return EdgeInsets()
