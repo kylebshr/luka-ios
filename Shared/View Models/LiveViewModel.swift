@@ -78,6 +78,7 @@ import Defaults
 
                 do {
                     let readings = try await client.getGlucoseReadings()
+                        .sorted { $0.date < $1.date }
                     if let latest = readings.last {
                         state = .loaded(readings, latest: latest)
                     } else {
