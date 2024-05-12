@@ -141,8 +141,14 @@ import Defaults
             return latest.timestamp(for: .now)
         case .noRecentReading:
             return "No recent readings"
-        case .error:
-            return "Error loading readings"
+        case .error(let error):
+            if error is DexcomError {
+                // Will not automatically update
+                return "Error loading readings"
+            } else {
+                // Will automatically update
+                return "Updating"
+            }
         }
     }
 }
