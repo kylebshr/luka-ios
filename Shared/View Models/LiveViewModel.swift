@@ -100,12 +100,12 @@ import Defaults
                     // Refresh 5:10 after reading, then every 10s.
                     return max(10, fiveMinuteRefresh)
                 case .noRecentReading:
-                    return 10
+                    return 5
                 case .error(let error):
                     if error is DexcomError {
                         return nil
                     } else {
-                        return 10
+                        return 5
                     }
                 }
             }()
