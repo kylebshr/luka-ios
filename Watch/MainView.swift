@@ -75,7 +75,7 @@ import SwiftUI
             .padding(.bottom)
             .padding(.bottom)
             .ignoresSafeArea(.all, edges: .bottom)
-            .containerBackground((reading?.color ?? .black).gradient, for: .navigation)
+            .containerBackground((reading?.color(target: lowerTargetRange...upperTargetRange) ?? .black).gradient, for: .navigation)
             .toolbar {
                 ToolbarItemGroup(placement: .bottomBar) {
                     Color.clear

@@ -9,11 +9,11 @@ import Dexcom
 import SwiftUI
 
 extension GlucoseReading {
-    var color: Color {
-        switch value {
-        case ..<70:
+    func color(target: ClosedRange<Double>) -> Color {
+        switch Double(value) {
+        case ..<target.lowerBound:
             Color.pink
-        case ...180:
+        case ...target.upperBound:
             Color.green
         default:
             Color.yellow

@@ -18,6 +18,8 @@ struct SystemWidgetReadingView: View {
     @Environment(\.widgetContentMargins) private var widgetContentMargins
     @Environment(\.widgetRenderingMode) private var renderingMode
 
+    @Default(.targetRangeLowerBound) private var targetLower
+    @Default(.targetRangeUpperBound) private var targetUpper
     @Default(.unit) private var unit
 
     var body: some View {
@@ -46,7 +48,7 @@ struct SystemWidgetReadingView: View {
             }
             .buttonStyle(.plain)
         }
-        .containerBackground(reading.color.gradient, for: .widget)
+        .containerBackground(reading.color(target: targetLower...targetUpper).gradient, for: .widget)
         .foregroundStyle(renderingMode == .fullColor ? .black : .primary)
     }
 }

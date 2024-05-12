@@ -16,6 +16,8 @@ struct CircularWidgetView : View {
 
     @Environment(\.redactionReasons) private var redactionReasons
 
+    @Default(.targetRangeLowerBound) private var targetLower
+    @Default(.targetRangeUpperBound) private var targetUpper
     @Default(.unit) private var unit
 
     var body: some View {
@@ -59,7 +61,7 @@ struct CircularWidgetView : View {
             }
         )
         .gaugeStyle(.accessoryCircularCapacity)
-        .tint(reading.color)
+        .tint(reading.color(target: targetLower...targetUpper))
         .overlay {
             if redactionReasons.isEmpty {
                 if let rotationDegrees = rotationDegrees(for: reading.trend) {

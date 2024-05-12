@@ -57,8 +57,6 @@ import Defaults
 
     func setUpClientAndBeginRefreshing() {
         if let username, let password, let accountLocation {
-            state = .initial
-
             client = DexcomClient(
                 username: username,
                 password: password,
