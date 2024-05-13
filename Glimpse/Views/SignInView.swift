@@ -73,6 +73,7 @@ struct SignInView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
+        .fontDesign(.rounded)
     }
 
     private var locationLinks: some View {
@@ -206,6 +207,7 @@ private struct UsernamePasswordView: View {
         .task {
             isUsernameFocused = true
         }
+        .fontDesign(.rounded)
     }
 }
 

@@ -94,6 +94,7 @@ struct SettingsView: View {
                 }
             }
         }
+        .fontDesign(.rounded)
     }
 }
 

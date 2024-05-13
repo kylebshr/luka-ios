@@ -12,7 +12,7 @@ struct WidgetButtonContent: View {
     let image: String
 
     private var font: Font {
-        (watchOS ? Font.footnote : .subheadline)
+        .system(watchOS ? .footnote : .subheadline, design: .rounded)
     }
 
     init(text: String, image: String) {

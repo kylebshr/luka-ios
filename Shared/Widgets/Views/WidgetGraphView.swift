@@ -24,7 +24,7 @@ struct WidgetGraphView: View {
     }
 
     private var font: Font {
-        (watchOS ? Font.footnote : .subheadline)
+        .system(watchOS ? .footnote : .subheadline, design: .rounded)
     }
 
     private var graphPadding: EdgeInsets {

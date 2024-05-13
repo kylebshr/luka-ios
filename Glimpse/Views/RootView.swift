@@ -10,6 +10,19 @@ import SwiftUI
 struct RootView: View {
     @Environment(RootViewModel.self) private var viewModel
 
+    init() {
+        var titleFont = UIFont.preferredFont(forTextStyle: .largeTitle)
+        titleFont = UIFont(
+            descriptor:
+                titleFont.fontDescriptor
+                .withDesign(.rounded)!
+                .withSymbolicTraits(.traitBold)!,
+            size: titleFont.pointSize
+        )
+
+        UINavigationBar.appearance().largeTitleTextAttributes = [.font: titleFont]
+    }
+
     var body: some View {
         Group {
             if viewModel.isSignedIn {

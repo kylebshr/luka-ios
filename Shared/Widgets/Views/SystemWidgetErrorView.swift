@@ -16,7 +16,7 @@ struct SystemWidgetErrorView: View {
             Spacer()
 
             Text(error.description)
-                .font(.body.weight(.medium))
+                .font(.system(.body, design: .rounded).weight(.medium))
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
 

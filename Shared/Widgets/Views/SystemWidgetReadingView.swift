@@ -35,7 +35,7 @@ struct SystemWidgetReadingView: View {
                         .contentTransition(.symbolEffect(.replace))
                 }
             }
-            .font(.largeTitle)
+            .font(.system(.largeTitle, design: .rounded))
             .fontWeight(.regular)
 
             Spacer(minLength: 0)
@@ -45,6 +45,7 @@ struct SystemWidgetReadingView: View {
                     text: reading.timestamp(for: entry.date),
                     image: entry.shouldRefresh ? "arrow.triangle.2.circlepath" : ""
                 )
+                .foregroundStyle(.secondary)
             }
             .buttonStyle(.plain)
         }

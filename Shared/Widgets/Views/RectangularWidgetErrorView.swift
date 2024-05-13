@@ -24,7 +24,6 @@ struct RectangularWidgetErrorView: View {
         #if os(watchOS)
         .buttonStyle(.plain)
         #endif
-        .font(.system(size: watchOS ? 14 : 13, weight: .semibold))
         .buttonBorderShape(.roundedRectangle)
         .containerBackground(.background, for: .widget)
     }

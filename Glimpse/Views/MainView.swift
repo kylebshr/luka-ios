@@ -55,8 +55,16 @@ import WidgetKit
 
     var body: some View {
         NavigationStack {
-            VStack(alignment: .leading) {
-                VStack(alignment: .leading) {
+            VStack(alignment: .center) {
+                VStack(alignment: .center, spacing: 0) {
+                    Text(liveViewModel.message)
+                        .font(.footnote.weight(.medium))
+                        .foregroundStyle(.secondary)
+                        .contentTransition(.numericText(value: liveViewModel.messageValue))
+                        .animation(.default, value: liveViewModel.message)
+
+                    Spacer().frame(height: 10)
+
                     HStack(spacing: 5) {
                         Text(readingText)
                             .contentTransition(.numericText(value: Double(readings.last?.value ?? 0)))
@@ -67,14 +75,13 @@ import WidgetKit
                             .contentTransition(.symbolEffect(.replace))
                             .transition(.blurReplace)
                     }
-                    .font(.largeTitle.bold())
+                    .font(.largeTitle.weight(.medium))
                     .animation(.default, value: readingText)
 
-                    Text(liveViewModel.message)
-                        .font(.callout.weight(.medium))
+                    Text(unit.text)
+                        .font(.footnote.weight(.medium))
                         .foregroundStyle(.secondary)
-                        .contentTransition(.numericText(value: liveViewModel.messageValue))
-                        .animation(.default, value: liveViewModel.message)
+                        .redacted(reason: isRedacted ? .placeholder : [])
                 }
                 .padding()
 
@@ -104,7 +111,7 @@ import WidgetKit
                     Button {
                         isPresentingSettings = true
                     } label: {
-                        Image(systemName: "switch.2")
+                        Image(systemName: "person.fill")
                     }
                 }
             }
@@ -117,6 +124,7 @@ import WidgetKit
         .onAppear {
             liveViewModel.setUpClientAndBeginRefreshing()
         }
+        .fontDesign(.rounded)
     }
 }
 
