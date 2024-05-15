@@ -1,6 +1,6 @@
 //
-//  GlimpseWidget.swift
-//  GlimpseWidget
+//  LukaWidget.swift
+//  LukaWidget
 //
 //  Created by Kyle Bashour on 4/24/24.
 //
@@ -9,7 +9,7 @@ import WidgetKit
 import SwiftUI
 import Dexcom
 
-struct GlimpseReadingWidget: Widget {
+struct ReadingWidget: Widget {
     let kind: String = "GlimpseReadingWidget"
 
     var body: some WidgetConfiguration {
@@ -44,7 +44,7 @@ struct GlimpseReadingWidget: Widget {
 }
 
 #Preview(as: .accessoryRectangular) {
-    GlimpseReadingWidget()
+    ReadingWidget()
 } timeline: {
     GlucoseEntry<GlucoseReading>(date: .now, widgetURL: nil, state: .reading(.placeholder))
     GlucoseEntry<GlucoseReading>(

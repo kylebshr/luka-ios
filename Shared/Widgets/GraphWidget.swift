@@ -1,6 +1,6 @@
 //
-//  GlimpseGraphWidget.swift
-//  Glimpse
+//  LukaGraphWidget.swift
+//  Luka
 //
 //  Created by Kyle Bashour on 5/1/24.
 //
@@ -9,7 +9,7 @@ import WidgetKit
 import SwiftUI
 import Dexcom
 
-struct GlimpseGraphWidget: Widget {
+struct GraphWidget: Widget {
     let kind: String = "GlimpseChartWidget"
 
     var body: some WidgetConfiguration {
@@ -40,7 +40,7 @@ struct GlimpseGraphWidget: Widget {
 }
 
 #Preview(as: .accessoryRectangular) {
-    GlimpseGraphWidget()
+    GraphWidget()
 } timeline: {
     GlucoseEntry<GlucoseGraphEntryData>(
         date: .now,

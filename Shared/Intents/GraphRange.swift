@@ -1,6 +1,6 @@
 //
 //  GraphRange.swift
-//  Glimpse
+//  Luka
 //
 //  Created by Kyle Bashour on 5/6/24.
 //

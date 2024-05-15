@@ -1,6 +1,6 @@
 //
 //  InlineWidgetReadingView.swift
-//  Glimpse
+//  Luka
 //
 //  Created by Kyle Bashour on 4/25/24.
 //

@@ -1,6 +1,6 @@
 //
 //  LiveViewModel.swift
-//  Glimpse
+//  Luka
 //
 //  Created by Kyle Bashour on 5/2/24.
 //

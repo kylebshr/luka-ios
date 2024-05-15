@@ -1,6 +1,6 @@
 //
 //  ReadingWidgetConfiguration.swift
-//  Glimpse
+//  Luka
 //
 //  Created by Kyle Bashour on 5/9/24.
 //

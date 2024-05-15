@@ -17,9 +17,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2703324C2BD99E90009535EE"
-               BuildableName = "GlimpseWidget.appex"
-               BlueprintName = "GlimpseWidget"
-               ReferencedContainer = "container:Glimpse.xcodeproj">
+               BuildableName = "LukaWidget.appex"
+               BlueprintName = "LukaWidget"
+               ReferencedContainer = "container:Luka.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -31,9 +31,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "27F577662BCF38330012D66C"
-               BuildableName = "Glimpse.app"
-               BlueprintName = "Glimpse"
-               ReferencedContainer = "container:Glimpse.xcodeproj">
+               BuildableName = "Luka.app"
+               BlueprintName = "Luka"
+               ReferencedContainer = "container:Luka.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -63,18 +63,18 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2703324C2BD99E90009535EE"
-            BuildableName = "GlimpseWidget.appex"
-            BlueprintName = "GlimpseWidget"
-            ReferencedContainer = "container:Glimpse.xcodeproj">
+            BuildableName = "LukaWidget.appex"
+            BlueprintName = "LukaWidget"
+            ReferencedContainer = "container:Luka.xcodeproj">
          </BuildableReference>
       </RemoteRunnable>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "27F577662BCF38330012D66C"
-            BuildableName = "Glimpse.app"
-            BlueprintName = "Glimpse"
-            ReferencedContainer = "container:Glimpse.xcodeproj">
+            BuildableName = "Luka.app"
+            BlueprintName = "Luka"
+            ReferencedContainer = "container:Luka.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <EnvironmentVariables>
@@ -109,9 +109,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2703324C2BD99E90009535EE"
-            BuildableName = "GlimpseWidget.appex"
-            BlueprintName = "GlimpseWidget"
-            ReferencedContainer = "container:Glimpse.xcodeproj">
+            BuildableName = "LukaWidget.appex"
+            BlueprintName = "LukaWidget"
+            ReferencedContainer = "container:Luka.xcodeproj">
          </BuildableReference>
       </RemoteRunnable>
    </ProfileAction>

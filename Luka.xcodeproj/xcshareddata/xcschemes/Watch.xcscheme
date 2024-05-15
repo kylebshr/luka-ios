@@ -15,10 +15,24 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "2741EA0E2BD8AEBA003EDEB2"
+               BuildableName = "Luka.app"
+               BlueprintName = "Watch"
+               ReferencedContainer = "container:Luka.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "27F577662BCF38330012D66C"
-               BuildableName = "Glimpse.app"
-               BlueprintName = "Glimpse"
-               ReferencedContainer = "container:Glimpse.xcodeproj">
+               BuildableName = "Luka.app"
+               BlueprintName = "Luka"
+               ReferencedContainer = "container:Luka.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -44,10 +58,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "27F577662BCF38330012D66C"
-            BuildableName = "Glimpse.app"
-            BlueprintName = "Glimpse"
-            ReferencedContainer = "container:Glimpse.xcodeproj">
+            BlueprintIdentifier = "2741EA0E2BD8AEBA003EDEB2"
+            BuildableName = "Luka.app"
+            BlueprintName = "Watch"
+            ReferencedContainer = "container:Luka.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -61,10 +75,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "27F577662BCF38330012D66C"
-            BuildableName = "Glimpse.app"
-            BlueprintName = "Glimpse"
-            ReferencedContainer = "container:Glimpse.xcodeproj">
+            BlueprintIdentifier = "2741EA0E2BD8AEBA003EDEB2"
+            BuildableName = "Luka.app"
+            BlueprintName = "Watch"
+            ReferencedContainer = "container:Luka.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

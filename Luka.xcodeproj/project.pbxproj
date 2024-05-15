@@ -10,10 +10,10 @@
 		270332482BD99E81009535EE /* GraphTimelineProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270332452BD99E79009535EE /* GraphTimelineProvider.swift */; };
 		2703324E2BD99E90009535EE /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2741EA272BD8AF08003EDEB2 /* WidgetKit.framework */; };
 		2703324F2BD99E90009535EE /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2741EA292BD8AF08003EDEB2 /* SwiftUI.framework */; };
-		270332522BD99E90009535EE /* GlimpseWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270332512BD99E90009535EE /* GlimpseWidgetBundle.swift */; };
-		270332542BD99E90009535EE /* GlimpseReadingWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270332532BD99E90009535EE /* GlimpseReadingWidget.swift */; };
+		270332522BD99E90009535EE /* LukaWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270332512BD99E90009535EE /* LukaWidgetBundle.swift */; };
+		270332542BD99E90009535EE /* ReadingWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270332532BD99E90009535EE /* ReadingWidget.swift */; };
 		270332562BD99E91009535EE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 270332552BD99E91009535EE /* Assets.xcassets */; };
-		2703325A2BD99E91009535EE /* GlimpseWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2703324D2BD99E90009535EE /* GlimpseWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		2703325A2BD99E91009535EE /* LukaWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2703324D2BD99E90009535EE /* LukaWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		270332602BD99F43009535EE /* GraphTimelineProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270332452BD99E79009535EE /* GraphTimelineProvider.swift */; };
 		270332632BD9A09F009535EE /* Dexcom in Frameworks */ = {isa = PBXBuildFile; productRef = 270332622BD9A09F009535EE /* Dexcom */; };
 		270332652BD9A09F009535EE /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 270332642BD9A09F009535EE /* KeychainAccess */; };
@@ -67,10 +67,10 @@
 		274E9A4A2BE1C8E60035F216 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274E9A482BE1C8E60035F216 /* View+Extensions.swift */; };
 		274E9A4B2BE1C8E60035F216 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274E9A482BE1C8E60035F216 /* View+Extensions.swift */; };
 		274E9A4C2BE1C8E60035F216 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274E9A482BE1C8E60035F216 /* View+Extensions.swift */; };
-		27558D0C2BE2D57C000CACB4 /* GlimpseWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270332512BD99E90009535EE /* GlimpseWidgetBundle.swift */; };
-		27558D0D2BE2D57C000CACB4 /* GlimpseReadingWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270332532BD99E90009535EE /* GlimpseReadingWidget.swift */; };
-		27558D132BE2D634000CACB4 /* GlimpseGraphWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D122BE2D634000CACB4 /* GlimpseGraphWidget.swift */; };
-		27558D142BE2D634000CACB4 /* GlimpseGraphWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D122BE2D634000CACB4 /* GlimpseGraphWidget.swift */; };
+		27558D0C2BE2D57C000CACB4 /* LukaWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270332512BD99E90009535EE /* LukaWidgetBundle.swift */; };
+		27558D0D2BE2D57C000CACB4 /* ReadingWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270332532BD99E90009535EE /* ReadingWidget.swift */; };
+		27558D132BE2D634000CACB4 /* GraphWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D122BE2D634000CACB4 /* GraphWidget.swift */; };
+		27558D142BE2D634000CACB4 /* GraphWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D122BE2D634000CACB4 /* GraphWidget.swift */; };
 		27558D162BE2D662000CACB4 /* WidgetErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D152BE2D662000CACB4 /* WidgetErrorView.swift */; };
 		27558D172BE2D662000CACB4 /* WidgetErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D152BE2D662000CACB4 /* WidgetErrorView.swift */; };
 		27558D192BE2D6BE000CACB4 /* GraphWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27558D182BE2D6BE000CACB4 /* GraphWidgetView.swift */; };
@@ -137,7 +137,7 @@
 		27D96EF92BE43192007F4720 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA40F2BDFC65B006C87B6 /* GraphView.swift */; };
 		27D96EFA2BE43195007F4720 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA40F2BDFC65B006C87B6 /* GraphView.swift */; };
 		27D96EFB2BE43196007F4720 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279BA40F2BDFC65B006C87B6 /* GraphView.swift */; };
-		27D96EFE2BE431A2007F4720 /* GlimpseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96EFC2BE4319E007F4720 /* GlimpseApp.swift */; };
+		27D96EFE2BE431A2007F4720 /* LukaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96EFC2BE4319E007F4720 /* LukaApp.swift */; };
 		27D96F002BE434F1007F4720 /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96EFF2BE434F1007F4720 /* Bundle+Extensions.swift */; };
 		27D96F012BE434FA007F4720 /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96EFF2BE434F1007F4720 /* Bundle+Extensions.swift */; };
 		27D96F042BE4490E007F4720 /* LiveViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D96F032BE4490E007F4720 /* LiveViewModel.swift */; };
@@ -145,7 +145,7 @@
 		27E2C5822BD98AB50000FB40 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E2C5812BD98AB50000FB40 /* Defaults.swift */; };
 		27E2C5832BD98B3B0000FB40 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E2C5812BD98AB50000FB40 /* Defaults.swift */; };
 		27E2C5842BD98B3B0000FB40 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E2C5812BD98AB50000FB40 /* Defaults.swift */; };
-		27F5776B2BCF38330012D66C /* GlimpseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5776A2BCF38330012D66C /* GlimpseApp.swift */; };
+		27F5776B2BCF38330012D66C /* LukaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5776A2BCF38330012D66C /* LukaApp.swift */; };
 		27F5776D2BCF38330012D66C /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5776C2BCF38330012D66C /* SignInView.swift */; };
 		27F5776F2BCF38340012D66C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27F5776E2BCF38340012D66C /* Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -181,7 +181,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				2703325A2BD99E91009535EE /* GlimpseWidget.appex in Embed Foundation Extensions */,
+				2703325A2BD99E91009535EE /* LukaWidget.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -212,12 +212,12 @@
 
 /* Begin PBXFileReference section */
 		270332452BD99E79009535EE /* GraphTimelineProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphTimelineProvider.swift; sourceTree = "<group>"; };
-		2703324D2BD99E90009535EE /* GlimpseWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = GlimpseWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		270332512BD99E90009535EE /* GlimpseWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlimpseWidgetBundle.swift; sourceTree = "<group>"; };
-		270332532BD99E90009535EE /* GlimpseReadingWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlimpseReadingWidget.swift; sourceTree = "<group>"; };
+		2703324D2BD99E90009535EE /* LukaWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LukaWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		270332512BD99E90009535EE /* LukaWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LukaWidgetBundle.swift; sourceTree = "<group>"; };
+		270332532BD99E90009535EE /* ReadingWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingWidget.swift; sourceTree = "<group>"; };
 		270332552BD99E91009535EE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		270332572BD99E91009535EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2703325F2BD99EA4009535EE /* GlimpseWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GlimpseWidget.entitlements; sourceTree = "<group>"; };
+		2703325F2BD99EA4009535EE /* LukaWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LukaWidget.entitlements; sourceTree = "<group>"; };
 		270E185E2BDA082A00CB7D4D /* CircularWidgetReadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularWidgetReadingView.swift; sourceTree = "<group>"; };
 		270E18612BDA084E00CB7D4D /* ReadingWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingWidgetView.swift; sourceTree = "<group>"; };
 		270E18642BDA0A1400CB7D4D /* ReloadWidgetIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReloadWidgetIntent.swift; sourceTree = "<group>"; };
@@ -229,7 +229,7 @@
 		2731E0812BDC735300695EBF /* RootViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
 		2731E0892BDC9D7C00695EBF /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		2741EA062BD8AA74003EDEB2 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
-		2741EA082BD8AA84003EDEB2 /* Glimpse.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Glimpse.entitlements; sourceTree = "<group>"; };
+		2741EA082BD8AA84003EDEB2 /* Luka.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Luka.entitlements; sourceTree = "<group>"; };
 		2741EA092BD8AB2F003EDEB2 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		2741EA0F2BD8AEBA003EDEB2 /* Luka.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Luka.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2741EA152BD8AEBB003EDEB2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -240,7 +240,7 @@
 		2741EA302BD8AF0A003EDEB2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2741EA322BD8AF0A003EDEB2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		274E9A482BE1C8E60035F216 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
-		27558D122BE2D634000CACB4 /* GlimpseGraphWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlimpseGraphWidget.swift; sourceTree = "<group>"; };
+		27558D122BE2D634000CACB4 /* GraphWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphWidget.swift; sourceTree = "<group>"; };
 		27558D152BE2D662000CACB4 /* WidgetErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetErrorView.swift; sourceTree = "<group>"; };
 		27558D182BE2D6BE000CACB4 /* GraphWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphWidgetView.swift; sourceTree = "<group>"; };
 		27558D1B2BE2D7B1000CACB4 /* GlucoseEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlucoseEntry.swift; sourceTree = "<group>"; };
@@ -271,15 +271,15 @@
 		27D96EED2BE4305F007F4720 /* FormToggle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormToggle.swift; sourceTree = "<group>"; };
 		27D96EF42BE430E9007F4720 /* CardModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardModifier.swift; sourceTree = "<group>"; };
 		27D96EF62BE43110007F4720 /* EdgeInsets+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EdgeInsets+Extensions.swift"; sourceTree = "<group>"; };
-		27D96EFC2BE4319E007F4720 /* GlimpseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlimpseApp.swift; sourceTree = "<group>"; };
+		27D96EFC2BE4319E007F4720 /* LukaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LukaApp.swift; sourceTree = "<group>"; };
 		27D96EFF2BE434F1007F4720 /* Bundle+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extensions.swift"; sourceTree = "<group>"; };
 		27D96F032BE4490E007F4720 /* LiveViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveViewModel.swift; sourceTree = "<group>"; };
 		27E2C57D2BD980C60000FB40 /* Watch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Watch.entitlements; sourceTree = "<group>"; };
 		27E2C57E2BD980CF0000FB40 /* WatchWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WatchWidget.entitlements; sourceTree = "<group>"; };
 		27E2C57F2BD981D80000FB40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		27E2C5812BD98AB50000FB40 /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
-		27F577672BCF38330012D66C /* Glimpse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Glimpse.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		27F5776A2BCF38330012D66C /* GlimpseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlimpseApp.swift; sourceTree = "<group>"; };
+		27F577672BCF38330012D66C /* Luka.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Luka.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		27F5776A2BCF38330012D66C /* LukaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LukaApp.swift; sourceTree = "<group>"; };
 		27F5776C2BCF38330012D66C /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		27F5776E2BCF38340012D66C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -332,14 +332,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		270332502BD99E90009535EE /* GlimpseWidget */ = {
+		270332502BD99E90009535EE /* LukaWidget */ = {
 			isa = PBXGroup;
 			children = (
-				2703325F2BD99EA4009535EE /* GlimpseWidget.entitlements */,
+				2703325F2BD99EA4009535EE /* LukaWidget.entitlements */,
 				270332552BD99E91009535EE /* Assets.xcassets */,
 				270332572BD99E91009535EE /* Info.plist */,
 			);
-			path = GlimpseWidget;
+			path = LukaWidget;
 			sourceTree = "<group>";
 		};
 		271CD1E02BD96B2000FBE5DB /* Shared */ = {
@@ -392,9 +392,9 @@
 				27558D5F2BE2FA20000CACB4 /* DexcomTimelineProvider.swift */,
 				27558D1B2BE2D7B1000CACB4 /* GlucoseEntry.swift */,
 				27558D572BE2F464000CACB4 /* GlucoseEntryData.swift */,
-				270332512BD99E90009535EE /* GlimpseWidgetBundle.swift */,
-				27558D122BE2D634000CACB4 /* GlimpseGraphWidget.swift */,
-				270332532BD99E90009535EE /* GlimpseReadingWidget.swift */,
+				270332512BD99E90009535EE /* LukaWidgetBundle.swift */,
+				27558D122BE2D634000CACB4 /* GraphWidget.swift */,
+				270332532BD99E90009535EE /* ReadingWidget.swift */,
 				27AB80482BDAD9500071E482 /* Views */,
 			);
 			path = Widgets;
@@ -420,7 +420,7 @@
 		2741EA102BD8AEBA003EDEB2 /* Watch */ = {
 			isa = PBXGroup;
 			children = (
-				27D96EFC2BE4319E007F4720 /* GlimpseApp.swift */,
+				27D96EFC2BE4319E007F4720 /* LukaApp.swift */,
 				27221C782BEAB65600661B26 /* RootView.swift */,
 				27784D9F2BE9E609000B2B3E /* MainView.swift */,
 				27E2C57D2BD980C60000FB40 /* Watch.entitlements */,
@@ -505,8 +505,8 @@
 			isa = PBXGroup;
 			children = (
 				271CD1E02BD96B2000FBE5DB /* Shared */,
-				27F577692BCF38330012D66C /* Glimpse */,
-				270332502BD99E90009535EE /* GlimpseWidget */,
+				27F577692BCF38330012D66C /* Luka */,
+				270332502BD99E90009535EE /* LukaWidget */,
 				2741EA102BD8AEBA003EDEB2 /* Watch */,
 				2741EA2B2BD8AF08003EDEB2 /* WatchWidget */,
 				2741EA262BD8AF08003EDEB2 /* Frameworks */,
@@ -517,32 +517,32 @@
 		27F577682BCF38330012D66C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				27F577672BCF38330012D66C /* Glimpse.app */,
+				27F577672BCF38330012D66C /* Luka.app */,
 				2741EA0F2BD8AEBA003EDEB2 /* Luka.app */,
 				2741EA252BD8AF08003EDEB2 /* WatchWidget.appex */,
-				2703324D2BD99E90009535EE /* GlimpseWidget.appex */,
+				2703324D2BD99E90009535EE /* LukaWidget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		27F577692BCF38330012D66C /* Glimpse */ = {
+		27F577692BCF38330012D66C /* Luka */ = {
 			isa = PBXGroup;
 			children = (
-				27F5776A2BCF38330012D66C /* GlimpseApp.swift */,
+				27F5776A2BCF38330012D66C /* LukaApp.swift */,
 				27D96EF82BE4318B007F4720 /* Views */,
 				27E2C57F2BD981D80000FB40 /* Info.plist */,
-				2741EA082BD8AA84003EDEB2 /* Glimpse.entitlements */,
+				2741EA082BD8AA84003EDEB2 /* Luka.entitlements */,
 				27F5776E2BCF38340012D66C /* Assets.xcassets */,
 			);
-			path = Glimpse;
+			path = Luka;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		2703324C2BD99E90009535EE /* GlimpseWidget */ = {
+		2703324C2BD99E90009535EE /* LukaWidget */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2703325B2BD99E91009535EE /* Build configuration list for PBXNativeTarget "GlimpseWidget" */;
+			buildConfigurationList = 2703325B2BD99E91009535EE /* Build configuration list for PBXNativeTarget "LukaWidget" */;
 			buildPhases = (
 				270332492BD99E90009535EE /* Sources */,
 				2703324A2BD99E90009535EE /* Frameworks */,
@@ -552,14 +552,14 @@
 			);
 			dependencies = (
 			);
-			name = GlimpseWidget;
+			name = LukaWidget;
 			packageProductDependencies = (
 				270332622BD9A09F009535EE /* Dexcom */,
 				270332642BD9A09F009535EE /* KeychainAccess */,
 				27AD76D12BE98F7D0037564B /* Defaults */,
 			);
 			productName = GlimpseWidgetExtension;
-			productReference = 2703324D2BD99E90009535EE /* GlimpseWidget.appex */;
+			productReference = 2703324D2BD99E90009535EE /* LukaWidget.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		2741EA0E2BD8AEBA003EDEB2 /* Watch */ = {
@@ -608,9 +608,9 @@
 			productReference = 2741EA252BD8AF08003EDEB2 /* WatchWidget.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		27F577662BCF38330012D66C /* Glimpse */ = {
+		27F577662BCF38330012D66C /* Luka */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 27F577752BCF38340012D66C /* Build configuration list for PBXNativeTarget "Glimpse" */;
+			buildConfigurationList = 27F577752BCF38340012D66C /* Build configuration list for PBXNativeTarget "Luka" */;
 			buildPhases = (
 				27F577632BCF38330012D66C /* Sources */,
 				27F577642BCF38330012D66C /* Frameworks */,
@@ -624,14 +624,14 @@
 				2741EA1B2BD8AEBB003EDEB2 /* PBXTargetDependency */,
 				270332592BD99E91009535EE /* PBXTargetDependency */,
 			);
-			name = Glimpse;
+			name = Luka;
 			packageProductDependencies = (
 				27C6E25E2BCF386E006BAE98 /* Dexcom */,
 				27C6E2612BCF387A006BAE98 /* KeychainAccess */,
 				27AD76CF2BE98F760037564B /* Defaults */,
 			);
 			productName = Glimpse;
-			productReference = 27F577672BCF38330012D66C /* Glimpse.app */;
+			productReference = 27F577672BCF38330012D66C /* Luka.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -658,7 +658,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 27F577622BCF38330012D66C /* Build configuration list for PBXProject "Glimpse" */;
+			buildConfigurationList = 27F577622BCF38330012D66C /* Build configuration list for PBXProject "Luka" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -676,8 +676,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				27F577662BCF38330012D66C /* Glimpse */,
-				2703324C2BD99E90009535EE /* GlimpseWidget */,
+				27F577662BCF38330012D66C /* Luka */,
+				2703324C2BD99E90009535EE /* LukaWidget */,
 				2741EA0E2BD8AEBA003EDEB2 /* Watch */,
 				2741EA242BD8AF08003EDEB2 /* WatchWidget */,
 			);
@@ -741,7 +741,7 @@
 				270E18652BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */,
 				27AF390F2BE94332000491E1 /* GraphRange.swift in Sources */,
 				274E9A4A2BE1C8E60035F216 /* View+Extensions.swift in Sources */,
-				270332522BD99E90009535EE /* GlimpseWidgetBundle.swift in Sources */,
+				270332522BD99E90009535EE /* LukaWidgetBundle.swift in Sources */,
 				2715225C2BE009FC0009D8EA /* GraphView+GraphRange.swift in Sources */,
 				2775BE452BED8269009B5973 /* LaunchableApp.swift in Sources */,
 				27558D662BE30944000CACB4 /* WidgetButtonContent.swift in Sources */,
@@ -759,8 +759,8 @@
 				270332682BD9A0B9009535EE /* Defaults.swift in Sources */,
 				27AB80462BDAD8C20071E482 /* GlucoseReading+Extensions.swift in Sources */,
 				270E185F2BDA082A00CB7D4D /* CircularWidgetReadingView.swift in Sources */,
-				27558D132BE2D634000CACB4 /* GlimpseGraphWidget.swift in Sources */,
-				270332542BD99E90009535EE /* GlimpseReadingWidget.swift in Sources */,
+				27558D132BE2D634000CACB4 /* GraphWidget.swift in Sources */,
+				270332542BD99E90009535EE /* ReadingWidget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -784,7 +784,7 @@
 				279BA4152BDFCA4C006C87B6 /* GlucoseReading+Extensions.swift in Sources */,
 				27AD76DE2BE995F90037564B /* GraphView+GraphRange.swift in Sources */,
 				274E9A4B2BE1C8E60035F216 /* View+Extensions.swift in Sources */,
-				27D96EFE2BE431A2007F4720 /* GlimpseApp.swift in Sources */,
+				27D96EFE2BE431A2007F4720 /* LukaApp.swift in Sources */,
 				27221C7B2BEAB73000661B26 /* RootViewModel.swift in Sources */,
 				27D96EF92BE43192007F4720 /* GraphView.swift in Sources */,
 				27221C7D2BEABE2700661B26 /* FormSection.swift in Sources */,
@@ -809,7 +809,7 @@
 				270E18662BDA0A1400CB7D4D /* ReloadWidgetIntent.swift in Sources */,
 				27AB804E2BDAD9B10071E482 /* WidgetGraphView.swift in Sources */,
 				274E9A4C2BE1C8E60035F216 /* View+Extensions.swift in Sources */,
-				27558D0C2BE2D57C000CACB4 /* GlimpseWidgetBundle.swift in Sources */,
+				27558D0C2BE2D57C000CACB4 /* LukaWidgetBundle.swift in Sources */,
 				2741EA2F2BD8AF08003EDEB2 /* GraphWidgetConfiguration.swift in Sources */,
 				27AB80572BDAF27C0071E482 /* CircularWidgetErrorView.swift in Sources */,
 				2775BE462BED8269009B5973 /* LaunchableApp.swift in Sources */,
@@ -827,9 +827,9 @@
 				2715225D2BE009FC0009D8EA /* GraphView+GraphRange.swift in Sources */,
 				27558D1A2BE2D6BE000CACB4 /* GraphWidgetView.swift in Sources */,
 				271CD1E32BD96B3200FBE5DB /* Constants.swift in Sources */,
-				27558D0D2BE2D57C000CACB4 /* GlimpseReadingWidget.swift in Sources */,
+				27558D0D2BE2D57C000CACB4 /* ReadingWidget.swift in Sources */,
 				271CD1E42BD96B3200FBE5DB /* Keychain.swift in Sources */,
-				27558D142BE2D634000CACB4 /* GlimpseGraphWidget.swift in Sources */,
+				27558D142BE2D634000CACB4 /* GraphWidget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -845,7 +845,7 @@
 				27AD76D72BE9906F0037564B /* GraphRange.swift in Sources */,
 				27D96EF32BE4305F007F4720 /* FormToggle.swift in Sources */,
 				27F5776D2BCF38330012D66C /* SignInView.swift in Sources */,
-				27F5776B2BCF38330012D66C /* GlimpseApp.swift in Sources */,
+				27F5776B2BCF38330012D66C /* LukaApp.swift in Sources */,
 				27E2C5822BD98AB50000FB40 /* Defaults.swift in Sources */,
 				2731E07D2BDC6CB400695EBF /* CardTextFieldStyle.swift in Sources */,
 				274E9A492BE1C8E60035F216 /* View+Extensions.swift in Sources */,
@@ -871,7 +871,7 @@
 /* Begin PBXTargetDependency section */
 		270332592BD99E91009535EE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 2703324C2BD99E90009535EE /* GlimpseWidget */;
+			target = 2703324C2BD99E90009535EE /* LukaWidget */;
 			targetProxy = 270332582BD99E91009535EE /* PBXContainerItemProxy */;
 		};
 		2741EA1B2BD8AEBB003EDEB2 /* PBXTargetDependency */ = {
@@ -892,13 +892,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = GlimpseWidget/GlimpseWidget.entitlements;
+				CODE_SIGN_ENTITLEMENTS = LukaWidget/LukaWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = ZEAD23GG77;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = GlimpseWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = GlimpseWidget;
+				INFOPLIST_FILE = LukaWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LukaWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -919,13 +919,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = GlimpseWidget/GlimpseWidget.entitlements;
+				CODE_SIGN_ENTITLEMENTS = LukaWidget/LukaWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = ZEAD23GG77;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = GlimpseWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = GlimpseWidget;
+				INFOPLIST_FILE = LukaWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LukaWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1188,13 +1188,13 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Glimpse/Glimpse.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Luka/Luka.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ZEAD23GG77;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Glimpse/Info.plist;
+				INFOPLIST_FILE = Luka/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Luka;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1219,13 +1219,13 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Glimpse/Glimpse.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Luka/Luka.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ZEAD23GG77;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Glimpse/Info.plist;
+				INFOPLIST_FILE = Luka/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Luka;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1247,7 +1247,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2703325B2BD99E91009535EE /* Build configuration list for PBXNativeTarget "GlimpseWidget" */ = {
+		2703325B2BD99E91009535EE /* Build configuration list for PBXNativeTarget "LukaWidget" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2703325C2BD99E91009535EE /* Debug */,
@@ -1274,7 +1274,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		27F577622BCF38330012D66C /* Build configuration list for PBXProject "Glimpse" */ = {
+		27F577622BCF38330012D66C /* Build configuration list for PBXProject "Luka" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				27F577732BCF38340012D66C /* Debug */,
@@ -1283,7 +1283,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		27F577752BCF38340012D66C /* Build configuration list for PBXNativeTarget "Glimpse" */ = {
+		27F577752BCF38340012D66C /* Build configuration list for PBXNativeTarget "Luka" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				27F577762BCF38340012D66C /* Debug */,

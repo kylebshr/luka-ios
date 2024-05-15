@@ -18,7 +18,7 @@
                BlueprintIdentifier = "2741EA242BD8AF08003EDEB2"
                BuildableName = "WatchWidget.appex"
                BlueprintName = "WatchWidget"
-               ReferencedContainer = "container:Glimpse.xcodeproj">
+               ReferencedContainer = "container:Luka.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -30,9 +30,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "27F577662BCF38330012D66C"
-               BuildableName = "Glimpse.app"
-               BlueprintName = "Glimpse"
-               ReferencedContainer = "container:Glimpse.xcodeproj">
+               BuildableName = "Luka.app"
+               BlueprintName = "Luka"
+               ReferencedContainer = "container:Luka.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -46,7 +46,7 @@
                BlueprintIdentifier = "2741EA0E2BD8AEBA003EDEB2"
                BuildableName = "Luka.app"
                BlueprintName = "Watch"
-               ReferencedContainer = "container:Glimpse.xcodeproj">
+               ReferencedContainer = "container:Luka.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -77,16 +77,16 @@
             BlueprintIdentifier = "2741EA242BD8AF08003EDEB2"
             BuildableName = "WatchWidget.appex"
             BlueprintName = "WatchWidget"
-            ReferencedContainer = "container:Glimpse.xcodeproj">
+            ReferencedContainer = "container:Luka.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "27F577662BCF38330012D66C"
-            BuildableName = "Glimpse.app"
-            BlueprintName = "Glimpse"
-            ReferencedContainer = "container:Glimpse.xcodeproj">
+            BuildableName = "Luka.app"
+            BlueprintName = "Luka"
+            ReferencedContainer = "container:Luka.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <EnvironmentVariables>
@@ -120,7 +120,7 @@
             BlueprintIdentifier = "2741EA242BD8AF08003EDEB2"
             BuildableName = "WatchWidget.appex"
             BlueprintName = "WatchWidget"
-            ReferencedContainer = "container:Glimpse.xcodeproj">
+            ReferencedContainer = "container:Luka.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
