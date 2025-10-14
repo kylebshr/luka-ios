@@ -1,13 +1,13 @@
 {
-  "originHash" : "2d3a6d20f1206fcb84afad7e46a200d814ae7bb156da6002e80221b771ff7d81",
+  "originHash" : "db37a3279d59831fefbe1bbaeb3936347ecd5b162bdad6db5c8a43270bf95b8a",
   "pins" : [
     {
       "identity" : "defaults",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sindresorhus/Defaults",
       "state" : {
-        "branch" : "main",
-        "revision" : "d8a954e69ff13b0f7805f3757c8f8d0c8ef5a8cb"
+        "revision" : "8192b0986611e105355a9433e99bf5c79469fbbd",
+        "version" : "9.0.6"
       }
     },
     {
@@ -26,6 +26,15 @@
       "state" : {
         "branch" : "master",
         "revision" : "e0c7eebc5a4465a3c4680764f26b7a61f567cdaf"
+      }
+    },
+    {
+      "identity" : "swift-syntax",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swiftlang/swift-syntax",
+      "state" : {
+        "revision" : "4799286537280063c85a32f09884cfbca301b1a1",
+        "version" : "602.0.0"
       }
     }
   ],
