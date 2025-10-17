@@ -20,10 +20,6 @@
 		2741EA282BD8AF08003EDEB2 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2741EA272BD8AF08003EDEB2 /* WidgetKit.framework */; };
 		2741EA2A2BD8AF08003EDEB2 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2741EA292BD8AF08003EDEB2 /* SwiftUI.framework */; };
 		2741EA352BD8AF0A003EDEB2 /* WatchWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2741EA252BD8AF08003EDEB2 /* WatchWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		277FBD602EA2FF0B0074E47E /* SmoothGradient in Frameworks */ = {isa = PBXBuildFile; productRef = 277FBD5F2EA2FF0B0074E47E /* SmoothGradient */; };
-		277FBD622EA2FF5D0074E47E /* SmoothGradient in Frameworks */ = {isa = PBXBuildFile; productRef = 277FBD612EA2FF5D0074E47E /* SmoothGradient */; };
-		277FBD642EA2FF620074E47E /* SmoothGradient in Frameworks */ = {isa = PBXBuildFile; productRef = 277FBD632EA2FF620074E47E /* SmoothGradient */; };
-		277FBD662EA2FF690074E47E /* SmoothGradient in Frameworks */ = {isa = PBXBuildFile; productRef = 277FBD652EA2FF690074E47E /* SmoothGradient */; };
 		27C6E25F2BCF386E006BAE98 /* Dexcom in Frameworks */ = {isa = PBXBuildFile; productRef = 27C6E25E2BCF386E006BAE98 /* Dexcom */; };
 		27C6E2622BCF387A006BAE98 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 27C6E2612BCF387A006BAE98 /* KeychainAccess */; };
 		27DB8CB72E9DE3C0005B8087 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 27DB8CB62E9DE3C0005B8087 /* Defaults */; };
@@ -112,6 +108,7 @@
 				Images.xcassets,
 				Intents/GraphRange.swift,
 				Models/ReadingAttributes.swift,
+				"Models/Unit+Extensions.swift",
 				Style/CardModifier.swift,
 				Style/CardTextFieldStyle.swift,
 				"Utilities/Bundle+Extensions.swift",
@@ -147,6 +144,7 @@
 				AppIcon.icon,
 				Images.xcassets,
 				Intents/GraphRange.swift,
+				"Models/Unit+Extensions.swift",
 				Style/CardModifier.swift,
 				"Utilities/Bundle+Extensions.swift",
 				Utilities/Constants.swift,
@@ -226,7 +224,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				27DB990E2EA2005A005B8087 /* ActivityKit.framework in Frameworks */,
-				277FBD622EA2FF5D0074E47E /* SmoothGradient in Frameworks */,
 				270332652BD9A09F009535EE /* KeychainAccess in Frameworks */,
 				2703324F2BD99E90009535EE /* SwiftUI.framework in Frameworks */,
 				2703324E2BD99E90009535EE /* WidgetKit.framework in Frameworks */,
@@ -241,7 +238,6 @@
 			files = (
 				27DB8CB92E9DE3CB005B8087 /* Defaults in Frameworks */,
 				271CD1DB2BD96B1700FBE5DB /* KeychainAccess in Frameworks */,
-				277FBD642EA2FF620074E47E /* SmoothGradient in Frameworks */,
 				271CD1D92BD96B1500FBE5DB /* Dexcom in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -250,7 +246,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				277FBD662EA2FF690074E47E /* SmoothGradient in Frameworks */,
 				271CD1DF2BD96B1C00FBE5DB /* KeychainAccess in Frameworks */,
 				2741EA2A2BD8AF08003EDEB2 /* SwiftUI.framework in Frameworks */,
 				2741EA282BD8AF08003EDEB2 /* WidgetKit.framework in Frameworks */,
@@ -265,7 +260,6 @@
 			files = (
 				27DB8CB72E9DE3C0005B8087 /* Defaults in Frameworks */,
 				27C6E2622BCF387A006BAE98 /* KeychainAccess in Frameworks */,
-				277FBD602EA2FF0B0074E47E /* SmoothGradient in Frameworks */,
 				27DB9A012EA2048C005B8087 /* ActivityKit.framework in Frameworks */,
 				27C6E25F2BCF386E006BAE98 /* Dexcom in Frameworks */,
 			);
@@ -331,7 +325,6 @@
 				270332622BD9A09F009535EE /* Dexcom */,
 				270332642BD9A09F009535EE /* KeychainAccess */,
 				27DB8CBC2E9DE40E005B8087 /* Defaults */,
-				277FBD612EA2FF5D0074E47E /* SmoothGradient */,
 			);
 			productName = GlimpseWidgetExtension;
 			productReference = 2703324D2BD99E90009535EE /* LukaWidget.appex */;
@@ -359,7 +352,6 @@
 				271CD1D82BD96B1500FBE5DB /* Dexcom */,
 				271CD1DA2BD96B1700FBE5DB /* KeychainAccess */,
 				27DB8CB82E9DE3CB005B8087 /* Defaults */,
-				277FBD632EA2FF620074E47E /* SmoothGradient */,
 			);
 			productName = "GlimpseWatch Watch App";
 			productReference = 2741EA0F2BD8AEBA003EDEB2 /* Luka.app */;
@@ -385,7 +377,6 @@
 				271CD1DC2BD96B1C00FBE5DB /* Dexcom */,
 				271CD1DE2BD96B1C00FBE5DB /* KeychainAccess */,
 				27DB8CBA2E9DE409005B8087 /* Defaults */,
-				277FBD652EA2FF690074E47E /* SmoothGradient */,
 			);
 			productName = WatchWidgetExtension;
 			productReference = 2741EA252BD8AF08003EDEB2 /* WatchWidget.appex */;
@@ -415,7 +406,6 @@
 				27C6E25E2BCF386E006BAE98 /* Dexcom */,
 				27C6E2612BCF387A006BAE98 /* KeychainAccess */,
 				27DB8CB62E9DE3C0005B8087 /* Defaults */,
-				277FBD5F2EA2FF0B0074E47E /* SmoothGradient */,
 			);
 			productName = Glimpse;
 			productReference = 27F577672BCF38330012D66C /* Luka.app */;
@@ -458,7 +448,6 @@
 				27C6E25D2BCF386E006BAE98 /* XCRemoteSwiftPackageReference "dexcom-swift" */,
 				27C6E2602BCF387A006BAE98 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 				27DB8CB52E9DE3C0005B8087 /* XCRemoteSwiftPackageReference "Defaults" */,
-				277FBD5E2EA2FF0B0074E47E /* XCRemoteSwiftPackageReference "SmoothGradient" */,
 			);
 			productRefGroup = 27F577682BCF38330012D66C /* Products */;
 			projectDirPath = "";
@@ -957,14 +946,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		277FBD5E2EA2FF0B0074E47E /* XCRemoteSwiftPackageReference "SmoothGradient" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/raymondjavaxx/SmoothGradient";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.1;
-			};
-		};
 		27C6E25D2BCF386E006BAE98 /* XCRemoteSwiftPackageReference "dexcom-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kylebshr/dexcom-swift";
@@ -1021,26 +1002,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 27C6E2602BCF387A006BAE98 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
 			productName = KeychainAccess;
-		};
-		277FBD5F2EA2FF0B0074E47E /* SmoothGradient */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 277FBD5E2EA2FF0B0074E47E /* XCRemoteSwiftPackageReference "SmoothGradient" */;
-			productName = SmoothGradient;
-		};
-		277FBD612EA2FF5D0074E47E /* SmoothGradient */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 277FBD5E2EA2FF0B0074E47E /* XCRemoteSwiftPackageReference "SmoothGradient" */;
-			productName = SmoothGradient;
-		};
-		277FBD632EA2FF620074E47E /* SmoothGradient */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 277FBD5E2EA2FF0B0074E47E /* XCRemoteSwiftPackageReference "SmoothGradient" */;
-			productName = SmoothGradient;
-		};
-		277FBD652EA2FF690074E47E /* SmoothGradient */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 277FBD5E2EA2FF0B0074E47E /* XCRemoteSwiftPackageReference "SmoothGradient" */;
-			productName = SmoothGradient;
 		};
 		27C6E25E2BCF386E006BAE98 /* Dexcom */ = {
 			isa = XCSwiftPackageProductDependency;

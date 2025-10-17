@@ -125,17 +125,6 @@ private struct GraphSliderView: View {
     }
 }
 
-extension GlucoseFormatter.Unit {
-    var text: String {
-        switch self {
-        case .mgdl:
-            "mg/dl"
-        case .mmolL:
-            "mmol/L"
-        }
-    }
-}
-
 #Preview {
     NavigationStack {
         SettingsView().environment(RootViewModel())

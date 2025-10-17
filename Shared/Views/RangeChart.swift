@@ -9,13 +9,12 @@ import SwiftUI
 import Charts
 import Dexcom
 import Defaults
-import SmoothGradient
 
 struct RangeChart: View {
     @Default(.targetRangeLowerBound) var lowerBound
     @Default(.targetRangeUpperBound) var upperBound
 
-    var range: ClosedRange<Date>
+    var range: GraphRange
     var readings: [GlucoseReading]
 
     // Color constants for easy tweaking
@@ -24,8 +23,14 @@ struct RangeChart: View {
     private let highColor = Color.yellow
 
     private var aggregatedReadings: [RangeData] {
+        // Filter readings to only include those within the range
+        let startDate = Date.now.addingTimeInterval(-range.timeInterval)
+        let endDate = Date.now
+        let filteredReadings = readings.filter { reading in
+            reading.date >= startDate && reading.date <= endDate
+        }
         // Use a fixed number of buckets with aesthetic spacing (0.7 = 30% gap)
-        readings.aggregated(intoBuckets: 24, spacingRatio: 0.7)
+        return filteredReadings.aggregated(intoBuckets: 24, spacingRatio: 0.7)
     }
 
     private var yScaleRange: ClosedRange<Int> {
@@ -46,8 +51,24 @@ struct RangeChart: View {
             )
             .foregroundStyle(gradientForRange(min: reading.minValue, max: reading.maxValue))
             .clipShape(.capsule)
+
+            RectangleMark(
+                xStart: .value("Start", reading.barStart),
+                xEnd: .value("End", reading.barEnd),
+                yStart: .value("Min", reading.minValue),
+                yEnd: .value("Max", reading.maxValue)
+            )
+            .foregroundStyle(
+                LinearGradient(
+                    colors: [.black.opacity(0.15), .clear, .white.opacity(0.15)],
+                    startPoint: .bottom,
+                    endPoint: .top
+                )
+            )
+            .clipShape(.capsule)
         }
         .chartYScale(domain: yScaleRange)
+        .chartXScale(domain: Date.now.addingTimeInterval(-range.timeInterval)...Date.now)
         .chartXAxis(.hidden)
     }
 
@@ -68,11 +89,11 @@ struct RangeChart: View {
             return AnyShapeStyle(inRangeColor.gradient)
         }
 
-        // Complex case: bar spans multiple zones - create smooth transitions at boundaries
+        // Complex case: bar spans multiple zones - create transitions
         let range = maxValue - minValue
 
         // Fixed transition width in glucose units for consistent visual appearance
-        let transitionWidth = 20.0  // 10 mg/dL transition zone
+        let transitionWidth = 15.0  // 15 mg/dL transition zone
         let transitionOffset = transitionWidth / range  // Convert to gradient location units
 
         var stops: [Gradient.Stop] = []
@@ -80,53 +101,22 @@ struct RangeChart: View {
         // Start with bottom color
         stops.append(Gradient.Stop(color: colorForValue(min), location: 0))
 
-        // Add smooth transition at lower bound if within range
+        // Add transition at lower bound if within range
         if lowerBoundValue > minValue && lowerBoundValue < maxValue {
             let location = (lowerBoundValue - minValue) / range
-            let transitionStart = Swift.max(0, location - transitionOffset)
-            let transitionEnd = Swift.min(1, location + transitionOffset)
-
-            // Create a smooth transition at the boundary
-            let smoothTransition = Gradient.smooth(
-                from: Gradient.Stop(color: lowColor, location: 0),
-                to: Gradient.Stop(color: inRangeColor, location: 1),
-                curve: .easeInOut,
-                steps: 8
-            )
-
-            // Map the smooth transition to our narrow transition zone
-            for stop in smoothTransition.stops {
-                let mappedLocation = transitionStart + (transitionEnd - transitionStart) * stop.location
-                stops.append(Gradient.Stop(color: stop.color, location: mappedLocation))
-            }
+            stops.append(Gradient.Stop(color: lowColor, location: Swift.max(0, location - transitionOffset)))
+            stops.append(Gradient.Stop(color: inRangeColor, location: Swift.min(1, location + transitionOffset)))
         }
 
-        // Add smooth transition at upper bound if within range
+        // Add transition at upper bound if within range
         if upperBoundValue > minValue && upperBoundValue < maxValue {
             let location = (upperBoundValue - minValue) / range
-            let transitionStart = Swift.max(0, location - transitionOffset)
-            let transitionEnd = Swift.min(1, location + transitionOffset)
-
-            // Create a smooth transition at the boundary
-            let smoothTransition = Gradient.smooth(
-                from: Gradient.Stop(color: inRangeColor, location: 0),
-                to: Gradient.Stop(color: highColor, location: 1),
-                curve: .easeInOut,
-                steps: 8
-            )
-
-            // Map the smooth transition to our narrow transition zone
-            for stop in smoothTransition.stops {
-                let mappedLocation = transitionStart + (transitionEnd - transitionStart) * stop.location
-                stops.append(Gradient.Stop(color: stop.color, location: mappedLocation))
-            }
+            stops.append(Gradient.Stop(color: inRangeColor, location: Swift.max(0, location - transitionOffset)))
+            stops.append(Gradient.Stop(color: highColor, location: Swift.min(1, location + transitionOffset)))
         }
 
         // End with top color
         stops.append(Gradient.Stop(color: colorForValue(max), location: 1))
-
-        // Sort stops by location to ensure proper gradient
-        stops.sort { $0.location < $1.location }
 
         return AnyShapeStyle(
             LinearGradient(gradient: Gradient(stops: stops), startPoint: .bottom, endPoint: .top)
@@ -185,10 +175,21 @@ private extension [GlucoseReading] {
                 let barStart = bucketStart.addingTimeInterval(barOffset)
                 let barEnd = bucketStart.addingTimeInterval(bucketDuration - barOffset)
 
+                // Add minimum range for single-value buckets (5 mg/dL on each side)
+                let adjustedMin: Int
+                let adjustedMax: Int
+                if min == max {
+                    adjustedMin = Swift.max(0, min - 5)  // Don't go below 0
+                    adjustedMax = max + 5  // Don't go above 300
+                } else {
+                    adjustedMin = min
+                    adjustedMax = max
+                }
+
                 result.append(RangeData(
                     date: midpoint,
-                    minValue: min,
-                    maxValue: max,
+                    minValue: adjustedMin,
+                    maxValue: adjustedMax,
                     barStart: barStart,
                     barEnd: barEnd
                 ))
@@ -201,7 +202,7 @@ private extension [GlucoseReading] {
 
 #Preview {
     RangeChart(
-        range: Date.now.addingTimeInterval(-60 * 60 * 6)...Date.now,
+        range: .sixHours,
         readings: .placeholder
     )
     .frame(height: 120)

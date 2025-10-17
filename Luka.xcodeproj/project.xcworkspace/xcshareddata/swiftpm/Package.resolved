@@ -1,5 +1,5 @@
 {
-  "originHash" : "2f9ccb808b5720b53df54336105676156b2f99ff7f468be21c54a3ccb1936816",
+  "originHash" : "2d3a6d20f1206fcb84afad7e46a200d814ae7bb156da6002e80221b771ff7d81",
   "pins" : [
     {
       "identity" : "defaults",
@@ -26,15 +26,6 @@
       "state" : {
         "branch" : "master",
         "revision" : "e0c7eebc5a4465a3c4680764f26b7a61f567cdaf"
-      }
-    },
-    {
-      "identity" : "smoothgradient",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/raymondjavaxx/SmoothGradient",
-      "state" : {
-        "revision" : "77ac160533ce312f92b566754731e07b20315a41",
-        "version" : "1.0.1"
       }
     },
     {

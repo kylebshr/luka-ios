@@ -16,49 +16,97 @@ import Charts
 struct ReadingActivityConfiguration: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: ReadingAttributes.self) { context in
-            VStack(alignment: .leading) {
-                HStack(spacing: 5) {
-                    MinimalReadingValue(reading: context.state.history.last)
-                    MinimalReadingArrow(reading: context.state.history.last)
+            VStack(spacing: 0) {
+                HStack {
+                    ReadingText(reading: context.state.history.last)
+                        .redacted(reason: context.isStale ? .placeholder : [])
+                        .font(.largeTitle)
+                        .fontDesign(.rounded)
+                        .frame(maxHeight: .infinity)
+                        .redacted(reason: context.isStale ? .placeholder : [])
+                    Spacer()
+                    Text("Last six hours")
+                        .font(.body.smallCaps())
+                        .textScale(.secondary)
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                    ReadingArrow(reading: context.state.history.last)
+                        .redacted(reason: context.isStale ? .placeholder : [])
+                        .font(.largeTitle)
+                        .fontDesign(.rounded)
+                        .redacted(reason: context.isStale ? .placeholder : [])
                 }
-                .padding(.horizontal)
-                .padding(.top)
-
-                GraphPieceView(history: context.state.history, roundBottomCorners: false)
+                GraphPieceView(history: context.state.history)
             }
+            .padding([.horizontal, .bottom])
         } dynamicIsland: { context in
             DynamicIsland {
                 DynamicIslandExpandedRegion(.center) {
-                    HStack(spacing: 5) {
-                        MinimalReadingValue(reading: context.state.history.last)
-                        MinimalReadingArrow(reading: context.state.history.last)
-                    }
+                    Text("Last six hours")
+                        .font(.body.smallCaps())
+                        .textScale(.secondary)
+                        .foregroundStyle(.secondary)
+                }
+
+                DynamicIslandExpandedRegion(.leading) {
+                    ReadingText(reading: context.state.history.last)
+                        .redacted(reason: context.isStale ? .placeholder : [])
+                        .font(.largeTitle)
+                        .fontDesign(.rounded)
+                        .frame(maxHeight: .infinity)
+                        .redacted(reason: context.isStale ? .placeholder : [])
+                }
+
+                DynamicIslandExpandedRegion(.trailing) {
+                    ReadingArrow(reading: context.state.history.last)
+                        .redacted(reason: context.isStale ? .placeholder : [])
+                        .font(.largeTitle)
+                        .frame(maxHeight: .infinity)
+                        .redacted(reason: context.isStale ? .placeholder : [])
                 }
 
                 DynamicIslandExpandedRegion(.bottom) {
-                    GraphPieceView(history: context.state.history, roundBottomCorners: true)
+                    GraphPieceView(history: context.state.history)
                 }
             } compactLeading: {
-                MinimalReadingValue(reading: context.state.history.last)
+                MinimalReadingText(reading: context.state.history.last)
                     .redacted(reason: context.isStale ? .placeholder : [])
             } compactTrailing: {
                 MinimalReadingArrow(reading: context.state.history.last)
+                    .redacted(reason: context.isStale ? .placeholder : [])
             } minimal: {
                 MinimalReadingArrow(reading: context.state.history.last)
+                    .redacted(reason: context.isStale ? .placeholder : [])
             }
         }
     }
 }
 
-private struct MinimalReadingValue: View {
+private struct ReadingText: View {
     @Default(.unit) private var unit
     var reading: GlucoseReading?
 
     var body: some View {
-        WithRange { range in
-            Text(reading?.value.formatted(.glucose(unit)) ?? "-")
+        Text(reading?.value.formatted(.glucose(unit)) ?? "-")
+    }
+}
+
+private struct ReadingArrow: View {
+    var reading: GlucoseReading?
+
+    var body: some View {
+        reading?.image ?? Image(systemName: "circle.fill")
+    }
+}
+
+private struct MinimalReadingText: View {
+    var reading: GlucoseReading?
+
+    var body: some View {
+        WithRange {
+            ReadingText(reading: reading)
                 .fontWeight(.bold)
-                .foregroundStyle(reading?.color(target: range) ?? .gray)
+                .foregroundStyle(reading?.color(target: $0) ?? .secondary)
         }
     }
 }
@@ -67,10 +115,10 @@ private struct MinimalReadingArrow: View {
     var reading: GlucoseReading?
 
     var body: some View {
-        WithRange { range in
-            (reading?.image ?? Image(systemName: "circle.fill"))
+        WithRange {
+            ReadingArrow(reading: reading)
                 .fontWeight(.bold)
-                .foregroundStyle(reading?.color(target: range) ?? .gray)
+                .foregroundStyle(reading?.color(target: $0) ?? .secondary)
         }
     }
 }
@@ -92,21 +140,36 @@ private struct WithRange<Content: View>: View {
 
 private struct GraphPieceView: View {
     @Default(.graphUpperBound) private var upperBound
+    @Environment(\.widgetContentMargins) private var margins
 
     var history: [GlucoseReading]
-    var roundBottomCorners: Bool
 
     var body: some View {
-        WithRange { range in
-            GraphView(
-                range: .sixHours,
-                readings: history,
-                highlight: history.last,
-                graphUpperBound: Int(upperBound),
-                targetRange: Int(range.lowerBound)...Int(range.upperBound),
-                roundBottomCorners: roundBottomCorners,
-                showMarkLabels: false
-            )
-        }
+        RangeChart(range: .sixHours, readings: history)
+            .padding(.bottom, margins.bottom)
     }
+}
+
+#Preview(as: .dynamicIsland(.expanded), using: ReadingAttributes()) {
+    ReadingActivityConfiguration()
+} contentStates: {
+    ReadingAttributes.ContentState(history: Array([GlucoseReading].placeholder))
+}
+
+#Preview(as: .dynamicIsland(.compact), using: ReadingAttributes()) {
+    ReadingActivityConfiguration()
+} contentStates: {
+    ReadingAttributes.ContentState(history: Array([GlucoseReading].placeholder))
+}
+
+#Preview(as: .dynamicIsland(.minimal), using: ReadingAttributes()) {
+    ReadingActivityConfiguration()
+} contentStates: {
+    ReadingAttributes.ContentState(history: Array([GlucoseReading].placeholder))
+}
+
+#Preview(as: .content, using: ReadingAttributes()) {
+    ReadingActivityConfiguration()
+} contentStates: {
+    ReadingAttributes.ContentState(history: Array([GlucoseReading].placeholder))
 }
