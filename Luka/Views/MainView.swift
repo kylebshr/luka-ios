@@ -22,7 +22,9 @@ import WidgetKit
 
     @State private var isPresentingSettings = false
     @State private var liveViewModel = LiveViewModel()
-    @State private var activity: Activity<ReadingAttributes>?
+    @State private var activity: Activity<ReadingAttributes>? = Activity.activities
+        .compactMap { $0 as? Activity<ReadingAttributes> }
+        .first
 
     private var readings: [GlucoseReading] {
         switch liveViewModel.state {
@@ -113,6 +115,7 @@ import WidgetKit
                     Button("Live Activity", systemImage: "bolt.fill") {
                         startLiveActivity()
                     }
+                    .tint(activity == nil ? nil : .blue)
                 }
 
                 ToolbarItem(placement: .primaryAction) {
@@ -129,32 +132,55 @@ import WidgetKit
         }
         .onAppear {
             liveViewModel.setUpClientAndBeginRefreshing()
+            observeActivityUpdates()
         }
         .fontDesign(.rounded)
+        .onChange(of: readings, initial: true) { _, newValue in
+            Task {
+                await activity?.update(using: .init(history: newValue.suffix(36)))
+            }
+        }
     }
 
     private func startLiveActivity() {
+        guard activity == nil else {
+            return
+        }
+
         if ActivityAuthorizationInfo().areActivitiesEnabled {
             do {
                 let attributes = ReadingAttributes()
                 let initialState = ReadingAttributes.ContentState(history: Array(readings.suffix(36)))
 
-                let activity = try Activity.request(
+                activity = try Activity.request(
                     attributes: attributes,
-                    content: .init(state: initialState, staleDate: nil),
+                    content: .init(
+                        state: initialState,
+                        staleDate: .now.addingTimeInterval(61 * 2)
+                    ),
                     pushType: .token
                 )
 
-                self.activity = activity
-
-                Task {
-                    for await token in activity.pushTokenUpdates {
-                        let token = token.map { String(format: "%02x", $0) }.joined()
-                        print(token)
-                    }
-                }
+                observeActivityUpdates()
             } catch {
                 print("Couldn't start activity \(String(describing: error))")
+            }
+        }
+    }
+
+    private func observeActivityUpdates() {
+        guard let activity else { return }
+
+        Task {
+            for await token in activity.pushTokenUpdates {
+                let token = token.map { String(format: "%02x", $0) }.joined()
+                print(token)
+            }
+        }
+
+        Task {
+            for await state in activity.activityStateUpdates {
+                print(state)
             }
         }
 

@@ -10,6 +10,8 @@ import ActivityKit
 import Dexcom
 import Foundation
 import SwiftUI
+import Defaults
+import Charts
 
 struct ReadingActivityConfiguration: Widget {
     var body: some WidgetConfiguration {
@@ -18,23 +20,72 @@ struct ReadingActivityConfiguration: Widget {
         } dynamicIsland: { context in
             DynamicIsland {
                 DynamicIslandExpandedRegion(.leading) {
-                    context.state.history.last?.image
+                    MinimalReadingValue(reading: context.state.history.last)
+                        .padding()
                 }
 
                 DynamicIslandExpandedRegion(.trailing) {
-                    context.state.history.last?.image
+                    MinimalReadingArrow(reading: context.state.history.last)
+                        .padding()
                 }
 
                 DynamicIslandExpandedRegion(.bottom) {
-                    context.state.history.last?.image
+                    Chart {
+                        ForEach(context.state.history) { reading in
+                            LineMark(
+                                x: .value("Date", reading.date),
+                                y: .value("Value", reading.value)
+                            )
+                        }
+                    }
                 }
             } compactLeading: {
-                context.state.history.last?.image
+                MinimalReadingValue(reading: context.state.history.last)
+                    .redacted(reason: context.isStale ? .placeholder : [])
             } compactTrailing: {
-                context.state.history.last?.image
+                MinimalReadingArrow(reading: context.state.history.last)
             } minimal: {
-                context.state.history.last?.image
+                MinimalReadingArrow(reading: context.state.history.last)
             }
         }
+    }
+}
+
+private struct MinimalReadingValue: View {
+    var reading: GlucoseReading?
+
+    var body: some View {
+        WithRange { range in
+            Text(reading?.value.formatted() ?? "-")
+                .fontWeight(.bold)
+                .foregroundStyle(reading?.color(target: range) ?? .gray)
+        }
+    }
+}
+
+private struct MinimalReadingArrow: View {
+    var reading: GlucoseReading?
+
+    var body: some View {
+        WithRange { range in
+            (reading?.image ?? Image(systemName: "circle.fill"))
+                .fontWeight(.bold)
+                .foregroundStyle(reading?.color(target: range) ?? .gray)
+        }
+    }
+}
+
+private struct WithRange<Content: View>: View {
+    @Default(.targetRangeLowerBound) private var targetLower
+    @Default(.targetRangeUpperBound) private var targetUpper
+
+    var range: ClosedRange<Double> {
+        targetLower...targetUpper
+    }
+
+    @ViewBuilder var content: (ClosedRange<Double>) -> Content
+
+    var body: some View {
+        content(range)
     }
 }
