@@ -24,7 +24,7 @@ struct ReadingActivityConfiguration: Widget {
                 .padding(.horizontal)
                 .padding(.top)
 
-                GraphPieceView(history: context.state.history)
+                GraphPieceView(history: context.state.history, roundBottomCorners: false)
             }
         } dynamicIsland: { context in
             DynamicIsland {
@@ -36,7 +36,7 @@ struct ReadingActivityConfiguration: Widget {
                 }
 
                 DynamicIslandExpandedRegion(.bottom) {
-                    GraphPieceView(history: context.state.history)
+                    GraphPieceView(history: context.state.history, roundBottomCorners: true)
                 }
             } compactLeading: {
                 MinimalReadingValue(reading: context.state.history.last)
@@ -94,6 +94,7 @@ private struct GraphPieceView: View {
     @Default(.graphUpperBound) private var upperBound
 
     var history: [GlucoseReading]
+    var roundBottomCorners: Bool
 
     var body: some View {
         WithRange { range in
@@ -103,7 +104,7 @@ private struct GraphPieceView: View {
                 highlight: history.last,
                 graphUpperBound: Int(upperBound),
                 targetRange: Int(range.lowerBound)...Int(range.upperBound),
-                roundBottomCorners: false,
+                roundBottomCorners: roundBottomCorners,
                 showMarkLabels: false
             )
         }
