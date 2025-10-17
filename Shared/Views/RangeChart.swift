@@ -202,7 +202,7 @@ private extension [GlucoseReading] {
 
 #Preview {
     RangeChart(
-        range: .sixHours,
+        range: .twelveHours,
         readings: .placeholder
     )
     .frame(height: 120)

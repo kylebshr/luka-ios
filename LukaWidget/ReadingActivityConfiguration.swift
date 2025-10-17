@@ -145,8 +145,10 @@ private struct GraphPieceView: View {
     var history: [GlucoseReading]
 
     var body: some View {
-        RangeChart(range: .sixHours, readings: history)
+        RangeChart(range: .twelveHours, readings: history)
             .padding(.bottom, margins.bottom)
+            .padding(.leading, margins.leading)
+            .padding(.trailing, margins.trailing)
     }
 }
 
