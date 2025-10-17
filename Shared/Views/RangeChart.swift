@@ -30,7 +30,7 @@ struct RangeChart: View {
             reading.date >= startDate && reading.date <= endDate
         }
         // Use a fixed number of buckets with aesthetic spacing (0.7 = 30% gap)
-        return filteredReadings.aggregated(intoBuckets: 24, spacingRatio: 0.7)
+        return filteredReadings.aggregated(intoBuckets: 12, spacingRatio: 0.6)
     }
 
     private var yScaleRange: ClosedRange<Int> {
@@ -175,12 +175,16 @@ private extension [GlucoseReading] {
                 let barStart = bucketStart.addingTimeInterval(barOffset)
                 let barEnd = bucketStart.addingTimeInterval(bucketDuration - barOffset)
 
-                // Add minimum range for single-value buckets (5 mg/dL on each side)
+                // Ensure minimum range of 10 mg/dL for visual consistency
                 let adjustedMin: Int
                 let adjustedMax: Int
-                if min == max {
-                    adjustedMin = Swift.max(0, min - 5)  // Don't go below 0
-                    adjustedMax = max + 5  // Don't go above 300
+                let currentRange = max - min
+
+                if currentRange < 10 {
+                    // Expand range to at least 10, centered on the midpoint
+                    let midpoint = (min + max) / 2
+                    adjustedMin = Swift.max(0, midpoint - 5)
+                    adjustedMax = midpoint + 5
                 } else {
                     adjustedMin = min
                     adjustedMax = max
@@ -202,7 +206,7 @@ private extension [GlucoseReading] {
 
 #Preview {
     RangeChart(
-        range: .twelveHours,
+        range: .sixHours,
         readings: .placeholder
     )
     .frame(height: 120)
