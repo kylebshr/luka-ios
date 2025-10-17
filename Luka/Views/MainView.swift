@@ -11,6 +11,15 @@ import Dexcom
 import SwiftUI
 import WidgetKit
 
+/*
+
+ LA TODO:
+
+ - Observe activity updates
+ - End when tapped if active
+
+ */
+
 @MainActor struct MainView: View {
     @Environment(RootViewModel.self) private var viewModel
 
@@ -192,7 +201,6 @@ import WidgetKit
                 print(state)
             }
         }
-
     }
 }
 
