@@ -26,6 +26,8 @@ import WidgetKit
         .compactMap { $0 as? Activity<ReadingAttributes> }
         .first
 
+    @State private var pushToken: String?
+
     private var readings: [GlucoseReading] {
         switch liveViewModel.state {
         case .loaded(let readings, _):
@@ -61,11 +63,17 @@ import WidgetKit
         NavigationStack {
             VStack(alignment: .center) {
                 VStack(alignment: .center, spacing: 0) {
-                    Text(liveViewModel.message)
-                        .font(.footnote.weight(.medium))
-                        .foregroundStyle(.secondary)
-                        .contentTransition(.numericText(value: liveViewModel.messageValue))
-                        .animation(.default, value: liveViewModel.message)
+                    VStack {
+                        Text(liveViewModel.message)
+
+                        if let pushToken {
+                            Text(pushToken.prefix(10))
+                        }
+                    }
+                    .font(.footnote.weight(.medium))
+                    .foregroundStyle(.secondary)
+                    .contentTransition(.numericText(value: liveViewModel.messageValue))
+                    .animation(.default, value: liveViewModel.message)
 
                     Spacer().frame(height: 10)
 
@@ -137,7 +145,7 @@ import WidgetKit
         .fontDesign(.rounded)
         .onChange(of: readings, initial: true) { _, newValue in
             Task {
-                await activity?.update(using: .init(history: newValue.suffix(36)))
+                await activity?.update(using: .init(history: newValue.suffix(12 * 6)))
             }
         }
     }
@@ -150,13 +158,13 @@ import WidgetKit
         if ActivityAuthorizationInfo().areActivitiesEnabled {
             do {
                 let attributes = ReadingAttributes()
-                let initialState = ReadingAttributes.ContentState(history: Array(readings.suffix(36)))
+                let initialState = ReadingAttributes.ContentState(history: Array(readings.suffix(12 * 6)))
 
                 activity = try Activity.request(
                     attributes: attributes,
                     content: .init(
                         state: initialState,
-                        staleDate: .now.addingTimeInterval(61 * 2)
+                        staleDate: initialState.history.last?.date.addingTimeInterval(10 * 60)
                     ),
                     pushType: .token
                 )
@@ -174,6 +182,7 @@ import WidgetKit
         Task {
             for await token in activity.pushTokenUpdates {
                 let token = token.map { String(format: "%02x", $0) }.joined()
+                self.pushToken = token
                 print(token)
             }
         }

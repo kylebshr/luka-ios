@@ -16,28 +16,27 @@ import Charts
 struct ReadingActivityConfiguration: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: ReadingAttributes.self) { context in
-            context.state.history.last?.image
+            VStack(alignment: .leading) {
+                HStack(spacing: 5) {
+                    MinimalReadingValue(reading: context.state.history.last)
+                    MinimalReadingArrow(reading: context.state.history.last)
+                }
+                .padding(.horizontal)
+                .padding(.top)
+
+                GraphPieceView(history: context.state.history)
+            }
         } dynamicIsland: { context in
             DynamicIsland {
-                DynamicIslandExpandedRegion(.leading) {
-                    MinimalReadingValue(reading: context.state.history.last)
-                        .padding()
-                }
-
-                DynamicIslandExpandedRegion(.trailing) {
-                    MinimalReadingArrow(reading: context.state.history.last)
-                        .padding()
+                DynamicIslandExpandedRegion(.center) {
+                    HStack(spacing: 5) {
+                        MinimalReadingValue(reading: context.state.history.last)
+                        MinimalReadingArrow(reading: context.state.history.last)
+                    }
                 }
 
                 DynamicIslandExpandedRegion(.bottom) {
-                    Chart {
-                        ForEach(context.state.history) { reading in
-                            LineMark(
-                                x: .value("Date", reading.date),
-                                y: .value("Value", reading.value)
-                            )
-                        }
-                    }
+                    GraphPieceView(history: context.state.history)
                 }
             } compactLeading: {
                 MinimalReadingValue(reading: context.state.history.last)
@@ -52,11 +51,12 @@ struct ReadingActivityConfiguration: Widget {
 }
 
 private struct MinimalReadingValue: View {
+    @Default(.unit) private var unit
     var reading: GlucoseReading?
 
     var body: some View {
         WithRange { range in
-            Text(reading?.value.formatted() ?? "-")
+            Text(reading?.value.formatted(.glucose(unit)) ?? "-")
                 .fontWeight(.bold)
                 .foregroundStyle(reading?.color(target: range) ?? .gray)
         }
@@ -87,5 +87,25 @@ private struct WithRange<Content: View>: View {
 
     var body: some View {
         content(range)
+    }
+}
+
+private struct GraphPieceView: View {
+    @Default(.graphUpperBound) private var upperBound
+
+    var history: [GlucoseReading]
+
+    var body: some View {
+        WithRange { range in
+            GraphView(
+                range: .sixHours,
+                readings: history,
+                highlight: history.last,
+                graphUpperBound: Int(upperBound),
+                targetRange: Int(range.lowerBound)...Int(range.upperBound),
+                roundBottomCorners: false,
+                showMarkLabels: false
+            )
+        }
     }
 }
