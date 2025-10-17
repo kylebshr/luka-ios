@@ -5,6 +5,7 @@
 //  Created by Kyle Bashour on 4/26/24.
 //
 
+import ActivityKit
 import Defaults
 import Dexcom
 import SwiftUI
@@ -21,6 +22,7 @@ import WidgetKit
 
     @State private var isPresentingSettings = false
     @State private var liveViewModel = LiveViewModel()
+    @State private var activity: Activity<ReadingAttributes>?
 
     private var readings: [GlucoseReading] {
         switch liveViewModel.state {
@@ -107,11 +109,15 @@ import WidgetKit
                 .padding(.bottom, 20)
             }
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Live Activity", systemImage: "bolt.fill") {
+                        startLiveActivity()
+                    }
+                }
+
                 ToolbarItem(placement: .primaryAction) {
-                    Button {
+                    Button("Settings", systemImage: "person.fill") {
                         isPresentingSettings = true
-                    } label: {
-                        Image(systemName: "person.fill")
                     }
                 }
             }
@@ -125,6 +131,33 @@ import WidgetKit
             liveViewModel.setUpClientAndBeginRefreshing()
         }
         .fontDesign(.rounded)
+    }
+
+    private func startLiveActivity() {
+        if ActivityAuthorizationInfo().areActivitiesEnabled {
+            do {
+                let attributes = ReadingAttributes()
+                let initialState = ReadingAttributes.ContentState(history: Array(readings.suffix(36)))
+
+                let activity = try Activity.request(
+                    attributes: attributes,
+                    content: .init(state: initialState, staleDate: nil),
+                    pushType: .token
+                )
+
+                self.activity = activity
+
+                Task {
+                    for await token in activity.pushTokenUpdates {
+                        let token = token.map { String(format: "%02x", $0) }.joined()
+                        print(token)
+                    }
+                }
+            } catch {
+                print("Couldn't start activity \(String(describing: error))")
+            }
+        }
+
     }
 }
 

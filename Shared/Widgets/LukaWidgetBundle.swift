@@ -13,5 +13,8 @@ struct LukaWidgetBundle: WidgetBundle {
     var body: some Widget {
         GraphWidget()
         ReadingWidget()
+        #if os(iOS)
+        ReadingActivityConfiguration()
+        #endif
     }
 }
