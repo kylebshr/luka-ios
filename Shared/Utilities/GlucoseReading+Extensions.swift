@@ -93,12 +93,70 @@ extension GlucoseReading {
 
 extension [GlucoseReading] {
     static let placeholder: [GlucoseReading] = {
-        (0..<(24*60/5)).map { (value: Int) in
-            GlucoseReading(
-                value: Int(sin(Double(value * 1200)) * 60) + 100,
-                trend: .flat,
-                date: Date.now.addingTimeInterval(Double(-value * 5 * 60))
-            )
-        }.reversed()
+        // Generate 24 hours of data (readings every 5 minutes)
+        let readingsCount = 24 * 60 / 5
+        var readings: [GlucoseReading] = []
+
+        for i in 0..<readingsCount {
+            let minutesAgo = i * 5
+            let hoursAgo = Double(minutesAgo) / 60.0
+            let date = Date.now.addingTimeInterval(Double(-minutesAgo * 60))
+
+            // Base glucose level around 100-120
+            var value = 110.0
+
+            // Add daily rhythm (lower at night, higher during day)
+            let hourOfDay = (24.0 - hoursAgo).truncatingRemainder(dividingBy: 24.0)
+            value += sin((hourOfDay - 6) * .pi / 12) * 20  // Peak at noon, lowest at midnight
+
+            // Simulate meal spikes (breakfast ~8am, lunch ~12pm, dinner ~6pm)
+            if (hourOfDay > 7.5 && hourOfDay < 9.5) {    // Breakfast
+                let mealProgress = sin((hourOfDay - 7.5) * .pi)
+                value += mealProgress * 80  // Bigger spike for breakfast
+            } else if (hourOfDay > 11.5 && hourOfDay < 13.5) {  // Lunch
+                let mealProgress = sin((hourOfDay - 11.5) * .pi)
+                value += mealProgress * 100  // Large spike for lunch
+            } else if (hourOfDay > 17.5 && hourOfDay < 19.5) {   // Dinner
+                let mealProgress = sin((hourOfDay - 17.5) * .pi)
+                value += mealProgress * 90  // Large spike for dinner
+            }
+
+            // Simulate hypoglycemic episodes (low blood sugar)
+            if (hourOfDay > 2 && hourOfDay < 3) ||    // Early morning low
+               (hourOfDay > 15 && hourOfDay < 16) {   // Afternoon low
+                let lowProgress = sin((hourOfDay - 2) * .pi)
+                value -= abs(lowProgress) * 50  // Drop to 60-70 range
+            }
+
+            // Add more aggressive random variation
+            value += Double.random(in: -20...20)
+
+            // Allow wider range (40-280) for more realistic extremes
+            value = Swift.max(40, Swift.min(280, value))
+
+            // Determine trend based on previous value
+            let prevValue = readings.last?.value ?? Int(value)
+            let diff = Int(value) - prevValue
+            let trend: TrendDirection = if i > 0 && i < readingsCount - 1 {
+                switch diff {
+                case ..<(-10): TrendDirection.singleDown
+                case -10..<(-2): .fortyFiveDown
+                case -2...2: .flat
+                case 3...10: .fortyFiveUp
+                case 11...: .singleUp
+                default: .flat
+                }
+            } else {
+                .flat
+            }
+
+            readings.append(GlucoseReading(
+                value: Int(value),
+                trend: trend,
+                date: date
+            ))
+        }
+
+        return readings.reversed()
     }()
 }
