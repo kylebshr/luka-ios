@@ -129,7 +129,7 @@ extension [GlucoseReading] {
             }
 
             // Add more aggressive random variation
-            value += Double.random(in: -20...20)
+            value += Double.random(in: -3...3)
 
             // Allow wider range (40-280) for more realistic extremes
             value = Swift.max(40, Swift.min(280, value))

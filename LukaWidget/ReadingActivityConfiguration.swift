@@ -36,9 +36,10 @@ struct ReadingActivityConfiguration: Widget {
                         .fontDesign(.rounded)
                         .redacted(reason: context.isStale ? .placeholder : [])
                 }
+                .padding([.horizontal])
+
                 GraphPieceView(history: context.state.history)
             }
-            .padding([.horizontal, .bottom])
         } dynamicIsland: { context in
             DynamicIsland {
                 DynamicIslandExpandedRegion(.center) {
@@ -48,26 +49,29 @@ struct ReadingActivityConfiguration: Widget {
                         .foregroundStyle(.secondary)
                 }
 
+                DynamicIslandExpandedRegion(.bottom) {
+                    GraphPieceView(history: context.state.history)
+                        .padding(-3)
+                        .offset(x: -3)
+                }
+                .contentMargins([.leading, .trailing, .bottom], 12)
+
                 DynamicIslandExpandedRegion(.leading) {
                     ReadingText(reading: context.state.history.last)
-                        .redacted(reason: context.isStale ? .placeholder : [])
                         .font(.largeTitle)
                         .fontDesign(.rounded)
-                        .frame(maxHeight: .infinity)
                         .redacted(reason: context.isStale ? .placeholder : [])
                 }
+                .contentMargins([.leading, .top, .trailing], 20)
 
                 DynamicIslandExpandedRegion(.trailing) {
                     ReadingArrow(reading: context.state.history.last)
-                        .redacted(reason: context.isStale ? .placeholder : [])
                         .font(.largeTitle)
-                        .frame(maxHeight: .infinity)
+                        .fontDesign(.rounded)
                         .redacted(reason: context.isStale ? .placeholder : [])
                 }
+                .contentMargins([.leading, .top, .trailing], 20)
 
-                DynamicIslandExpandedRegion(.bottom) {
-                    GraphPieceView(history: context.state.history)
-                }
             } compactLeading: {
                 MinimalReadingText(reading: context.state.history.last)
                     .redacted(reason: context.isStale ? .placeholder : [])
@@ -95,7 +99,10 @@ private struct ReadingArrow: View {
     var reading: GlucoseReading?
 
     var body: some View {
-        reading?.image ?? Image(systemName: "circle.fill")
+        ZStack(alignment: .trailing) {
+            ReadingText(reading: reading).hidden()
+            reading?.image ?? Image(systemName: "circle.fill")
+        }
     }
 }
 
@@ -140,15 +147,11 @@ private struct WithRange<Content: View>: View {
 
 private struct GraphPieceView: View {
     @Default(.graphUpperBound) private var upperBound
-    @Environment(\.widgetContentMargins) private var margins
 
     var history: [GlucoseReading]
 
     var body: some View {
-        RangeChart(range: .sixHours, readings: history)
-            .padding(.bottom, margins.bottom)
-            .padding(.leading, margins.leading)
-            .padding(.trailing, margins.trailing)
+        LineChart(range: .sixHours, readings: history)
     }
 }
 

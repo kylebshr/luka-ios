@@ -154,7 +154,7 @@ import WidgetKit
         .fontDesign(.rounded)
         .onChange(of: readings, initial: true) { _, newValue in
             Task {
-                await activity?.update(using: .init(history: newValue.suffix(12 * 6)))
+                await activity?.update(using: .init(history: newValue.suffix(12 * 6 + 1)))
             }
         }
     }
@@ -167,7 +167,7 @@ import WidgetKit
         if ActivityAuthorizationInfo().areActivitiesEnabled {
             do {
                 let attributes = ReadingAttributes()
-                let initialState = ReadingAttributes.ContentState(history: Array(readings.suffix(12 * 6)))
+                let initialState = ReadingAttributes.ContentState(history: Array(readings.suffix(12 * 6 + 1)))
 
                 activity = try Activity.request(
                     attributes: attributes,
