@@ -22,6 +22,8 @@ struct LineChart: View {
     private let inRangeColor = Color.mint.mix(with: .green, by: 0.5)
     private let highColor = Color.yellow
 
+    @State private var pulseScale: CGFloat = 1.0
+
     private var filteredReadings: [LiveActivityState.Reading] {
         let startDate = Date.now.addingTimeInterval(-range.timeInterval - 60 * 5)
         let endDate = Date.now
@@ -32,14 +34,6 @@ struct LineChart: View {
 
     private var yScaleRange: ClosedRange<Int> {
         let allValues = filteredReadings.map(\.v)
-        guard let max = allValues.max() else {
-            return 0...Int(upperBound)
-        }
-        return 0...Int(max)
-    }
-
-    private var valueRange: ClosedRange<Int> {
-        let allValues = filteredReadings.map(\.v)
         guard let min = allValues.min(), let max = allValues.max() else {
             return Int(lowerBound)...Int(upperBound)
         }
@@ -49,21 +43,6 @@ struct LineChart: View {
     var body: some View {
         Chart {
             ForEach(filteredReadings, id: \.t) { reading in
-                // Area fill with gradient
-                AreaMark(
-                    x: .value("Date", reading.t),
-                    yStart: .value("Min", yScaleRange.lowerBound),
-                    yEnd: .value("Glucose", Int(reading.v))
-                )
-                .foregroundStyle(
-                    LinearGradient(
-                        stops: gradientStops(yScaleRange: yScaleRange),
-                        startPoint: .bottom,
-                        endPoint: .top
-                    )
-                )
-                .interpolationMethod(.catmullRom)
-                .opacity(0.3)
 
                 // Line on top
                 LineMark(
@@ -72,7 +51,7 @@ struct LineChart: View {
                 )
                 .foregroundStyle(
                     LinearGradient(
-                        stops: gradientStops(yScaleRange: valueRange),
+                        stops: gradientStops,
                         startPoint: .bottom,
                         endPoint: .top
                     )
@@ -80,14 +59,47 @@ struct LineChart: View {
                 .interpolationMethod(.catmullRom)
                 .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
             }
+
+            // Pulsing dot for the current (last) reading
+            if let lastReading = filteredReadings.last {
+                PointMark(
+                    x: .value("Date", lastReading.t),
+                    y: .value("Glucose", lastReading.v)
+                )
+                .foregroundStyle(colorForValue(Int(lastReading.v)))
+                .symbolSize(20)
+            }
         }
         .chartYScale(domain: yScaleRange)
         .chartXScale(domain: Date.now.addingTimeInterval(-range.timeInterval)...Date.now)
         .chartXAxis(.hidden)
         .chartYAxis(.hidden)
+        .chartOverlay { proxy in
+            GeometryReader { geometry in
+                if let lastReading = filteredReadings.last,
+                   let position = proxy.position(for: (lastReading.t, lastReading.v)) {
+
+                    // Pulsing ring
+                    Circle()
+                        .fill(colorForValue(Int(lastReading.v)))
+                        .frame(width: 5, height: 5)
+                        .scaleEffect(pulseScale)
+                        .opacity((4.0 - pulseScale) * 0.3)
+                        .position(x: position.x, y: position.y)
+                }
+            }
+        }
+        .onAppear {
+            withAnimation(
+                .easeOut(duration: 2).delay(0.5)
+                .repeatForever(autoreverses: false)
+            ) {
+                pulseScale = 4.0
+            }
+        }
     }
 
-    private func gradientStops(yScaleRange: ClosedRange<Int>) -> [Gradient.Stop] {
+    private var gradientStops: [Gradient.Stop] {
         let range = Double(yScaleRange.upperBound - yScaleRange.lowerBound)
         guard range > 0 else {
             return [Gradient.Stop(color: inRangeColor, location: 0)]
@@ -136,6 +148,8 @@ struct LineChart: View {
         readings: .placeholder
     )
     .frame(height: 50)
-    .border(.blue)
+    .padding(1)
+    .border(.blue.opacity(0.5))
     .padding()
+    .frame(maxHeight: .infinity, alignment: .top)
 }
