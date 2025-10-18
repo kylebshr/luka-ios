@@ -77,6 +77,7 @@ struct ReadingActivityConfiguration: Widget {
                     .redacted(reason: context.isStale ? .placeholder : [])
             }
         }
+        .supplementalActivityFamilies([.small])
     }
 }
 
