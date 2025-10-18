@@ -10,7 +10,5 @@ import Foundation
 import Dexcom
 
 struct ReadingAttributes: ActivityAttributes {
-    struct ContentState: Codable, Hashable {
-        var history: [GlucoseReading]
-    }
+    typealias ContentState = LiveActivityState
 }

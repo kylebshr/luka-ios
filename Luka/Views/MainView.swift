@@ -149,57 +149,13 @@ import WidgetKit
         }
         .onAppear {
             liveViewModel.setUpClientAndBeginRefreshing()
-            observeActivityUpdates()
         }
         .fontDesign(.rounded)
-        .onChange(of: readings, initial: true) { _, newValue in
-            Task {
-                await activity?.update(using: .init(history: newValue.suffix(12 * 6 + 1)))
-            }
-        }
     }
 
     private func startLiveActivity() {
-        guard activity == nil else {
-            return
-        }
-
-        if ActivityAuthorizationInfo().areActivitiesEnabled {
-            do {
-                let attributes = ReadingAttributes()
-                let initialState = ReadingAttributes.ContentState(history: Array(readings.suffix(12 * 6 + 1)))
-
-                activity = try Activity.request(
-                    attributes: attributes,
-                    content: .init(
-                        state: initialState,
-                        staleDate: initialState.history.last?.date.addingTimeInterval(10 * 60)
-                    ),
-                    pushType: .token
-                )
-
-                observeActivityUpdates()
-            } catch {
-                print("Couldn't start activity \(String(describing: error))")
-            }
-        }
-    }
-
-    private func observeActivityUpdates() {
-        guard let activity else { return }
-
         Task {
-            for await token in activity.pushTokenUpdates {
-                let token = token.map { String(format: "%02x", $0) }.joined()
-                self.pushToken = token
-                print(token)
-            }
-        }
-
-        Task {
-            for await state in activity.activityStateUpdates {
-                print(state)
-            }
+            try await StartLiveActivityIntent().perform()
         }
     }
 }

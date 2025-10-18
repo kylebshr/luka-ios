@@ -91,6 +91,16 @@ extension GlucoseReading {
     )
 }
 
+extension [LiveActivityState.Reading] {
+    static let placeholder = [GlucoseReading].placeholder.toLiveActivityReadings()
+}
+
+extension [GlucoseReading] {
+    func toLiveActivityReadings() -> [LiveActivityState.Reading] {
+        map { .init(t: $0.date, v: Int16($0.value)) }
+    }
+}
+
 extension [GlucoseReading] {
     static let placeholder: [GlucoseReading] = {
         // Generate 24 hours of data (readings every 5 minutes)

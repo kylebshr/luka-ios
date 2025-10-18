@@ -12,7 +12,7 @@ import AppIntents
 import ActivityKit
 @preconcurrency import Dexcom
 
-extension DexcomError: CustomLocalizedStringResourceConvertible {
+extension DexcomError: @retroactive CustomLocalizedStringResourceConvertible {
     public var localizedStringResource: LocalizedStringResource {
         LocalizedStringResource(stringLiteral: message ?? localizedDescription)
     }
@@ -40,6 +40,8 @@ struct StartLiveActivityIntent: LiveActivityIntent {
     private var password = Keychain.shared.password
     private var accountLocation: AccountLocation? = Defaults[.accountLocation]
 
+    static var activity: Activity<ReadingAttributes>?
+
     init() {}
 
     func perform() async throws -> some IntentResult {
@@ -55,20 +57,26 @@ struct StartLiveActivityIntent: LiveActivityIntent {
             )
 
             let (accountID, sessionID) = try await client.createSession()
-            let readings = try await client.getGlucoseReadings(maxCount: 12 * 6 + 1)
+            let readings = try await client.getGlucoseReadings()
+                .sorted { $0.date < $1.date }
 
             let attributes = ReadingAttributes()
-            let initialState = ReadingAttributes.ContentState(history: readings)
+            let initialState = LiveActivityState(
+                c: readings.last,
+                h: Array(readings.suffix(12 * 3)).toLiveActivityReadings()
+            )
 
             do {
                 let activity = try Activity.request(
                     attributes: attributes,
                     content: .init(
                         state: initialState,
-                        staleDate: initialState.history.last?.date.addingTimeInterval(10 * 60)
+                        staleDate: initialState.c?.date.addingTimeInterval(10 * 60)
                     ),
                     pushType: .token
                 )
+
+                Self.activity = activity
 
                 observeActivityUpdates(
                     for: activity,
@@ -91,6 +99,12 @@ struct StartLiveActivityIntent: LiveActivityIntent {
         accountID: UUID,
         sessionID: UUID
     ) {
+        Task {
+            for await state in activity.activityStateUpdates {
+                print(state)
+            }
+        }
+
         Task {
             for await token in activity.pushTokenUpdates {
                 let token = token.map { String(format: "%02x", $0) }.joined()

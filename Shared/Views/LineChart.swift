@@ -15,45 +15,45 @@ struct LineChart: View {
     @Default(.targetRangeUpperBound) var upperBound
 
     var range: GraphRange
-    var readings: [GlucoseReading]
+    var readings: [LiveActivityState.Reading]
 
     // Color constants for easy tweaking
     private let lowColor = Color.pink.mix(with: .red, by: 0.5)
     private let inRangeColor = Color.mint.mix(with: .green, by: 0.5)
     private let highColor = Color.yellow
 
-    private var filteredReadings: [GlucoseReading] {
+    private var filteredReadings: [LiveActivityState.Reading] {
         let startDate = Date.now.addingTimeInterval(-range.timeInterval - 60 * 5)
         let endDate = Date.now
         return readings.filter { reading in
-            reading.date >= startDate && reading.date <= endDate
+            reading.t >= startDate && reading.t <= endDate
         }
     }
 
     private var yScaleRange: ClosedRange<Int> {
-        let allValues = filteredReadings.map(\.value)
+        let allValues = filteredReadings.map(\.v)
         guard let max = allValues.max() else {
             return 0...Int(upperBound)
         }
-        return 0...max
+        return 0...Int(max)
     }
 
     private var valueRange: ClosedRange<Int> {
-        let allValues = filteredReadings.map(\.value)
+        let allValues = filteredReadings.map(\.v)
         guard let min = allValues.min(), let max = allValues.max() else {
             return Int(lowerBound)...Int(upperBound)
         }
-        return min...max
+        return Int(min)...Int(max)
     }
 
     var body: some View {
         Chart {
-            ForEach(filteredReadings, id: \.date) { reading in
+            ForEach(filteredReadings, id: \.t) { reading in
                 // Area fill with gradient
                 AreaMark(
-                    x: .value("Date", reading.date),
+                    x: .value("Date", reading.t),
                     yStart: .value("Min", yScaleRange.lowerBound),
-                    yEnd: .value("Glucose", reading.value)
+                    yEnd: .value("Glucose", Int(reading.v))
                 )
                 .foregroundStyle(
                     LinearGradient(
@@ -67,8 +67,8 @@ struct LineChart: View {
 
                 // Line on top
                 LineMark(
-                    x: .value("Date", reading.date),
-                    y: .value("Glucose", reading.value)
+                    x: .value("Date", reading.t),
+                    y: .value("Glucose", reading.v)
                 )
                 .foregroundStyle(
                     LinearGradient(

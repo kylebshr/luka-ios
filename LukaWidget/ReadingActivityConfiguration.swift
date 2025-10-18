@@ -18,19 +18,19 @@ struct ReadingActivityConfiguration: Widget {
         ActivityConfiguration(for: ReadingAttributes.self) { context in
             VStack(spacing: 0) {
                 HStack {
-                    ReadingText(reading: context.state.history.last)
+                    ReadingText(reading: context.state.c)
                         .redacted(reason: context.isStale ? .placeholder : [])
                         .font(.largeTitle)
                         .fontDesign(.rounded)
                         .frame(maxHeight: .infinity)
                         .redacted(reason: context.isStale ? .placeholder : [])
                     Spacer()
-                    Text("Last six hours")
+                    Text("Last three hours")
                         .font(.body.smallCaps())
                         .textScale(.secondary)
                         .foregroundStyle(.secondary)
                     Spacer()
-                    ReadingArrow(reading: context.state.history.last)
+                    ReadingArrow(reading: context.state.c)
                         .redacted(reason: context.isStale ? .placeholder : [])
                         .font(.largeTitle)
                         .fontDesign(.rounded)
@@ -38,24 +38,24 @@ struct ReadingActivityConfiguration: Widget {
                 }
                 .padding([.horizontal])
 
-                GraphPieceView(history: context.state.history)
+                GraphPieceView(history: context.state.h)
             }
         } dynamicIsland: { context in
             DynamicIsland {
                 DynamicIslandExpandedRegion(.center) {
-                    Text("Last six hours")
+                    Text("Last three hours")
                         .font(.body.smallCaps())
                         .textScale(.secondary)
                         .foregroundStyle(.secondary)
                 }
 
                 DynamicIslandExpandedRegion(.bottom) {
-                    GraphPieceView(history: context.state.history)
+                    GraphPieceView(history: context.state.h)
                 }
                 .contentMargins([.leading, .trailing, .bottom], 10)
 
                 DynamicIslandExpandedRegion(.leading) {
-                    ReadingText(reading: context.state.history.last)
+                    ReadingText(reading: context.state.c)
                         .font(.largeTitle)
                         .fontDesign(.rounded)
                         .redacted(reason: context.isStale ? .placeholder : [])
@@ -63,7 +63,7 @@ struct ReadingActivityConfiguration: Widget {
                 .contentMargins([.leading, .top, .trailing], 20)
 
                 DynamicIslandExpandedRegion(.trailing) {
-                    ReadingArrow(reading: context.state.history.last)
+                    ReadingArrow(reading: context.state.c)
                         .font(.largeTitle)
                         .fontDesign(.rounded)
                         .redacted(reason: context.isStale ? .placeholder : [])
@@ -71,13 +71,13 @@ struct ReadingActivityConfiguration: Widget {
                 .contentMargins([.leading, .top, .trailing], 20)
 
             } compactLeading: {
-                MinimalReadingText(reading: context.state.history.last)
+                MinimalReadingText(reading: context.state.c)
                     .redacted(reason: context.isStale ? .placeholder : [])
             } compactTrailing: {
-                MinimalReadingArrow(reading: context.state.history.last)
+                MinimalReadingArrow(reading: context.state.c)
                     .redacted(reason: context.isStale ? .placeholder : [])
             } minimal: {
-                MinimalReadingArrow(reading: context.state.history.last)
+                MinimalReadingArrow(reading: context.state.c)
                     .redacted(reason: context.isStale ? .placeholder : [])
             }
         }
@@ -146,33 +146,33 @@ private struct WithRange<Content: View>: View {
 private struct GraphPieceView: View {
     @Default(.graphUpperBound) private var upperBound
 
-    var history: [GlucoseReading]
+    var history: [LiveActivityState.Reading]
 
     var body: some View {
-        LineChart(range: .sixHours, readings: history)
+        LineChart(range: .threeHours, readings: history)
     }
 }
 
 #Preview(as: .dynamicIsland(.expanded), using: ReadingAttributes()) {
     ReadingActivityConfiguration()
 } contentStates: {
-    ReadingAttributes.ContentState(history: Array([GlucoseReading].placeholder))
+    LiveActivityState(c: .placeholder, h: .placeholder)
 }
 
 #Preview(as: .dynamicIsland(.compact), using: ReadingAttributes()) {
     ReadingActivityConfiguration()
 } contentStates: {
-    ReadingAttributes.ContentState(history: Array([GlucoseReading].placeholder))
+    LiveActivityState(c: .placeholder, h: .placeholder)
 }
 
 #Preview(as: .dynamicIsland(.minimal), using: ReadingAttributes()) {
     ReadingActivityConfiguration()
 } contentStates: {
-    ReadingAttributes.ContentState(history: Array([GlucoseReading].placeholder))
+    LiveActivityState(c: .placeholder, h: .placeholder)
 }
 
 #Preview(as: .content, using: ReadingAttributes()) {
     ReadingActivityConfiguration()
 } contentStates: {
-    ReadingAttributes.ContentState(history: Array([GlucoseReading].placeholder))
+    LiveActivityState(c: .placeholder, h: .placeholder)
 }
