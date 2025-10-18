@@ -51,10 +51,8 @@ struct ReadingActivityConfiguration: Widget {
 
                 DynamicIslandExpandedRegion(.bottom) {
                     GraphPieceView(history: context.state.history)
-                        .padding(-3)
-                        .offset(x: -3)
                 }
-                .contentMargins([.leading, .trailing, .bottom], 12)
+                .contentMargins([.leading, .trailing, .bottom], 10)
 
                 DynamicIslandExpandedRegion(.leading) {
                     ReadingText(reading: context.state.history.last)

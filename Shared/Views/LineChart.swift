@@ -85,7 +85,6 @@ struct LineChart: View {
         .chartXScale(domain: Date.now.addingTimeInterval(-range.timeInterval)...Date.now)
         .chartXAxis(.hidden)
         .chartYAxis(.hidden)
-        .clipped()
     }
 
     private func gradientStops(yScaleRange: ClosedRange<Int>) -> [Gradient.Stop] {
