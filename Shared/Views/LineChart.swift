@@ -34,10 +34,22 @@ struct LineChart: View {
 
     private var yScaleRange: ClosedRange<Int> {
         let allValues = filteredReadings.map(\.v)
-        guard let min = allValues.min(), let max = allValues.max() else {
+        guard let dataMin = allValues.min(), let dataMax = allValues.max() else {
             return Int(lowerBound)...Int(upperBound)
         }
-        return Int(min)...Int(max)
+
+        let targetRangeHeight = Int(upperBound - lowerBound)
+        let dataRangeHeight = Int(dataMax - dataMin)
+
+        // Ensure minimum height equals target range
+        if dataRangeHeight < targetRangeHeight {
+            let expansion = targetRangeHeight - dataRangeHeight
+            let expandBottom = expansion / 2
+            let expandTop = expansion - expandBottom
+            return (Int(dataMin) - expandBottom)...(Int(dataMax) + expandTop)
+        }
+
+        return Int(dataMin)...Int(dataMax)
     }
 
     var body: some View {
@@ -100,18 +112,28 @@ struct LineChart: View {
     }
 
     private var gradientStops: [Gradient.Stop] {
-        let range = Double(yScaleRange.upperBound - yScaleRange.lowerBound)
-        guard range > 0 else {
+        // Use actual data range for gradient, not extended yScaleRange
+        let allValues = filteredReadings.map(\.v)
+        guard let dataMin = allValues.min(), let dataMax = allValues.max() else {
             return [Gradient.Stop(color: inRangeColor, location: 0)]
         }
 
-        let lowerBoundLocation = (Double(lowerBound) - Double(yScaleRange.lowerBound)) / range
-        let upperBoundLocation = (Double(upperBound) - Double(yScaleRange.lowerBound)) / range
+        let dataRange = Double(dataMax - dataMin)
+        guard dataRange > 0 else {
+            // All values are the same, pick appropriate color
+            let value = Int(dataMin)
+            let color = colorForValue(value)
+            return [Gradient.Stop(color: color, location: 0)]
+        }
+
+        let lowerBoundLocation = (Double(lowerBound) - Double(dataMin)) / dataRange
+        let upperBoundLocation = (Double(upperBound) - Double(dataMin)) / dataRange
 
         var stops: [Gradient.Stop] = []
 
-        // Below target
-        stops.append(Gradient.Stop(color: lowColor, location: 0))
+        // Determine color at bottom (location 0)
+        let bottomColor = lowerBoundLocation > 0 ? lowColor : (upperBoundLocation > 0 ? inRangeColor : highColor)
+        stops.append(Gradient.Stop(color: bottomColor, location: 0))
 
         // Sharp transition to in-range (no blending between colors)
         if lowerBoundLocation > 0 && lowerBoundLocation < 1 {
@@ -125,8 +147,9 @@ struct LineChart: View {
             stops.append(Gradient.Stop(color: highColor, location: upperBoundLocation + 0.001))
         }
 
-        // Above target
-        stops.append(Gradient.Stop(color: highColor, location: 1))
+        // Determine color at top (location 1)
+        let topColor = upperBoundLocation < 1 ? highColor : (lowerBoundLocation < 1 ? inRangeColor : lowColor)
+        stops.append(Gradient.Stop(color: topColor, location: 1))
 
         return stops
     }
@@ -147,7 +170,7 @@ struct LineChart: View {
         range: .sixHours,
         readings: .placeholder
     )
-    .frame(height: 50)
+    .frame(height: 70)
     .padding(1)
     .border(.blue.opacity(0.5))
     .padding()

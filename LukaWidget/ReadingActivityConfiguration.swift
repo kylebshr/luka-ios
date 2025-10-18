@@ -21,7 +21,6 @@ struct ReadingActivityConfiguration: Widget {
                     ReadingText(reading: context.state.c)
                         .redacted(reason: context.isStale ? .placeholder : [])
                         .font(.largeTitle)
-                        .fontDesign(.rounded)
                         .frame(maxHeight: .infinity)
                         .redacted(reason: context.isStale ? .placeholder : [])
                     Spacer()
@@ -33,7 +32,7 @@ struct ReadingActivityConfiguration: Widget {
                     ReadingArrow(reading: context.state.c)
                         .redacted(reason: context.isStale ? .placeholder : [])
                         .font(.largeTitle)
-                        .fontDesign(.rounded)
+                        
                         .redacted(reason: context.isStale ? .placeholder : [])
                 }
                 .padding([.horizontal])
@@ -52,12 +51,10 @@ struct ReadingActivityConfiguration: Widget {
                 DynamicIslandExpandedRegion(.bottom) {
                     GraphPieceView(history: context.state.h)
                 }
-                .contentMargins([.leading, .trailing, .bottom], 10)
 
                 DynamicIslandExpandedRegion(.leading) {
                     ReadingText(reading: context.state.c)
                         .font(.largeTitle)
-                        .fontDesign(.rounded)
                         .redacted(reason: context.isStale ? .placeholder : [])
                 }
                 .contentMargins([.leading, .top, .trailing], 20)
@@ -65,7 +62,6 @@ struct ReadingActivityConfiguration: Widget {
                 DynamicIslandExpandedRegion(.trailing) {
                     ReadingArrow(reading: context.state.c)
                         .font(.largeTitle)
-                        .fontDesign(.rounded)
                         .redacted(reason: context.isStale ? .placeholder : [])
                 }
                 .contentMargins([.leading, .top, .trailing], 20)
@@ -90,6 +86,7 @@ private struct ReadingText: View {
 
     var body: some View {
         Text(reading?.value.formatted(.glucose(unit)) ?? "-")
+            .fontDesign(.rounded)
     }
 }
 
@@ -150,6 +147,8 @@ private struct GraphPieceView: View {
 
     var body: some View {
         LineChart(range: .threeHours, readings: history)
+            .padding(.trailing)
+            .padding(.leading, -5)
     }
 }
 
