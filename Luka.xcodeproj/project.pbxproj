@@ -124,6 +124,7 @@
 				Views/GraphView.swift,
 				Views/LineChart.swift,
 				Views/RangeChart.swift,
+				Views/ReadingView.swift,
 				"Widgets/Views/GraphView+GraphRange.swift",
 			);
 			target = 27F577662BCF38330012D66C /* Luka */;
@@ -161,6 +162,7 @@
 				Views/GraphView.swift,
 				Views/LineChart.swift,
 				Views/RangeChart.swift,
+				Views/ReadingView.swift,
 				"Widgets/Views/GraphView+GraphRange.swift",
 			);
 			target = 2741EA0E2BD8AEBA003EDEB2 /* Watch */;

@@ -16,36 +16,22 @@ import Charts
 struct ReadingActivityConfiguration: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: ReadingAttributes.self) { context in
-            VStack(spacing: 0) {
-                HStack {
-                    ReadingText(reading: context.state.c)
-                        .redacted(reason: context.isStale ? .placeholder : [])
-                        .font(.largeTitle)
-                        .frame(maxHeight: .infinity)
-                        .redacted(reason: context.isStale ? .placeholder : [])
-                    Spacer()
-                    Text("Last three hours")
-                        .font(.body.smallCaps())
-                        .textScale(.secondary)
-                        .foregroundStyle(.secondary)
-                    Spacer()
-                    ReadingArrow(reading: context.state.c)
-                        .redacted(reason: context.isStale ? .placeholder : [])
-                        .font(.largeTitle)
-                        
-                        .redacted(reason: context.isStale ? .placeholder : [])
-                }
-                .padding([.horizontal])
-
-                GraphPieceView(history: context.state.h)
-            }
+            MainContentView(context: context)
         } dynamicIsland: { context in
             DynamicIsland {
                 DynamicIslandExpandedRegion(.center) {
-                    Text("Last three hours")
-                        .font(.body.smallCaps())
-                        .textScale(.secondary)
-                        .foregroundStyle(.secondary)
+                    ZStack {
+                        if let current = context.state.c,
+                           !context.isStale {
+                            Text("\(Text(current.date, style: .relative)) ago")
+                                .multilineTextAlignment(.center)
+                                .frame(maxWidth: 100)
+                        } else {
+                            Text("Offline")
+                        }
+                    }
+                    .font(.caption.smallCaps().bold())
+                    .foregroundStyle(.secondary)
                 }
 
                 DynamicIslandExpandedRegion(.bottom) {
@@ -53,28 +39,23 @@ struct ReadingActivityConfiguration: Widget {
                 }
 
                 DynamicIslandExpandedRegion(.leading) {
-                    ReadingText(reading: context.state.c)
+                    ReadingText(context: context)
                         .font(.largeTitle)
-                        .redacted(reason: context.isStale ? .placeholder : [])
                 }
                 .contentMargins([.leading, .top, .trailing], 20)
 
                 DynamicIslandExpandedRegion(.trailing) {
-                    ReadingArrow(reading: context.state.c)
+                    ReadingArrow(context: context)
                         .font(.largeTitle)
-                        .redacted(reason: context.isStale ? .placeholder : [])
                 }
                 .contentMargins([.leading, .top, .trailing], 20)
 
             } compactLeading: {
-                MinimalReadingText(reading: context.state.c)
-                    .redacted(reason: context.isStale ? .placeholder : [])
+                MinimalReadingText(context: context)
             } compactTrailing: {
-                MinimalReadingArrow(reading: context.state.c)
-                    .redacted(reason: context.isStale ? .placeholder : [])
+                MinimalReadingArrow(context: context)
             } minimal: {
-                MinimalReadingArrow(reading: context.state.c)
-                    .redacted(reason: context.isStale ? .placeholder : [])
+                MinimalReadingArrow(context: context)
             }
         }
         .supplementalActivityFamilies([.small])
@@ -83,31 +64,54 @@ struct ReadingActivityConfiguration: Widget {
 
 private struct ReadingText: View {
     @Default(.unit) private var unit
-    var reading: GlucoseReading?
+    var context: ActivityViewContext<ReadingAttributes>
+
+    var reading: GlucoseReading? {
+        context.state.c
+    }
 
     var body: some View {
-        Text(reading?.value.formatted(.glucose(unit)) ?? "-")
-            .fontDesign(.rounded)
+        ZStack {
+            if let reading, !context.isStale {
+                Text(reading.value.formatted(.glucose(unit)))
+            } else {
+                Text(50.formatted(.glucose(unit)))
+                    .redacted(reason: .placeholder)
+            }
+        }
+        .redacted(reason: context.isStale ? .placeholder : [])
+        .fontDesign(.rounded)
     }
 }
 
 private struct ReadingArrow: View {
-    var reading: GlucoseReading?
+    var context: ActivityViewContext<ReadingAttributes>
+
+    var reading: GlucoseReading? {
+        context.state.c
+    }
 
     var body: some View {
-        ZStack(alignment: .trailing) {
-            ReadingText(reading: reading).hidden()
-            reading?.image ?? Image(systemName: "circle.fill")
+        if let reading {
+            ZStack(alignment: .trailing) {
+                ReadingText(context: context).hidden()
+                reading.image.imageScale(.small)
+                    .redacted(reason: context.isStale ? .placeholder : [])
+            }
         }
     }
 }
 
 private struct MinimalReadingText: View {
-    var reading: GlucoseReading?
+    var context: ActivityViewContext<ReadingAttributes>
+
+    var reading: GlucoseReading? {
+        context.state.c
+    }
 
     var body: some View {
         WithRange {
-            ReadingText(reading: reading)
+            ReadingText(context: context)
                 .fontWeight(.bold)
                 .foregroundStyle(reading?.color(target: $0) ?? .secondary)
         }
@@ -115,13 +119,68 @@ private struct MinimalReadingText: View {
 }
 
 private struct MinimalReadingArrow: View {
-    var reading: GlucoseReading?
+    var context: ActivityViewContext<ReadingAttributes>
+
+    var reading: GlucoseReading? {
+        context.state.c
+    }
 
     var body: some View {
         WithRange {
-            ReadingArrow(reading: reading)
+            ReadingArrow(context: context)
                 .fontWeight(.bold)
                 .foregroundStyle(reading?.color(target: $0) ?? .secondary)
+        }
+    }
+}
+
+private struct MainContentView: View {
+    var context: ActivityViewContext<ReadingAttributes>
+
+    @Environment(\.activityFamily) var family
+
+    var largeFont: Font {
+        switch family {
+        case .medium: .largeTitle
+        case .small: .body.weight(.medium)
+        @unknown default: .largeTitle
+        }
+    }
+
+    var captionFont: Font {
+        switch family {
+        case .medium: .caption.weight(.bold)
+        case .small: .caption2.weight(.bold)
+        @unknown default: .body
+        }
+    }
+
+    var body: some View {
+        VStack(spacing: 0) {
+            HStack(alignment: .lastTextBaseline) {
+                ReadingView(reading: context.state.c)
+                    .redacted(reason: context.isStale ? .placeholder : [])
+                    .font(largeFont)
+                    .fontDesign(.rounded)
+
+                Spacer()
+
+                VStack(alignment: .trailing, spacing: 0) {
+                    if let current = context.state.c, !context.isStale {
+                        Text("\(Text(current.date, style: .relative)) ago")
+                        Text("Last 3h")
+                    } else {
+                        Text("Offline")
+                    }
+                }
+                .font(captionFont.smallCaps())
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.trailing)
+                .contentTransition(.numericText())
+            }
+            .padding([.horizontal, .top])
+
+            GraphPieceView(history: context.state.h)
         }
     }
 }
@@ -150,6 +209,8 @@ private struct GraphPieceView: View {
         LineChart(range: .threeHours, readings: history)
             .padding(.trailing)
             .padding(.leading, -5)
+            .padding(.vertical, 5)
+            .frame(maxHeight: 80)
     }
 }
 

@@ -86,7 +86,7 @@ extension GlucoseReading {
 extension GlucoseReading {
     static let placeholder = GlucoseReading(
         value: [GlucoseReading].placeholder.last!.value,
-        trend: .flat,
+        trend: .fortyFiveUp,
         date: [GlucoseReading].placeholder.last!.date
     )
 }
