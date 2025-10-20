@@ -139,7 +139,7 @@ private struct MainContentView: View {
     var largeFont: Font {
         switch family {
         case .medium: .largeTitle
-        case .small: .body.weight(.semibold)
+        case .small: .footnote.weight(.bold)
         @unknown default: .largeTitle
         }
     }
@@ -147,7 +147,7 @@ private struct MainContentView: View {
     var captionFont: Font {
         switch family {
         case .medium: .caption2.bold()
-        case .small: .body.weight(.semibold)
+        case .small: .footnote.weight(.bold).smallCaps()
         @unknown default: .body
         }
     }
@@ -159,7 +159,9 @@ private struct MainContentView: View {
                     .font(largeFont)
                     .fontDesign(.rounded)
 
-                Spacer()
+                if family == .medium {
+                    Spacer()
+                }
 
                 VStack(alignment: .trailing, spacing: 0) {
                     Text(context.timestamp)
@@ -172,13 +174,22 @@ private struct MainContentView: View {
                 .font(captionFont)
                 .textCase(.uppercase)
                 .foregroundStyle(.secondary)
-                .multilineTextAlignment(.trailing)
+                .multilineTextAlignment(family == .small ? .leading : .trailing)
                 .contentTransition(.numericText())
+
+                if !context.isStale {
+                    if family == .small {
+                        Spacer()
+                        Text("6H")
+                            .font(captionFont)
+                            .foregroundStyle(.secondary)
+                    }
+                }
             }
             .padding([.horizontal, .top], family == .medium ? nil : 10)
 
             GraphPieceView(history: context.state.h)
-                .padding(.vertical, family == .medium ? 10 : 4)
+                .padding(.vertical, family == .medium ? 10 : 2)
         }
     }
 }

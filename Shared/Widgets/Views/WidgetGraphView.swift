@@ -46,18 +46,8 @@ struct WidgetGraphView: View {
             VStack(spacing: geometry.size.height > 100 ? nil : 5) {
                 Button(intent: ReloadWidgetIntent()) {
                     HStack(spacing: 5) {
-                        HStack(spacing: 2) {
-                            Text(data.current.value.formatted(.glucose(unit)))
-                                .contentTransition(.numericText(value: Double(data.current.value)))
-                                .invalidatableContent()
-
-                            if redactionReasons.isEmpty {
-                                data.current.image
-                                    .imageScale(.small)
-                                    .contentTransition(.symbolEffect(.replace))
-                            }
-                        }
-                        .fontWeight(.bold)
+                        ReadingView(reading: data.current)
+                            .fontWeight(.bold)
 
                         Group {
                             HStack(spacing: 2) {

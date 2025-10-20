@@ -25,7 +25,7 @@ struct ReadingView: View {
             Text(text)
                 .contentTransition(.numericText(value: Double(reading?.value ?? 0)))
 
-            if redactionReasons.isEmpty, let image = reading?.image {
+            if !redactionReasons.contains(.placeholder), let image = reading?.image {
                 Text(" ")
                 image.imageScale(.small)
                     .contentTransition(.symbolEffect(.replace))
