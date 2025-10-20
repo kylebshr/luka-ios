@@ -176,7 +176,7 @@ private struct MainContentView: View {
                     }
                 }
                 .font(captionFont)
-                .textCase(.uppercase)
+                .textCase(family == .small ? nil : .uppercase)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(family == .small ? .leading : .trailing)
                 .contentTransition(.numericText())
