@@ -18,11 +18,6 @@ struct LineChart: View {
     var readings: [LiveActivityState.Reading]
     var lineWidth: CGFloat = 2
 
-    // Color constants for easy tweaking
-    private let lowColor = Color.pink.mix(with: .red, by: 0.5)
-    private let inRangeColor = Color.mint.mix(with: .green, by: 0.5)
-    private let highColor = Color.yellow
-
     @State private var pulseScale: CGFloat = 1.0
 
     private var filteredReadings: [LiveActivityState.Reading] {
@@ -115,7 +110,7 @@ struct LineChart: View {
         // Use actual data range for gradient, not extended yScaleRange
         let allValues = filteredReadings.map(\.v)
         guard let dataMin = allValues.min(), let dataMax = allValues.max() else {
-            return [Gradient.Stop(color: inRangeColor, location: 0)]
+            return [Gradient.Stop(color: .inRangeColor, location: 0)]
         }
 
         let dataRange = Double(dataMax - dataMin)
@@ -132,23 +127,23 @@ struct LineChart: View {
         var stops: [Gradient.Stop] = []
 
         // Determine color at bottom (location 0)
-        let bottomColor = lowerBoundLocation > 0 ? lowColor : (upperBoundLocation > 0 ? inRangeColor : highColor)
+        let bottomColor: Color = lowerBoundLocation > 0 ? .lowColor : (upperBoundLocation > 0 ? .inRangeColor : .highColor)
         stops.append(Gradient.Stop(color: bottomColor, location: 0))
 
         // Sharp transition to in-range (no blending between colors)
         if lowerBoundLocation > 0 && lowerBoundLocation < 1 {
-            stops.append(Gradient.Stop(color: lowColor, location: lowerBoundLocation - 0.05))
-            stops.append(Gradient.Stop(color: inRangeColor, location: lowerBoundLocation + 0.05))
+            stops.append(Gradient.Stop(color: .lowColor, location: lowerBoundLocation - 0.05))
+            stops.append(Gradient.Stop(color: .inRangeColor, location: lowerBoundLocation + 0.05))
         }
 
         // Sharp transition to high (no blending between colors)
         if upperBoundLocation > 0 && upperBoundLocation < 1 {
-            stops.append(Gradient.Stop(color: inRangeColor, location: upperBoundLocation - 0.05))
-            stops.append(Gradient.Stop(color: highColor, location: upperBoundLocation + 0.05))
+            stops.append(Gradient.Stop(color: .inRangeColor, location: upperBoundLocation - 0.05))
+            stops.append(Gradient.Stop(color: .highColor, location: upperBoundLocation + 0.05))
         }
 
         // Determine color at top (location 1)
-        let topColor = upperBoundLocation < 1 ? highColor : (lowerBoundLocation < 1 ? inRangeColor : lowColor)
+        let topColor: Color = upperBoundLocation < 1 ? .highColor : (lowerBoundLocation < 1 ? .inRangeColor : .lowColor)
         stops.append(Gradient.Stop(color: topColor, location: 1))
 
         return stops
@@ -156,11 +151,11 @@ struct LineChart: View {
 
     private func colorForValue(_ value: Int) -> Color {
         if value < Int(lowerBound) {
-            return lowColor
+            return .lowColor
         } else if value > Int(upperBound) {
-            return highColor
+            return .highColor
         } else {
-            return inRangeColor
+            return .inRangeColor
         }
     }
 }

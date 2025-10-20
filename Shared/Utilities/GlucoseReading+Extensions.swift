@@ -11,12 +11,9 @@ import SwiftUI
 extension GlucoseReading {
     func color(target: ClosedRange<Double>) -> Color {
         switch Double(value) {
-        case ..<target.lowerBound:
-            Color.pink
-        case ...target.upperBound:
-            Color.green
-        default:
-            Color.yellow
+        case ..<target.lowerBound: .lowColor
+        case ...target.upperBound: .inRangeColor
+        default: .highColor
         }
     }
 
