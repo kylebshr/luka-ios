@@ -14,6 +14,9 @@ import Defaults
 import Charts
 
 struct ReadingActivityConfiguration: Widget {
+    @Default(.targetRangeLowerBound) private var targetLower
+    @Default(.targetRangeUpperBound) private var targetUpper
+
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: ReadingAttributes.self) { context in
             MainContentView(context: context)
@@ -54,6 +57,7 @@ struct ReadingActivityConfiguration: Widget {
             } minimal: {
                 MinimalReadingArrow(context: context)
             }
+            .keylineTint(context.state.c?.color(target: targetLower...targetUpper))
         }
         .supplementalActivityFamilies([.small])
     }
@@ -108,7 +112,7 @@ private struct MinimalReadingText: View {
         WithRange {
             ReadingText(context: context)
                 .fontWeight(.bold)
-                .foregroundStyle(reading?.color(target: $0) ?? .secondary)
+                .foregroundStyle((reading?.color(target: $0) ?? .secondary).gradient)
                 .redacted(reason: context.isStale ? .placeholder : [])
         }
     }
@@ -125,7 +129,7 @@ private struct MinimalReadingArrow: View {
         WithRange {
             reading?.image
                 .fontWeight(.bold)
-                .foregroundStyle(reading?.color(target: $0) ?? .secondary)
+                .foregroundStyle((reading?.color(target: $0) ?? .secondary).gradient)
                 .redacted(reason: context.isStale ? .placeholder : [])
         }
     }
@@ -147,7 +151,7 @@ private struct MainContentView: View {
     var captionFont: Font {
         switch family {
         case .medium: .caption2.bold()
-        case .small: .footnote.weight(.bold).smallCaps()
+        case .small: .footnote.weight(.medium).smallCaps()
         @unknown default: .body
         }
     }
