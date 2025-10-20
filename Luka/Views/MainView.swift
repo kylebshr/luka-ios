@@ -31,8 +31,7 @@ import WidgetKit
 
     @State private var isPresentingSettings = false
     @State private var liveViewModel = LiveViewModel()
-    @State private var activity: Activity<ReadingAttributes>? = Activity.activities
-        .compactMap { $0 as? Activity<ReadingAttributes> }
+    @State private var activity: Activity<ReadingAttributes>? = Activity<ReadingAttributes>.activities
         .first
 
     @State private var pushToken: String?
@@ -132,7 +131,7 @@ import WidgetKit
                     Button("Live Activity", systemImage: "bolt.fill") {
                         startLiveActivity()
                     }
-                    .tint(activity == nil ? nil : .blue)
+                    .tint(activity?.activityState == .active ? .blue : nil)
                 }
 
                 ToolbarItem(placement: .primaryAction) {
@@ -151,6 +150,11 @@ import WidgetKit
             liveViewModel.setUpClientAndBeginRefreshing()
         }
         .fontDesign(.rounded)
+        .task {
+            for await activity in Activity<ReadingAttributes>.activityUpdates {
+                self.activity = activity
+            }
+        }
     }
 
     private func startLiveActivity() {

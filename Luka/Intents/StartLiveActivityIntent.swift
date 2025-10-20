@@ -40,13 +40,15 @@ struct StartLiveActivityIntent: LiveActivityIntent {
     private var password = Keychain.shared.password
     private var accountLocation: AccountLocation? = Defaults[.accountLocation]
 
-    static var activity: Activity<ReadingAttributes>?
-
     init() {}
 
     func perform() async throws -> some IntentResult {
         guard let username, let password, let accountLocation else {
             throw LiveActivityError.loggedOut
+        }
+
+        guard Activity<ReadingAttributes>.activities.isEmpty else {
+            return .result()
         }
 
         if ActivityAuthorizationInfo().areActivitiesEnabled {
@@ -63,7 +65,7 @@ struct StartLiveActivityIntent: LiveActivityIntent {
             let attributes = ReadingAttributes()
             let initialState = LiveActivityState(
                 c: readings.last,
-                h: Array(readings.suffix(12 * 3)).toLiveActivityReadings()
+                h: Array(readings.suffix(12 * 6)).toLiveActivityReadings()
             )
 
             do {
@@ -76,12 +78,11 @@ struct StartLiveActivityIntent: LiveActivityIntent {
                     pushType: .token
                 )
 
-                Self.activity = activity
-
                 observeActivityUpdates(
                     for: activity,
                     accountID: accountID,
-                    sessionID: sessionID
+                    sessionID: sessionID,
+                    accountLocation: accountLocation
                 )
 
                 return .result()
@@ -97,7 +98,8 @@ struct StartLiveActivityIntent: LiveActivityIntent {
     private func observeActivityUpdates(
         for activity: Activity<ReadingAttributes>,
         accountID: UUID,
-        sessionID: UUID
+        sessionID: UUID,
+        accountLocation: AccountLocation
     ) {
         Task {
             for await state in activity.activityStateUpdates {
@@ -108,8 +110,44 @@ struct StartLiveActivityIntent: LiveActivityIntent {
         Task {
             for await token in activity.pushTokenUpdates {
                 let token = token.map { String(format: "%02x", $0) }.joined()
-                print(token)
+                await sendStartLiveActivity(
+                    token: token,
+                    accountID: accountID,
+                    sessionID: sessionID,
+                    accountLocation: accountLocation
+                )
             }
+        }
+    }
+
+    private func sendStartLiveActivity(
+        token: String,
+        accountID: UUID,
+        sessionID: UUID,
+        accountLocation: AccountLocation
+    ) async {
+        let payload = StartLiveActivityRequest(
+            pushToken: token,
+            environment: .current,
+            accountID: accountID,
+            sessionID: sessionID,
+            accountLocation: accountLocation,
+            durationHours: 6
+        )
+
+        let encoder = JSONEncoder()
+        encoder.keyEncodingStrategy = .useDefaultKeys
+
+        var request = URLRequest(url: URL(string: "https://luka-vapor.fly.dev/start-live-activity")!)
+        request.httpMethod = "POST"
+        request.httpBody = try! encoder.encode(payload)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+            print(data, response)
+        } catch {
+            print(error)
         }
     }
 }

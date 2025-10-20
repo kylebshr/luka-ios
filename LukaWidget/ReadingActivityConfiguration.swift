@@ -23,14 +23,12 @@ struct ReadingActivityConfiguration: Widget {
                     ZStack {
                         if let current = context.state.c,
                            !context.isStale {
-                            Text("\(Text(current.date, style: .relative)) ago")
-                                .multilineTextAlignment(.center)
-                                .frame(maxWidth: 100)
+                            Text(current.date.formatted(date: .omitted, time: .shortened))
                         } else {
                             Text("Offline")
                         }
                     }
-                    .font(.caption.smallCaps().bold())
+                    .font(.caption.bold())
                     .foregroundStyle(.secondary)
                 }
 
@@ -142,7 +140,7 @@ private struct MainContentView: View {
     var largeFont: Font {
         switch family {
         case .medium: .largeTitle
-        case .small: .body.weight(.medium)
+        case .small: .body.weight(.semibold)
         @unknown default: .largeTitle
         }
     }
@@ -150,7 +148,7 @@ private struct MainContentView: View {
     var captionFont: Font {
         switch family {
         case .medium: .caption.weight(.bold)
-        case .small: .caption2.weight(.bold)
+        case .small: .body.weight(.semibold)
         @unknown default: .body
         }
     }
@@ -167,20 +165,24 @@ private struct MainContentView: View {
 
                 VStack(alignment: .trailing, spacing: 0) {
                     if let current = context.state.c, !context.isStale {
-                        Text("\(Text(current.date, style: .relative)) ago")
-                        Text("Last 3h")
+                        Text(current.date.formatted(date: .omitted, time: .shortened))
+                        if family == .medium {
+                            Text("Last 6hr")
+                                .font(captionFont.smallCaps())
+                        }
                     } else {
                         Text("Offline")
                     }
                 }
-                .font(captionFont.smallCaps())
+                .font(captionFont)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.trailing)
                 .contentTransition(.numericText())
             }
-            .padding([.horizontal, .top])
+            .padding([.horizontal, .top], family == .medium ? nil : 5)
 
             GraphPieceView(history: context.state.h)
+                .padding(.vertical, family == .medium ? 10 : 4)
         }
     }
 }
@@ -202,15 +204,15 @@ private struct WithRange<Content: View>: View {
 
 private struct GraphPieceView: View {
     @Default(.graphUpperBound) private var upperBound
+    @Environment(\.activityFamily) private var family
 
     var history: [LiveActivityState.Reading]
 
     var body: some View {
-        LineChart(range: .threeHours, readings: history)
+        LineChart(range: .sixHours, readings: history)
             .padding(.trailing)
             .padding(.leading, -5)
-            .padding(.vertical, 5)
-            .frame(maxHeight: 80)
+            .frame(maxHeight: family == .medium ? 70 : nil)
     }
 }
 
