@@ -11,15 +11,6 @@ import Dexcom
 import SwiftUI
 import WidgetKit
 
-/*
-
- LA TODO:
-
- - Observe activity updates
- - End when tapped if active
-
- */
-
 @MainActor struct MainView: View {
     @Environment(RootViewModel.self) private var viewModel
 
@@ -33,6 +24,7 @@ import WidgetKit
     @State private var liveViewModel = LiveViewModel()
     @State private var activity: Activity<ReadingAttributes>? = Activity<ReadingAttributes>.activities
         .first
+    @State private var isActivityLoading = false
 
     @State private var pushToken: String?
 
@@ -65,6 +57,11 @@ import WidgetKit
         case .error:
             return true
         }
+    }
+
+    private var isActivityActive: Bool {
+        guard let activity else { return false }
+        return activity.activityState == .active
     }
 
     var body: some View {
@@ -105,6 +102,15 @@ import WidgetKit
                 }
                 .padding()
 
+                Picker("Graph range", selection: $selectedRange) {
+                    ForEach(GraphRange.allCases) {
+                        Text($0.abbreviatedName)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .padding()
+                .padding(.bottom, 20)
+
                 GraphView(
                     range: selectedRange,
                     readings: readings,
@@ -116,24 +122,33 @@ import WidgetKit
                 )
                 .edgesIgnoringSafeArea(.leading)
                 .padding(.trailing)
-                
-                Picker("Graph range", selection: $selectedRange) {
-                    ForEach(GraphRange.allCases) {
-                        Text($0.abbreviatedName)
+
+                Button {
+                    Task {
+                        await toggleLiveActivity()
                     }
+                } label: {
+                    HStack {
+                        Image(systemName: "bolt.fill")
+                        Text(isActivityActive ? "Stop Live Activity" : "Start Live Activity")
+                    }
+                    .animation(nil, value: isActivityLoading)
+                    .opacity(isActivityLoading ? 0 : 1)
+                    .overlay {
+                        if isActivityLoading {
+                            ProgressView().tint(.primary)
+                        }
+                    }
+                    .foregroundStyle(isActivityActive ? .white : Color(.label))
+                    .font(.headline)
+                    .frame(maxWidth: .infinity)
+                    .padding()
                 }
-                .pickerStyle(.segmented)
+                .buttonStyle(.glassProminent)
+                .tint(isActivityActive ? .blue : .clear)
                 .padding()
-                .padding(.bottom, 20)
             }
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button("Live Activity", systemImage: "bolt.fill") {
-                        startLiveActivity()
-                    }
-                    .tint(activity?.activityState == .active ? .blue : nil)
-                }
-
                 ToolbarItem(placement: .primaryAction) {
                     Button("Settings", systemImage: "person.fill") {
                         isPresentingSettings = true
@@ -157,9 +172,27 @@ import WidgetKit
         }
     }
 
-    private func startLiveActivity() {
-        Task {
-            try await StartLiveActivityIntent().perform()
+    private func toggleLiveActivity() async {
+        guard !isActivityLoading else { return }
+
+        if isActivityActive {
+            // End the active Live Activity
+            await activity?.end(nil, dismissalPolicy: .immediate)
+            activity = nil
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
+        } else {
+            isActivityLoading = true
+            defer { isActivityLoading = false }
+
+            // Start a new Live Activity using the Intent
+            let intent = StartLiveActivityIntent()
+            do {
+                _ = try await intent.perform()
+                UINotificationFeedbackGenerator().notificationOccurred(.success)
+            } catch {
+                print("Failed to start Live Activity: \(error)")
+                UINotificationFeedbackGenerator().notificationOccurred(.error)
+            }
         }
     }
 }

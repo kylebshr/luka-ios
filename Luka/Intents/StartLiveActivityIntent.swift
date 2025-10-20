@@ -47,8 +47,8 @@ struct StartLiveActivityIntent: LiveActivityIntent {
             throw LiveActivityError.loggedOut
         }
 
-        guard Activity<ReadingAttributes>.activities.isEmpty else {
-            return .result()
+        for activity in Activity<ReadingAttributes>.activities {
+            await activity.end(nil, dismissalPolicy: .immediate)
         }
 
         if ActivityAuthorizationInfo().areActivitiesEnabled {
