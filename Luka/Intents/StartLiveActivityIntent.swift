@@ -103,7 +103,17 @@ struct StartLiveActivityIntent: LiveActivityIntent {
     ) {
         Task {
             for await state in activity.activityStateUpdates {
-                print(state)
+                switch state {
+                case .dismissed, .ended:
+                    if let token = activity.pushToken {
+                        let token = token.map { String(format: "%02x", $0) }.joined()
+                        await sendEndLiveActivity(token: token)
+                    }
+                case .active, .pending, .stale:
+                    break
+                @unknown default:
+                    break
+                }
             }
         }
 
@@ -139,6 +149,25 @@ struct StartLiveActivityIntent: LiveActivityIntent {
         encoder.keyEncodingStrategy = .useDefaultKeys
 
         var request = URLRequest(url: URL(string: "https://luka-vapor.fly.dev/start-live-activity")!)
+        request.httpMethod = "POST"
+        request.httpBody = try! encoder.encode(payload)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+            print(data, response)
+        } catch {
+            print(error)
+        }
+    }
+
+    private func sendEndLiveActivity(token: String) async {
+        let payload = EndLiveActivityRequest(pushToken: token)
+
+        let encoder = JSONEncoder()
+        encoder.keyEncodingStrategy = .useDefaultKeys
+
+        var request = URLRequest(url: URL(string: "https://luka-vapor.fly.dev/end-live-activity")!)
         request.httpMethod = "POST"
         request.httpBody = try! encoder.encode(payload)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

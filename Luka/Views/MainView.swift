@@ -81,7 +81,7 @@ import WidgetKit
                     .animation(.default, value: liveViewModel.message)
                     .textCase(.uppercase)
                 }
-                .padding()
+                .padding([.horizontal, .bottom])
 
                 Picker("Graph range", selection: $selectedRange) {
                     ForEach(GraphRange.allCases) {
