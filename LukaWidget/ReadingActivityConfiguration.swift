@@ -151,7 +151,7 @@ private struct MainContentView: View {
     var captionFont: Font {
         switch family {
         case .medium: .caption2.bold()
-        case .small: .footnote.weight(.medium).smallCaps()
+        case .small: .footnote.weight(.medium)
         @unknown default: .body
         }
     }
@@ -184,8 +184,8 @@ private struct MainContentView: View {
                 if !context.isStale {
                     if family == .small {
                         Spacer()
-                        Text("6H")
-                            .font(captionFont)
+                        Text("6h")
+                            .font(captionFont.smallCaps())
                             .foregroundStyle(.secondary)
                     }
                 }
