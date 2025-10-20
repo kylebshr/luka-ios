@@ -179,7 +179,7 @@ private struct MainContentView: View {
                 .multilineTextAlignment(.trailing)
                 .contentTransition(.numericText())
             }
-            .padding([.horizontal, .top], family == .medium ? nil : 5)
+            .padding([.horizontal, .top], family == .medium ? nil : 10)
 
             GraphPieceView(history: context.state.h)
                 .padding(.vertical, family == .medium ? 10 : 4)
