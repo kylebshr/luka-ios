@@ -26,8 +26,6 @@ import WidgetKit
         .first
     @State private var isActivityLoading = false
 
-    @State private var pushToken: String?
-
     private var readings: [GlucoseReading] {
         switch liveViewModel.state {
         case .loaded(let readings, _):
@@ -66,39 +64,22 @@ import WidgetKit
 
     var body: some View {
         NavigationStack {
-            VStack(alignment: .center) {
-                VStack(alignment: .center, spacing: 0) {
-                    VStack {
-                        Text(liveViewModel.message)
+            VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 0) {
+                    ReadingView(reading: readings.last)
+                        .font(.largeTitle.weight(.bold))
+                        .animation(.default, value: readings.last)
 
-                        if let pushToken {
-                            Text(pushToken.prefix(10))
-                        }
+                    let unit = isRedacted ? "" : "\(unit.text) • "
+
+                    VStack {
+                        Text("\(unit)\(liveViewModel.message)")
                     }
-                    .font(.footnote.weight(.medium))
+                    .font(.caption2.weight(.medium))
                     .foregroundStyle(.secondary)
                     .contentTransition(.numericText(value: liveViewModel.messageValue))
                     .animation(.default, value: liveViewModel.message)
-
-                    Spacer().frame(height: 10)
-
-                    HStack(spacing: 5) {
-                        Text(readingText)
-                            .contentTransition(.numericText(value: Double(readings.last?.value ?? 0)))
-                            .redacted(reason: isRedacted ? .placeholder : [])
-
-                        readings.last?.image
-                            .imageScale(.small)
-                            .contentTransition(.symbolEffect(.replace))
-                            .transition(.blurReplace)
-                    }
-                    .font(.largeTitle.weight(.medium))
-                    .animation(.default, value: readingText)
-
-                    Text(unit.text)
-                        .font(.footnote.weight(.medium))
-                        .foregroundStyle(.secondary)
-                        .redacted(reason: isRedacted ? .placeholder : [])
+                    .textCase(.uppercase)
                 }
                 .padding()
 

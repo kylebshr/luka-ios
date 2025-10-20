@@ -23,13 +23,13 @@ struct ReadingView: View {
     var body: some View {
         HStack(spacing: 0) {
             Text(text)
-                .contentTransition(
-                    .numericText(value: Double(reading?.value ?? 0))
-                )
+                .contentTransition(.numericText(value: Double(reading?.value ?? 0)))
 
             if redactionReasons.isEmpty, let image = reading?.image {
                 Text(" ")
                 image.imageScale(.small)
+                    .contentTransition(.symbolEffect(.replace))
+                    .transition(.blurReplace)
             }
         }
         .redacted(reason: reading == nil ? .placeholder : [])
