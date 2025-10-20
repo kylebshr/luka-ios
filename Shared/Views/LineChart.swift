@@ -16,6 +16,7 @@ struct LineChart: View {
 
     var range: GraphRange
     var readings: [LiveActivityState.Reading]
+    var lineWidth: CGFloat = 2
 
     // Color constants for easy tweaking
     private let lowColor = Color.pink.mix(with: .red, by: 0.5)
@@ -55,7 +56,6 @@ struct LineChart: View {
     var body: some View {
         Chart {
             ForEach(filteredReadings, id: \.t) { reading in
-
                 // Line on top
                 LineMark(
                     x: .value("Date", reading.t),
@@ -69,7 +69,7 @@ struct LineChart: View {
                     )
                 )
                 .interpolationMethod(.catmullRom)
-                .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
+                .lineStyle(StrokeStyle(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
             }
 
             // Pulsing dot for the current (last) reading
@@ -137,14 +137,14 @@ struct LineChart: View {
 
         // Sharp transition to in-range (no blending between colors)
         if lowerBoundLocation > 0 && lowerBoundLocation < 1 {
-            stops.append(Gradient.Stop(color: lowColor, location: lowerBoundLocation - 0.001))
-            stops.append(Gradient.Stop(color: inRangeColor, location: lowerBoundLocation + 0.001))
+            stops.append(Gradient.Stop(color: lowColor, location: lowerBoundLocation - 0.05))
+            stops.append(Gradient.Stop(color: inRangeColor, location: lowerBoundLocation + 0.05))
         }
 
         // Sharp transition to high (no blending between colors)
         if upperBoundLocation > 0 && upperBoundLocation < 1 {
-            stops.append(Gradient.Stop(color: inRangeColor, location: upperBoundLocation - 0.001))
-            stops.append(Gradient.Stop(color: highColor, location: upperBoundLocation + 0.001))
+            stops.append(Gradient.Stop(color: inRangeColor, location: upperBoundLocation - 0.05))
+            stops.append(Gradient.Stop(color: highColor, location: upperBoundLocation + 0.05))
         }
 
         // Determine color at top (location 1)

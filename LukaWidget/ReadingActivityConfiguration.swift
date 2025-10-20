@@ -26,7 +26,8 @@ struct ReadingActivityConfiguration: Widget {
                             Text(" • Last 6hr")
                         }
                     }
-                    .font(.caption.bold().smallCaps())
+                    .font(.caption2.bold())
+                    .textCase(.uppercase)
                     .foregroundStyle(.secondary)
                 }
 
@@ -108,6 +109,7 @@ private struct MinimalReadingText: View {
             ReadingText(context: context)
                 .fontWeight(.bold)
                 .foregroundStyle(reading?.color(target: $0) ?? .secondary)
+                .redacted(reason: context.isStale ? .placeholder : [])
         }
     }
 }
@@ -124,6 +126,7 @@ private struct MinimalReadingArrow: View {
             reading?.image
                 .fontWeight(.bold)
                 .foregroundStyle(reading?.color(target: $0) ?? .secondary)
+                .redacted(reason: context.isStale ? .placeholder : [])
         }
     }
 }
@@ -143,8 +146,8 @@ private struct MainContentView: View {
 
     var captionFont: Font {
         switch family {
-        case .medium: .caption.weight(.bold).smallCaps()
-        case .small: .body.weight(.semibold).smallCaps()
+        case .medium: .caption2.bold()
+        case .small: .body.weight(.semibold)
         @unknown default: .body
         }
     }
@@ -167,6 +170,7 @@ private struct MainContentView: View {
                     }
                 }
                 .font(captionFont)
+                .textCase(.uppercase)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.trailing)
                 .contentTransition(.numericText())
@@ -201,10 +205,15 @@ private struct GraphPieceView: View {
     var history: [LiveActivityState.Reading]
 
     var body: some View {
-        LineChart(range: .sixHours, readings: history)
-            .padding(.trailing)
-            .padding(.leading, -5)
-            .frame(maxHeight: family == .medium ? 70 : nil)
+        ZStack {
+            LineChart(range: .sixHours, readings: history, lineWidth: 15)
+                .blur(radius: 30)
+                .opacity(0.8)
+            LineChart(range: .sixHours, readings: history)
+                .padding(.trailing)
+        }
+        .padding(.leading, -5)
+        .frame(maxHeight: family == .medium ? 70 : nil)
     }
 }
 
@@ -244,4 +253,14 @@ private extension ActivityViewContext<ReadingAttributes> {
     ReadingActivityConfiguration()
 } contentStates: {
     LiveActivityState(c: .placeholder, h: .placeholder)
+}
+
+struct Foo: PreviewProvider {
+    static var previews: some View {
+        ReadingAttributes().previewContext(
+            LiveActivityState(c: .placeholder, h: .placeholder),
+            isStale: true,
+            viewKind: .dynamicIsland(.compact)
+        )
+    }
 }
