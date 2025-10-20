@@ -20,15 +20,13 @@ struct ReadingActivityConfiguration: Widget {
         } dynamicIsland: { context in
             DynamicIsland {
                 DynamicIslandExpandedRegion(.center) {
-                    ZStack {
-                        if let current = context.state.c,
-                           !context.isStale {
-                            Text(current.date.formatted(date: .omitted, time: .shortened))
-                        } else {
-                            Text("Offline")
+                    HStack(spacing: 0) {
+                        Text(context.timestamp)
+                        if !context.isStale {
+                            Text(" • Last 6hr")
                         }
                     }
-                    .font(.caption.bold())
+                    .font(.caption.bold().smallCaps())
                     .foregroundStyle(.secondary)
                 }
 
@@ -70,14 +68,13 @@ private struct ReadingText: View {
 
     var body: some View {
         ZStack {
-            if let reading, !context.isStale {
+            if let reading {
                 Text(reading.value.formatted(.glucose(unit)))
             } else {
                 Text(50.formatted(.glucose(unit)))
                     .redacted(reason: .placeholder)
             }
         }
-        .redacted(reason: context.isStale ? .placeholder : [])
         .fontDesign(.rounded)
     }
 }
@@ -94,7 +91,6 @@ private struct ReadingArrow: View {
             ZStack(alignment: .trailing) {
                 ReadingText(context: context).hidden()
                 reading.image.imageScale(.small)
-                    .redacted(reason: context.isStale ? .placeholder : [])
             }
         }
     }
@@ -125,7 +121,7 @@ private struct MinimalReadingArrow: View {
 
     var body: some View {
         WithRange {
-            ReadingArrow(context: context)
+            reading?.image
                 .fontWeight(.bold)
                 .foregroundStyle(reading?.color(target: $0) ?? .secondary)
         }
@@ -147,8 +143,8 @@ private struct MainContentView: View {
 
     var captionFont: Font {
         switch family {
-        case .medium: .caption.weight(.bold)
-        case .small: .body.weight(.semibold)
+        case .medium: .caption.weight(.bold).smallCaps()
+        case .small: .body.weight(.semibold).smallCaps()
         @unknown default: .body
         }
     }
@@ -157,21 +153,17 @@ private struct MainContentView: View {
         VStack(spacing: 0) {
             HStack(alignment: .lastTextBaseline) {
                 ReadingView(reading: context.state.c)
-                    .redacted(reason: context.isStale ? .placeholder : [])
                     .font(largeFont)
                     .fontDesign(.rounded)
 
                 Spacer()
 
                 VStack(alignment: .trailing, spacing: 0) {
-                    if let current = context.state.c, !context.isStale {
-                        Text(current.date.formatted(date: .omitted, time: .shortened))
+                    Text(context.timestamp)
+                    if !context.isStale {
                         if family == .medium {
                             Text("Last 6hr")
-                                .font(captionFont.smallCaps())
                         }
-                    } else {
-                        Text("Offline")
                     }
                 }
                 .font(captionFont)
@@ -213,6 +205,20 @@ private struct GraphPieceView: View {
             .padding(.trailing)
             .padding(.leading, -5)
             .frame(maxHeight: family == .medium ? 70 : nil)
+    }
+}
+
+private extension ActivityViewContext<ReadingAttributes> {
+    var timestamp: String {
+        if let current = state.c {
+            if isStale {
+                current.date.formatted(date: .omitted, time: .shortened)
+            } else {
+                "Live"
+            }
+        } else {
+            "Offline"
+        }
     }
 }
 
