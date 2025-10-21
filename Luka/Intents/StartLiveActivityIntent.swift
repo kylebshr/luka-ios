@@ -34,7 +34,7 @@ struct StartLiveActivityIntent: LiveActivityIntent {
     }
 
     static var title: LocalizedStringResource = "Start Live Activity"
-    static var description = IntentDescription("Monitor Glucose Readings in a Live Activity")
+    static var description = IntentDescription("Monitor glucose readings in a Live Activity.")
 
     private var username = Keychain.shared.username
     private var password = Keychain.shared.password
