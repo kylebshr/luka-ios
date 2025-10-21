@@ -24,7 +24,9 @@ struct ReadingTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvide
     }
 
     func timeline(for configuration: ReadingWidgetConfiguration, in context: Context) async -> Timeline<Entry> {
-        buildTimeline(for: await makeState(for: configuration), widgetURL: configuration.url)
+        let state = await makeState(for: configuration)
+        recordSessionIfNeeded()
+        return buildTimeline(for: state, widgetURL: configuration.url)
     }
 
     func recommendations() -> [AppIntentRecommendation<ReadingWidgetConfiguration>] {

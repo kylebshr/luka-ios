@@ -42,6 +42,12 @@ extension DexcomTimelineProvider {
         return client
     }
 
+    func recordSessionIfNeeded() {
+        if let sessionID = Keychain.shared.sessionID {
+            DexcomSessionHistory.record(sessionID: sessionID)
+        }
+    }
+
     func buildTimeline<Data>(for state: GlucoseEntry<Data>.State, widgetURL: URL?) -> Timeline<GlucoseEntry<Data>> {
         let now = Date.now
 
