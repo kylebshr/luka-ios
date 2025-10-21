@@ -28,5 +28,5 @@ struct StartLiveActivityRequest: Codable {
     var accountID: UUID
     var sessionID: UUID
     var accountLocation: AccountLocation
-    var durationHours: Int
+    var duration: TimeInterval
 }

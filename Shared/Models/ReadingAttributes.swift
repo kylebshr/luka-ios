@@ -11,4 +11,6 @@ import Dexcom
 
 struct ReadingAttributes: ActivityAttributes {
     typealias ContentState = LiveActivityState
+
+    var range: GraphRange
 }

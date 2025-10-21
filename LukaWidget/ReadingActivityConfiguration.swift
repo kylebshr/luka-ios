@@ -24,9 +24,9 @@ struct ReadingActivityConfiguration: Widget {
             DynamicIsland {
                 DynamicIslandExpandedRegion(.center) {
                     HStack(spacing: 0) {
-                        Text(context.timestamp)
+                        context.timestamp
                         if !context.isStale {
-                            Text(" • Last 6hr")
+                            Text(" • Last \(context.attributes.range.abbreviatedName)")
                         }
                     }
                     .font(.caption2.bold())
@@ -35,7 +35,8 @@ struct ReadingActivityConfiguration: Widget {
                 }
 
                 DynamicIslandExpandedRegion(.bottom) {
-                    GraphPieceView(history: context.state.h)
+                    GraphPieceView(context: context)
+                        .padding(.bottom, 10)
                 }
 
                 DynamicIslandExpandedRegion(.leading) {
@@ -51,11 +52,11 @@ struct ReadingActivityConfiguration: Widget {
                 .contentMargins([.leading, .top, .trailing], 20)
 
             } compactLeading: {
-                MinimalReadingText(context: context)
+                CompactReadingText(context: context)
             } compactTrailing: {
-                MinimalReadingArrow(context: context)
+                CompactReadingArrow(context: context)
             } minimal: {
-                MinimalReadingArrow(context: context)
+                MinimalReadingView(context: context)
             }
             .keylineTint(context.state.c?.color(target: targetLower...targetUpper))
         }
@@ -80,7 +81,6 @@ private struct ReadingText: View {
                     .redacted(reason: .placeholder)
             }
         }
-        .fontDesign(.rounded)
     }
 }
 
@@ -101,7 +101,7 @@ private struct ReadingArrow: View {
     }
 }
 
-private struct MinimalReadingText: View {
+private struct CompactReadingText: View {
     var context: ActivityViewContext<ReadingAttributes>
 
     var reading: GlucoseReading? {
@@ -118,7 +118,7 @@ private struct MinimalReadingText: View {
     }
 }
 
-private struct MinimalReadingArrow: View {
+private struct CompactReadingArrow: View {
     var context: ActivityViewContext<ReadingAttributes>
 
     var reading: GlucoseReading? {
@@ -132,6 +132,20 @@ private struct MinimalReadingArrow: View {
                 .foregroundStyle((reading?.color(target: $0) ?? .secondary).gradient)
                 .redacted(reason: context.isStale ? .placeholder : [])
         }
+    }
+}
+
+private struct MinimalReadingView: View {
+    var context: ActivityViewContext<ReadingAttributes>
+
+    var reading: GlucoseReading? {
+        context.state.c
+    }
+
+    var body: some View {
+        CompactReadingText(context: context)
+            .fontWidth(.compressed)
+            .minimumScaleFactor(0.8)
     }
 }
 
@@ -161,17 +175,16 @@ private struct MainContentView: View {
             HStack(alignment: .lastTextBaseline) {
                 ReadingView(reading: context.state.c)
                     .font(largeFont)
-                    .fontDesign(.rounded)
 
                 if family == .medium {
                     Spacer()
                 }
 
                 VStack(alignment: .trailing, spacing: 0) {
-                    Text(context.timestamp)
+                    context.timestamp
                     if !context.isStale {
                         if family == .medium {
-                            Text("Last 6hr")
+                            Text("Last \(context.attributes.range.abbreviatedName)")
                         }
                     }
                 }
@@ -184,7 +197,7 @@ private struct MainContentView: View {
                 if !context.isStale {
                     if family == .small {
                         Spacer()
-                        Text("6h")
+                        Text(context.attributes.range.abbreviatedName)
                             .font(captionFont.smallCaps())
                             .foregroundStyle(.secondary)
                     }
@@ -192,8 +205,8 @@ private struct MainContentView: View {
             }
             .padding([.horizontal, .top], family == .medium ? nil : 10)
 
-            GraphPieceView(history: context.state.h)
-                .padding(.vertical, family == .medium ? 10 : 2)
+            GraphPieceView(context: context)
+                .padding(.vertical, 10)
         }
     }
 }
@@ -217,14 +230,14 @@ private struct GraphPieceView: View {
     @Default(.graphUpperBound) private var upperBound
     @Environment(\.activityFamily) private var family
 
-    var history: [LiveActivityState.Reading]
+    var context: ActivityViewContext<ReadingAttributes>
 
     var body: some View {
         ZStack {
-            LineChart(range: .sixHours, readings: history, lineWidth: 15)
+            LineChart(range: context.attributes.range, readings: context.state.h, lineWidth: 15)
                 .blur(radius: 30)
                 .opacity(0.8)
-            LineChart(range: .sixHours, readings: history)
+            LineChart(range: context.attributes.range, readings: context.state.h)
                 .padding(.trailing)
         }
         .padding(.leading, -5)
@@ -233,49 +246,42 @@ private struct GraphPieceView: View {
 }
 
 private extension ActivityViewContext<ReadingAttributes> {
-    var timestamp: String {
+    var timestamp: Text {
+        let offlineText = Text("Offline").foregroundStyle(.red)
+
         if let current = state.c {
             if isStale {
-                current.date.formatted(date: .omitted, time: .shortened)
+                let lastReading = current.date.formatted(date: .omitted, time: .shortened)
+                return Text("\(offlineText), as of \(lastReading)")
             } else {
-                "Live"
+                return Text("Live").foregroundStyle(.green)
             }
         } else {
-            "Offline"
+            return offlineText
         }
     }
 }
 
-#Preview(as: .dynamicIsland(.expanded), using: ReadingAttributes()) {
+#Preview(as: .dynamicIsland(.expanded), using: ReadingAttributes(range: .threeHours)) {
     ReadingActivityConfiguration()
 } contentStates: {
     LiveActivityState(c: .placeholder, h: .placeholder)
 }
 
-#Preview(as: .dynamicIsland(.compact), using: ReadingAttributes()) {
+#Preview(as: .dynamicIsland(.compact), using: ReadingAttributes(range: .threeHours)) {
     ReadingActivityConfiguration()
 } contentStates: {
     LiveActivityState(c: .placeholder, h: .placeholder)
 }
 
-#Preview(as: .dynamicIsland(.minimal), using: ReadingAttributes()) {
+#Preview(as: .dynamicIsland(.minimal), using: ReadingAttributes(range: .threeHours)) {
     ReadingActivityConfiguration()
 } contentStates: {
     LiveActivityState(c: .placeholder, h: .placeholder)
 }
 
-#Preview(as: .content, using: ReadingAttributes()) {
+#Preview(as: .content, using: ReadingAttributes(range: .threeHours)) {
     ReadingActivityConfiguration()
 } contentStates: {
     LiveActivityState(c: .placeholder, h: .placeholder)
-}
-
-struct Foo: PreviewProvider {
-    static var previews: some View {
-        ReadingAttributes().previewContext(
-            LiveActivityState(c: .placeholder, h: .placeholder),
-            isStale: true,
-            viewKind: .dynamicIsland(.compact)
-        )
-    }
 }

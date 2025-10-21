@@ -58,14 +58,17 @@ struct StartLiveActivityIntent: LiveActivityIntent {
                 accountLocation: accountLocation
             )
 
+            let range: GraphRange = .threeHours
+
             let (accountID, sessionID) = try await client.createSession()
-            let readings = try await client.getGlucoseReadings()
+            let readings = try await client
+                .getGlucoseReadings(duration: .init(value: range.timeInterval, unit: .seconds))
                 .sorted { $0.date < $1.date }
 
-            let attributes = ReadingAttributes()
+            let attributes = ReadingAttributes(range: range)
             let initialState = LiveActivityState(
                 c: readings.last,
-                h: Array(readings.suffix(12 * 6)).toLiveActivityReadings()
+                h: readings.toLiveActivityReadings()
             )
 
             do {
@@ -82,7 +85,8 @@ struct StartLiveActivityIntent: LiveActivityIntent {
                     for: activity,
                     accountID: accountID,
                     sessionID: sessionID,
-                    accountLocation: accountLocation
+                    accountLocation: accountLocation,
+                    range: range
                 )
 
                 return .result()
@@ -99,7 +103,8 @@ struct StartLiveActivityIntent: LiveActivityIntent {
         for activity: Activity<ReadingAttributes>,
         accountID: UUID,
         sessionID: UUID,
-        accountLocation: AccountLocation
+        accountLocation: AccountLocation,
+        range: GraphRange
     ) {
         Task {
             for await state in activity.activityStateUpdates {
@@ -124,7 +129,8 @@ struct StartLiveActivityIntent: LiveActivityIntent {
                     token: token,
                     accountID: accountID,
                     sessionID: sessionID,
-                    accountLocation: accountLocation
+                    accountLocation: accountLocation,
+                    range: range
                 )
             }
         }
@@ -134,7 +140,8 @@ struct StartLiveActivityIntent: LiveActivityIntent {
         token: String,
         accountID: UUID,
         sessionID: UUID,
-        accountLocation: AccountLocation
+        accountLocation: AccountLocation,
+        range: GraphRange
     ) async {
         let payload = StartLiveActivityRequest(
             pushToken: token,
@@ -142,7 +149,7 @@ struct StartLiveActivityIntent: LiveActivityIntent {
             accountID: accountID,
             sessionID: sessionID,
             accountLocation: accountLocation,
-            durationHours: 6
+            duration: range.timeInterval
         )
 
         let encoder = JSONEncoder()

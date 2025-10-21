@@ -67,7 +67,7 @@ import WidgetKit
             VStack(alignment: .leading) {
                 VStack(alignment: .leading, spacing: 0) {
                     ReadingView(reading: readings.last)
-                        .font(.largeTitle.weight(.bold))
+                        .font(.largeTitle.weight(.semibold))
                         .animation(.default, value: readings.last)
 
                     let unit = isRedacted ? "" : "\(unit.text) • "
