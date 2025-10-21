@@ -21,7 +21,42 @@ extension Defaults.Keys {
     static let unit = Key<GlucoseFormatter.Unit>("unit", default: .mgdl, suite: .shared, iCloud: true)
 
     static let selectedRange = Key("selectedRange", default: GraphRange.eightHours)
+    static let sessionHistory = Key<[DexcomSessionHistoryEntry]>(
+        .sessionHistory,
+        default: [],
+        suite: .shared,
+        iCloud: true
+    )
 }
 
 extension AccountLocation: Defaults.Serializable {}
 extension GlucoseFormatter.Unit: Defaults.Serializable {}
+
+struct DexcomSessionHistoryEntry: Defaults.Serializable, Identifiable, Codable, Equatable {
+    var sessionID: UUID
+    var recordedAt: Date
+
+    var id: UUID { sessionID }
+
+    init(sessionID: UUID, recordedAt: Date = .now) {
+        self.sessionID = sessionID
+        self.recordedAt = recordedAt
+    }
+}
+
+enum DexcomSessionHistory {
+    static func record(sessionID: UUID, at date: Date = .now) {
+        var history = Defaults[.sessionHistory]
+
+        if history.last?.sessionID == sessionID {
+            return
+        }
+
+        history.append(.init(sessionID: sessionID, recordedAt: date))
+        Defaults[.sessionHistory] = history
+    }
+
+    static func clear() {
+        Defaults[.sessionHistory] = []
+    }
+}

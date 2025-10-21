@@ -19,6 +19,7 @@ extension String {
     static let targetRangeUpperBound = "targetRangeUpperBound"
     static let graphUpperBound = "graphUpperBound"
     static let cachedReadings = "chachedReadings"
+    static let sessionHistory = "sessionHistory"
 }
 
 extension CGFloat {
