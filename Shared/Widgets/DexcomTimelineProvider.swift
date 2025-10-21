@@ -18,6 +18,7 @@ class DexcomDelegate: DexcomClientDelegate {
 
     func didUpdateSessionID(_ sessionID: UUID) {
         Keychain.shared.sessionID = sessionID
+        DexcomSessionHistory.record(sessionID: sessionID)
     }
 }
 

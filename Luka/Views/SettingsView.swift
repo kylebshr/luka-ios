@@ -17,6 +17,7 @@ struct SettingsView: View {
     @Default(.targetRangeUpperBound) private var upperTargetRange
     @Default(.graphUpperBound) private var upperGraphRange
     @Default(.unit) private var unit
+    @Default(.sessionHistory) private var sessionHistory
 
     var body: some View {
         FooterScrollView {
@@ -62,6 +63,12 @@ struct SettingsView: View {
                         currentValue: $lowerTargetRange,
                         range: 55...110
                     )
+                }
+
+                FormHeader(title: "Dexcom Sessions")
+
+                FormSection {
+                    SessionHistoryTable(entries: sessionHistory)
                 }
 
                 Text("Version \(Bundle.main.fullVersion)")
@@ -122,6 +129,51 @@ private struct GraphSliderView: View {
             )
         }
         .padding(.standardPadding / 2)
+    }
+}
+
+private struct SessionHistoryTable: View {
+    var entries: [DexcomSessionHistoryEntry]
+
+    private var rows: [DexcomSessionHistoryEntry] {
+        entries.sorted { $0.recordedAt > $1.recordedAt }
+    }
+
+    var body: some View {
+        if rows.isEmpty {
+            FormRow(title: "No session history yet")
+        } else {
+            Grid(alignment: .leading, horizontalSpacing: .horizontalSpacing, verticalSpacing: .spacing4) {
+                GridRow {
+                    Text("Session ID")
+                    Text("Date")
+                }
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+                Divider()
+                    .gridCellColumns(2)
+
+                ForEach(rows) { entry in
+                    GridRow {
+                        Text(entry.sessionID.uuidString)
+                            .font(.footnote)
+                            .fontDesign(.monospaced)
+                            .textSelection(.enabled)
+
+                        Text(entry.recordedAt.formatted(date: .abbreviated, time: .shortened))
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+
+                    if entry.id != rows.last?.id {
+                        Divider()
+                            .gridCellColumns(2)
+                    }
+                }
+            }
+            .padding(.standardPadding / 2)
+        }
     }
 }
 
