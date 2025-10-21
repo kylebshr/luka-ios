@@ -36,6 +36,7 @@ struct GraphTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider 
 
     func timeline(for configuration: GraphWidgetConfiguration, in context: Context) async -> Timeline<Entry> {
         let state = await makeState(for: configuration)
+        recordSessionIfNeeded()
         return buildTimeline(for: state, widgetURL: configuration.app.url)
     }
 
