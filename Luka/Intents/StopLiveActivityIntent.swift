@@ -8,7 +8,7 @@
 import AppIntents
 import ActivityKit
 
-struct StopLiveActivityIntent: LiveActivityIntent {
+struct EndLiveActivityIntent: LiveActivityIntent {
     static var title: LocalizedStringResource = "End Live Activity"
     static var description = IntentDescription("End the currently running Live Activity.")
 

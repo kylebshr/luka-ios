@@ -22,7 +22,7 @@ extension LukaApp: AppShortcutsProvider {
         )
 
         AppShortcut(
-            intent: StartLiveActivityIntent(),
+            intent: EndLiveActivityIntent(),
             phrases: [
                 "Stop \(.applicationName) live activity",
                 "End \(.applicationName) live activity",
