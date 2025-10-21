@@ -11,17 +11,6 @@ import KeychainAccess
 import WidgetKit
 import Defaults
 
-class DexcomDelegate: DexcomClientDelegate {
-    func didUpdateAccountID(_ accountID: UUID) {
-        Keychain.shared.accountID = accountID
-    }
-
-    func didUpdateSessionID(_ sessionID: UUID) {
-        Keychain.shared.sessionID = sessionID
-        DexcomSessionHistory.record(sessionID: sessionID)
-    }
-}
-
 protocol DexcomTimelineProvider {
     associatedtype Entry
 
@@ -40,12 +29,6 @@ extension DexcomTimelineProvider {
 
         client.delegate = delegate
         return client
-    }
-
-    func recordSessionIfNeeded() {
-        if let sessionID = Keychain.shared.sessionID {
-            DexcomSessionHistory.record(sessionID: sessionID)
-        }
     }
 
     func buildTimeline<Data>(for state: GlucoseEntry<Data>.State, widgetURL: URL?) -> Timeline<GlucoseEntry<Data>> {
@@ -67,7 +50,7 @@ extension DexcomTimelineProvider {
             let minimumRefresh = Calendar.current.date(byAdding: .minute, value: 10, to: .now)!
             let readingBasedRefresh = Calendar.current.date(
                 byAdding: .second,
-                value: Int(10.5 * 60),
+                value: Int(15.5 * 60),
                 to: data.current.date
             )!
 

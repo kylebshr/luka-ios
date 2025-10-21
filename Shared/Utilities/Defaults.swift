@@ -35,28 +35,27 @@ extension GlucoseFormatter.Unit: Defaults.Serializable {}
 struct DexcomSessionHistoryEntry: Defaults.Serializable, Identifiable, Codable, Equatable {
     var sessionID: UUID
     var recordedAt: Date
+    var source: String
 
     var id: UUID { sessionID }
 
-    init(sessionID: UUID, recordedAt: Date = .now) {
+    init(sessionID: UUID, recordedAt: Date = .now, source: String) {
         self.sessionID = sessionID
         self.recordedAt = recordedAt
+        self.source = source
+
     }
 }
 
 enum DexcomSessionHistory {
-    static func record(sessionID: UUID, at date: Date = .now) {
+    static func record(sessionID: UUID, at date: Date = .now, source: String) {
         var history = Defaults[.sessionHistory]
 
         if history.last?.sessionID == sessionID {
             return
         }
 
-        history.append(.init(sessionID: sessionID, recordedAt: date))
+        history.append(.init(sessionID: sessionID, recordedAt: date, source: source))
         Defaults[.sessionHistory] = history
-    }
-
-    static func clear() {
-        Defaults[.sessionHistory] = []
     }
 }

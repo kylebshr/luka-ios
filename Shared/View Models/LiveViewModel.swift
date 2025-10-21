@@ -29,6 +29,7 @@ import Defaults
     @ObservationIgnored private var timer: Timer?
     @ObservationIgnored private var client: DexcomClient?
     @ObservationIgnored private let decoder = JSONDecoder()
+    @ObservationIgnored private let delegate = DexcomDelegate(source: "app")
 
     var messageValue: TimeInterval {
         switch state {
@@ -64,7 +65,7 @@ import Defaults
                 existingSessionID: Keychain.shared.sessionID,
                 accountLocation: accountLocation
             )
-
+            client?.delegate = delegate
             beginRefreshing()
         }
     }

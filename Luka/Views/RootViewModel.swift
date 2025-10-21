@@ -32,10 +32,6 @@ import Defaults
     var sessionID: UUID? = Keychain.shared.sessionID {
         didSet {
             keychain.sessionID = sessionID
-
-            if let sessionID, sessionID != oldValue {
-                DexcomSessionHistory.record(sessionID: sessionID)
-            }
         }
     }
 
@@ -68,6 +64,5 @@ import Defaults
         password = nil
         accountID = nil
         sessionID = nil
-        DexcomSessionHistory.clear()
     }
 }

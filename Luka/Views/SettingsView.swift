@@ -122,7 +122,7 @@ private struct GraphSliderView: View {
             Slider(
                 value: $currentValue,
                 in: range,
-                step: 1,
+                step: 5,
                 label: {
                     Text(title)
                 }
@@ -146,25 +146,28 @@ private struct SessionHistoryTable: View {
             Grid(alignment: .leading, horizontalSpacing: .horizontalSpacing, verticalSpacing: .spacing4) {
                 GridRow {
                     Text("Session ID")
-                    Text("Date")
+                    Text("Expired")
+                    Text("Updated by")
                 }
                 .font(.caption)
                 .foregroundStyle(.secondary)
 
                 Divider()
-                    .gridCellColumns(2)
+                    .gridCellColumns(3)
 
                 ForEach(rows) { entry in
                     GridRow {
-                        Text(entry.sessionID.uuidString)
-                            .font(.footnote)
+                        Text(entry.sessionID.uuidString.split(separator: "-").first!)
                             .fontDesign(.monospaced)
                             .textSelection(.enabled)
 
-                        Text(entry.recordedAt.formatted(date: .abbreviated, time: .shortened))
-                            .font(.footnote)
+                        Text(entry.recordedAt.formatted(date: .numeric, time: .shortened))
+                            .foregroundStyle(.secondary)
+
+                        Text(entry.source)
                             .foregroundStyle(.secondary)
                     }
+                    .font(.footnote)
 
                     if entry.id != rows.last?.id {
                         Divider()

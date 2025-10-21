@@ -13,7 +13,7 @@ import Defaults
 struct ReadingTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider {
     typealias Entry = GlucoseEntry<GlucoseReading>
 
-    let delegate = DexcomDelegate()
+    let delegate = DexcomDelegate(source: "widget")
 
     func placeholder(in context: Context) -> Entry {
         GlucoseEntry(date: .now, widgetURL: nil, state: .reading(.placeholder))
@@ -25,7 +25,6 @@ struct ReadingTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvide
 
     func timeline(for configuration: ReadingWidgetConfiguration, in context: Context) async -> Timeline<Entry> {
         let state = await makeState(for: configuration)
-        recordSessionIfNeeded()
         return buildTimeline(for: state, widgetURL: configuration.url)
     }
 
