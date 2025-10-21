@@ -172,7 +172,7 @@ private struct MainContentView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            HStack(alignment: .lastTextBaseline) {
+            HStack {
                 ReadingView(reading: context.state.c)
                     .font(largeFont)
 
@@ -252,7 +252,7 @@ private extension ActivityViewContext<ReadingAttributes> {
         if let current = state.c {
             if isStale {
                 let lastReading = current.date.formatted(date: .omitted, time: .shortened)
-                return Text("\(offlineText), as of \(lastReading)")
+                return Text("\(offlineText) as of \(lastReading)")
             } else {
                 return Text("Live").foregroundStyle(.green)
             }
