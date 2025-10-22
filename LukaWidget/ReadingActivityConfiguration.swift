@@ -143,9 +143,14 @@ private struct MinimalReadingView: View {
     }
 
     var body: some View {
-        CompactReadingText(context: context)
-            .fontWidth(.compressed)
-            .minimumScaleFactor(0.8)
+        WithRange {
+            ReadingText(context: context)
+                .fontWeight(.semibold)
+                .fontWidth(.compressed)
+                .minimumScaleFactor(0.8)
+                .foregroundStyle((reading?.color(target: $0) ?? .secondary).gradient)
+                .redacted(reason: context.isStale ? .placeholder : [])
+        }
     }
 }
 
