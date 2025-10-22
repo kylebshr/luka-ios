@@ -92,14 +92,11 @@ import WidgetKit
                 .padding()
                 .padding(.bottom, 20)
 
-                GraphView(
+                LineChart(
                     range: selectedRange,
-                    readings: readings,
-                    highlight: readings.last,
-                    graphUpperBound: Int(upperGraphRange),
-                    targetRange: Int(lowerTargetRange)...Int(upperTargetRange),
-                    roundBottomCorners: false,
-                    showMarkLabels: true
+                    readings: readings.toLiveActivityReadings(),
+                    showAxisLabels: true,
+                    useFullYRange: true
                 )
                 .edgesIgnoringSafeArea(.leading)
                 .padding(.trailing)

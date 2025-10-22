@@ -13,22 +13,33 @@ import Defaults
 struct LineChart: View {
     @Default(.targetRangeLowerBound) var lowerBound
     @Default(.targetRangeUpperBound) var upperBound
+    @Default(.graphUpperBound) var graphUpperBound
 
     var range: GraphRange
     var readings: [LiveActivityState.Reading]
     var lineWidth: CGFloat = 2
+    var showAxisLabels: Bool = false
+    var useFullYRange: Bool = false
 
     @State private var pulseScale: CGFloat = 1.0
 
     private var filteredReadings: [LiveActivityState.Reading] {
-        let startDate = Date.now.addingTimeInterval(-range.timeInterval - 60 * 5)
-        let endDate = Date.now
-        return readings.filter { reading in
-            reading.t >= startDate && reading.t <= endDate
+        if useFullYRange {
+            return readings
+        } else {
+            let startDate = Date.now.addingTimeInterval(-range.timeInterval - 60 * 5)
+            let endDate = Date.now
+            return readings.filter { reading in
+                reading.t >= startDate && reading.t <= endDate
+            }
         }
     }
 
     private var yScaleRange: ClosedRange<Int> {
+        if useFullYRange {
+            return 0...Int(graphUpperBound)
+        }
+
         let allValues = filteredReadings.map(\.v)
         guard let dataMin = allValues.min(), let dataMax = allValues.max() else {
             return Int(lowerBound)...Int(upperBound)
@@ -51,10 +62,12 @@ struct LineChart: View {
     var body: some View {
         Chart {
             ForEach(filteredReadings, id: \.t) { reading in
+                let clampedValue = useFullYRange ? min(reading.v, Int16(graphUpperBound)) : reading.v
+
                 // Line on top
                 LineMark(
                     x: .value("Date", reading.t),
-                    y: .value("Glucose", reading.v)
+                    y: .value("Glucose", clampedValue)
                 )
                 .foregroundStyle(
                     LinearGradient(
@@ -69,9 +82,11 @@ struct LineChart: View {
 
             // Pulsing dot for the current (last) reading
             if let lastReading = filteredReadings.last {
+                let clampedValue = useFullYRange ? min(lastReading.v, Int16(graphUpperBound)) : lastReading.v
+
                 PointMark(
                     x: .value("Date", lastReading.t),
-                    y: .value("Glucose", lastReading.v)
+                    y: .value("Glucose", clampedValue)
                 )
                 .foregroundStyle(colorForValue(Int(lastReading.v)))
                 .symbolSize(20)
@@ -79,23 +94,59 @@ struct LineChart: View {
         }
         .chartYScale(domain: yScaleRange)
         .chartXScale(domain: Date.now.addingTimeInterval(-range.timeInterval)...Date.now)
-        .chartXAxis(.hidden)
-        .chartYAxis(.hidden)
-        .chartOverlay { proxy in
-            GeometryReader { geometry in
-                if let lastReading = filteredReadings.last,
-                   let position = proxy.position(for: (lastReading.t, lastReading.v)) {
-
-                    // Pulsing ring
-                    Circle()
-                        .fill(colorForValue(Int(lastReading.v)))
-                        .frame(width: 5, height: 5)
-                        .scaleEffect(pulseScale)
-                        .opacity((4.0 - pulseScale) * 0.3)
-                        .position(x: position.x, y: position.y)
+        .chartXAxis {
+            if showAxisLabels {
+                if range.timeInterval > 60 * 60 * 2 {
+                    AxisMarks(
+                        format: .dateTime.hour(),
+                        preset: .aligned,
+                        values: .automatic(desiredCount: 4)
+                    )
+                } else {
+                    let endDate = Date.now
+                    let startDate = endDate - range.timeInterval
+                    AxisMarks(
+                        format: .dateTime.hour().minute(),
+                        preset: .aligned,
+                        values: Array(stride(from: endDate, to: startDate, by: -range.timeInterval / 4))
+                    )
                 }
             }
         }
+        .chartYAxis {
+            if showAxisLabels {
+                let standardMarks = [yScaleRange.lowerBound, Int(lowerBound), Int(upperBound), yScaleRange.upperBound]
+
+                AxisMarks(values: standardMarks) { value in
+                    AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 2]))
+                    AxisValueLabel(collisionResolution: .greedy(priority: 50))
+                }
+
+                AxisMarks(values: [55]) { value in
+                    AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 2]))
+                        .foregroundStyle(Color.lowColor.secondary)
+                    AxisValueLabel(collisionResolution: .greedy(priority: 100))
+                }
+            }
+        }
+        .chartOverlay { proxy in
+            GeometryReader { geometry in
+                if let lastReading = filteredReadings.last {
+                    let clampedValue = useFullYRange ? min(lastReading.v, Int16(graphUpperBound)) : lastReading.v
+
+                    if let position = proxy.position(for: (lastReading.t, clampedValue)) {
+                        // Pulsing ring
+                        Circle()
+                            .fill(colorForValue(Int(lastReading.v)))
+                            .frame(width: 5, height: 5)
+                            .scaleEffect(pulseScale)
+                            .opacity((4.0 - pulseScale) * 0.3)
+                            .position(x: position.x, y: position.y)
+                    }
+                }
+            }
+        }
+        .animation(.smooth.speed(1.5), value: range)
         .onAppear {
             withAnimation(
                 .easeOut(duration: 2).delay(0.5)
@@ -132,21 +183,21 @@ struct LineChart: View {
 
         // Sharp transition to in-range (no blending between colors)
         if lowerBoundLocation > 0 && lowerBoundLocation < 1 {
-            stops.append(Gradient.Stop(color: .lowColor, location: lowerBoundLocation - 0.05))
-            stops.append(Gradient.Stop(color: .inRangeColor, location: lowerBoundLocation + 0.05))
+            stops.append(Gradient.Stop(color: .lowColor, location: max(0, lowerBoundLocation - 0.05)))
+            stops.append(Gradient.Stop(color: .inRangeColor, location: min(1, lowerBoundLocation + 0.05)))
         }
 
         // Sharp transition to high (no blending between colors)
         if upperBoundLocation > 0 && upperBoundLocation < 1 {
-            stops.append(Gradient.Stop(color: .inRangeColor, location: upperBoundLocation - 0.05))
-            stops.append(Gradient.Stop(color: .highColor, location: upperBoundLocation + 0.05))
+            stops.append(Gradient.Stop(color: .inRangeColor, location: max(0, upperBoundLocation - 0.05)))
+            stops.append(Gradient.Stop(color: .highColor, location: min(1, upperBoundLocation + 0.05)))
         }
 
         // Determine color at top (location 1)
         let topColor: Color = upperBoundLocation < 1 ? .highColor : (lowerBoundLocation < 1 ? .inRangeColor : .lowColor)
         stops.append(Gradient.Stop(color: topColor, location: 1))
 
-        return stops
+        return stops.sorted { $0.location < $1.location }
     }
 
     private func colorForValue(_ value: Int) -> Color {
@@ -161,13 +212,28 @@ struct LineChart: View {
 }
 
 #Preview {
-    LineChart(
-        range: .sixHours,
-        readings: .placeholder
-    )
-    .frame(height: 70)
-    .padding(1)
-    .border(.blue.opacity(0.5))
-    .padding()
-    .frame(maxHeight: .infinity, alignment: .top)
+    VStack {
+        LineChart(
+            range: .eightHours,
+            readings: .placeholder,
+            showAxisLabels: true
+        )
+        .frame(height: 70)
+        .padding(1)
+        .border(.blue.opacity(0.5))
+        .padding()
+
+        LineChart(
+            range: .eightHours,
+            readings: .placeholder,
+            showAxisLabels: true,
+            useFullYRange: true
+        )
+        .frame(height: 400)
+        .padding(1)
+        .border(.blue.opacity(0.5))
+        .padding()
+
+        Spacer()
+    }
 }
