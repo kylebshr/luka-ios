@@ -8,7 +8,19 @@
 import SwiftUI
 
 extension Color {
-    static let lowColor = Color.pink.mix(with: .red, by: 0.5)
-    static let inRangeColor = Color.mint.mix(with: .green, by: 0.5)
+    static var lowColor: Color {
+        if #available(iOS 26, *), #available(watchOS 11, *) {
+            Color.pink.mix(with: .red, by: 0.5)
+        } else {
+            Color.red
+        }
+    }
+    static var inRangeColor: Color {
+        if #available(iOS 26, *), #available(watchOS 11, *) {
+            Color.mint.mix(with: .green, by: 0.5)
+        } else {
+            Color.green
+        }
+    }
     static let highColor = Color.yellow
 }

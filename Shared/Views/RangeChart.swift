@@ -18,9 +18,9 @@ struct RangeChart: View {
     var readings: [GlucoseReading]
 
     // Color constants for easy tweaking
-    private let lowColor = Color.pink.mix(with: .red, by: 0.5)
-    private let inRangeColor = Color.mint.mix(with: .green, by: 0.5)
-    private let highColor = Color.yellow
+    private let lowColor = Color.lowColor
+    private let inRangeColor = Color.inRangeColor
+    private let highColor = Color.highColor
 
     private var aggregatedReadings: [RangeData] {
         // Filter readings to only include those within the range

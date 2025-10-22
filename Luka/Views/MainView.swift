@@ -122,7 +122,7 @@ import WidgetKit
                     .frame(maxWidth: .infinity)
                     .padding()
                 }
-                .buttonStyle(.glassProminent)
+                .buttonStyle(.borderedProminent)
                 .tint(isActivityActive ? .blue : .clear)
                 .padding()
             }
