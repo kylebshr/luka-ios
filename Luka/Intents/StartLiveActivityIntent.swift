@@ -155,7 +155,7 @@ struct StartLiveActivityIntent: LiveActivityIntent {
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .useDefaultKeys
 
-        var request = URLRequest(url: URL(string: "https://luka-vapor.fly.dev/start-live-activity")!)
+        var request = URLRequest(url: URL(string: "https://a1c.dev/start-live-activity")!)
         request.httpMethod = "POST"
         request.httpBody = try! encoder.encode(payload)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -174,7 +174,7 @@ struct StartLiveActivityIntent: LiveActivityIntent {
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .useDefaultKeys
 
-        var request = URLRequest(url: URL(string: "https://luka-vapor.fly.dev/end-live-activity")!)
+        var request = URLRequest(url: URL(string: "https://a1c.dev/end-live-activity")!)
         request.httpMethod = "POST"
         request.httpBody = try! encoder.encode(payload)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
