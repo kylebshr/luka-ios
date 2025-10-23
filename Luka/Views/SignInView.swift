@@ -14,8 +14,8 @@ struct SignInView: View {
 
     private let locations: [AccountLocation] = [
         .usa,
-        .worldwide,
         .apac,
+        .worldwide,
     ]
 
     var body: some View {
@@ -93,17 +93,17 @@ struct SignInView: View {
     }
 }
 
-extension AccountLocation: Identifiable {
+extension AccountLocation: @retroactive Identifiable {
     public var id: Self { self }
 
     var displayName: String {
         switch self {
         case .usa:
-            "North America"
+            "United States"
         case .apac:
-            "Asia-Pacific"
+            "Japan"
         case .worldwide:
-            "Europe / Australia"
+            "Anywhere Else"
         }
     }
 }
@@ -137,7 +137,7 @@ private struct UsernamePasswordView: View {
                 VStack(alignment: .leading) {
                     Divider().padding(.vertical, 10)
 
-                    Text("Sign in using your Dexcom username and password. Dexcom share must be enabled with at least one follower, and Luka only works with Dexcom accounts that have an email user ID.\n\nLuka is not owned by or affiliated with Dexcom. Your username and password are stored securely in iCloud Keychain.")
+                    Text("Sign in using your Dexcom username and password. **Dexcom share must be enabled with at least one follower**, but sign in using **your own Dexcom credentials**, not the followers. If your username is a phone number, format it with a + and the area code, for example +12223334444.\n\nLuka is not owned by or affiliated with Dexcom. Your username and password are stored securely in iCloud Keychain.")
                         .font(.footnote)
                         .padding(.top, 5)
                 }

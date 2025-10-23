@@ -11,6 +11,6 @@ struct CardTextFieldStyle: TextFieldStyle {
     func _body(configuration: TextField<Self._Label>) -> some View {
         configuration
             .padding()
-            .background(.fill.quaternary, in: .rect(cornerRadius: 10))
+            .background(.fill.quaternary, in: .rect(cornerRadius: 16))
     }
 }

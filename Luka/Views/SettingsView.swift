@@ -20,7 +20,7 @@ struct SettingsView: View {
     @Default(.sessionHistory) private var sessionHistory
 
     var body: some View {
-        FooterScrollView {
+        ScrollView {
             VStack(alignment: .leading, spacing: .verticalSpacing) {
                 Spacer()
 
@@ -65,11 +65,23 @@ struct SettingsView: View {
                     )
                 }
 
-                FormHeader(title: "Dexcom Sessions")
+                FormHeader(title: "Dexcom Sessions (Debug Info)")
 
                 FormSection {
                     SessionHistoryTable(entries: sessionHistory)
                 }
+
+                Button {
+                    viewModel.signOut()
+                } label: {
+                    Text("Sign Out")
+                        .frame(maxWidth: .infinity)
+                        .padding(8)
+                        .fontWeight(.semibold)
+                }
+                .buttonStyle(.borderedProminent)
+                .buttonBorderShape(.capsule)
+                .padding(.vertical)
 
                 Text("Version \(Bundle.main.fullVersion)")
                     .font(.footnote.weight(.medium))
@@ -80,24 +92,18 @@ struct SettingsView: View {
                     .multilineTextAlignment(.center)
             }
             .padding([.horizontal, .bottom])
-        } footer: {
-            Button {
-                viewModel.signOut()
-            } label: {
-                Text("Sign Out")
-                    .frame(maxWidth: .infinity)
-                    .padding(8)
-                    .fontWeight(.semibold)
-            }
-            .buttonStyle(.borderedProminent)
-            .buttonBorderShape(.capsule)
-            .padding()
         }
         .navigationTitle("Settings")
         .toolbar {
-            ToolbarItem(placement: .confirmationAction) {
-                Button("Done") {
-                    dismiss()
+            ToolbarItem(placement: .topBarTrailing) {
+                if #available(iOS 26, *) {
+                    Button(role: .close) {
+                        dismiss()
+                    }
+                } else {
+                    Button("Done") {
+                        dismiss()
+                    }
                 }
             }
         }

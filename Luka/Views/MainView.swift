@@ -99,7 +99,7 @@ import WidgetKit
                     useFullYRange: true
                 )
                 .edgesIgnoringSafeArea(.leading)
-                .padding(.trailing)
+                .padding([.trailing, .bottom])
 
                 Button {
                     Task {
