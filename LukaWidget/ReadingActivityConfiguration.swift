@@ -42,6 +42,7 @@ struct ReadingActivityConfiguration: Widget {
                 DynamicIslandExpandedRegion(.leading) {
                     ReadingText(context: context)
                         .font(.largeTitle)
+                        .fontDesign(.rounded)
                 }
                 .contentMargins([.leading, .top, .trailing], 20)
 
@@ -147,7 +148,6 @@ private struct MinimalReadingView: View {
             ReadingText(context: context)
                 .fontWeight(.semibold)
                 .fontWidth(.compressed)
-                .minimumScaleFactor(0.8)
                 .foregroundStyle((reading?.color(target: $0) ?? .secondary).gradient)
                 .redacted(reason: context.isStale ? .placeholder : [])
         }
@@ -159,27 +159,35 @@ private struct MainContentView: View {
 
     @Environment(\.activityFamily) var family
 
-    var largeFont: Font {
-        switch family {
-        case .medium: .largeTitle
-        case .small: .footnote.weight(.bold)
-        @unknown default: .largeTitle
-        }
-    }
-
-    var captionFont: Font {
-        switch family {
-        case .medium: .caption2.bold()
-        case .small: .footnote.weight(.medium)
-        @unknown default: .body
-        }
-    }
-
     var body: some View {
+        switch family {
+        case .small: smallContentView()
+        case .medium: mediumContentView()
+        @unknown default: mediumContentView()
+        }
+    }
+
+    func smallContentView() -> some View {
+        HStack(spacing: 0) {
+            ReadingView(reading: context.state.c)
+                .font(.largeTitle.weight(.regular))
+                .minimumScaleFactor(0.5)
+            
+            Spacer(minLength: 5)
+            
+            context.timestamp
+                .lineLimit(2)
+                .font(.caption2.weight(.medium))
+        }
+        .padding(10)
+    }
+
+    func mediumContentView() -> some View {
         VStack(spacing: 0) {
             HStack {
                 ReadingView(reading: context.state.c)
-                    .font(largeFont)
+                    .font(.largeTitle)
+                    .fontDesign(.rounded)
 
                 if family == .medium {
                     Spacer()
@@ -193,20 +201,11 @@ private struct MainContentView: View {
                         }
                     }
                 }
-                .font(captionFont)
-                .textCase(family == .small ? nil : .uppercase)
+                .font(.caption2.bold())
+                .textCase(.uppercase)
                 .foregroundStyle(.secondary)
-                .multilineTextAlignment(family == .small ? .leading : .trailing)
+                .multilineTextAlignment(.trailing)
                 .contentTransition(.numericText())
-
-                if !context.isStale {
-                    if family == .small {
-                        Spacer()
-                        Text(context.attributes.range.abbreviatedName)
-                            .font(captionFont.smallCaps())
-                            .foregroundStyle(.secondary)
-                    }
-                }
             }
             .padding([.horizontal, .top], family == .medium ? nil : 10)
 

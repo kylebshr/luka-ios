@@ -122,7 +122,13 @@ import WidgetKit
                     .frame(maxWidth: .infinity)
                     .padding()
                 }
-                .buttonStyle(.borderedProminent)
+                .modifier {
+                    if #available(iOS 26, *) {
+                        $0.buttonStyle(.glassProminent)
+                    } else {
+                        $0.buttonStyle(.borderedProminent)
+                    }
+                }
                 .tint(isActivityActive ? .blue : .clear)
                 .padding()
             }
