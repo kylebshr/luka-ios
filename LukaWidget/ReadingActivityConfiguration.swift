@@ -171,14 +171,16 @@ private struct MainContentView: View {
         HStack(spacing: 0) {
             ReadingView(reading: context.state.c)
                 .font(.title.weight(.regular))
-            
+
+            Spacer(minLength: 0)
+
             context.timestamp
                 .lineLimit(2)
                 .font(.caption2.weight(.medium))
                 .multilineTextAlignment(.trailing)
                 .minimumScaleFactor(0.5)
         }
-        .padding(10)
+        .padding(.all, watchOS ? 10 : nil)
     }
 
     func mediumContentView() -> some View {
