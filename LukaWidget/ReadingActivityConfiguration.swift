@@ -194,10 +194,8 @@ private struct MainContentView: View {
 
                 VStack(alignment: .trailing, spacing: 0) {
                     context.timestamp
-                    if !context.isStale {
-                        if family == .medium {
-                            Text("Last \(context.attributes.range.abbreviatedName)")
-                        }
+                    if context.state.c != nil, !context.isStale {
+                        Text("Last \(context.attributes.range.abbreviatedName)")
                     }
                 }
                 .font(.caption2.bold())
