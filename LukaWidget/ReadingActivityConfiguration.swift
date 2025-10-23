@@ -170,14 +170,13 @@ private struct MainContentView: View {
     func smallContentView() -> some View {
         HStack(spacing: 0) {
             ReadingView(reading: context.state.c)
-                .font(.largeTitle.weight(.regular))
-                .minimumScaleFactor(0.5)
-            
-            Spacer(minLength: 5)
+                .font(.title.weight(.regular))
             
             context.timestamp
                 .lineLimit(2)
                 .font(.caption2.weight(.medium))
+                .multilineTextAlignment(.trailing)
+                .minimumScaleFactor(0.5)
         }
         .padding(10)
     }
@@ -256,7 +255,7 @@ private extension ActivityViewContext<ReadingAttributes> {
         if let current = state.c {
             if isStale {
                 let lastReading = current.date.formatted(date: .omitted, time: .shortened)
-                return Text("\(offlineText) as of \(lastReading)")
+                return Text("\(offlineText) at \(lastReading)")
             } else {
                 return Text("Live").foregroundStyle(.green)
             }
