@@ -99,11 +99,11 @@ extension AccountLocation: Identifiable {
     var displayName: String {
         switch self {
         case .usa:
-            "United States"
+            "North America"
         case .apac:
             "Asia-Pacific"
         case .worldwide:
-            "Europe"
+            "Europe / Australia"
         }
     }
 }
