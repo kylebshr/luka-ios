@@ -40,22 +40,24 @@ struct FooterScrollView<Content: View, Footer: View>: View {
             #endif
         }
         #if os(iOS)
-        .safeAreaInset(edge: .bottom) {
+        .safeAreaBarIfAvailable(edge: .bottom, spacing: 0) {
             if Footer.self != EmptyView.self {
                 footer
                     .background {
-                        GeometryReader { proxy in
-                            Rectangle()
-                                .fill(Material.bar)
-                                .overlay(alignment: .top) {
-                                    Divider()
-                                }
-                                .ignoresSafeArea(.all, edges: .bottom)
-                                .opacity(footerBackgroundOpacity)
-                                .preference(
-                                    key: Frames.self,
-                                    value: .init(footer: proxy.frame(in: .global))
-                                )
+                        if #available(iOS 26, *) {} else {
+                            GeometryReader { proxy in
+                                Rectangle()
+                                    .fill(Material.bar)
+                                    .overlay(alignment: .top) {
+                                        Divider()
+                                    }
+                                    .ignoresSafeArea(.all, edges: .bottom)
+                                    .opacity(footerBackgroundOpacity)
+                                    .preference(
+                                        key: Frames.self,
+                                        value: .init(footer: proxy.frame(in: .global))
+                                    )
+                            }
                         }
                     }
             }
@@ -72,6 +74,16 @@ struct FooterScrollView<Content: View, Footer: View>: View {
             }
         }
         #endif
+    }
+}
+
+private extension View {
+    @ViewBuilder func safeAreaBarIfAvailable(edge: VerticalEdge, spacing: CGFloat, @ViewBuilder content: () -> some View) -> some View {
+        if #available(iOS 26, *), #available(watchOS 26, *) {
+            safeAreaBar(edge: edge, spacing: spacing, content: content)
+        } else {
+            safeAreaInset(edge: edge, spacing: spacing, content: content)
+        }
     }
 }
 

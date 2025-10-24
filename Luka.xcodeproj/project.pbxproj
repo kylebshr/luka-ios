@@ -124,6 +124,7 @@
 				"Utilities/GlucoseReading+Extensions.swift",
 				Utilities/Keychain.swift,
 				"Utilities/View+Extensions.swift",
+				"Utilities/View+Modifier.swift",
 				"View Models/LiveViewModel.swift",
 				Views/GraphView.swift,
 				Views/LineChart.swift,
@@ -141,6 +142,7 @@
 				Style/CardTextFieldStyle.swift,
 				"Utilities/Bundle+Extensions.swift",
 				"Utilities/EdgeInsets+Extensions.swift",
+				"Utilities/View+Modifier.swift",
 				"View Models/LiveViewModel.swift",
 			);
 			target = 2703324C2BD99E90009535EE /* LukaWidget */;
@@ -166,6 +168,7 @@
 				"Utilities/GlucoseReading+Extensions.swift",
 				Utilities/Keychain.swift,
 				"Utilities/View+Extensions.swift",
+				"Utilities/View+Modifier.swift",
 				"View Models/LiveViewModel.swift",
 				Views/GraphView.swift,
 				Views/LineChart.swift,
@@ -184,6 +187,7 @@
 				Style/CardTextFieldStyle.swift,
 				"Utilities/Bundle+Extensions.swift",
 				"Utilities/EdgeInsets+Extensions.swift",
+				"Utilities/View+Modifier.swift",
 				"View Models/LiveViewModel.swift",
 			);
 			target = 2741EA242BD8AF08003EDEB2 /* WatchWidget */;

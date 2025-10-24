@@ -139,9 +139,7 @@ private struct UsernamePasswordView: View {
 
                     Text("Sign in using your Dexcom username and password. **Dexcom share must be enabled with at least one follower**, but sign in using **your own Dexcom credentials**, not the followers. If your username is a phone number, format it with a + and the area code, for example +12223334444.\n\nLuka is not owned by or affiliated with Dexcom. Your username and password are stored securely in iCloud Keychain.")
                         .font(.footnote)
-                        .padding(.top, 5)
                 }
-                .padding(.top)
                 .foregroundStyle(.secondary)
             }
             .padding()
@@ -178,14 +176,20 @@ private struct UsernamePasswordView: View {
                 }
                 .animation(.default, value: isSigningIn)
             }
-            .buttonStyle(.borderedProminent)
+            .modifier {
+                if #available(iOS 26, *), #available(watchOS 26, *) {
+                    $0.buttonStyle(.glassProminent)
+                } else {
+                    $0.buttonStyle(.borderedProminent)
+                }
+            }
             .buttonBorderShape(.capsule)
             .padding()
         }
         #if os(iOS)
         .textFieldStyle(CardTextFieldStyle())
         #endif
-        .navigationTitle("Sign in")
+        .navigationTitle("Sign In")
         .alert(
             "Something Went Wrong",
             isPresented: .init(get: {

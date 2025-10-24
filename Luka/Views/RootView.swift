@@ -11,7 +11,16 @@ struct RootView: View {
     @Environment(RootViewModel.self) private var viewModel
 
     init() {
-        var titleFont = UIFont.preferredFont(forTextStyle: .largeTitle)
+        var largeTitleFont = UIFont.preferredFont(forTextStyle: .largeTitle)
+        largeTitleFont = UIFont(
+            descriptor:
+                largeTitleFont.fontDescriptor
+                .withDesign(.rounded)!
+                .withSymbolicTraits(.traitBold)!,
+            size: largeTitleFont.pointSize
+        )
+
+        var titleFont = UIFont.preferredFont(forTextStyle: .headline)
         titleFont = UIFont(
             descriptor:
                 titleFont.fontDescriptor
@@ -20,7 +29,8 @@ struct RootView: View {
             size: titleFont.pointSize
         )
 
-        UINavigationBar.appearance().largeTitleTextAttributes = [.font: titleFont]
+        UINavigationBar.appearance().largeTitleTextAttributes = [.font: largeTitleFont]
+        UINavigationBar.appearance().titleTextAttributes = [.font: titleFont]
     }
 
     var body: some View {

@@ -20,87 +20,72 @@ struct SettingsView: View {
     @Default(.sessionHistory) private var sessionHistory
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: .verticalSpacing) {
-                Spacer()
-
-                FormSection {
-                    FormRow(title: "Units") {
-                        Menu {
-                            Picker("Units", selection: $unit) {
-                                Text(GlucoseFormatter.Unit.mgdl.text)
-                                    .tag(GlucoseFormatter.Unit.mgdl)
-                                Text(GlucoseFormatter.Unit.mmolL.text)
-                                    .tag(GlucoseFormatter.Unit.mmolL)
-                            }
-                        } label: {
-                            Text(unit.text).fontWeight(.medium)
-                        }
-                    }
+        List {
+            Section("General") {
+                Picker("Units", selection: $unit) {
+                    Text(GlucoseFormatter.Unit.mgdl.text)
+                        .tag(GlucoseFormatter.Unit.mgdl)
+                    Text(GlucoseFormatter.Unit.mmolL.text)
+                        .tag(GlucoseFormatter.Unit.mmolL)
                 }
+                .pickerStyle(.menu)
+            }
 
-                FormHeader(title: "Graphs")
+            Section("Graphs") {
+                GraphSliderView(
+                    title: "Upper bound",
+                    currentValue: $upperGraphRange,
+                    range: 250...400
+                )
 
-                FormSection {
-                    GraphSliderView(
-                        title: "Upper bound",
-                        currentValue: $upperGraphRange,
-                        range: 220...400
-                    )
+                GraphSliderView(
+                    title: "Upper target range",
+                    currentValue: $upperTargetRange,
+                    range: 120...220
+                )
 
-                    FormSectionDivider()
+                GraphSliderView(
+                    title: "Lower target range",
+                    currentValue: $lowerTargetRange,
+                    range: 55...110
+                )
+            }
 
-                    GraphSliderView(
-                        title: "Upper target range",
-                        currentValue: $upperTargetRange,
-                        range: 120...220
-                    )
-
-                    FormSectionDivider()
-
-                    GraphSliderView(
-                        title: "Lower target range",
-                        currentValue: $lowerTargetRange,
-                        range: 55...110
-                    )
-                }
-
-                FormHeader(title: "Dexcom Sessions (Debug Info)")
-
-                FormSection {
+            if Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt" {
+                Section("Dexcom Sessions (Debug Info)") {
                     SessionHistoryTable(entries: sessionHistory)
                 }
+            }
 
+            Section {
                 Button {
                     viewModel.signOut()
                 } label: {
                     Text("Sign Out")
                         .frame(maxWidth: .infinity)
-                        .padding(8)
                         .fontWeight(.semibold)
                 }
-                .buttonStyle(.borderedProminent)
-                .buttonBorderShape(.capsule)
-                .padding(.vertical)
-
+            } footer: {
                 Text("Version \(Bundle.main.fullVersion)")
                     .font(.footnote.weight(.medium))
                     .fontDesign(.monospaced)
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity)
-                    .padding(.vertical, .largeVerticalSpacing)
                     .multilineTextAlignment(.center)
+                    .padding(.top)
             }
-            .padding([.horizontal, .bottom])
         }
+        .listStyle(.insetGrouped)
         .navigationTitle("Settings")
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                if #available(iOS 26, *) {
+            if #available(iOS 26, *) {
+                ToolbarItem(placement: .topBarTrailing) {
                     Button(role: .close) {
                         dismiss()
                     }
-                } else {
+                }
+            } else {
+                ToolbarItem(placement: .confirmationAction) {
                     Button("Done") {
                         dismiss()
                     }
@@ -117,13 +102,12 @@ private struct GraphSliderView: View {
     var range: ClosedRange<Double>
 
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Text(title)
                 Spacer()
                 Text(currentValue.formatted())
             }
-            .fontWeight(.medium)
 
             Slider(
                 value: $currentValue,
@@ -134,7 +118,6 @@ private struct GraphSliderView: View {
                 }
             )
         }
-        .padding(.standardPadding / 2)
     }
 }
 
@@ -147,9 +130,10 @@ private struct SessionHistoryTable: View {
 
     var body: some View {
         if rows.isEmpty {
-            FormRow(title: "No session history yet")
+            Text("No session history yet")
+                .foregroundStyle(.secondary)
         } else {
-            Grid(alignment: .leading, horizontalSpacing: .horizontalSpacing, verticalSpacing: .spacing4) {
+            Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 8) {
                 GridRow {
                     Text("Session ID")
                     Text("Expired")
@@ -177,11 +161,10 @@ private struct SessionHistoryTable: View {
 
                     if entry.id != rows.last?.id {
                         Divider()
-                            .gridCellColumns(2)
+                            .gridCellColumns(3)
                     }
                 }
             }
-            .padding(.standardPadding / 2)
         }
     }
 }
