@@ -39,29 +39,16 @@ import SwiftUI
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
-                MainGraphView(
-                    selectedRange: selectedRange,
-                    readings: readings,
-                    highlight: reading,
-                    upperGraphRange: upperGraphRange,
-                    lowerTargetRange: lowerTargetRange,
-                    upperTargetRange: upperTargetRange
+                LineChart(
+                    range: selectedRange,
+                    readings: readings.toLiveActivityReadings(),
+                    showAxisLabels: true,
+                    useFullYRange: true
                 )
 
                 VStack(alignment: .leading, spacing: -3) {
-                    HStack(spacing: 3) {
-                        Text(readingText)
-                            .redacted(reason: reading == nil ? .placeholder : [])
-                            .contentTransition(.numericText(value: Double(reading?.value ?? 0)))
-
-                        if let reading {
-                            reading.image
-                                .imageScale(.small)
-                                .contentTransition(.symbolEffect(.replace))
-                        }
-                    }
-                    .font(.title2)
-                    .animation(.default, value: reading)
+                    ReadingView(reading: reading)
+                        .font(.title2)
 
                     Text(liveViewModel.message)
                         .font(.footnote)

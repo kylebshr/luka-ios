@@ -21,8 +21,6 @@ struct LineChart: View {
     var showAxisLabels: Bool = false
     var useFullYRange: Bool = false
 
-    @State private var pulseScale: CGFloat = 1.0
-
     private var filteredReadings: [LiveActivityState.Reading] {
         if useFullYRange {
             return readings
@@ -80,8 +78,8 @@ struct LineChart: View {
                 .lineStyle(StrokeStyle(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
             }
 
-            // Pulsing dot for the current (last) reading
-            if let lastReading = filteredReadings.last {
+            // Dot for the current (last) reading
+            if let lastReading = filteredReadings.last, Date.now.timeIntervalSince(lastReading.t) < 7 * 60 {
                 let clampedValue = useFullYRange ? min(lastReading.v, Int16(graphUpperBound)) : lastReading.v
 
                 PointMark(
@@ -129,32 +127,7 @@ struct LineChart: View {
                 }
             }
         }
-        .chartOverlay { proxy in
-            GeometryReader { geometry in
-                if let lastReading = filteredReadings.last {
-                    let clampedValue = useFullYRange ? min(lastReading.v, Int16(graphUpperBound)) : lastReading.v
-
-                    if let position = proxy.position(for: (lastReading.t, clampedValue)) {
-                        // Pulsing ring
-                        Circle()
-                            .fill(colorForValue(Int(lastReading.v)))
-                            .frame(width: 5, height: 5)
-                            .scaleEffect(pulseScale)
-                            .opacity((4.0 - pulseScale) * 0.3)
-                            .position(x: position.x, y: position.y)
-                    }
-                }
-            }
-        }
         .animation(.smooth.speed(1.5), value: range)
-        .onAppear {
-            withAnimation(
-                .easeOut(duration: 2).delay(0.5)
-                .repeatForever(autoreverses: false)
-            ) {
-                pulseScale = 4.0
-            }
-        }
     }
 
     private var gradientStops: [Gradient.Stop] {
