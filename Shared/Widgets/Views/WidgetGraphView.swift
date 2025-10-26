@@ -31,10 +31,10 @@ struct WidgetGraphView: View {
         switch family {
         case .systemSmall, .systemMedium, .systemLarge:
             return EdgeInsets(
-                top: 0,
-                leading: -margins.leading / 2,
-                bottom: -margins.bottom / 2,
-                trailing: -margins.trailing / 2
+                top: margins.top,
+                leading: -margins.leading,
+                bottom: 0,
+                trailing: 0
             )
         default:
             return EdgeInsets()
@@ -80,16 +80,15 @@ struct WidgetGraphView: View {
                     }
                 }
 
-                GraphView(
+                let showLabels = family == .systemMedium || family == .systemLarge
+                LineChart(
                     range: data.configuration.graphRange,
-                    readings: data.history,
-                    highlight: data.current,
-                    graphUpperBound: data.graphUpperBound,
-                    targetRange: data.targetLowerBound...data.targetUpperBound,
-                    roundBottomCorners: !isInStandby,
-                    showMarkLabels: false
+                    readings: data.history.toLiveActivityReadings(),
+                    showAxisLabels: showLabels,
+                    useFullYRange: family == .systemLarge
                 )
                 .padding(graphPadding)
+                .padding(.bottom, showLabels ? -margins.bottom / 2 : 0)
             }
             .font(font)
         }
