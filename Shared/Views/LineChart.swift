@@ -113,17 +113,30 @@ struct LineChart: View {
         }
         .chartYAxis {
             if showAxisLabels {
-                let standardMarks = [yScaleRange.lowerBound, Int(lowerBound), Int(upperBound), yScaleRange.upperBound]
+                let rangeMarks = [Int(lowerBound), Int(upperBound)].filter {
+                    yScaleRange.contains($0)
+                }
 
-                AxisMarks(values: standardMarks) { value in
+                AxisMarks(values: rangeMarks) { value in
                     AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 2]))
                     AxisValueLabel(collisionResolution: .greedy(priority: 50))
                 }
 
-                AxisMarks(values: [55]) { value in
+                let boundaryMarks = [0, Int(graphUpperBound)].filter {
+                    yScaleRange.contains($0)
+                }
+
+                AxisMarks(values: boundaryMarks) { value in
                     AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 2]))
-                        .foregroundStyle(Color.lowColor.secondary)
-                    AxisValueLabel(collisionResolution: .greedy(priority: 100))
+                    AxisValueLabel(collisionResolution: .greedy(priority: 50))
+                }
+
+                if yScaleRange.contains(55) {
+                    AxisMarks(values: [55]) { value in
+                        AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 2]))
+                            .foregroundStyle(Color.lowColor.secondary)
+                        AxisValueLabel(collisionResolution: .greedy(priority: 100))
+                    }
                 }
             }
         }

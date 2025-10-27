@@ -72,7 +72,7 @@ struct SettingsView: View {
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity)
                     .multilineTextAlignment(.center)
-                    .padding(.top)
+                    .padding(.vertical)
             }
         }
         .listStyle(.insetGrouped)
