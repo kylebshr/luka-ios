@@ -80,12 +80,19 @@ struct WidgetGraphView: View {
                     }
                 }
 
+                #if os(iOS)
                 let showLabels = family == .systemMedium || family == .systemLarge
+                let useFullYRange = family == .systemLarge
+                #else
+                let showLabels = false
+                let useFullYRange = false
+                #endif
+
                 LineChart(
                     range: data.configuration.graphRange,
                     readings: data.history.toLiveActivityReadings(),
                     showAxisLabels: showLabels,
-                    useFullYRange: family == .systemLarge
+                    useFullYRange: useFullYRange
                 )
                 .padding(graphPadding)
                 .padding(.bottom, showLabels ? -margins.bottom / 2 : 0)
