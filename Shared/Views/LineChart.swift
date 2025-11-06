@@ -20,6 +20,7 @@ struct LineChart: View {
     var lineWidth: CGFloat = 2
     var showAxisLabels: Bool = false
     var useFullYRange: Bool = false
+    var selectedReading: Binding<LiveActivityState.Reading?>? = nil
 
     private var filteredReadings: [LiveActivityState.Reading] {
         if useFullYRange {
@@ -78,8 +79,20 @@ struct LineChart: View {
                 .lineStyle(StrokeStyle(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
             }
 
-            // Dot for the current (last) reading
-            if let lastReading = filteredReadings.last, Date.now.timeIntervalSince(lastReading.t) < 7 * 60 {
+            if let selectedReading = selectedReading?.wrappedValue {
+                let clampedValue = useFullYRange ? min(selectedReading.v, Int16(graphUpperBound)) : selectedReading.v
+
+                RuleMark(x: .value("Date", selectedReading.t))
+                    .foregroundStyle(Color.secondary)
+                    .lineStyle(StrokeStyle(lineWidth: 0.5))
+
+                PointMark(
+                    x: .value("Date", selectedReading.t),
+                    y: .value("Glucose", clampedValue)
+                )
+                .foregroundStyle(colorForValue(Int(selectedReading.v)))
+                .symbolSize(25)
+            } else if let lastReading = filteredReadings.last, Date.now.timeIntervalSince(lastReading.t) < 7 * 60 {
                 let clampedValue = useFullYRange ? min(lastReading.v, Int16(graphUpperBound)) : lastReading.v
 
                 PointMark(
@@ -87,7 +100,7 @@ struct LineChart: View {
                     y: .value("Glucose", clampedValue)
                 )
                 .foregroundStyle(colorForValue(Int(lastReading.v)))
-                .symbolSize(20)
+                .symbolSize(25)
             }
         }
         .chartYScale(domain: yScaleRange)
@@ -141,6 +154,34 @@ struct LineChart: View {
             }
         }
         .animation(.smooth.speed(1.5), value: range)
+        .chartOverlay { proxy in
+            if let selectedReading {
+                GeometryReader { geometry in
+                    Rectangle()
+                        .fill(.clear)
+                        .contentShape(Rectangle())
+                        .gesture(
+                            DragGesture(minimumDistance: 0)
+                                .onChanged { value in
+                                    guard let plotFrame = proxy.plotFrame else { return }
+                                    let frame = geometry[plotFrame]
+                                    guard frame.contains(value.location) else {
+                                        selectedReading.wrappedValue = nil
+                                        return
+                                    }
+
+                                    let xPosition = value.location.x - frame.origin.x
+                                    if let date: Date = proxy.value(atX: xPosition, as: Date.self) {
+                                        selectedReading.wrappedValue = readingClosest(to: date)
+                                    }
+                                }
+                                .onEnded { _ in
+                                    selectedReading.wrappedValue = nil
+                                }
+                        )
+                }
+            }
+        }
     }
 
     private var gradientStops: [Gradient.Stop] {
@@ -193,6 +234,13 @@ struct LineChart: View {
             return .highColor
         } else {
             return .inRangeColor
+        }
+    }
+
+    private func readingClosest(to date: Date) -> LiveActivityState.Reading? {
+        guard !filteredReadings.isEmpty else { return nil }
+        return filteredReadings.min { lhs, rhs in
+            abs(lhs.t.timeIntervalSince(date)) < abs(rhs.t.timeIntervalSince(date))
         }
     }
 }

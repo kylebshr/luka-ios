@@ -25,6 +25,7 @@ import WidgetKit
     @State private var activity: Activity<ReadingAttributes>? = Activity<ReadingAttributes>.activities
         .first
     @State private var isActivityLoading = false
+    @State private var selectedChartReading: LiveActivityState.Reading?
 
     private var readings: [GlucoseReading] {
         switch liveViewModel.state {
@@ -35,16 +36,32 @@ import WidgetKit
         }
     }
 
-    private var readingText: String {
-        switch liveViewModel.state {
-        case .initial, .noRecentReading, .error:
-            return "100"
-        case .loaded(_, let latest):
-            return latest.value.formatted(.glucose(unit))
+    private var scrubbingGlucoseReading: GlucoseReading? {
+        guard let selectedChartReading else { return nil }
+        return readings.first { $0.date == selectedChartReading.t }
+    }
+
+    private var displayReading: GlucoseReading? {
+        scrubbingGlucoseReading ?? readings.last
+    }
+
+    private var subtitleText: String {
+        if let scrubbingGlucoseReading {
+            scrubbingGlucoseReading.date.formatted(date: .omitted, time: .shortened)
+        } else {
+            liveViewModel.message
         }
     }
 
+    private var isScrubbing: Bool {
+        scrubbingGlucoseReading != nil
+    }
+
     private var isRedacted: Bool {
+        if isScrubbing {
+            return false
+        }
+
         switch liveViewModel.state {
         case .initial:
             return true
@@ -66,22 +83,19 @@ import WidgetKit
         NavigationStack {
             VStack(alignment: .leading) {
                 VStack(alignment: .leading, spacing: 0) {
-                    ReadingView(reading: readings.last)
+                    ReadingView(reading: displayReading)
                         .font(.largeTitle.weight(.semibold))
-                        .animation(.default, value: readings.last)
+                        .id(displayReading != nil)
 
                     let unit = isRedacted ? "" : "\(unit.text) • "
 
-                    VStack {
-                        Text("\(unit)\(liveViewModel.message)")
-                    }
-                    .font(.caption2.weight(.medium))
-                    .foregroundStyle(.secondary)
-                    .contentTransition(.numericText(value: liveViewModel.messageValue))
-                    .animation(.default, value: liveViewModel.message)
-                    .textCase(.uppercase)
+                    Text("\(unit)\(subtitleText)")
+                        .font(.caption2.weight(.medium))
+                        .foregroundStyle(.secondary)
+                        .textCase(.uppercase)
                 }
                 .padding([.horizontal, .bottom])
+                .animation(isScrubbing ? nil : .default, value: displayReading)
 
                 Picker("Graph range", selection: $selectedRange) {
                     ForEach(GraphRange.allCases) {
@@ -96,7 +110,8 @@ import WidgetKit
                     range: selectedRange,
                     readings: readings.toLiveActivityReadings(),
                     showAxisLabels: true,
-                    useFullYRange: true
+                    useFullYRange: true,
+                    selectedReading: $selectedChartReading,
                 )
                 .edgesIgnoringSafeArea(.leading)
                 .padding([.trailing, .bottom])
@@ -154,6 +169,7 @@ import WidgetKit
                 self.activity = activity
             }
         }
+        .sensoryFeedback(.selection, trigger: scrubbingGlucoseReading)
     }
 
     private func toggleLiveActivity() async {
