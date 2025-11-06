@@ -47,7 +47,7 @@ import WidgetKit
 
     private var subtitleText: String {
         if let scrubbingGlucoseReading {
-            scrubbingGlucoseReading.date.formatted(date: .abbreviated, time: .shortened)
+            scrubbingGlucoseReading.date.formatted(date: .omitted, time: .shortened)
         } else {
             liveViewModel.message
         }
@@ -85,26 +85,17 @@ import WidgetKit
                 VStack(alignment: .leading, spacing: 0) {
                     ReadingView(reading: displayReading)
                         .font(.largeTitle.weight(.semibold))
-                        .animation(.default, value: displayReading)
+                        .id(displayReading != nil)
 
                     let unit = isRedacted ? "" : "\(unit.text) • "
 
-                    VStack {
-                        Text("\(unit)\(subtitleText)")
-                    }
-                    .font(.caption2.weight(.medium))
-                    .foregroundStyle(.secondary)
-                    .modifier { view in
-                        if isScrubbing {
-                            view.contentTransition(.identity)
-                        } else {
-                            view.contentTransition(.numericText(value: liveViewModel.messageValue))
-                        }
-                    }
-                    .animation(.default, value: subtitleText)
-                    .textCase(isScrubbing ? nil : .uppercase)
+                    Text("\(unit)\(subtitleText)")
+                        .font(.caption2.weight(.medium))
+                        .foregroundStyle(.secondary)
+                        .textCase(.uppercase)
                 }
                 .padding([.horizontal, .bottom])
+                .animation(isScrubbing ? nil : .default, value: displayReading)
 
                 Picker("Graph range", selection: $selectedRange) {
                     ForEach(GraphRange.allCases) {
@@ -121,7 +112,6 @@ import WidgetKit
                     showAxisLabels: true,
                     useFullYRange: true,
                     selectedReading: $selectedChartReading,
-                    isScrubbable: true
                 )
                 .edgesIgnoringSafeArea(.leading)
                 .padding([.trailing, .bottom])
@@ -179,6 +169,7 @@ import WidgetKit
                 self.activity = activity
             }
         }
+        .sensoryFeedback(.selection, trigger: scrubbingGlucoseReading)
     }
 
     private func toggleLiveActivity() async {

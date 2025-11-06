@@ -39,7 +39,6 @@ struct ReadingView: View {
         .contentTransition(.numericText(value: Double(reading?.value ?? 0)))
         .redacted(reason: reading == nil ? .placeholder : [])
         .imageScale(.small)
-        .animation(.default, value: reading)
     }
 }
 

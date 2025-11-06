@@ -20,27 +20,7 @@ struct LineChart: View {
     var lineWidth: CGFloat = 2
     var showAxisLabels: Bool = false
     var useFullYRange: Bool = false
-    var isScrubbable: Bool = false
-
-    @Binding private var selectedReading: LiveActivityState.Reading?
-
-    init(
-        range: GraphRange,
-        readings: [LiveActivityState.Reading],
-        lineWidth: CGFloat = 2,
-        showAxisLabels: Bool = false,
-        useFullYRange: Bool = false,
-        selectedReading: Binding<LiveActivityState.Reading?> = .constant(nil),
-        isScrubbable: Bool = false
-    ) {
-        self.range = range
-        self.readings = readings
-        self.lineWidth = lineWidth
-        self.showAxisLabels = showAxisLabels
-        self.useFullYRange = useFullYRange
-        self._selectedReading = selectedReading
-        self.isScrubbable = isScrubbable
-    }
+    var selectedReading: Binding<LiveActivityState.Reading?>? = nil
 
     private var filteredReadings: [LiveActivityState.Reading] {
         if useFullYRange {
@@ -99,20 +79,19 @@ struct LineChart: View {
                 .lineStyle(StrokeStyle(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
             }
 
-            // Dot for the current (last) reading
-            if let selectedReading {
+            if let selectedReading = selectedReading?.wrappedValue {
                 let clampedValue = useFullYRange ? min(selectedReading.v, Int16(graphUpperBound)) : selectedReading.v
 
                 RuleMark(x: .value("Date", selectedReading.t))
-                    .foregroundStyle(.secondary)
-                    .lineStyle(StrokeStyle(lineWidth: 1, dash: [3]))
+                    .foregroundStyle(Color.secondary)
+                    .lineStyle(StrokeStyle(lineWidth: 0.5))
 
                 PointMark(
                     x: .value("Date", selectedReading.t),
                     y: .value("Glucose", clampedValue)
                 )
                 .foregroundStyle(colorForValue(Int(selectedReading.v)))
-                .symbolSize(20)
+                .symbolSize(25)
             } else if let lastReading = filteredReadings.last, Date.now.timeIntervalSince(lastReading.t) < 7 * 60 {
                 let clampedValue = useFullYRange ? min(lastReading.v, Int16(graphUpperBound)) : lastReading.v
 
@@ -121,7 +100,7 @@ struct LineChart: View {
                     y: .value("Glucose", clampedValue)
                 )
                 .foregroundStyle(colorForValue(Int(lastReading.v)))
-                .symbolSize(20)
+                .symbolSize(25)
             }
         }
         .chartYScale(domain: yScaleRange)
@@ -176,32 +155,31 @@ struct LineChart: View {
         }
         .animation(.smooth.speed(1.5), value: range)
         .chartOverlay { proxy in
-            GeometryReader { geometry in
-                Rectangle()
-                    .fill(.clear)
-                    .contentShape(Rectangle())
-                    .gesture(
-                        DragGesture(minimumDistance: 0)
-                            .onChanged { value in
-                                guard isScrubbable else { return }
-                                guard let plotFrame = proxy.plotAreaFrame(in: .local) else { return }
-                                let frame = geometry[plotFrame]
-                                guard frame.contains(value.location) else {
-                                    selectedReading = nil
-                                    return
-                                }
+            if let selectedReading {
+                GeometryReader { geometry in
+                    Rectangle()
+                        .fill(.clear)
+                        .contentShape(Rectangle())
+                        .gesture(
+                            DragGesture(minimumDistance: 0)
+                                .onChanged { value in
+                                    guard let plotFrame = proxy.plotFrame else { return }
+                                    let frame = geometry[plotFrame]
+                                    guard frame.contains(value.location) else {
+                                        selectedReading.wrappedValue = nil
+                                        return
+                                    }
 
-                                let xPosition = value.location.x - frame.origin.x
-                                if let date: Date = proxy.value(atX: xPosition, as: Date.self) {
-                                    selectedReading = readingClosest(to: date)
+                                    let xPosition = value.location.x - frame.origin.x
+                                    if let date: Date = proxy.value(atX: xPosition, as: Date.self) {
+                                        selectedReading.wrappedValue = readingClosest(to: date)
+                                    }
                                 }
-                            }
-                            .onEnded { _ in
-                                guard isScrubbable else { return }
-                                selectedReading = nil
-                            }
-                    )
-                    .allowsHitTesting(isScrubbable)
+                                .onEnded { _ in
+                                    selectedReading.wrappedValue = nil
+                                }
+                        )
+                }
             }
         }
     }
