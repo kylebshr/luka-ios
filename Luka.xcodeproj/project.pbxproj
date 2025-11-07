@@ -113,6 +113,7 @@
 				Models/ReadingAttributes.swift,
 				Models/StartLiveActivityRequest.swift,
 				"Models/Unit+Extensions.swift",
+				"Modifiers/View+Modifiers.swift",
 				Style/CardModifier.swift,
 				Style/CardTextFieldStyle.swift,
 				"Utilities/Bundle+Extensions.swift",
@@ -138,6 +139,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				AppIcon.icon,
+				"Modifiers/View+Modifiers.swift",
 				Style/CardModifier.swift,
 				Style/CardTextFieldStyle.swift,
 				"Utilities/Bundle+Extensions.swift",
@@ -158,6 +160,7 @@
 				Models/LiveActivityState.swift,
 				Models/StartLiveActivityRequest.swift,
 				"Models/Unit+Extensions.swift",
+				"Modifiers/View+Modifiers.swift",
 				Style/CardModifier.swift,
 				"Utilities/Bundle+Extensions.swift",
 				"Utilities/Color+Extensions.swift",
@@ -183,6 +186,7 @@
 			membershipExceptions = (
 				AppIcon.icon,
 				Models/ReadingAttributes.swift,
+				"Modifiers/View+Modifiers.swift",
 				Style/CardModifier.swift,
 				Style/CardTextFieldStyle.swift,
 				"Utilities/Bundle+Extensions.swift",

@@ -32,13 +32,17 @@ struct SignInView: View {
 
     private var content: some View {
         VStack(alignment: .leading) {
-            Spacer()
-
-            (Text("Welcome to") + Text("\nLuka").foregroundStyle(.accent))
+            (Text("Welcome to") + Text(" Luka").foregroundStyle(.accent))
             #if os(iOS)
                 .font(.largeTitle.weight(.heavy))
+                .padding(.top, 64)
             #else
                 .font(.title2.weight(.heavy))
+            #endif
+
+            #if os(iOS)
+            Text("Exellent widgets and Live Activities for Dexcom continuous glucose monitors.")
+                .foregroundStyle(.secondary)
             #endif
 
             Spacer()
@@ -72,6 +76,7 @@ struct SignInView: View {
             #endif
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+        .withReadableWidth()
         .padding()
         .fontDesign(.rounded)
     }
@@ -142,6 +147,7 @@ private struct UsernamePasswordView: View {
                 }
                 .foregroundStyle(.secondary)
             }
+            .withReadableWidth()
             .padding()
         } footer: {
             Button {
@@ -184,7 +190,9 @@ private struct UsernamePasswordView: View {
                 }
             }
             .buttonBorderShape(.capsule)
+            .withReadableWidth()
             .padding()
+            .disabled(username.isEmpty || password.isEmpty)
         }
         #if os(iOS)
         .textFieldStyle(CardTextFieldStyle())

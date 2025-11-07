@@ -122,8 +122,11 @@ import WidgetKit
                     }
                 } label: {
                     HStack {
-                        Image(systemName: "bolt.fill")
-                        Text(isActivityActive ? "Stop Live Activity" : "Start Live Activity")
+                        ZStack {
+                            Image(systemName: "stop.fill").opacity(isActivityActive ? 1 : 0)
+                            Image(systemName: "bolt.fill").opacity(isActivityActive ? 0 : 1)
+                        }
+                        Text(isActivityActive ? "End Live Activity" : "Start Live Activity")
                     }
                     .animation(nil, value: isActivityLoading)
                     .opacity(isActivityLoading ? 0 : 1)
@@ -144,8 +147,10 @@ import WidgetKit
                         $0.buttonStyle(.borderedProminent)
                     }
                 }
-                .tint(isActivityActive ? .blue : .clear)
+                .tint(isActivityActive ? .accent : .clear)
+                .withReadableWidth()
                 .padding()
+                .frame(maxWidth: .infinity)
             }
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
