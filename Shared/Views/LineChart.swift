@@ -22,6 +22,8 @@ struct LineChart: View {
     var useFullYRange: Bool = false
     var selectedReading: Binding<LiveActivityState.Reading?>? = nil
 
+    @GestureState private var isScrubbing = false
+
     private var filteredReadings: [LiveActivityState.Reading] {
         if useFullYRange {
             return readings
@@ -162,7 +164,9 @@ struct LineChart: View {
                         .contentShape(Rectangle())
                         .gesture(
                             DragGesture(minimumDistance: 0)
-                                .onChanged { value in
+                                .updating($isScrubbing) { value, state, transaction in
+                                    state = true
+
                                     guard let plotFrame = proxy.plotFrame else { return }
                                     let frame = geometry[plotFrame]
                                     guard frame.contains(value.location) else {
@@ -175,10 +179,12 @@ struct LineChart: View {
                                         selectedReading.wrappedValue = readingClosest(to: date)
                                     }
                                 }
-                                .onEnded { _ in
-                                    selectedReading.wrappedValue = nil
-                                }
                         )
+                }
+                .onChange(of: isScrubbing) { oldValue, newValue in
+                    if !newValue {
+                        selectedReading.wrappedValue = nil
+                    }
                 }
             }
         }
