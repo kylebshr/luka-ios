@@ -137,7 +137,7 @@ private struct UsernamePasswordView: View {
                 VStack(alignment: .leading) {
                     Divider().padding(.vertical, 10)
 
-                    Text("Sign in using your Dexcom username and password. **Dexcom share must be enabled with at least one follower**, but sign in using **your own Dexcom credentials**, not the followers. If your username is a phone number, format it with a + and the area code, for example +12223334444.\n\nLuka is not owned by or affiliated with Dexcom. Your username and password are stored securely in iCloud Keychain.")
+                    Text("Sign in using your Dexcom username and password. **Dexcom share must be enabled with at least one follower**, but sign in using **your own Dexcom credentials**, not the followers. If your username is a phone number, format it with a + and the area code, for example +12223334444.")
                         .font(.footnote)
                 }
                 .foregroundStyle(.secondary)
