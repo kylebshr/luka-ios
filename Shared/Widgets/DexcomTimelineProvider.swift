@@ -40,7 +40,7 @@ extension DexcomTimelineProvider {
             let entry = GlucoseEntry(date: now, widgetURL: widgetURL, state: state)
             return Timeline(entries: [entry], policy: .after(refreshDate))
         case .reading(let data):
-            let entries = (1...21).map {
+            let entries = (1...30).map {
                 let date = Calendar.current.date(byAdding: .minute, value: $0, to: data.current.date)!
                 return GlucoseEntry(date: date, widgetURL: widgetURL, state: state)
             }.filter {
