@@ -10,16 +10,17 @@ import Foundation
 extension String {
     static let usernameKey = "username"
     static let passwordKey = "password"
-
+    
     static let accountIDKey = "accountID"
     static let sessionIDKey = "sessionID"
-
+    
     static let accountLocation = "accountLocation"
     static let targetRangeLowerBound = "targetRangeLowerBound"
     static let targetRangeUpperBound = "targetRangeUpperBound"
     static let graphUpperBound = "graphUpperBound"
     static let cachedReadings = "chachedReadings"
     static let sessionHistory = "sessionHistory"
+    static let showChartLiveActivity = "showChartLiveActivity"
 }
 
 extension CGFloat {

@@ -19,6 +19,7 @@ extension Defaults.Keys {
     static let graphUpperBound = Key<Double>(.graphUpperBound, default: 300, suite: .shared, iCloud: true)
     static let accountLocation = Key<AccountLocation?>(.accountLocation, default: nil, suite: .shared, iCloud: true)
     static let unit = Key<GlucoseFormatter.Unit>("unit", default: .mgdl, suite: .shared, iCloud: true)
+    static let showChartLiveActivity = Key<Bool>(.showChartLiveActivity, default: true, suite: .shared, iCloud: true)
 
     static let selectedRange = Key("selectedRange", default: GraphRange.eightHours)
     static let sessionHistory = Key<[DexcomSessionHistoryEntry]>(

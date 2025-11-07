@@ -157,7 +157,8 @@ private struct MinimalReadingView: View {
 private struct MainContentView: View {
     var context: ActivityViewContext<ReadingAttributes>
 
-    @Environment(\.activityFamily) var family
+    @Environment(\.activityFamily) private var family
+    @Default(.showChartLiveActivity) private var showChartLiveActivity
 
     var body: some View {
         switch family {
@@ -190,14 +191,14 @@ private struct MainContentView: View {
                     .font(.largeTitle)
                     .fontDesign(.rounded)
 
-                if family == .medium {
-                    Spacer()
-                }
+                Spacer()
 
                 VStack(alignment: .trailing, spacing: 0) {
                     context.timestamp
-                    if context.state.c != nil, !context.isStale {
-                        Text("Last \(context.attributes.range.abbreviatedName)")
+                    if showChartLiveActivity {
+                        if context.state.c != nil, !context.isStale {
+                            Text("Last \(context.attributes.range.abbreviatedName)")
+                        }
                     }
                 }
                 .font(.caption2.bold())
@@ -206,10 +207,13 @@ private struct MainContentView: View {
                 .multilineTextAlignment(.trailing)
                 .contentTransition(.numericText())
             }
-            .padding([.horizontal, .top], family == .medium ? nil : 10)
+            .padding([.horizontal, .top])
+            .padding(showChartLiveActivity ? [] : .bottom)
 
-            GraphPieceView(context: context)
-                .padding(.vertical, 10)
+            if showChartLiveActivity {
+                GraphPieceView(context: context)
+                    .padding(.vertical, 10)
+            }
         }
     }
 }

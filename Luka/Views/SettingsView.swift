@@ -16,6 +16,7 @@ struct SettingsView: View {
     @Default(.targetRangeLowerBound) private var lowerTargetRange
     @Default(.targetRangeUpperBound) private var upperTargetRange
     @Default(.graphUpperBound) private var upperGraphRange
+    @Default(.showChartLiveActivity) private var showChartLiveActivity
     @Default(.unit) private var unit
     @Default(.sessionHistory) private var sessionHistory
 
@@ -29,6 +30,9 @@ struct SettingsView: View {
                         .tag(GlucoseFormatter.Unit.mmolL)
                 }
                 .pickerStyle(.menu)
+
+                Toggle("Show Graph in Live Activity", isOn: $showChartLiveActivity)
+                    .tint(.accent)
             }
 
             Section("Graphs") {
