@@ -112,7 +112,7 @@ private struct CompactReadingText: View {
     var body: some View {
         WithRange {
             ReadingText(context: context)
-                .fontWeight(.semibold)
+                .fontWeight(.bold)
                 .foregroundStyle((reading?.color(target: $0) ?? .secondary).gradient)
                 .redacted(reason: context.isStale ? .placeholder : [])
         }
@@ -129,7 +129,7 @@ private struct CompactReadingArrow: View {
     var body: some View {
         WithRange {
             reading?.image
-                .fontWeight(.semibold)
+                .fontWeight(.bold)
                 .foregroundStyle((reading?.color(target: $0) ?? .secondary).gradient)
                 .redacted(reason: context.isStale ? .placeholder : [])
         }
