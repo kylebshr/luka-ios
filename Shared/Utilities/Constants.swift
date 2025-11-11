@@ -41,6 +41,6 @@ extension CGFloat {
     static let compactVerticalSpacing = Self.spacing6
 
     static let smallCornerRadius: CGFloat = 10
-    static let defaultCornerRadius: CGFloat = 20
+    static let defaultCornerRadius: CGFloat = 24
     static let sheetCornerRadius: CGFloat = .defaultCornerRadius + 10
 }
