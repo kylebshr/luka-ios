@@ -34,14 +34,14 @@ struct SignInView: View {
         VStack(alignment: .leading) {
             (Text("Welcome to") + Text(" Luka").foregroundStyle(.accent))
             #if os(iOS)
-                .font(.largeTitle.weight(.heavy))
+                .font(.largeTitle.weight(.bold))
                 .padding(.top, 64)
             #else
-                .font(.title2.weight(.heavy))
+                .font(.title2.weight(.bold))
             #endif
 
             #if os(iOS)
-            Text("Exellent widgets and Live Activities for Dexcom continuous glucose monitors.")
+            Text("Excellent widgets and Live Activities for Dexcom continuous glucose monitors.")
                 .foregroundStyle(.secondary)
             #endif
 

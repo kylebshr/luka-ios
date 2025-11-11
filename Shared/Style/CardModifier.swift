@@ -19,10 +19,17 @@ struct CardModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .padding(padding)
-            .background {
-                RoundedRectangle(cornerRadius: .defaultCornerRadius)
-                    .fill(.background.secondary)
-                    .strokeBorder(.quinary, lineWidth: 1)
+            .modifier { view in
+                let shape = RoundedRectangle(cornerRadius: .defaultCornerRadius)
+                if #available(iOS 26, *), #available(watchOS 26, *) {
+                    view.glassEffect(.regular.interactive(), in: shape)
+                } else {
+                    view.background {
+                        shape
+                            .fill(.background.secondary)
+                            .strokeBorder(.quinary, lineWidth: 1)
+                    }
+                }
             }
     }
 }

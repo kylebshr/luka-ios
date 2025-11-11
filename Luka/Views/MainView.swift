@@ -147,10 +147,11 @@ import WidgetKit
                         $0.buttonStyle(.borderedProminent)
                     }
                 }
-                .tint(isActivityActive ? .accent : .clear)
+                .tint(isActivityActive ? .accent : inactiveTintColor)
                 .withReadableWidth()
                 .padding()
                 .frame(maxWidth: .infinity)
+                .buttonBorderShape(.capsule)
             }
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
@@ -198,6 +199,14 @@ import WidgetKit
                 print("Failed to start Live Activity: \(error)")
                 UINotificationFeedbackGenerator().notificationOccurred(.error)
             }
+        }
+    }
+
+    private var inactiveTintColor: Color {
+        if #available(iOS 26, *) {
+            .clear
+        } else {
+            Color(.systemGroupedBackground)
         }
     }
 }

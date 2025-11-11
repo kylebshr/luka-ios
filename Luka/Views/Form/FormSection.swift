@@ -16,6 +16,5 @@ struct FormSection<Content: View>: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .card(padding: .init(.standardPadding / 2))
-        .clipped()
     }
 }
