@@ -32,7 +32,7 @@ struct WidgetGraphView: View {
         case .systemSmall, .systemMedium, .systemLarge:
             return EdgeInsets(
                 top: margins.top,
-                leading: -margins.leading,
+                leading: -margins.leading - 5,
                 bottom: 0,
                 trailing: 0
             )
@@ -47,7 +47,7 @@ struct WidgetGraphView: View {
                 Button(intent: ReloadWidgetIntent()) {
                     HStack(spacing: 5) {
                         ReadingView(reading: data.current)
-                            .fontWeight(.bold)
+                            .fontWeight(.semibold)
 
                         Group {
                             HStack(spacing: 2) {

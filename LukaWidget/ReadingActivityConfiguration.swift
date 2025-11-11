@@ -112,7 +112,7 @@ private struct CompactReadingText: View {
     var body: some View {
         WithRange {
             ReadingText(context: context)
-                .fontWeight(.bold)
+                .fontWeight(.semibold)
                 .foregroundStyle((reading?.color(target: $0) ?? .secondary).gradient)
                 .redacted(reason: context.isStale ? .placeholder : [])
         }
@@ -129,7 +129,7 @@ private struct CompactReadingArrow: View {
     var body: some View {
         WithRange {
             reading?.image
-                .fontWeight(.bold)
+                .fontWeight(.semibold)
                 .foregroundStyle((reading?.color(target: $0) ?? .secondary).gradient)
                 .redacted(reason: context.isStale ? .placeholder : [])
         }
@@ -181,7 +181,7 @@ private struct MainContentView: View {
                 .multilineTextAlignment(.trailing)
                 .minimumScaleFactor(0.5)
         }
-        .padding(.all, watchOS ? 10 : nil)
+        .padding(.all, watchOS ? 5 : nil)
     }
 
     func mediumContentView() -> some View {
@@ -212,7 +212,7 @@ private struct MainContentView: View {
 
             if showChartLiveActivity {
                 GraphPieceView(context: context)
-                    .padding(.vertical, 10)
+                    .padding(.vertical, 5)
             }
         }
     }
@@ -243,7 +243,7 @@ private struct GraphPieceView: View {
         ZStack {
             LineChart(range: context.attributes.range, readings: context.state.h, lineWidth: 15)
                 .blur(radius: 30)
-                .opacity(0.8)
+                .opacity(0.85)
             LineChart(range: context.attributes.range, readings: context.state.h)
                 .padding(.trailing)
         }

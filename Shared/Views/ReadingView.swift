@@ -29,14 +29,15 @@ struct ReadingView: View {
     }
 
     var body: some View {
-        ZStack {
+        HStack(spacing: 0) {
+            Text(text).contentTransition(.numericText(value: Double(reading?.value ?? 0)))
             if let image {
-                Text("\(text) \(image)")
-            } else {
-                Text(text)
+                Text(" ")
+                image
+                    .id(reading?.trend)
+                    .transition(.blurReplace)
             }
         }
-        .contentTransition(.numericText(value: Double(reading?.value ?? 0)))
         .redacted(reason: reading == nil ? .placeholder : [])
         .imageScale(.small)
     }
@@ -59,7 +60,18 @@ struct ReadingView: View {
                 .font(.largeTitle)
 
             Button("Update") {
-                value = GlucoseReading(value: 92, trend: .flat, date: .now)
+                value = GlucoseReading(
+                    value: (80...120).randomElement()!,
+                    trend: [
+                        .flat,
+                        .doubleDown,
+                        .fortyFiveDown,
+                        .doubleDown,
+                        .fortyFiveDown
+                    ].randomElement()!,
+                    date: .now
+                )
             }
         }
+        .animation(.default, value: value)
 }
