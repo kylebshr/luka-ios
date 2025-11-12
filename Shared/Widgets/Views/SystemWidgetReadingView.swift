@@ -14,29 +14,17 @@ struct SystemWidgetReadingView: View {
     let entry: ReadingTimelineProvider.Entry
     let reading: GlucoseReading
 
-    @Environment(\.redactionReasons) private var redactionReasons
-    @Environment(\.widgetContentMargins) private var widgetContentMargins
     @Environment(\.widgetRenderingMode) private var renderingMode
 
     @Default(.targetRangeLowerBound) private var targetLower
     @Default(.targetRangeUpperBound) private var targetUpper
-    @Default(.unit) private var unit
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            HStack(alignment: .firstTextBaseline, spacing: 4) {
-                Text(reading.value.formatted(.glucose(unit)))
-                    .contentTransition(.numericText(value: Double(reading.value)))
-                    .invalidatableContent()
-
-                if redactionReasons.isEmpty {
-                    reading.image
-                        .imageScale(.small)
-                        .contentTransition(.symbolEffect(.replace))
-                }
-            }
-            .font(.system(.largeTitle, design: .rounded))
-            .fontWeight(.regular)
+            ReadingView(reading: reading)
+                .font(.system(.largeTitle, design: .rounded))
+                .fontWeight(.regular)
+                .invalidatableContent()
 
             Spacer(minLength: 0)
 

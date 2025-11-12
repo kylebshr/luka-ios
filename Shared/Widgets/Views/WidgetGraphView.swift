@@ -47,6 +47,7 @@ struct WidgetGraphView: View {
                 Button(intent: ReloadWidgetIntent()) {
                     HStack(spacing: 5) {
                         ReadingView(reading: data.current)
+                            .invalidatableContent()
                             .fontWeight(.semibold)
 
                         Group {
