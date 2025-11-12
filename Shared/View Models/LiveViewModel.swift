@@ -27,7 +27,7 @@ import Defaults
 
     @ObservationIgnored private var timestampTimer: Timer?
     @ObservationIgnored private var timer: Timer?
-    @ObservationIgnored private var client: DexcomClient?
+    @ObservationIgnored private var client: DexcomClientService?
     @ObservationIgnored private let decoder = JSONDecoder()
     @ObservationIgnored private let delegate = DexcomDelegate(source: "app")
 
@@ -58,7 +58,7 @@ import Defaults
 
     func setUpClientAndBeginRefreshing() {
         if let username, let password, let accountLocation {
-            client = DexcomClient(
+            client = DexcomHelper.createService(
                 username: username,
                 password: password,
                 existingAccountID: Keychain.shared.accountID,

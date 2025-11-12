@@ -44,7 +44,7 @@ import Defaults
         password: String,
         accountLocation: AccountLocation
     ) async throws {
-        let client = DexcomClient(
+        let client = DexcomHelper.createService(
             username: username,
             password: password,
             existingAccountID: accountID, 

@@ -52,7 +52,7 @@ struct StartLiveActivityIntent: LiveActivityIntent {
         }
 
         if ActivityAuthorizationInfo().areActivitiesEnabled {
-            let client = DexcomClient(
+            let client = DexcomHelper.createService(
                 username: username,
                 password: password,
                 accountLocation: accountLocation
@@ -143,6 +143,10 @@ struct StartLiveActivityIntent: LiveActivityIntent {
         accountLocation: AccountLocation,
         range: GraphRange
     ) async {
+        guard Keychain.shared.username != DexcomHelper.mockEmail else {
+            return
+        }
+
         let payload = StartLiveActivityRequest(
             pushToken: token,
             environment: .current,

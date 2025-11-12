@@ -18,8 +18,8 @@ protocol DexcomTimelineProvider {
 }
 
 extension DexcomTimelineProvider {
-    func makeClient(username: String, password: String, accountLocation: AccountLocation) -> DexcomClient {
-        let client = DexcomClient(
+    func makeClient(username: String, password: String, accountLocation: AccountLocation) -> DexcomClientService {
+        let client = DexcomHelper.createService(
             username: username,
             password: password,
             existingAccountID: Keychain.shared.accountID,

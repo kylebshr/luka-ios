@@ -81,11 +81,7 @@ extension GlucoseReading {
 }
 
 extension GlucoseReading {
-    static let placeholder = GlucoseReading(
-        value: [GlucoseReading].placeholder.last!.value,
-        trend: .fortyFiveUp,
-        date: [GlucoseReading].placeholder.last!.date
-    )
+    static let placeholder = [GlucoseReading].placeholder.last!
 }
 
 extension [LiveActivityState.Reading] {
@@ -100,70 +96,84 @@ extension [GlucoseReading] {
 
 extension [GlucoseReading] {
     static let placeholder: [GlucoseReading] = {
-        // Generate 24 hours of data (readings every 5 minutes)
-        let readingsCount = 24 * 60 / 5
-        var readings: [GlucoseReading] = []
+        // Real glucose data from 24 hours of readings
+        // Values and trends from actual Dexcom readings
+        let realData: [(value: Int, trend: TrendDirection)] = [
+            (100, .flat), (104, .flat), (110, .flat), (122, .fortyFiveUp), (129, .fortyFiveUp),
+            (131, .flat), (134, .flat), (132, .flat), (134, .flat), (149, .fortyFiveUp),
+            (159, .fortyFiveUp), (155, .flat), (149, .flat), (146, .flat), (131, .fortyFiveDown),
+            (125, .fortyFiveDown), (118, .fortyFiveDown), (117, .flat), (112, .flat), (109, .flat),
+            (110, .flat), (112, .flat), (128, .flat), (140, .fortyFiveUp), (128, .flat),
+            (104, .fortyFiveDown), (89, .fortyFiveDown), (79, .fortyFiveDown), (70, .fortyFiveDown), (68, .fortyFiveDown),
+            (71, .fortyFiveDown), (88, .flat), (95, .flat), (105, .fortyFiveUp), (103, .flat),
+            (106, .flat), (115, .flat), (118, .flat), (118, .flat), (126, .flat),
+            (138, .fortyFiveUp), (137, .flat), (130, .flat), (118, .flat), (110, .flat),
+            (101, .flat), (101, .flat), (99, .flat), (87, .flat), (74, .fortyFiveDown),
+            (79, .flat), (81, .flat), (89, .flat), (86, .flat), (99, .flat),
+            (109, .fortyFiveUp), (110, .flat), (124, .fortyFiveUp), (131, .fortyFiveUp), (130, .flat),
+            (123, .flat), (117, .flat), (118, .flat), (115, .flat), (111, .flat),
+            (116, .flat), (116, .flat), (114, .flat), (114, .flat), (114, .flat),
+            (116, .flat), (113, .flat), (106, .flat), (104, .flat), (101, .flat),
+            (101, .flat), (105, .flat), (104, .flat), (110, .flat), (116, .flat),
+            (124, .flat), (142, .fortyFiveUp), (133, .flat), (137, .flat), (142, .flat),
+            (149, .flat), (154, .flat), (152, .flat), (144, .flat), (140, .flat),
+            (139, .flat), (139, .flat), (139, .flat), (138, .flat), (138, .flat),
+            (140, .flat), (140, .flat), (141, .flat), (139, .flat), (139, .flat),
+            (139, .flat), (138, .flat), (143, .flat), (144, .flat), (152, .flat),
+            (164, .fortyFiveUp), (170, .fortyFiveUp), (179, .fortyFiveUp), (184, .fortyFiveUp), (181, .flat),
+            (193, .flat), (205, .fortyFiveUp), (210, .fortyFiveUp), (220, .fortyFiveUp), (223, .fortyFiveUp),
+            (218, .flat), (220, .flat), (243, .fortyFiveUp), (248, .fortyFiveUp), (240, .flat),
+            (239, .flat), (237, .flat), (234, .flat), (230, .flat), (236, .flat),
+            (234, .flat), (232, .flat), (231, .flat), (224, .flat), (218, .flat),
+            (217, .flat), (217, .flat), (193, .fortyFiveDown), (190, .fortyFiveDown), (205, .flat),
+            (216, .flat), (215, .flat), (211, .flat), (193, .fortyFiveDown), (185, .fortyFiveDown),
+            (181, .flat), (177, .flat), (179, .flat), (169, .flat), (164, .flat),
+            (156, .fortyFiveDown), (167, .flat), (185, .flat), (176, .flat), (167, .flat),
+            (169, .flat), (171, .flat), (170, .flat), (172, .flat), (179, .flat),
+            (184, .flat), (186, .flat), (181, .flat), (176, .flat), (170, .flat),
+            (157, .fortyFiveDown), (162, .flat), (162, .flat), (172, .flat), (171, .flat),
+            (174, .flat), (174, .flat), (173, .flat), (178, .flat), (168, .flat),
+            (165, .flat), (158, .flat), (159, .flat), (172, .flat), (178, .fortyFiveUp),
+            (173, .flat), (175, .flat), (157, .flat), (152, .fortyFiveDown), (163, .flat),
+            (169, .flat), (151, .flat), (136, .fortyFiveDown), (141, .flat), (144, .flat),
+            (145, .flat), (162, .flat), (169, .fortyFiveUp), (165, .flat), (168, .flat),
+            (171, .flat), (158, .flat), (156, .flat), (160, .flat), (161, .flat),
+            (162, .flat), (162, .flat), (170, .flat), (177, .flat), (168, .flat),
+            (173, .flat), (184, .flat), (192, .flat), (192, .flat), (189, .flat),
+            (193, .flat), (196, .flat), (198, .flat), (199, .flat), (201, .flat),
+            (195, .fortyFiveDown), (189, .fortyFiveDown), (183, .fortyFiveDown), (177, .fortyFiveDown), (171, .fortyFiveDown),
+            (165, .fortyFiveDown), (159, .fortyFiveDown), (153, .fortyFiveDown), (147, .fortyFiveDown), (141, .fortyFiveDown),
+            (135, .fortyFiveDown), (129, .fortyFiveDown), (123, .fortyFiveDown), (120, .flat), (118, .flat),
+            (117, .flat), (119, .flat), (121, .flat), (122, .fortyFiveUp), (126, .flat),
+            (131, .flat), (125, .flat), (120, .flat), (117, .flat), (119, .flat),
+            (121, .flat), (117, .flat), (114, .flat), (106, .flat), (112, .flat),
+            (118, .flat), (112, .flat), (111, .flat), (115, .flat), (113, .flat),
+            (112, .flat), (110, .flat), (110, .flat), (101, .flat), (110, .flat),
+            (113, .flat), (111, .flat), (110, .flat), (109, .flat), (99, .flat),
+            (93, .flat), (94, .flat), (95, .flat), (102, .flat), (100, .flat),
+            (94, .flat), (93, .flat), (89, .flat), (86, .flat), (98, .flat),
+            (99, .flat), (92, .flat), (92, .flat), (101, .flat), (103, .flat),
+            (104, .flat), (104, .flat), (100, .flat), (95, .flat), (95, .flat),
+            (84, .flat), (73, .fortyFiveDown), (85, .flat), (92, .flat), (86, .flat),
+            (85, .flat), (84, .flat), (84, .flat), (90, .flat), (91, .flat),
+            (86, .flat), (87, .flat), (94, .flat), (95, .flat), (95, .flat),
+            (101, .flat), (117, .fortyFiveUp), (133, .fortyFiveUp)
+        ]
 
-        for i in 0..<readingsCount {
-            let minutesAgo = i * 5
-            let hoursAgo = Double(minutesAgo) / 60.0
+        // Create readings with timestamps relative to now
+        // Each reading is 5 minutes apart, working backwards from most recent
+        var readings: [GlucoseReading] = []
+        for (index, data) in realData.enumerated() {
+            let minutesAgo = (realData.count - 1 - index) * 5
             let date = Date.now.addingTimeInterval(Double(-minutesAgo * 60))
 
-            // Base glucose level around 100-120
-            var value = 110.0
-
-            // Add daily rhythm (lower at night, higher during day)
-            let hourOfDay = (24.0 - hoursAgo).truncatingRemainder(dividingBy: 24.0)
-            value += sin((hourOfDay - 6) * .pi / 12) * 20  // Peak at noon, lowest at midnight
-
-            // Simulate meal spikes (breakfast ~8am, lunch ~12pm, dinner ~6pm)
-            if (hourOfDay > 7.5 && hourOfDay < 9.5) {    // Breakfast
-                let mealProgress = sin((hourOfDay - 7.5) * .pi)
-                value += mealProgress * 80  // Bigger spike for breakfast
-            } else if (hourOfDay > 11.5 && hourOfDay < 13.5) {  // Lunch
-                let mealProgress = sin((hourOfDay - 11.5) * .pi)
-                value += mealProgress * 100  // Large spike for lunch
-            } else if (hourOfDay > 17.5 && hourOfDay < 19.5) {   // Dinner
-                let mealProgress = sin((hourOfDay - 17.5) * .pi)
-                value += mealProgress * 90  // Large spike for dinner
-            }
-
-            // Simulate hypoglycemic episodes (low blood sugar)
-            if (hourOfDay > 2 && hourOfDay < 3) ||    // Early morning low
-               (hourOfDay > 15 && hourOfDay < 16) {   // Afternoon low
-                let lowProgress = sin((hourOfDay - 2) * .pi)
-                value -= abs(lowProgress) * 50  // Drop to 60-70 range
-            }
-
-            // Add more aggressive random variation
-            value += Double.random(in: -3...3)
-
-            // Allow wider range (40-280) for more realistic extremes
-            value = Swift.max(40, Swift.min(280, value))
-
-            // Determine trend based on previous value
-            let prevValue = readings.last?.value ?? Int(value)
-            let diff = Int(value) - prevValue
-            let trend: TrendDirection = if i > 0 && i < readingsCount - 1 {
-                switch diff {
-                case ..<(-10): TrendDirection.singleDown
-                case -10..<(-2): .fortyFiveDown
-                case -2...2: .flat
-                case 3...10: .fortyFiveUp
-                case 11...: .singleUp
-                default: .flat
-                }
-            } else {
-                .flat
-            }
-
             readings.append(GlucoseReading(
-                value: Int(value),
-                trend: trend,
+                value: data.value,
+                trend: data.trend,
                 date: date
             ))
         }
 
-        return readings.reversed()
+        return readings
     }()
 }
