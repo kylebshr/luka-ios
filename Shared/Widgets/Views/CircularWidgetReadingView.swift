@@ -41,7 +41,6 @@ struct CircularWidgetView : View {
             currentValueLabel: {
                 VStack(spacing: watchOS ? -4 : -2) {
                     Text(redactionReasons.isEmpty ? reading.value.formatted(.glucose(unit)) : "80")
-                        .contentTransition(.numericText(value: Double(reading.value)))
                         .minimumScaleFactor(0.5)
                         .fontWeight(.bold)
                         .invalidatableContent()
@@ -52,7 +51,6 @@ struct CircularWidgetView : View {
                             ? .system(size: 10, design: .rounded).bold()
                             : .footnote
                         )
-                        .contentTransition(.numericText(value: reading.date.timeIntervalSinceNow))
                         .foregroundStyle(.secondary)
                         .fontWeight(.bold)
                         .fontDesign(.rounded)

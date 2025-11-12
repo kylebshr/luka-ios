@@ -83,6 +83,7 @@ struct StartLiveActivityIntent: LiveActivityIntent {
 
                 observeActivityUpdates(
                     for: activity,
+                    username: username,
                     accountID: accountID,
                     sessionID: sessionID,
                     accountLocation: accountLocation,
@@ -101,6 +102,7 @@ struct StartLiveActivityIntent: LiveActivityIntent {
 
     private func observeActivityUpdates(
         for activity: Activity<ReadingAttributes>,
+        username: String,
         accountID: UUID,
         sessionID: UUID,
         accountLocation: AccountLocation,
@@ -127,6 +129,7 @@ struct StartLiveActivityIntent: LiveActivityIntent {
                 let token = token.map { String(format: "%02x", $0) }.joined()
                 await sendStartLiveActivity(
                     token: token,
+                    username: username,
                     accountID: accountID,
                     sessionID: sessionID,
                     accountLocation: accountLocation,
@@ -138,12 +141,13 @@ struct StartLiveActivityIntent: LiveActivityIntent {
 
     private func sendStartLiveActivity(
         token: String,
+        username: String,
         accountID: UUID,
         sessionID: UUID,
         accountLocation: AccountLocation,
         range: GraphRange
     ) async {
-        guard Keychain.shared.username != DexcomHelper.mockEmail else {
+        guard username != DexcomHelper.mockEmail else {
             return
         }
 
