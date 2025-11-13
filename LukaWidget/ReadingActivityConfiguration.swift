@@ -181,6 +181,7 @@ private struct MainContentView: View {
                 .multilineTextAlignment(.trailing)
                 .minimumScaleFactor(0.5)
         }
+        .padding(8)
     }
 
     func mediumContentView() -> some View {
