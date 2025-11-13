@@ -181,7 +181,7 @@ private struct MainContentView: View {
                 .multilineTextAlignment(.trailing)
                 .minimumScaleFactor(0.5)
         }
-        .padding(.all, watchOS ? 5 : nil)
+        .padding(watchOS ? [] : .all)
     }
 
     func mediumContentView() -> some View {
