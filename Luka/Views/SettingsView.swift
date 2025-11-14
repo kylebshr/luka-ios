@@ -105,12 +105,14 @@ private struct GraphSliderView: View {
     @Binding var currentValue: Double
     var range: ClosedRange<Double>
 
+    @Default(.unit) private var unit
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Text(title)
                 Spacer()
-                Text(currentValue.formatted())
+                Text(Int(currentValue).formatted(.glucose(unit)))
             }
 
             Slider(
