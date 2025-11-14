@@ -57,7 +57,11 @@ struct ReadingActivityConfiguration: Widget {
             } compactTrailing: {
                 CompactReadingArrow(context: context)
             } minimal: {
-                MinimalReadingView(context: context)
+                HStack(spacing: 0) {
+                    MinimalReadingView(context: context)
+                    CompactReadingArrow(context: context)
+                        .imageScale(.small)
+                }
             }
             .keylineTint(context.state.c?.color(target: targetLower...targetUpper))
         }
@@ -181,7 +185,7 @@ private struct MainContentView: View {
                 .multilineTextAlignment(.trailing)
                 .minimumScaleFactor(0.5)
         }
-        .padding(8)
+        .padding(10)
     }
 
     func mediumContentView() -> some View {
