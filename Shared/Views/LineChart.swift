@@ -94,7 +94,7 @@ struct LineChart: View {
                     y: .value("Glucose", clampedValue)
                 )
                 .foregroundStyle(colorForValue(Int(selectedReading.v)))
-                .symbolSize(25)
+                .symbolSize(40)
             } else if let lastReading = filteredReadings.last, Date.now.timeIntervalSince(lastReading.t) < 7 * 60 {
                 let clampedValue = useFullYRange ? min(lastReading.v, Int16(graphUpperBound)) : lastReading.v
 
