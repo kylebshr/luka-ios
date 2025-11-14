@@ -61,6 +61,7 @@ struct ReadingActivityConfiguration: Widget {
                     MinimalReadingView(context: context)
                     CompactReadingArrow(context: context)
                         .imageScale(.small)
+                        .font(.caption2)
                 }
             }
             .keylineTint(context.state.c?.color(target: targetLower...targetUpper))
