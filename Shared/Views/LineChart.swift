@@ -14,6 +14,7 @@ struct LineChart: View {
     @Default(.targetRangeLowerBound) var lowerBound
     @Default(.targetRangeUpperBound) var upperBound
     @Default(.graphUpperBound) var graphUpperBound
+    @Default(.unit) var unit
 
     var range: GraphRange
     var readings: [LiveActivityState.Reading]
@@ -134,23 +135,29 @@ struct LineChart: View {
 
                 AxisMarks(values: rangeMarks) { value in
                     AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 2]))
-                    AxisValueLabel(collisionResolution: .greedy(priority: 50))
+                    AxisValueLabel(
+                        format: GlucoseFormatter(unit: unit),
+                        collisionResolution: .greedy(priority: 50)
+                    )
                 }
 
-                let boundaryMarks = [0, Int(graphUpperBound)].filter {
-                    yScaleRange.contains($0)
-                }
-
+                let boundaryMarks = [yScaleRange.lowerBound, yScaleRange.upperBound]
                 AxisMarks(values: boundaryMarks) { value in
                     AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 2]))
-                    AxisValueLabel(collisionResolution: .greedy(priority: 50))
+                    AxisValueLabel(
+                        format: GlucoseFormatter(unit: unit),
+                        collisionResolution: .greedy(priority: 50)
+                    )
                 }
 
                 if yScaleRange.contains(55) {
                     AxisMarks(values: [55]) { value in
                         AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 2]))
                             .foregroundStyle(Color.lowColor.secondary)
-                        AxisValueLabel(collisionResolution: .greedy(priority: 100))
+                        AxisValueLabel(
+                            format: GlucoseFormatter(unit: unit),
+                            collisionResolution: .greedy(priority: 100)
+                        )
                     }
                 }
             }
