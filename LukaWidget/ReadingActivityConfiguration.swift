@@ -57,11 +57,15 @@ struct ReadingActivityConfiguration: Widget {
             } compactTrailing: {
                 CompactReadingArrow(context: context)
             } minimal: {
-                HStack(spacing: 0) {
+                ViewThatFits {
+                    HStack(spacing: 0) {
+                        MinimalReadingView(context: context)
+                        CompactReadingArrow(context: context)
+                            .imageScale(.small)
+                            .font(.caption2)
+                    }
+
                     MinimalReadingView(context: context)
-                    CompactReadingArrow(context: context)
-                        .imageScale(.small)
-                        .font(.caption2)
                 }
             }
             .keylineTint(context.state.c?.color(target: targetLower...targetUpper))
