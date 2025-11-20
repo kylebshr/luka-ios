@@ -62,6 +62,15 @@ struct SettingsView: View {
             }
 
             Section {
+                Link(
+                    "Contact Support",
+                    destination: URL(string: "mailto:kylebshr@me.com")!
+                )
+                .frame(maxWidth: .infinity)
+                .fontWeight(.semibold)
+            }
+
+            Section {
                 Button {
                     viewModel.signOut()
                 } label: {

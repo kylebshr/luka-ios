@@ -7,6 +7,7 @@
 
 import SwiftUI
 import WidgetKit
+import TelemetryDeck
 
 @main
 struct LukaApp: App {
@@ -14,6 +15,11 @@ struct LukaApp: App {
     @Environment(\.scenePhase) private var scenePhase
 
     @State private var viewModel = RootViewModel()
+
+    init() {
+        let config = TelemetryDeck.Config(appID: "7C1E8E40-73DE-4BC4-BDBF-705218647D91")
+        TelemetryDeck.initialize(config: config)
+    }
 
     var body: some Scene {
         WindowGroup {

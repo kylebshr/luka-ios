@@ -191,7 +191,7 @@ import WidgetKit
             defer { isActivityLoading = false }
 
             // Start a new Live Activity using the Intent
-            let intent = StartLiveActivityIntent()
+            let intent = StartLiveActivityIntent(source: "App")
             do {
                 _ = try await intent.perform()
                 UINotificationFeedbackGenerator().notificationOccurred(.success)

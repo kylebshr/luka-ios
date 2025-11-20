@@ -7,6 +7,7 @@
 
 import AppIntents
 import ActivityKit
+import TelemetryDeck
 
 struct EndLiveActivityIntent: LiveActivityIntent {
     static var title: LocalizedStringResource = "End Live Activity"
@@ -19,6 +20,7 @@ struct EndLiveActivityIntent: LiveActivityIntent {
             await activity.end(nil, dismissalPolicy: .immediate)
         }
 
+        TelemetryDeck.signal("LiveActivity.end")
         return .result()
     }
 }

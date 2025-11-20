@@ -20,6 +20,7 @@
 		2741EA282BD8AF08003EDEB2 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2741EA272BD8AF08003EDEB2 /* WidgetKit.framework */; };
 		2741EA2A2BD8AF08003EDEB2 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2741EA292BD8AF08003EDEB2 /* SwiftUI.framework */; };
 		2741EA352BD8AF0A003EDEB2 /* WatchWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2741EA252BD8AF08003EDEB2 /* WatchWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		27834B8A2ECF81A70096D201 /* TelemetryDeck in Frameworks */ = {isa = PBXBuildFile; productRef = 27834B892ECF81A70096D201 /* TelemetryDeck */; };
 		27C6E25F2BCF386E006BAE98 /* Dexcom in Frameworks */ = {isa = PBXBuildFile; productRef = 27C6E25E2BCF386E006BAE98 /* Dexcom */; };
 		27C6E2622BCF387A006BAE98 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 27C6E2612BCF387A006BAE98 /* KeychainAccess */; };
 		27DB8CB72E9DE3C0005B8087 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 27DB8CB62E9DE3C0005B8087 /* Defaults */; };
@@ -291,6 +292,7 @@
 				27DB8CB72E9DE3C0005B8087 /* Defaults in Frameworks */,
 				27C6E2622BCF387A006BAE98 /* KeychainAccess in Frameworks */,
 				27DB9A012EA2048C005B8087 /* ActivityKit.framework in Frameworks */,
+				27834B8A2ECF81A70096D201 /* TelemetryDeck in Frameworks */,
 				27C6E25F2BCF386E006BAE98 /* Dexcom in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -436,6 +438,7 @@
 				27C6E25E2BCF386E006BAE98 /* Dexcom */,
 				27C6E2612BCF387A006BAE98 /* KeychainAccess */,
 				27DB8CB62E9DE3C0005B8087 /* Defaults */,
+				27834B892ECF81A70096D201 /* TelemetryDeck */,
 			);
 			productName = Glimpse;
 			productReference = 27F577672BCF38330012D66C /* Luka.app */;
@@ -478,6 +481,7 @@
 				27C6E25D2BCF386E006BAE98 /* XCRemoteSwiftPackageReference "dexcom-swift" */,
 				27C6E2602BCF387A006BAE98 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 				27DB8CB52E9DE3C0005B8087 /* XCRemoteSwiftPackageReference "Defaults" */,
+				27834B882ECF81A70096D201 /* XCRemoteSwiftPackageReference "SwiftSDK" */,
 			);
 			productRefGroup = 27F577682BCF38330012D66C /* Products */;
 			projectDirPath = "";
@@ -978,6 +982,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		27834B882ECF81A70096D201 /* XCRemoteSwiftPackageReference "SwiftSDK" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/TelemetryDeck/SwiftSDK";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.9.10;
+			};
+		};
 		27C6E25D2BCF386E006BAE98 /* XCRemoteSwiftPackageReference "dexcom-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kylebshr/dexcom-swift";
@@ -1034,6 +1046,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 27C6E2602BCF387A006BAE98 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
 			productName = KeychainAccess;
+		};
+		27834B892ECF81A70096D201 /* TelemetryDeck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 27834B882ECF81A70096D201 /* XCRemoteSwiftPackageReference "SwiftSDK" */;
+			productName = TelemetryDeck;
 		};
 		27C6E25E2BCF386E006BAE98 /* Dexcom */ = {
 			isa = XCSwiftPackageProductDependency;

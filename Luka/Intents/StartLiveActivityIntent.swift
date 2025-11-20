@@ -11,6 +11,7 @@ import KeychainAccess
 import AppIntents
 import ActivityKit
 @preconcurrency import Dexcom
+import TelemetryDeck
 
 extension DexcomError: @retroactive CustomLocalizedStringResourceConvertible {
     public var localizedStringResource: LocalizedStringResource {
@@ -40,7 +41,13 @@ struct StartLiveActivityIntent: LiveActivityIntent {
     private var password = Keychain.shared.password
     private var accountLocation: AccountLocation? = Defaults[.accountLocation]
 
+    private var source: String = "none"
+
     init() {}
+
+    init(source: String) {
+        self.source = source
+    }
 
     func perform() async throws -> some IntentResult {
         guard let username, let password, let accountLocation else {
@@ -88,6 +95,11 @@ struct StartLiveActivityIntent: LiveActivityIntent {
                     sessionID: sessionID,
                     accountLocation: accountLocation,
                     range: range
+                )
+
+                TelemetryDeck.signal(
+                    "LiveActivity.started",
+                    parameters: ["source": source]
                 )
 
                 return .result()
@@ -170,9 +182,9 @@ struct StartLiveActivityIntent: LiveActivityIntent {
 
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
-            print(data, response)
+            TelemetryDeck.signal("LiveActivity.sentToken")
         } catch {
-            print(error)
+            TelemetryDeck.signal("LiveActivity.failedToSendToken")
         }
     }
 
@@ -189,9 +201,9 @@ struct StartLiveActivityIntent: LiveActivityIntent {
 
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
-            print(data, response)
+            TelemetryDeck.signal("LiveActivity.sentEnd")
         } catch {
-            print(error)
+            TelemetryDeck.signal("LiveActivity.failedToSendEnd")
         }
     }
 }

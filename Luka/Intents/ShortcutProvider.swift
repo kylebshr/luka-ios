@@ -12,7 +12,7 @@ extension LukaApp: AppShortcutsProvider {
 
     static var appShortcuts: [AppShortcut] {
         AppShortcut(
-            intent: StartLiveActivityIntent(),
+            intent: StartLiveActivityIntent(source: "Shortcut"),
             phrases: [
                 "Monitor glucose levels with \(.applicationName)",
                 "\(.applicationName) live activity",
