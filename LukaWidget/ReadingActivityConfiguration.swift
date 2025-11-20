@@ -221,7 +221,7 @@ private struct MainContentView: View {
 
             if showChartLiveActivity {
                 GraphPieceView(context: context)
-                    .padding(.vertical, 5)
+                    .padding(.vertical, 10)
             }
         }
     }
