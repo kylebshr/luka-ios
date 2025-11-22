@@ -21,51 +21,86 @@ struct ReadingActivityConfiguration: Widget {
         ActivityConfiguration(for: ReadingAttributes.self) { context in
             MainContentView(context: context)
         } dynamicIsland: { context in
-            DynamicIsland {
+            let sessionExpired = context.state.se == true
+            return DynamicIsland {
                 DynamicIslandExpandedRegion(.center) {
-                    HStack(spacing: 0) {
-                        context.timestamp
-                        if !context.isStale {
-                            Text(" • Last \(context.attributes.range.abbreviatedName)")
+                    if sessionExpired {
+                        HStack {
+                            Text("Session expired")
+                            Spacer()
+                            Button(
+                                "Renew",
+                                systemImage: "arrow.clockwise",
+                                intent: StartLiveActivityIntent(source: "LiveActivity")
+                            )
                         }
+                        .fontWeight(.medium)
+                    } else {
+                        HStack(spacing: 0) {
+                            context.timestamp
+                            if !context.isStale {
+                                Text(" • Last \(context.attributes.range.abbreviatedName)")
+                            }
+                        }
+                        .font(.caption2.bold())
+                        .textCase(.uppercase)
+                        .foregroundStyle(.secondary)
                     }
-                    .font(.caption2.bold())
-                    .textCase(.uppercase)
-                    .foregroundStyle(.secondary)
                 }
 
                 DynamicIslandExpandedRegion(.bottom) {
-                    GraphPieceView(context: context)
-                        .padding(.bottom, 10)
+                    if !sessionExpired {
+                        GraphPieceView(context: context)
+                            .padding(.bottom, 10)
+                    }
                 }
 
                 DynamicIslandExpandedRegion(.leading) {
-                    ReadingText(context: context)
-                        .font(.largeTitle)
-                        .fontDesign(.rounded)
+                    if !sessionExpired {
+                        ReadingText(context: context)
+                            .font(.largeTitle)
+                            .fontDesign(.rounded)
+                    }
                 }
                 .contentMargins([.leading, .top, .trailing], 20)
 
                 DynamicIslandExpandedRegion(.trailing) {
-                    ReadingArrow(context: context)
-                        .font(.largeTitle)
+                    if !sessionExpired {
+                        ReadingArrow(context: context)
+                            .font(.largeTitle)
+                    }
                 }
                 .contentMargins([.leading, .top, .trailing], 20)
 
             } compactLeading: {
-                CompactReadingText(context: context)
+                if sessionExpired {
+                    Image(systemName: "person.slash")
+                        .fontWeight(.bold)
+                } else {
+                    CompactReadingText(context: context)
+                }
             } compactTrailing: {
-                CompactReadingArrow(context: context)
+                if sessionExpired {
+                    Image(systemName: "arrow.clockwise")
+                        .fontWeight(.bold)
+                } else {
+                    CompactReadingArrow(context: context)
+                }
             } minimal: {
-                ViewThatFits {
-                    HStack(spacing: 0) {
-                        MinimalReadingView(context: context)
-                        CompactReadingArrow(context: context)
-                            .imageScale(.small)
-                            .font(.caption2)
-                    }
+                if sessionExpired {
+                    Image(systemName: "user.slash")
+                        .fontWeight(.bold)
+                } else {
+                    ViewThatFits {
+                        HStack(spacing: 0) {
+                            MinimalReadingView(context: context)
+                            CompactReadingArrow(context: context)
+                                .imageScale(.small)
+                                .font(.caption2)
+                        }
 
-                    MinimalReadingView(context: context)
+                        MinimalReadingView(context: context)
+                    }
                 }
             }
             .keylineTint(context.state.c?.color(target: targetLower...targetUpper))
@@ -177,53 +212,86 @@ private struct MainContentView: View {
         }
     }
 
-    func smallContentView() -> some View {
-        HStack(spacing: 0) {
-            ReadingView(reading: context.state.c)
-                .font(.title.weight(.regular))
+    @ViewBuilder func smallContentView() -> some View {
+        if context.state.se == true {
+            smallExpiredView()
+        } else {
+            HStack(spacing: 0) {
+                ReadingView(reading: context.state.c)
+                    .font(.title.weight(.regular))
 
-            Spacer(minLength: 0)
+                Spacer(minLength: 0)
 
-            context.timestamp
-                .lineLimit(2)
-                .font(.caption2.weight(.medium))
-                .multilineTextAlignment(.trailing)
-                .minimumScaleFactor(0.5)
+                context.timestamp
+                    .lineLimit(2)
+                    .font(.caption2.weight(.medium))
+                    .multilineTextAlignment(.trailing)
+                    .minimumScaleFactor(0.5)
+            }
+            .padding(10)
         }
-        .padding(10)
     }
 
-    func mediumContentView() -> some View {
-        VStack(spacing: 0) {
-            HStack {
-                ReadingView(reading: context.state.c)
-                    .font(.largeTitle)
-                    .fontDesign(.rounded)
+    @ViewBuilder func mediumContentView() -> some View {
+        if context.state.se == true {
+            mediumExpiredView()
+        } else {
+            VStack(spacing: 0) {
+                HStack {
+                    ReadingView(reading: context.state.c)
+                        .font(.largeTitle)
+                        .fontDesign(.rounded)
 
-                Spacer()
+                    Spacer()
 
-                VStack(alignment: .trailing, spacing: 0) {
-                    context.timestamp
-                    if showChartLiveActivity {
-                        if context.state.c != nil, !context.isStale {
-                            Text("Last \(context.attributes.range.abbreviatedName)")
+                    VStack(alignment: .trailing, spacing: 0) {
+                        context.timestamp
+                        if showChartLiveActivity {
+                            if context.state.c != nil, !context.isStale {
+                                Text("Last \(context.attributes.range.abbreviatedName)")
+                            }
                         }
                     }
+                    .font(.caption2.bold())
+                    .textCase(.uppercase)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.trailing)
+                    .contentTransition(.numericText())
                 }
-                .font(.caption2.bold())
-                .textCase(.uppercase)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.trailing)
-                .contentTransition(.numericText())
-            }
-            .padding([.horizontal, .top])
-            .padding(showChartLiveActivity ? [] : .bottom)
+                .padding([.horizontal, .top])
+                .padding(showChartLiveActivity ? [] : .bottom)
 
-            if showChartLiveActivity {
-                GraphPieceView(context: context)
-                    .padding(.vertical, 10)
+                if showChartLiveActivity {
+                    GraphPieceView(context: context)
+                        .padding(.top, 10)
+                        .padding(.bottom)
+                }
             }
         }
+    }
+
+    func mediumExpiredView() -> some View {
+        HStack {
+            Text("Session expired")
+            Spacer()
+            Button(
+                "Renew",
+                systemImage: "arrow.clockwise",
+                intent: StartLiveActivityIntent(source: "LiveActivity")
+            )
+        }
+        .fontWeight(.medium)
+        .padding()
+    }
+
+    func smallExpiredView() -> some View {
+        Button(
+            "Renew Session",
+            intent: StartLiveActivityIntent(source: "LiveActivity")
+        )
+        .fontWeight(.medium)
+        .multilineTextAlignment(.center)
+        .padding(10)
     }
 }
 
@@ -282,22 +350,26 @@ private extension ActivityViewContext<ReadingAttributes> {
     ReadingActivityConfiguration()
 } contentStates: {
     LiveActivityState(c: .placeholder, h: .placeholder)
+    LiveActivityState(h: [], se: true)
 }
 
 #Preview(as: .dynamicIsland(.compact), using: ReadingAttributes(range: .threeHours)) {
     ReadingActivityConfiguration()
 } contentStates: {
     LiveActivityState(c: .placeholder, h: .placeholder)
+    LiveActivityState(h: [], se: true)
 }
 
 #Preview(as: .dynamicIsland(.minimal), using: ReadingAttributes(range: .threeHours)) {
     ReadingActivityConfiguration()
 } contentStates: {
     LiveActivityState(c: .placeholder, h: .placeholder)
+    LiveActivityState(h: [], se: true)
 }
 
 #Preview(as: .content, using: ReadingAttributes(range: .threeHours)) {
     ReadingActivityConfiguration()
 } contentStates: {
     LiveActivityState(c: .placeholder, h: .placeholder)
+    LiveActivityState(h: [], se: true)
 }

@@ -21,6 +21,7 @@
 		2741EA2A2BD8AF08003EDEB2 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2741EA292BD8AF08003EDEB2 /* SwiftUI.framework */; };
 		2741EA352BD8AF0A003EDEB2 /* WatchWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2741EA252BD8AF08003EDEB2 /* WatchWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		27834B8A2ECF81A70096D201 /* TelemetryDeck in Frameworks */ = {isa = PBXBuildFile; productRef = 27834B892ECF81A70096D201 /* TelemetryDeck */; };
+		27BA04A52ED239210096F131 /* TelemetryDeck in Frameworks */ = {isa = PBXBuildFile; productRef = 27BA04A42ED239210096F131 /* TelemetryDeck */; };
 		27C6E25F2BCF386E006BAE98 /* Dexcom in Frameworks */ = {isa = PBXBuildFile; productRef = 27C6E25E2BCF386E006BAE98 /* Dexcom */; };
 		27C6E2622BCF387A006BAE98 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 27C6E2612BCF387A006BAE98 /* KeychainAccess */; };
 		27DB8CB72E9DE3C0005B8087 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 27DB8CB62E9DE3C0005B8087 /* Defaults */; };
@@ -102,6 +103,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		27BA04A32ED238BD0096F131 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Intents/StartLiveActivityIntent.swift,
+				Intents/StopLiveActivityIntent.swift,
+			);
+			target = 2703324C2BD99E90009535EE /* LukaWidget */;
+		};
 		27DB99BC2EA203D4005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -243,7 +252,7 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		27DB994A2EA203D4005B8087 /* Shared */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (27DB99BC2EA203D4005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 27DB99BD2EA203D4005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 27DB99BE2EA203D4005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 27DB99BF2EA203D4005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Shared; sourceTree = "<group>"; };
-		27DB99D12EA203DC005B8087 /* Luka */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (27DB99E62EA203DC005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 27DB99E72EA203DC005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Luka; sourceTree = "<group>"; };
+		27DB99D12EA203DC005B8087 /* Luka */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (27DB99E62EA203DC005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 27BA04A32ED238BD0096F131 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 27DB99E72EA203DC005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Luka; sourceTree = "<group>"; };
 		27DB99EC2EA203E0005B8087 /* LukaWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (27DB99EF2EA203E0005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = LukaWidget; sourceTree = "<group>"; };
 		27DB99F52EA203E2005B8087 /* Watch */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Watch; sourceTree = "<group>"; };
 		27DB99FD2EA203E4005B8087 /* WatchWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (27DB99FF2EA203E4005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = WatchWidget; sourceTree = "<group>"; };
@@ -259,6 +268,7 @@
 				2703324F2BD99E90009535EE /* SwiftUI.framework in Frameworks */,
 				2703324E2BD99E90009535EE /* WidgetKit.framework in Frameworks */,
 				270332632BD9A09F009535EE /* Dexcom in Frameworks */,
+				27BA04A52ED239210096F131 /* TelemetryDeck in Frameworks */,
 				27DB8CBD2E9DE40E005B8087 /* Defaults in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -357,6 +367,7 @@
 				270332622BD9A09F009535EE /* Dexcom */,
 				270332642BD9A09F009535EE /* KeychainAccess */,
 				27DB8CBC2E9DE40E005B8087 /* Defaults */,
+				27BA04A42ED239210096F131 /* TelemetryDeck */,
 			);
 			productName = GlimpseWidgetExtension;
 			productReference = 2703324D2BD99E90009535EE /* LukaWidget.appex */;
@@ -1048,6 +1059,11 @@
 			productName = KeychainAccess;
 		};
 		27834B892ECF81A70096D201 /* TelemetryDeck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 27834B882ECF81A70096D201 /* XCRemoteSwiftPackageReference "SwiftSDK" */;
+			productName = TelemetryDeck;
+		};
+		27BA04A42ED239210096F131 /* TelemetryDeck */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 27834B882ECF81A70096D201 /* XCRemoteSwiftPackageReference "SwiftSDK" */;
 			productName = TelemetryDeck;
