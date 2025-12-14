@@ -21,86 +21,51 @@ struct ReadingActivityConfiguration: Widget {
         ActivityConfiguration(for: ReadingAttributes.self) { context in
             MainContentView(context: context)
         } dynamicIsland: { context in
-            let sessionExpired = context.state.se == true
             return DynamicIsland {
                 DynamicIslandExpandedRegion(.center) {
-                    if sessionExpired {
-                        HStack {
-                            Text("Session expired")
-                            Spacer()
-                            Button(
-                                "Renew",
-                                systemImage: "arrow.clockwise",
-                                intent: StartLiveActivityIntent(source: "LiveActivity")
-                            )
+                    HStack(spacing: 0) {
+                        context.timestamp
+                        if !context.isStale {
+                            Text(" • Last \(context.attributes.range.abbreviatedName)")
                         }
-                        .fontWeight(.medium)
-                    } else {
-                        HStack(spacing: 0) {
-                            context.timestamp
-                            if !context.isStale {
-                                Text(" • Last \(context.attributes.range.abbreviatedName)")
-                            }
-                        }
-                        .font(.caption2.bold())
-                        .textCase(.uppercase)
-                        .foregroundStyle(.secondary)
                     }
+                    .font(.caption2.bold())
+                    .textCase(.uppercase)
+                    .foregroundStyle(.secondary)
                 }
 
                 DynamicIslandExpandedRegion(.bottom) {
-                    if !sessionExpired {
-                        GraphPieceView(context: context)
-                            .padding(.bottom, 10)
-                    }
+                    GraphPieceView(context: context)
+                        .padding(.bottom, 10)
                 }
 
                 DynamicIslandExpandedRegion(.leading) {
-                    if !sessionExpired {
-                        ReadingText(context: context)
-                            .font(.largeTitle)
-                            .fontDesign(.rounded)
-                    }
+                    ReadingText(context: context)
+                        .font(.largeTitle)
+                        .fontDesign(.rounded)
                 }
                 .contentMargins([.leading, .top, .trailing], 20)
 
                 DynamicIslandExpandedRegion(.trailing) {
-                    if !sessionExpired {
-                        ReadingArrow(context: context)
-                            .font(.largeTitle)
-                    }
+                    ReadingArrow(context: context)
+                        .font(.largeTitle)
                 }
                 .contentMargins([.leading, .top, .trailing], 20)
 
             } compactLeading: {
-                if sessionExpired {
-                    Image(systemName: "person.slash")
-                        .fontWeight(.bold)
-                } else {
-                    CompactReadingText(context: context)
-                }
+                CompactReadingText(context: context)
             } compactTrailing: {
-                if sessionExpired {
-                    Image(systemName: "arrow.clockwise")
-                        .fontWeight(.bold)
-                } else {
-                    CompactReadingArrow(context: context)
-                }
+                CompactReadingArrow(context: context)
             } minimal: {
-                if sessionExpired {
-                    Image(systemName: "user.slash")
-                        .fontWeight(.bold)
-                } else {
-                    ViewThatFits {
-                        HStack(spacing: 0) {
-                            MinimalReadingView(context: context)
-                            CompactReadingArrow(context: context)
-                                .imageScale(.small)
-                                .font(.caption2)
-                        }
-
+                ViewThatFits {
+                    HStack(spacing: 0) {
                         MinimalReadingView(context: context)
+                        CompactReadingArrow(context: context)
+                            .imageScale(.small)
+                            .font(.caption2)
                     }
+
+                    MinimalReadingView(context: context)
                 }
             }
             .keylineTint(context.state.c?.color(target: targetLower...targetUpper))
@@ -271,27 +236,62 @@ private struct MainContentView: View {
     }
 
     func mediumExpiredView() -> some View {
-        HStack {
-            Text("Session expired")
-            Spacer()
-            Button(
-                "Renew",
-                systemImage: "arrow.clockwise",
-                intent: StartLiveActivityIntent(source: "LiveActivity")
-            )
-        }
-        .fontWeight(.medium)
-        .padding()
+        MediumExpiredView()
     }
 
     func smallExpiredView() -> some View {
-        Button(
-            "Renew Session",
-            intent: StartLiveActivityIntent(source: "LiveActivity")
-        )
+        VStack(alignment: .leading) {
+            Text("Live Activity ended")
+                .font(.footnote)
+
+            HStack {
+                Button(intent: EndLiveActivityIntent()) {
+                    Image(systemName: "xmark")
+                }
+                .tint(.primary)
+                .buttonBorderShape(.circle)
+
+                Button(intent: StartLiveActivityIntent(source: "LiveActivity")) {
+                    Label("Restart", systemImage: "arrow.clockwise")
+                        .frame(maxWidth: .infinity)
+                        .frame(maxHeight: .infinity)
+                }
+                .tint(.green)
+            }
+            .font(.caption)
+        }
         .fontWeight(.medium)
         .multilineTextAlignment(.center)
         .padding(10)
+        .fixedSize(horizontal: false, vertical: true)
+    }
+}
+
+private struct MediumExpiredView: View {
+    var body: some View {
+        HStack {
+            Text("Live Activity ended")
+
+            Spacer()
+
+            Button(intent: EndLiveActivityIntent()) {
+                Image(systemName: "xmark")
+                    .font(.system(size: 24))
+                    .padding(2)
+            }
+            .tint(.primary)
+
+            Button(intent: StartLiveActivityIntent(source: "LiveActivity")) {
+                Image(systemName: "arrow.clockwise")
+                    .font(.system(size: 24))
+                    .padding(2)
+            }
+            .tint(.green)
+        }
+        .fixedSize(horizontal: false, vertical: true)
+        .buttonBorderShape(.circle)
+        .fontWeight(.medium)
+        .padding()
     }
 }
 
