@@ -37,11 +37,9 @@ struct StartLiveActivityIntent: LiveActivityIntent {
     static var title: LocalizedStringResource = "Start Live Activity"
     static var description = IntentDescription("Monitor glucose readings in a Live Activity.")
 
-    private let username = Keychain.shared.username
-    private let password = Keychain.shared.password
-    private let accountID = Keychain.shared.accountID
-    private let sessionID = Keychain.shared.sessionID
-    private let accountLocation: AccountLocation? = Defaults[.accountLocation]
+    private var username = Keychain.shared.username
+    private var password = Keychain.shared.password
+    private var accountLocation: AccountLocation? = Defaults[.accountLocation]
 
     private var source: String = "none"
 
@@ -64,12 +62,12 @@ struct StartLiveActivityIntent: LiveActivityIntent {
             let client = DexcomHelper.createService(
                 username: username,
                 password: password,
-                existingAccountID: accountID,
-                existingSessionID: sessionID,
                 accountLocation: accountLocation
             )
 
             let range: GraphRange = .threeHours
+
+            let (accountID, sessionID) = try await client.createSession()
             let readings = try await client
                 .getGlucoseReadings(duration: .init(value: range.timeInterval, unit: .seconds))
                 .sorted { $0.date < $1.date }
@@ -93,7 +91,8 @@ struct StartLiveActivityIntent: LiveActivityIntent {
                 observeActivityUpdates(
                     for: activity,
                     username: username,
-                    password: password,
+                    accountID: accountID,
+                    sessionID: sessionID,
                     accountLocation: accountLocation,
                     range: range
                 )
@@ -116,7 +115,8 @@ struct StartLiveActivityIntent: LiveActivityIntent {
     private func observeActivityUpdates(
         for activity: Activity<ReadingAttributes>,
         username: String,
-        password: String,
+        accountID: UUID,
+        sessionID: UUID,
         accountLocation: AccountLocation,
         range: GraphRange
     ) {
@@ -142,7 +142,8 @@ struct StartLiveActivityIntent: LiveActivityIntent {
                 await sendStartLiveActivity(
                     token: token,
                     username: username,
-                    password: password,
+                    accountID: accountID,
+                    sessionID: sessionID,
                     accountLocation: accountLocation,
                     range: range
                 )
@@ -153,7 +154,8 @@ struct StartLiveActivityIntent: LiveActivityIntent {
     private func sendStartLiveActivity(
         token: String,
         username: String,
-        password: String,
+        accountID: UUID,
+        sessionID: UUID,
         accountLocation: AccountLocation,
         range: GraphRange
     ) async {
@@ -164,8 +166,8 @@ struct StartLiveActivityIntent: LiveActivityIntent {
         let payload = StartLiveActivityRequest(
             pushToken: token,
             environment: .current,
-            username: username,
-            password: password,
+            accountID: accountID,
+            sessionID: sessionID,
             accountLocation: accountLocation,
             duration: range.timeInterval
         )
@@ -179,7 +181,7 @@ struct StartLiveActivityIntent: LiveActivityIntent {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         do {
-            let _ = try await URLSession.shared.data(for: request)
+            let (data, response) = try await URLSession.shared.data(for: request)
             TelemetryDeck.signal("LiveActivity.sentToken")
         } catch {
             TelemetryDeck.signal("LiveActivity.failedToSendToken")
@@ -198,7 +200,7 @@ struct StartLiveActivityIntent: LiveActivityIntent {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         do {
-            let _ = try await URLSession.shared.data(for: request)
+            let (data, response) = try await URLSession.shared.data(for: request)
             TelemetryDeck.signal("LiveActivity.sentEnd")
         } catch {
             TelemetryDeck.signal("LiveActivity.failedToSendEnd")
