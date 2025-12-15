@@ -142,7 +142,7 @@ struct GraphView: View {
     }
 }
 
-extension GlucoseReading: Identifiable {
+extension GlucoseReading: @retroactive Identifiable {
     public var id: Self { self }
 }
 
