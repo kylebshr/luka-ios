@@ -13,6 +13,7 @@ import WidgetKit
 
 @MainActor struct MainView: View {
     @Environment(RootViewModel.self) private var viewModel
+    @Environment(\.scenePhase) private var scenePhase
 
     @Default(.selectedRange) private var selectedRange
     @Default(.targetRangeLowerBound) private var lowerTargetRange
@@ -182,6 +183,10 @@ import WidgetKit
             }
         }
         .sensoryFeedback(.selection, trigger: scrubbingGlucoseReading)
+        .onChange(of: scenePhase) {
+            activity = Activity<ReadingAttributes>.activities
+                .first
+        }
     }
 
     private func toggleLiveActivity() async {
