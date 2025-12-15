@@ -6,3 +6,13 @@
 //
 
 import Foundation
+
+struct Banners: Codable {
+    var banners: [Banner]
+}
+
+struct Banner: Codable {
+    var id: String
+    var title: String?
+    var body: String?
+}

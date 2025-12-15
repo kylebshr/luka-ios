@@ -123,12 +123,12 @@ struct StartLiveActivityIntent: LiveActivityIntent {
         Task {
             for await state in activity.activityStateUpdates {
                 switch state {
-                case .dismissed, .ended:
+                case .dismissed:
                     if let token = activity.pushToken {
                         let token = token.map { String(format: "%02x", $0) }.joined()
                         await sendEndLiveActivity(token: token)
                     }
-                case .active, .pending, .stale:
+                case .active, .pending, .stale, .ended:
                     break
                 @unknown default:
                     break

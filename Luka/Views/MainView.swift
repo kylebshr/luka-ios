@@ -26,6 +26,7 @@ import WidgetKit
         .first
     @State private var isActivityLoading = false
     @State private var selectedChartReading: LiveActivityState.Reading?
+    @State private var banners: [Banner] = []
 
     private var readings: [GlucoseReading] {
         switch liveViewModel.state {
@@ -82,6 +83,11 @@ import WidgetKit
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
+                ForEach(banners, id: \.id) { banner in
+                    BannerView(banner: banner)
+                        .padding(.horizontal)
+                }
+
                 VStack(alignment: .leading, spacing: 0) {
                     ReadingView(reading: displayReading)
                         .font(.largeTitle.weight(.semibold))
