@@ -123,12 +123,9 @@ struct StartLiveActivityIntent: LiveActivityIntent {
         Task {
             for await state in activity.activityStateUpdates {
                 switch state {
-                case .dismissed:
-                    if let token = activity.pushToken {
-                        let token = token.map { String(format: "%02x", $0) }.joined()
-                        await sendEndLiveActivity(token: token)
-                    }
-                case .active, .pending, .stale, .ended:
+                case .dismissed, .ended:
+                    await sendEndLiveActivity(username: username)
+                case .active, .pending, .stale:
                     break
                 @unknown default:
                     break
@@ -186,8 +183,8 @@ struct StartLiveActivityIntent: LiveActivityIntent {
         }
     }
 
-    private func sendEndLiveActivity(token: String) async {
-        let payload = EndLiveActivityRequest(pushToken: token)
+    private func sendEndLiveActivity(username: String) async {
+        let payload = EndLiveActivityRequest(username: username)
 
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .useDefaultKeys
