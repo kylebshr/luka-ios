@@ -22,6 +22,7 @@ extension Defaults.Keys {
     static let showChartLiveActivity = Key<Bool>(.showChartLiveActivity, default: true, suite: .shared, iCloud: true)
 
     static let selectedRange = Key("selectedRange", default: GraphRange.eightHours)
+    static let dismissedBannerIDs = Key<Set<String>>("dismissedBannerIDs", default: [], suite: .shared, iCloud: true)
     static let sessionHistory = Key<[DexcomSessionHistoryEntry]>(
         .sessionHistory,
         default: [],

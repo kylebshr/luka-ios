@@ -8,6 +8,7 @@
 import SwiftUI
 import WidgetKit
 import TelemetryDeck
+import Defaults
 
 @main
 struct LukaApp: App {
@@ -19,6 +20,10 @@ struct LukaApp: App {
     init() {
         let config = TelemetryDeck.Config(appID: "7C1E8E40-73DE-4BC4-BDBF-705218647D91")
         TelemetryDeck.initialize(config: config)
+
+        #if DEBUG
+        Defaults[.dismissedBannerIDs] = []
+        #endif
     }
 
     var body: some Scene {

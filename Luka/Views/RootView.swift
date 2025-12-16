@@ -35,7 +35,10 @@ struct RootView: View {
 
     var body: some View {
         Group {
-            if viewModel.isSignedIn {
+            if viewModel.requiresForceUpgrade {
+                ForceUpgradeView()
+                    .transition(.blurReplace(.downUp))
+            } else if viewModel.isSignedIn {
                 MainView()
                     .transition(.blurReplace(.downUp))
             } else {
@@ -44,6 +47,10 @@ struct RootView: View {
             }
         }
         .animation(.default, value: viewModel.username)
+        .animation(.default, value: viewModel.requiresForceUpgrade)
+        .task {
+            await viewModel.loadBanners()
+        }
     }
 }
 

@@ -20,6 +20,7 @@ import WidgetKit
     @Default(.targetRangeUpperBound) private var upperTargetRange
     @Default(.graphUpperBound) private var upperGraphRange
     @Default(.unit) private var unit
+    @Default(.dismissedBannerIDs) private var dismissedBannerIDs
 
     @State private var isPresentingSettings = false
     @State private var liveViewModel = LiveViewModel()
@@ -27,7 +28,6 @@ import WidgetKit
         .first
     @State private var isActivityLoading = false
     @State private var selectedChartReading: LiveActivityState.Reading?
-    @State private var banners: [Banner] = []
 
     private var readings: [GlucoseReading] {
         switch liveViewModel.state {
@@ -82,11 +82,15 @@ import WidgetKit
     }
 
     var body: some View {
+        let banners = viewModel.displayableBanners(dismissedBannerIDs: dismissedBannerIDs)
+
         NavigationStack {
             VStack(alignment: .leading) {
-                ForEach(banners, id: \.id) { banner in
-                    BannerView(banner: banner)
-                        .padding(.horizontal)
+                ForEach(banners) { banner in
+                    BannerView(banner: banner) {
+                        dismissedBannerIDs.insert(banner.id)
+                    }
+                    .padding(.horizontal)
                 }
 
                 VStack(alignment: .leading, spacing: 0) {
@@ -187,6 +191,7 @@ import WidgetKit
             activity = Activity<ReadingAttributes>.activities
                 .first
         }
+        .animation(.default, value: dismissedBannerIDs)
     }
 
     private func toggleLiveActivity() async {
