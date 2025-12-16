@@ -49,7 +49,9 @@ import Defaults
 
     func loadBanners() async {
         do {
-            let (data, _) = try await URLSession.shared.data(from: Self.bannersURL)
+            var request = URLRequest(url: Self.bannersURL)
+            request.cachePolicy = .reloadIgnoringLocalCacheData
+            let (data, _) = try await URLSession.shared.data(for: request)
             let decoded = try JSONDecoder().decode(Banners.self, from: data)
             self.banners = decoded
         } catch {

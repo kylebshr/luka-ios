@@ -87,14 +87,6 @@ import WidgetKit
 
         NavigationStack {
             VStack(alignment: .leading) {
-                ForEach(banners) { banner in
-                    BannerView(banner: banner) {
-                        dismissedBannerIDs.insert(banner.id)
-                        TelemetryDeck.signal("Banner.dismissed", parameters: ["id": banner.id])
-                    }
-                    .padding(.horizontal)
-                }
-
                 VStack(alignment: .leading, spacing: 0) {
                     ReadingView(reading: displayReading)
                         .font(.largeTitle.weight(.semibold))
@@ -109,6 +101,14 @@ import WidgetKit
                 }
                 .padding([.horizontal, .bottom])
                 .animation(isScrubbing ? nil : .default, value: displayReading)
+
+                ForEach(banners) { banner in
+                    BannerView(banner: banner) {
+                        dismissedBannerIDs.insert(banner.id)
+                        TelemetryDeck.signal("Banner.dismissed", parameters: ["id": banner.id])
+                    }
+                    .padding(.horizontal)
+                }
 
                 Picker("Graph range", selection: $selectedRange) {
                     ForEach(GraphRange.allCases) {
@@ -193,7 +193,7 @@ import WidgetKit
             activity = Activity<ReadingAttributes>.activities
                 .first
         }
-        .animation(.default, value: dismissedBannerIDs)
+        .animation(.snappy, value: dismissedBannerIDs)
     }
 
     private func toggleLiveActivity() async {
