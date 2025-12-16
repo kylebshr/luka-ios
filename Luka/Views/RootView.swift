@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import TelemetryDeck
 
 struct RootView: View {
     @Environment(RootViewModel.self) private var viewModel
@@ -38,6 +39,9 @@ struct RootView: View {
             if viewModel.requiresForceUpgrade {
                 ForceUpgradeView()
                     .transition(.blurReplace(.downUp))
+                    .onAppear {
+                        TelemetryDeck.signal("ForceUpgrade.viewed")
+                    }
             } else if viewModel.isSignedIn {
                 MainView()
                     .transition(.blurReplace(.downUp))

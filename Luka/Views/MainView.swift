@@ -9,6 +9,7 @@ import ActivityKit
 import Defaults
 import Dexcom
 import SwiftUI
+import TelemetryDeck
 import WidgetKit
 
 @MainActor struct MainView: View {
@@ -89,6 +90,7 @@ import WidgetKit
                 ForEach(banners) { banner in
                     BannerView(banner: banner) {
                         dismissedBannerIDs.insert(banner.id)
+                        TelemetryDeck.signal("Banner.dismissed", parameters: ["id": banner.id])
                     }
                     .padding(.horizontal)
                 }
