@@ -16,10 +16,12 @@ enum WidgetTapAction: String, AppEnum {
         [
             .refresh: "Refresh",
             .launch: "Launch App",
+            .startLiveActivity: "Start Live Activity",
         ]
     }
 
     case refresh
     case launch
+    case startLiveActivity
 }
 

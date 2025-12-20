@@ -16,16 +16,16 @@ struct ReadingTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvide
     let delegate = DexcomDelegate(source: "widget")
 
     func placeholder(in context: Context) -> Entry {
-        GlucoseEntry(date: .now, widgetURL: nil, state: .reading(.placeholder))
+        GlucoseEntry(date: .now, widgetURL: nil, tapAction: .refresh, state: .reading(.placeholder))
     }
-    
+
     func snapshot(for configuration: ReadingWidgetConfiguration, in context: Context) async -> Entry {
-        await Entry(date: .now, widgetURL: configuration.url, state: makeState(for: configuration))
+        await Entry(date: .now, widgetURL: configuration.url, tapAction: configuration.tapAction, state: makeState(for: configuration))
     }
 
     func timeline(for configuration: ReadingWidgetConfiguration, in context: Context) async -> Timeline<Entry> {
         let state = await makeState(for: configuration)
-        return buildTimeline(for: state, widgetURL: configuration.url)
+        return buildTimeline(for: state, widgetURL: configuration.url, tapAction: configuration.tapAction)
     }
 
     func recommendations() -> [AppIntentRecommendation<ReadingWidgetConfiguration>] {

@@ -22,6 +22,7 @@ struct GlucoseEntry<Data: GlucoseEntryData>: TimelineEntry {
 
     let date: Date
     let widgetURL: URL?
+    let tapAction: WidgetTapAction
     let state: State
 
     var isExpired: Bool {

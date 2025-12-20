@@ -32,6 +32,11 @@ struct ReadingWidgetConfiguration: WidgetConfigurationIntent {
     }
 
     var url: URL? {
-        tapAction == .refresh ? nil : app.url
+        switch tapAction {
+        case .refresh, .startLiveActivity:
+            nil
+        case .launch:
+            app.url
+        }
     }
 }
