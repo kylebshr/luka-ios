@@ -13,7 +13,7 @@ struct ReadingWidget: Widget {
     let kind: String = "GlimpseReadingWidget"
 
     var body: some WidgetConfiguration {
-        AppIntentConfiguration(
+        let config = AppIntentConfiguration(
             kind: kind,
             provider: ReadingTimelineProvider()
         ) { entry in
@@ -22,6 +22,12 @@ struct ReadingWidget: Widget {
         }
         .supportedFamilies(families)
         .configurationDisplayName("Current Reading")
+
+        if #available(iOS 19.0, watchOS 11.0, *) {
+            return config.supportsPushUpdates(LukaWidgetPushHandler())
+        } else {
+            return config
+        }
     }
 
     private var families: [WidgetFamily] {

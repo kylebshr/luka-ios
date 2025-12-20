@@ -30,3 +30,10 @@ struct StartLiveActivityRequest: Codable {
     var accountLocation: AccountLocation
     var duration: TimeInterval
 }
+
+struct WidgetPushTokenRequest: Codable {
+    var pushTokens: [String]
+    var environment: PushEnvironment
+    var username: String
+    var accountLocation: AccountLocation
+}

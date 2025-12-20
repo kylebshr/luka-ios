@@ -13,7 +13,7 @@ struct GraphWidget: Widget {
     let kind: String = "GlimpseChartWidget"
 
     var body: some WidgetConfiguration {
-        AppIntentConfiguration(
+        let config = AppIntentConfiguration(
             kind: kind,
             provider: GraphTimelineProvider()
         ) { entry in
@@ -21,6 +21,12 @@ struct GraphWidget: Widget {
         }
         .supportedFamilies(families)
         .configurationDisplayName("Reading Graph")
+
+        if #available(iOS 19.0, watchOS 11.0, *) {
+            return config.supportsPushUpdates(LukaWidgetPushHandler())
+        } else {
+            return config
+        }
     }
 
     private var families: [WidgetFamily] {
