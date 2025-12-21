@@ -152,7 +152,7 @@ private struct MinimalReadingView: View {
     var body: some View {
         WithRange {
             ReadingText(context: context)
-                .fontWeight(.semibold)
+                .fontWeight(.bold)
                 .fontWidth(.compressed)
                 .foregroundStyle((reading?.color(target: $0) ?? .secondary).gradient)
                 .redacted(reason: context.isStale ? .placeholder : [])
