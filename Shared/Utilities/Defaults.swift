@@ -48,16 +48,3 @@ struct DexcomSessionHistoryEntry: Defaults.Serializable, Identifiable, Codable, 
 
     }
 }
-
-enum DexcomSessionHistory {
-    static func record(sessionID: UUID, at date: Date = .now, source: String) {
-        var history = Defaults[.sessionHistory]
-
-        if history.last?.sessionID == sessionID {
-            return
-        }
-
-        history.append(.init(sessionID: sessionID, recordedAt: date, source: source))
-        Defaults[.sessionHistory] = history
-    }
-}

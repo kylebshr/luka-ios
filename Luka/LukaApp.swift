@@ -21,6 +21,8 @@ struct LukaApp: App {
         let config = TelemetryDeck.Config(appID: "7C1E8E40-73DE-4BC4-BDBF-705218647D91")
         TelemetryDeck.initialize(config: config)
 
+        Defaults[.sessionHistory] = []
+
         #if DEBUG
         Defaults[.dismissedBannerIDs] = []
         #endif

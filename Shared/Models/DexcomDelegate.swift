@@ -21,10 +21,6 @@ class DexcomDelegate: DexcomClientDelegate {
     }
 
     func didUpdateSessionID(_ sessionID: UUID) {
-        if let existing = Keychain.shared.sessionID {
-            DexcomSessionHistory.record(sessionID: existing, source: source)
-        }
-
         Keychain.shared.sessionID = sessionID
     }
 }

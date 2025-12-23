@@ -55,12 +55,6 @@ struct SettingsView: View {
                 )
             }
 
-            if Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt" {
-                Section("Dexcom Sessions (Debug Info)") {
-                    SessionHistoryTable(entries: sessionHistory)
-                }
-            }
-
             Section {
                 Link(
                     "Contact Support",
@@ -132,54 +126,6 @@ private struct GraphSliderView: View {
                     Text(title)
                 }
             )
-        }
-    }
-}
-
-private struct SessionHistoryTable: View {
-    var entries: [DexcomSessionHistoryEntry]
-
-    private var rows: [DexcomSessionHistoryEntry] {
-        entries.sorted { $0.recordedAt > $1.recordedAt }
-    }
-
-    var body: some View {
-        if rows.isEmpty {
-            Text("No session history yet")
-                .foregroundStyle(.secondary)
-        } else {
-            Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 8) {
-                GridRow {
-                    Text("Session ID")
-                    Text("Expired")
-                    Text("Updated by")
-                }
-                .font(.caption)
-                .foregroundStyle(.secondary)
-
-                Divider()
-                    .gridCellColumns(3)
-
-                ForEach(rows) { entry in
-                    GridRow {
-                        Text(entry.sessionID.uuidString.split(separator: "-").first!)
-                            .fontDesign(.monospaced)
-                            .textSelection(.enabled)
-
-                        Text(entry.recordedAt.formatted(date: .numeric, time: .shortened))
-                            .foregroundStyle(.secondary)
-
-                        Text(entry.source)
-                            .foregroundStyle(.secondary)
-                    }
-                    .font(.footnote)
-
-                    if entry.id != rows.last?.id {
-                        Divider()
-                            .gridCellColumns(3)
-                    }
-                }
-            }
         }
     }
 }
