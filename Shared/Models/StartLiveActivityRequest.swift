@@ -22,11 +22,17 @@ enum PushEnvironment: String, Codable {
     }
 }
 
+struct LiveActivityPreferences: Codable {
+    var targetRange: ClosedRange<Int>
+    var unit: GlucoseFormatter.Unit
+}
+
 struct StartLiveActivityRequest: Codable {
     var pushToken: String
     var environment: PushEnvironment
-    var username: String
-    var password: String
+    var username: String?
+    var password: String?
     var accountLocation: AccountLocation
     var duration: TimeInterval
+    var preferences: LiveActivityPreferences?
 }

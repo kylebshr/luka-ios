@@ -164,7 +164,11 @@ struct StartLiveActivityIntent: LiveActivityIntent {
             username: username,
             password: password,
             accountLocation: accountLocation,
-            duration: range.timeInterval
+            duration: range.timeInterval,
+            preferences: LiveActivityPreferences(
+                targetRange: Int(Defaults[.targetRangeLowerBound])...Int(Defaults[.targetRangeUpperBound]),
+                unit: Defaults[.unit]
+            )
         )
 
         let encoder = JSONEncoder()
