@@ -176,12 +176,11 @@ struct LineChart: View {
 
                                     guard let plotFrame = proxy.plotFrame else { return }
                                     let frame = geometry[plotFrame]
-                                    guard frame.contains(value.location) else {
-                                        selectedReading.wrappedValue = nil
-                                        return
-                                    }
 
-                                    let xPosition = value.location.x - frame.origin.x
+                                    // Clamp the x position to the frame bounds instead of returning nil
+                                    let rawXPosition = value.location.x - frame.origin.x
+                                    let xPosition = max(0, min(rawXPosition, frame.width))
+
                                     if let date: Date = proxy.value(atX: xPosition, as: Date.self) {
                                         selectedReading.wrappedValue = readingClosest(to: date)
                                     }
