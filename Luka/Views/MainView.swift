@@ -93,20 +93,8 @@ import WidgetKit
 
         NavigationStack {
             VStack(alignment: .leading) {
-                VStack(alignment: .leading, spacing: 0) {
-                    ReadingView(reading: displayReading)
-                        .font(.largeTitle.weight(.semibold))
-                        .id(displayReading != nil)
-
-                    let unit = isRedacted ? "" : "\(unit.text) • "
-
-                    Text("\(unit)\(subtitleText)")
-                        .font(.caption2.weight(.medium))
-                        .foregroundStyle(.secondary)
-                        .textCase(.uppercase)
-                }
-                .padding([.horizontal, .bottom])
-                .animation(isScrubbing ? nil : .default, value: displayReading)
+                readingView()
+                    .padding([.horizontal, .bottom])
 
                 if !isCompact {
                     ForEach(banners) { banner in
@@ -116,16 +104,17 @@ import WidgetKit
                         }
                         .padding(.horizontal)
                     }
-
-                    Picker("Graph range", selection: $selectedRange) {
-                        ForEach(GraphRange.allCases) {
-                            Text($0.abbreviatedName)
-                        }
-                    }
-                    .pickerStyle(.segmented)
-                    .padding()
-                    .padding(.bottom, 20)
                 }
+
+                Picker("Graph range", selection: $selectedRange) {
+                    ForEach(GraphRange.allCases) {
+                        Text($0.abbreviatedName)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .padding(.horizontal)
+                .padding(.vertical, isCompact ? 0 : nil)
+                .padding(.bottom, .verticalSpacing)
 
                 LineChart(
                     range: selectedRange,
@@ -135,12 +124,15 @@ import WidgetKit
                     selectedReading: $selectedChartReading,
                 )
                 .padding(.trailing)
+                .padding(.leading, isCompact ? nil : 0)
                 .padding(.bottom)
 
                 if !isCompact {
                     liveActivityButton()
                 }
             }
+            .padding(.top, isCompact ? nil : 0)
+            .edgesIgnoringSafeArea(isCompact ? .top : [])
             .toolbar {
                 if #available(iOS 26, *), isCompact {
                     ToolbarItem(placement: .primaryAction) {
@@ -250,6 +242,22 @@ import WidgetKit
                 UINotificationFeedbackGenerator().notificationOccurred(.error)
             }
         }
+    }
+
+    private func readingView() -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            ReadingView(reading: displayReading)
+                .font(.largeTitle.weight(.semibold))
+                .id(displayReading != nil)
+
+            let unit = isRedacted ? "" : "\(unit.text) • "
+
+            Text("\(unit)\(subtitleText)")
+                .font(.caption2.weight(.medium))
+                .foregroundStyle(.secondary)
+                .textCase(.uppercase)
+        }
+        .animation(isScrubbing ? nil : .default, value: displayReading)
     }
 
     private var inactiveTintColor: Color {
