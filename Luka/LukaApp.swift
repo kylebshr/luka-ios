@@ -9,11 +9,13 @@ import SwiftUI
 import WidgetKit
 import TelemetryDeck
 import Defaults
+import StoreKit
 
 @main
 struct LukaApp: App {
     @Environment(\.openURL) private var openURL
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.requestReview) private var requestReview
 
     @State private var viewModel = RootViewModel()
 
@@ -26,6 +28,9 @@ struct LukaApp: App {
         #if DEBUG
         Defaults[.dismissedBannerIDs] = []
         #endif
+
+        // Increment launch count
+        Defaults[.launchCount] += 1
     }
 
     var body: some Scene {
@@ -34,6 +39,12 @@ struct LukaApp: App {
                 .onOpenURL(perform: { url in
                     openURL(url)
                 })
+                .task {
+                    // Request review after 10 launches
+                    if Defaults[.launchCount] >= 10 {
+                        requestReview()
+                    }
+                }
         }
         .onChange(of: scenePhase) {
             if scenePhase == .background {

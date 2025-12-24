@@ -29,6 +29,7 @@ extension Defaults.Keys {
         suite: .shared,
         iCloud: true
     )
+    static let launchCount = Key<Int>("launchCount", default: 0, suite: .shared, iCloud: true)
 }
 
 extension AccountLocation: Defaults.Serializable {}
