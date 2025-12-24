@@ -134,8 +134,8 @@ import WidgetKit
                     useFullYRange: true,
                     selectedReading: $selectedChartReading,
                 )
-                .edgesIgnoringSafeArea(.leading)
-                .padding([.trailing, .bottom])
+                .padding(.trailing)
+                .padding(.bottom)
 
                 if !isCompact {
                     liveActivityButton()
