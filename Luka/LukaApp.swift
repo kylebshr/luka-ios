@@ -41,7 +41,7 @@ struct LukaApp: App {
                 })
                 .task {
                     // Request review after 10 launches
-                    if Defaults[.launchCount] == 10 {
+                    if Defaults[.launchCount] >= 10 {
                         requestReview()
                     }
                 }
