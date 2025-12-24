@@ -18,7 +18,7 @@ enum DexcomHelper {
         existingSessionID: UUID? = nil,
         accountLocation: AccountLocation
     ) -> DexcomClientService {
-        if username == mockEmail {
+        if username == mockEmail || username == nil {
             return MockDexcomClient()
         } else {
             return DexcomClient(

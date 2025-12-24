@@ -15,6 +15,7 @@ import WidgetKit
 @MainActor struct MainView: View {
     @Environment(RootViewModel.self) private var viewModel
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
 
     @Default(.selectedRange) private var selectedRange
     @Default(.targetRangeLowerBound) private var lowerTargetRange
@@ -29,6 +30,7 @@ import WidgetKit
         .first
     @State private var isActivityLoading = false
     @State private var selectedChartReading: LiveActivityState.Reading?
+    @State private var haptics = UIImpactFeedbackGenerator(style: .rigid)
 
     private var readings: [GlucoseReading] {
         switch liveViewModel.state {
@@ -82,6 +84,10 @@ import WidgetKit
         return activity.activityState == .active
     }
 
+    private var isCompact: Bool {
+        verticalSizeClass == .compact
+    }
+
     var body: some View {
         let banners = viewModel.displayableBanners(dismissedBannerIDs: dismissedBannerIDs)
 
@@ -102,22 +108,24 @@ import WidgetKit
                 .padding([.horizontal, .bottom])
                 .animation(isScrubbing ? nil : .default, value: displayReading)
 
-                ForEach(banners) { banner in
-                    BannerView(banner: banner) {
-                        dismissedBannerIDs.insert(banner.id)
-                        TelemetryDeck.signal("Banner.dismissed", parameters: ["id": banner.id])
+                if !isCompact {
+                    ForEach(banners) { banner in
+                        BannerView(banner: banner) {
+                            dismissedBannerIDs.insert(banner.id)
+                            TelemetryDeck.signal("Banner.dismissed", parameters: ["id": banner.id])
+                        }
+                        .padding(.horizontal)
                     }
-                    .padding(.horizontal)
-                }
 
-                Picker("Graph range", selection: $selectedRange) {
-                    ForEach(GraphRange.allCases) {
-                        Text($0.abbreviatedName)
+                    Picker("Graph range", selection: $selectedRange) {
+                        ForEach(GraphRange.allCases) {
+                            Text($0.abbreviatedName)
+                        }
                     }
+                    .pickerStyle(.segmented)
+                    .padding()
+                    .padding(.bottom, 20)
                 }
-                .pickerStyle(.segmented)
-                .padding()
-                .padding(.bottom, 20)
 
                 LineChart(
                     range: selectedRange,
@@ -129,44 +137,25 @@ import WidgetKit
                 .edgesIgnoringSafeArea(.leading)
                 .padding([.trailing, .bottom])
 
-                Button {
-                    Task {
-                        await toggleLiveActivity()
-                    }
-                } label: {
-                    HStack {
-                        ZStack {
-                            Image(systemName: "stop.fill").opacity(isActivityActive ? 1 : 0)
-                            Image(systemName: "bolt.fill").opacity(isActivityActive ? 0 : 1)
-                        }
-                        Text(isActivityActive ? "End Live Activity" : "Start Live Activity")
-                    }
-                    .animation(nil, value: isActivityLoading)
-                    .opacity(isActivityLoading ? 0 : 1)
-                    .overlay {
-                        if isActivityLoading {
-                            ProgressView().tint(.primary)
-                        }
-                    }
-                    .foregroundStyle(isActivityActive ? .white : Color(.label))
-                    .font(.headline)
-                    .frame(maxWidth: .infinity)
-                    .padding()
+                if !isCompact {
+                    liveActivityButton()
                 }
-                .modifier {
-                    if #available(iOS 26, *) {
-                        $0.buttonStyle(.glassProminent)
-                    } else {
-                        $0.buttonStyle(.borderedProminent)
-                    }
-                }
-                .tint(isActivityActive ? .accent : inactiveTintColor)
-                .withReadableWidth()
-                .padding()
-                .frame(maxWidth: .infinity)
-                .buttonBorderShape(.capsule)
             }
             .toolbar {
+                if #available(iOS 26, *), isCompact {
+                    ToolbarItem(placement: .primaryAction) {
+                        Button(
+                            "Toggle Live Activity",
+                            systemImage: "bolt.fill",
+                            role: isActivityActive ? .confirm : nil
+                        ) {
+                            Task {
+                                await toggleLiveActivity()
+                            }
+                        }
+                    }
+                }
+
                 ToolbarItem(placement: .primaryAction) {
                     Button("Settings", systemImage: "person.fill") {
                         isPresentingSettings = true
@@ -181,6 +170,7 @@ import WidgetKit
         }
         .onAppear {
             liveViewModel.setUpClientAndBeginRefreshing()
+            haptics.prepare()
         }
         .fontDesign(.rounded)
         .task {
@@ -188,12 +178,54 @@ import WidgetKit
                 self.activity = activity
             }
         }
-        .sensoryFeedback(.selection, trigger: scrubbingGlucoseReading)
+        .onChange(of: scrubbingGlucoseReading) {
+            haptics.impactOccurred()
+            haptics.prepare()
+        }
         .onChange(of: scenePhase) {
             activity = Activity<ReadingAttributes>.activities
                 .first
         }
         .animation(.snappy, value: dismissedBannerIDs)
+    }
+
+    private func liveActivityButton() -> some View {
+        return Button {
+            Task {
+                await toggleLiveActivity()
+            }
+        } label: {
+            HStack {
+                ZStack {
+                    Image(systemName: "stop.fill").opacity(isActivityActive ? 1 : 0)
+                    Image(systemName: "bolt.fill").opacity(isActivityActive ? 0 : 1)
+                }
+                Text(isActivityActive ? "End Live Activity" : "Start Live Activity")
+            }
+            .animation(nil, value: isActivityLoading)
+            .opacity(isActivityLoading ? 0 : 1)
+            .overlay {
+                if isActivityLoading {
+                    ProgressView().tint(.primary)
+                }
+            }
+            .foregroundStyle(isActivityActive ? .white : Color(.label))
+            .font(.headline)
+            .frame(maxWidth: .infinity)
+            .padding()
+        }
+        .modifier {
+            if #available(iOS 26, *) {
+                $0.buttonStyle(.glassProminent)
+            } else {
+                $0.buttonStyle(.borderedProminent)
+            }
+        }
+        .tint(isActivityActive ? .accent : inactiveTintColor)
+        .withReadableWidth()
+        .padding()
+        .frame(maxWidth: .infinity)
+        .buttonBorderShape(.capsule)
     }
 
     private func toggleLiveActivity() async {
