@@ -134,7 +134,7 @@ import WidgetKit
                     useFullYRange: true,
                     selectedReading: $selectedChartReading,
                 )
-                .padding(.horizontal)
+                .padding(.trailing)
                 .padding(.bottom)
 
                 if !isCompact {
