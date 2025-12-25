@@ -21,7 +21,8 @@ extension Defaults.Keys {
     static let unit = Key<GlucoseFormatter.Unit>("unit", default: .mgdl, suite: .shared, iCloud: true)
     static let showChartLiveActivity = Key<Bool>(.showChartLiveActivity, default: true, suite: .shared, iCloud: true)
 
-    static let selectedRange = Key("selectedRange", default: GraphRange.eightHours)
+    static let selectedRange = Key("selectedRange", default: GraphRange.eightHours, iCloud: true)
+    static let selectedLandscapeRange = Key("landscapeRange", default: GraphRange.twentyFourHours, iCloud: true)
     static let dismissedBannerIDs = Key<Set<String>>("dismissedBannerIDs", default: [], suite: .shared, iCloud: true)
     static let sessionHistory = Key<[DexcomSessionHistoryEntry]>(
         .sessionHistory,

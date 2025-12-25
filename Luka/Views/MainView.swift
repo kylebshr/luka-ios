@@ -17,7 +17,8 @@ import WidgetKit
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.verticalSizeClass) private var verticalSizeClass
 
-    @Default(.selectedRange) private var selectedRange
+    @Default(.selectedRange) private var portraitRange
+    @Default(.selectedLandscapeRange) private var landscapeRange
     @Default(.targetRangeLowerBound) private var lowerTargetRange
     @Default(.targetRangeUpperBound) private var upperTargetRange
     @Default(.graphUpperBound) private var upperGraphRange
@@ -31,6 +32,10 @@ import WidgetKit
     @State private var isActivityLoading = false
     @State private var selectedChartReading: LiveActivityState.Reading?
     @State private var haptics = UIImpactFeedbackGenerator(style: .rigid)
+
+    private var selectedRange: Binding<GraphRange> {
+        isCompact ? $landscapeRange : $portraitRange
+    }
 
     private var readings: [GlucoseReading] {
         switch liveViewModel.state {
@@ -106,7 +111,7 @@ import WidgetKit
                     }
                 }
 
-                Picker("Graph range", selection: $selectedRange) {
+                Picker("Graph range", selection: selectedRange) {
                     ForEach(GraphRange.allCases) {
                         Text($0.abbreviatedName)
                     }
@@ -117,7 +122,7 @@ import WidgetKit
                 .padding(.bottom, .verticalSpacing)
 
                 LineChart(
-                    range: selectedRange,
+                    range: selectedRange.wrappedValue,
                     readings: readings.toLiveActivityReadings(),
                     showAxisLabels: true,
                     useFullYRange: true,
