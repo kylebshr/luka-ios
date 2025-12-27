@@ -347,26 +347,26 @@ private extension ActivityViewContext<ReadingAttributes> {
     ReadingActivityConfiguration()
 } contentStates: {
     LiveActivityState(c: .placeholder, h: .placeholder)
-    LiveActivityState(h: [], se: true)
+    LiveActivityState(c: nil, h: [], se: true)
 }
 
 #Preview(as: .dynamicIsland(.compact), using: ReadingAttributes(range: .threeHours)) {
     ReadingActivityConfiguration()
 } contentStates: {
     LiveActivityState(c: .placeholder, h: .placeholder)
-    LiveActivityState(h: [], se: true)
+    LiveActivityState(c: nil, h: [], se: true)
 }
 
 #Preview(as: .dynamicIsland(.minimal), using: ReadingAttributes(range: .threeHours)) {
     ReadingActivityConfiguration()
 } contentStates: {
     LiveActivityState(c: .placeholder, h: .placeholder)
-    LiveActivityState(h: [], se: true)
+    LiveActivityState(c: nil, h: [], se: true)
 }
 
 #Preview(as: .content, using: ReadingAttributes(range: .threeHours)) {
     ReadingActivityConfiguration()
 } contentStates: {
     LiveActivityState(c: .placeholder, h: .placeholder)
-    LiveActivityState(h: [], se: true)
+    LiveActivityState(c: nil, h: [], se: true)
 }

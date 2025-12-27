@@ -75,10 +75,7 @@ struct StartLiveActivityIntent: LiveActivityIntent {
                 .sorted { $0.date < $1.date }
 
             let attributes = ReadingAttributes(range: range)
-            let initialState = LiveActivityState(
-                c: readings.last,
-                h: readings.toLiveActivityReadings()
-            )
+            let initialState = LiveActivityState(readings: readings, range: range)
 
             do {
                 let activity = try Activity.request(
