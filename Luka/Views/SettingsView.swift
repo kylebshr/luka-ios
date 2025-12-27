@@ -56,21 +56,58 @@ struct SettingsView: View {
             }
 
             Section {
+                ShareLink(item: URL(string: "https://apps.apple.com/us/app/luka-blood-glucose-readings/id6499279663")!) {
+                    HStack {
+                        Text("Share Luka")
+                        Spacer()
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                }
+
                 Link(
-                    "Contact Support",
-                    destination: URL(string: "mailto:kylebshr@me.com")!
+                    destination: URL(string: "https://apps.apple.com/us/app/luka-mini-glucose-readings/id6497405885")!,
+                    label: {
+                        HStack {
+                            Text("Luka for macOS")
+                            Spacer()
+                            Image(systemName: "arrow.up.right")
+                        }
+                    }
                 )
-                .frame(maxWidth: .infinity)
-                .fontWeight(.semibold)
+
+                Link(
+                    destination: URL(string: "itms-apps://itunes.apple.com/gb/app/id6499279663?action=write-review&mt=8")!,
+                    label: {
+                        HStack {
+                            Text("Leave a Review")
+                            Spacer()
+                            Image(systemName: "star")
+                        }
+                    }
+                )
+
+                Link(
+                    destination: URL(string: "mailto:kylebshr@me.com")!,
+                    label: {
+                        HStack {
+                            Text("Email Me")
+                            Spacer()
+                            Image(systemName: "envelope")
+                        }
+                    }
+                )
             }
+            .fontWeight(.medium)
 
             Section {
                 Button {
                     viewModel.signOut()
                 } label: {
-                    Text("Sign Out")
-                        .frame(maxWidth: .infinity)
-                        .fontWeight(.semibold)
+                    HStack {
+                        Text("Sign Out")
+                        Spacer()
+                        Image(systemName: "arrow.uturn.backward")
+                    }
                 }
             } footer: {
                 Text("Version \(Bundle.main.fullVersion)")
@@ -81,6 +118,7 @@ struct SettingsView: View {
                     .multilineTextAlignment(.center)
                     .padding(.vertical)
             }
+            .fontWeight(.medium)
         }
         .listStyle(.insetGrouped)
         .navigationTitle("Settings")
