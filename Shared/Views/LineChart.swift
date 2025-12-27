@@ -29,10 +29,11 @@ struct LineChart: View {
         if useFullYRange {
             return readings
         } else {
-            let startDate = Date.now.addingTimeInterval(-range.timeInterval - 60 * 5)
-            let endDate = Date.now
+            // Filter out older readings so we scale the y axis to current readings;
+            // pad a little so it can go off the edge.
+            let startDate = Date.now.addingTimeInterval(-(range.timeInterval + 60 * 15))
             return readings.filter { reading in
-                reading.t >= startDate && reading.t <= endDate
+                reading.t >= startDate
             }
         }
     }

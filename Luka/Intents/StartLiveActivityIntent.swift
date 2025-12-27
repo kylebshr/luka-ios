@@ -161,7 +161,7 @@ struct StartLiveActivityIntent: LiveActivityIntent {
             username: username,
             password: password,
             accountLocation: accountLocation,
-            duration: range.timeInterval,
+            duration: range.timeInterval + 60 * 15,
             preferences: LiveActivityPreferences(
                 targetRange: Int(Defaults[.targetRangeLowerBound])...Int(Defaults[.targetRangeUpperBound]),
                 unit: Defaults[.unit]
