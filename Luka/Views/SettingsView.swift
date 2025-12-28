@@ -64,13 +64,12 @@ struct SettingsView: View {
                     }
                 }
 
-                Link(
-                    destination: URL(string: "https://apps.apple.com/us/app/luka-mini-glucose-readings/id6497405885")!,
+                ShareLink(item: URL(string: "https://apps.apple.com/us/app/luka-mini-glucose-readings/id6497405885")!,
                     label: {
                         HStack {
                             Text("Luka for macOS")
                             Spacer()
-                            Image(systemName: "arrow.up.right")
+                            Image(systemName: "square.and.arrow.up")
                         }
                     }
                 )
