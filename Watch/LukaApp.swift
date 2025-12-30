@@ -17,6 +17,7 @@ struct LukaApp: App {
         WindowGroup {
             RootView().environment(viewModel)
         }
+        .handlesExternalEvents(matching: ["luka"])
         .onChange(of: scenePhase) {
             if scenePhase == .background {
                 WidgetCenter.shared.reloadAllTimelines()

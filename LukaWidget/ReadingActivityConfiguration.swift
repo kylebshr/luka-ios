@@ -20,6 +20,7 @@ struct ReadingActivityConfiguration: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: ReadingAttributes.self) { context in
             MainContentView(context: context)
+                .widgetURL(URL(string: "luka://"))
         } dynamicIsland: { context in
             return DynamicIsland {
                 DynamicIslandExpandedRegion(.center) {
