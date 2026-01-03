@@ -8,11 +8,10 @@
 import ActivityKit
 import AppIntents
 
-@available(iOS 26.0, *)
+@available(iOS 18.0, *)
 struct ToggleLiveActivityIntent: SetValueIntent, LiveActivityIntent {
     static let title: LocalizedStringResource = "Toggle Live Activity"
     static let description = IntentDescription("Start or stop the glucose Live Activity.")
-    static let supportedModes: IntentModes = .foreground(.dynamic)
 
     @Parameter(title: "Running")
     var value: Bool

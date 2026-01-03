@@ -9,7 +9,7 @@ import Defaults
 import SwiftUI
 import WidgetKit
 
-@available(iOS 26.0, *)
+@available(iOS 18.0, *)
 struct LiveActivityControl: ControlWidget {
     static let kind = "com.kylebashour.Glimpse.LiveActivityControl"
 
@@ -28,7 +28,7 @@ struct LiveActivityControl: ControlWidget {
     }
 }
 
-@available(iOS 26.0, *)
+@available(iOS 18.0, *)
 extension LiveActivityControl {
     struct Provider: ControlValueProvider {
         var previewValue: Bool { false }
