@@ -56,16 +56,16 @@ extension GlucoseReading {
             if let nowText {
                 return nowText
             } else if appendRelativeText {
-                return "Just now"
+                return String(localized: "Just now")
             } else {
-                return "Now"
+                return String(localized: "Now")
             }
         } else {
             let formatter = formatter(style: style)
             let text = formatter.string(from: date, to: currentDate)!
 
             if appendRelativeText {
-                return text + " ago"
+                return String(localized: "\(text) ago", comment: "Relative time suffix, e.g. '5 min ago'")
             } else {
                 return text
             }

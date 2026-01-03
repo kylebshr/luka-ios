@@ -1,0 +1,555 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        }
+      }
+    },
+    "%@ ago" : {
+      "comment" : "Relative time suffix, e.g. '5 min ago'",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ago"
+          }
+        }
+      }
+    },
+    "Anywhere Else" : {
+      "comment" : "Account location option for users outside US and Japan",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anywhere Else"
+          }
+        }
+      }
+    },
+    "Done" : {
+      "comment" : "Button to dismiss settings",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        }
+      }
+    },
+    "Email Me" : {
+      "comment" : "Settings row to contact developer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Email Me"
+          }
+        }
+      }
+    },
+    "End Live Activity" : {
+      "comment" : "Button to stop Live Activity",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End Live Activity"
+          }
+        }
+      }
+    },
+    "Excellent widgets and Live Activities for Dexcom continuous glucose monitors." : {
+      "comment" : "App tagline on sign-in screen",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Excellent widgets and Live Activities for Dexcom continuous glucose monitors."
+          }
+        }
+      }
+    },
+    "General" : {
+      "comment" : "Settings section header",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "General"
+          }
+        }
+      }
+    },
+    "Graph range" : {
+      "comment" : "Picker label for selecting graph time range",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Graph range"
+          }
+        }
+      }
+    },
+    "Graphs" : {
+      "comment" : "Settings section header for graph options",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Graphs"
+          }
+        }
+      }
+    },
+    "Japan" : {
+      "comment" : "Account location option for Japan/APAC region",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Japan"
+          }
+        }
+      }
+    },
+    "Just now" : {
+      "comment" : "Timestamp for very recent readings",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Just now"
+          }
+        }
+      }
+    },
+    "Last %@" : {
+      "comment" : "Live Activity label showing graph range, e.g. 'Last 3H'",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last %@"
+          }
+        }
+      }
+    },
+    "Leave a Review" : {
+      "comment" : "Settings row to leave App Store review",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leave a Review"
+          }
+        }
+      }
+    },
+    "Live" : {
+      "comment" : "Status indicator when Live Activity is receiving updates",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live"
+          }
+        }
+      }
+    },
+    "Live Activity ended" : {
+      "comment" : "Message shown when Live Activity has expired",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live Activity ended"
+          }
+        }
+      }
+    },
+    "Lower target range" : {
+      "comment" : "Settings slider title for low glucose threshold",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lower target range"
+          }
+        }
+      }
+    },
+    "Luka for macOS" : {
+      "comment" : "Settings row to share macOS app",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Luka for macOS"
+          }
+        }
+      }
+    },
+    "Network Error" : {
+      "comment" : "Widget error when unable to fetch data",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Network Error"
+          }
+        }
+      }
+    },
+    "No Account" : {
+      "comment" : "Widget error when user is not signed in",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Account"
+          }
+        }
+      }
+    },
+    "No Recent Readings" : {
+      "comment" : "Widget error when no recent glucose data available",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Recent Readings"
+          }
+        }
+      }
+    },
+    "Now" : {
+      "comment" : "Short timestamp for very recent readings",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Now"
+          }
+        }
+      }
+    },
+    "Offline" : {
+      "comment" : "Status indicator when Live Activity is not receiving updates",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Offline"
+          }
+        }
+      }
+    },
+    "Offline at %@" : {
+      "comment" : "Status showing last update time when offline",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Offline at %@"
+          }
+        }
+      }
+    },
+    "OK" : {
+      "comment" : "Alert dismiss button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "Password" : {
+      "comment" : "Password text field placeholder",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Password"
+          }
+        }
+      }
+    },
+    "Reload" : {
+      "comment" : "Widget button to refresh data",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reload"
+          }
+        }
+      }
+    },
+    "Restart" : {
+      "comment" : "Button to restart Live Activity",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restart"
+          }
+        }
+      }
+    },
+    "Select an account location to get started" : {
+      "comment" : "Instruction on sign-in screen",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select an account location to get started"
+          }
+        }
+      }
+    },
+    "Settings" : {
+      "comment" : "Navigation title and toolbar button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
+          }
+        }
+      }
+    },
+    "Share Luka" : {
+      "comment" : "Settings row to share the app",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share Luka"
+          }
+        }
+      }
+    },
+    "Show Graph in Live Activity" : {
+      "comment" : "Settings toggle for Live Activity graph",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Graph in Live Activity"
+          }
+        }
+      }
+    },
+    "Sign In" : {
+      "comment" : "Navigation title and button label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign In"
+          }
+        }
+      }
+    },
+    "Sign in using your Dexcom username and password. **Dexcom share must be enabled with at least one follower**, but sign in using **your own Dexcom credentials**, not the followers. If your username is a phone number, format it with a + and the area code, for example +12223334444." : {
+      "comment" : "Help text explaining sign-in requirements",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign in using your Dexcom username and password. **Dexcom share must be enabled with at least one follower**, but sign in using **your own Dexcom credentials**, not the followers. If your username is a phone number, format it with a + and the area code, for example +12223334444."
+          }
+        }
+      }
+    },
+    "Sign Out" : {
+      "comment" : "Button to sign out of account",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign Out"
+          }
+        }
+      }
+    },
+    "Signed in as %@" : {
+      "comment" : "Settings section header showing current user",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Signed in as %@"
+          }
+        }
+      }
+    },
+    "Something Went Wrong" : {
+      "comment" : "Alert title for sign-in error",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Something Went Wrong"
+          }
+        }
+      }
+    },
+    "Start Live Activity" : {
+      "comment" : "Button to start Live Activity",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start Live Activity"
+          }
+        }
+      }
+    },
+    "This version of Luka is no longer supported. Please update to continue." : {
+      "comment" : "Force upgrade message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This version of Luka is no longer supported. Please update to continue."
+          }
+        }
+      }
+    },
+    "Toggle Live Activity" : {
+      "comment" : "Accessibility label for Live Activity button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toggle Live Activity"
+          }
+        }
+      }
+    },
+    "Try again in a few minutes" : {
+      "comment" : "Alert message for sign-in error",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again in a few minutes"
+          }
+        }
+      }
+    },
+    "United States" : {
+      "comment" : "Account location option for US users",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "United States"
+          }
+        }
+      }
+    },
+    "Units" : {
+      "comment" : "Settings picker label for glucose units",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Units"
+          }
+        }
+      }
+    },
+    "Update Now" : {
+      "comment" : "Button to open App Store for update",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update Now"
+          }
+        }
+      }
+    },
+    "Update Required" : {
+      "comment" : "Force upgrade screen title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update Required"
+          }
+        }
+      }
+    },
+    "Upper bound" : {
+      "comment" : "Settings slider title for graph upper limit",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upper bound"
+          }
+        }
+      }
+    },
+    "Upper target range" : {
+      "comment" : "Settings slider title for high glucose threshold",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upper target range"
+          }
+        }
+      }
+    },
+    "Username" : {
+      "comment" : "Username text field placeholder",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Username"
+          }
+        }
+      }
+    },
+    "Version %@" : {
+      "comment" : "Settings footer showing app version",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version %@"
+          }
+        }
+      }
+    },
+    "Welcome to" : {
+      "comment" : "Welcome message prefix before app name",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome to"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
