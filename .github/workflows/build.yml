@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Select Xcode version
-        run: sudo xcode-select -s /Applications/Xcode_26.2.0.app/Contents/Developer
+        run: sudo xcode-select -s /Applications/Xcode_26.2.app/Contents/Developer
 
       - name: Show Xcode version
         run: xcodebuild -version
@@ -32,14 +32,5 @@ jobs:
             -project Luka.xcodeproj \
             -scheme Luka \
             -destination 'platform=iOS Simulator,name=iPhone 16' \
-            -configuration Debug \
-            build
-
-      - name: Build Watch App
-        run: |
-          xcodebuild \
-            -project Luka.xcodeproj \
-            -scheme Watch \
-            -destination 'platform=watchOS Simulator,name=Apple Watch Series 10 (46mm)' \
             -configuration Debug \
             build
