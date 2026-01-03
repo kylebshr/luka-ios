@@ -21,13 +21,14 @@ enum DexcomHelper {
         if username == mockEmail || username == nil {
             return MockDexcomClient()
         } else {
-            return DexcomClient(
+            let client = DexcomClient(
                 username: username,
                 password: password,
                 existingAccountID: existingAccountID,
                 existingSessionID: existingSessionID,
                 accountLocation: accountLocation
             )
+            return CachingDexcomClient(wrapping: client)
         }
     }
 }
