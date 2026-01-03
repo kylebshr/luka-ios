@@ -3,7 +3,10 @@
     "allow": [
       "Bash(git log:*)",
       "Bash(cat:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "WebSearch",
+      "WebFetch(domain:rudrank.com)",
+      "Bash(xcodebuild:*)"
     ],
     "deny": [],
     "ask": []

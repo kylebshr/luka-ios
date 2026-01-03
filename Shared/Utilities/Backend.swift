@@ -12,11 +12,10 @@ enum Backend {
     case local
 
     static var current: Self {
-        #if DEBUG
-        .local
-        #else
-        .production
-        #endif
+//        #if DEBUG
+//        return .local
+//        #endif
+        return .production
     }
 
     var baseURL: URL {
