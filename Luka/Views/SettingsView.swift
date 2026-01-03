@@ -103,7 +103,7 @@ struct SettingsView: View {
             }
             .fontWeight(.medium)
 
-            Section("Signed in as") {
+            Section {
                 if let username {
                     Text(username)
                 }
@@ -116,6 +116,10 @@ struct SettingsView: View {
                         Spacer()
                         Image(systemName: "rectangle.portrait.and.arrow.right")
                     }
+                }
+            } header: {
+                if username != nil {
+                    Text("Signed in as")
                 }
             } footer: {
                 Text("Version \(Bundle.main.fullVersion)")
