@@ -12,9 +12,9 @@ import Foundation
 /// A caching wrapper around DexcomClientService that stores readings in shared UserDefaults.
 ///
 /// Caching strategy:
-/// - Always fetches at maximum fidelity (24h) to satisfy any duration request
 /// - Cache is valid if the newest reading is less than 5 minutes old
-/// - Lower fidelity requests are satisfied by filtering cached readings
+/// - Lower fidelity requests can be satisfied by filtering higher-fidelity cached data
+/// - Cache is updated when fetched data has higher fidelity than existing cache
 final class CachingDexcomClient: DexcomClientService {
     private let underlying: DexcomClientService
 
@@ -40,23 +40,23 @@ final class CachingDexcomClient: DexcomClientService {
             return cache.readings(for: requiredSeconds)
         }
 
-        // Cache miss or stale - fetch at max fidelity
+        // Cache miss or stale - fetch what was requested
         let readings = try await underlying.getGlucoseReadings(
-            duration: .maxGlucoseDuration,
-            maxCount: .maxGlucoseCount
+            duration: duration,
+            maxCount: maxCount
         )
 
-        // Update cache (sorted by date for efficient access)
-        let maxDurationSeconds = Measurement<UnitDuration>.maxGlucoseDuration
-            .converted(to: .seconds).value
-        let newCache = GlucoseReadingsCache(
-            readings: readings.sorted { $0.date < $1.date },
-            duration: maxDurationSeconds
-        )
-        Defaults[.cachedReadings] = newCache
+        // Update cache if this fetch has higher fidelity than existing cache
+        let existingDuration = Defaults[.cachedReadings]?.duration ?? 0
+        if requiredSeconds > existingDuration {
+            let newCache = GlucoseReadingsCache(
+                readings: readings.sorted { $0.date < $1.date },
+                duration: requiredSeconds
+            )
+            Defaults[.cachedReadings] = newCache
+        }
 
-        // Return filtered for requested duration
-        return newCache.readings(for: requiredSeconds)
+        return readings.sorted { $0.date < $1.date }
     }
 
     func getLatestGlucoseReading() async throws -> GlucoseReading? {
@@ -65,9 +65,8 @@ final class CachingDexcomClient: DexcomClientService {
             return cache.latestReading
         }
 
-        // Cache miss - fetch fresh data at max fidelity
-        let readings = try await getGlucoseReadings()
-        return readings.last
+        // Cache miss - fetch just the latest
+        return try await underlying.getLatestGlucoseReading()
     }
 
     func getCurrentGlucoseReading() async throws -> GlucoseReading? {
