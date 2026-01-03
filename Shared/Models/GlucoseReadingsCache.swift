@@ -9,13 +9,14 @@ import Defaults
 import Dexcom
 import Foundation
 
+/// Cache for glucose readings, stored sorted by date ascending (oldest first, newest last).
 struct GlucoseReadingsCache: Codable, Defaults.Serializable {
     let readings: [GlucoseReading]
     let duration: TimeInterval
 
     /// Returns true if the newest reading is less than 5 minutes old
     var isValid: Bool {
-        guard let newest = readings.max(by: { $0.date < $1.date }) else {
+        guard let newest = readings.last else {
             return false
         }
         return Date.now.timeIntervalSince(newest.date) < 5 * 60
@@ -32,8 +33,8 @@ struct GlucoseReadingsCache: Codable, Defaults.Serializable {
         return readings.filter { $0.date >= cutoff }
     }
 
-    /// Returns the most recent reading, if valid
+    /// Returns the most recent reading
     var latestReading: GlucoseReading? {
-        readings.max(by: { $0.date < $1.date })
+        readings.last
     }
 }

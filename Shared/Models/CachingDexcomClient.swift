@@ -46,11 +46,11 @@ final class CachingDexcomClient: DexcomClientService {
             maxCount: .maxGlucoseCount
         )
 
-        // Update cache
+        // Update cache (sorted by date for efficient access)
         let maxDurationSeconds = Measurement<UnitDuration>.maxGlucoseDuration
             .converted(to: .seconds).value
         let newCache = GlucoseReadingsCache(
-            readings: readings,
+            readings: readings.sorted { $0.date < $1.date },
             duration: maxDurationSeconds
         )
         Defaults[.cachedReadings] = newCache
@@ -67,7 +67,7 @@ final class CachingDexcomClient: DexcomClientService {
 
         // Cache miss - fetch fresh data at max fidelity
         let readings = try await getGlucoseReadings()
-        return readings.max(by: { $0.date < $1.date })
+        return readings.last
     }
 
     func getCurrentGlucoseReading() async throws -> GlucoseReading? {
