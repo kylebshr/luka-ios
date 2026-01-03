@@ -5,7 +5,6 @@
 //  Created by Kyle Bashour on 4/26/24.
 //
 
-import ActivityKit
 import Defaults
 import Dexcom
 import SwiftUI
@@ -14,7 +13,6 @@ import WidgetKit
 
 @MainActor struct MainView: View {
     @Environment(RootViewModel.self) private var viewModel
-    @Environment(\.scenePhase) private var scenePhase
     @Environment(\.verticalSizeClass) private var verticalSizeClass
 
     @Default(.selectedRange) private var portraitRange
@@ -25,10 +23,10 @@ import WidgetKit
     @Default(.unit) private var unit
     @Default(.dismissedBannerIDs) private var dismissedBannerIDs
 
+    @Default(.isLiveActivityRunning) private var isActivityActive
+
     @State private var isPresentingSettings = false
     @State private var liveViewModel = LiveViewModel()
-    @State private var activity: Activity<ReadingAttributes>? = Activity<ReadingAttributes>.activities
-        .first
     @State private var isActivityLoading = false
     @State private var selectedChartReading: LiveActivityState.Reading?
     @State private var haptics = UIImpactFeedbackGenerator(style: .rigid)
@@ -82,11 +80,6 @@ import WidgetKit
         case .error:
             return true
         }
-    }
-
-    private var isActivityActive: Bool {
-        guard let activity else { return false }
-        return activity.activityState == .active
     }
 
     private var isCompact: Bool {
@@ -170,18 +163,9 @@ import WidgetKit
             haptics.prepare()
         }
         .fontDesign(.rounded)
-        .task {
-            for await activity in Activity<ReadingAttributes>.activityUpdates {
-                self.activity = activity
-            }
-        }
         .onChange(of: scrubbingGlucoseReading) {
             haptics.impactOccurred()
             haptics.prepare()
-        }
-        .onChange(of: scenePhase) {
-            activity = Activity<ReadingAttributes>.activities
-                .first
         }
         .animation(.snappy, value: dismissedBannerIDs)
     }
@@ -228,24 +212,19 @@ import WidgetKit
     private func toggleLiveActivity() async {
         guard !isActivityLoading else { return }
 
-        if isActivityActive {
-            // End the active Live Activity
-            await activity?.end(nil, dismissalPolicy: .immediate)
-            activity = nil
-            UINotificationFeedbackGenerator().notificationOccurred(.success)
-        } else {
-            isActivityLoading = true
-            defer { isActivityLoading = false }
+        isActivityLoading = true
+        defer { isActivityLoading = false }
 
-            // Start a new Live Activity using the Intent
-            let intent = StartLiveActivityIntent(source: "App")
-            do {
-                _ = try await intent.perform()
-                UINotificationFeedbackGenerator().notificationOccurred(.success)
-            } catch {
-                print("Failed to start Live Activity: \(error)")
-                UINotificationFeedbackGenerator().notificationOccurred(.error)
+        do {
+            if isActivityActive {
+                _ = try await EndLiveActivityIntent().perform()
+            } else {
+                _ = try await StartLiveActivityIntent(source: "App").perform()
             }
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
+        } catch {
+            print("Failed to toggle Live Activity: \(error)")
+            UINotificationFeedbackGenerator().notificationOccurred(.error)
         }
     }
 
