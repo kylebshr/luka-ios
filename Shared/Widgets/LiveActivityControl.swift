@@ -22,7 +22,7 @@ struct LiveActivityControl: ControlWidget {
             ) { isOn in
                 Label(isOn ? "On" : "Off", systemImage: "arrow.right")
             }
-            .tint(.accentColor)
+            .tint(.green)
         }
         .displayName("Live Activity")
         .description("Toggle your glucose Live Activity.")
