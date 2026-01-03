@@ -27,12 +27,6 @@ struct SettingsView: View {
 
     var body: some View {
         List {
-            if let username {
-                Section("Account") {
-                    LabeledContent("Signed in as", value: username)
-                }
-            }
-
             Section("General") {
                 Picker("Units", selection: $unit) {
                     Text(GlucoseFormatter.Unit.mgdl.text)
@@ -116,8 +110,13 @@ struct SettingsView: View {
                     HStack {
                         Text("Sign Out")
                         Spacer()
-                        Image(systemName: "arrow.uturn.backward")
+                        Image(systemName: "rectangle.portrait.and.arrow.right")
                     }
+                }
+            } header: {
+                if let username {
+                    AccountHeaderView(username: username)
+                        .padding(.bottom, .spacing4)
                 }
             } footer: {
                 Text("Version \(Bundle.main.fullVersion)")
@@ -148,6 +147,30 @@ struct SettingsView: View {
             }
         }
         .fontDesign(.rounded)
+    }
+}
+
+private struct AccountHeaderView: View {
+    var username: String
+
+    var body: some View {
+        HStack(spacing: .spacing6) {
+            Image(systemName: "person.crop.circle.fill")
+                .font(.system(size: 40))
+                .foregroundStyle(.accent)
+
+            VStack(alignment: .leading, spacing: .spacing1) {
+                Text("Signed in as")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                    .textCase(.uppercase)
+
+                Text(username)
+                    .font(.body.weight(.medium))
+                    .foregroundStyle(.primary)
+            }
+        }
+        .padding(.top, .spacing4)
     }
 }
 
