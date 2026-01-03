@@ -80,18 +80,14 @@ struct SettingsView: View {
             .fontWeight(.medium)
 
             Section {
-                if let username {
-                    Text(username)
-                }
-
                 Button {
                     viewModel.signOut()
                 } label: {
                     SettingsRow("Sign Out", systemImage: "rectangle.portrait.and.arrow.right")
                 }
             } header: {
-                if username != nil {
-                    Text("Signed in as")
+                if let username {
+                    Text("Signed in as \(username)")
                 }
             } footer: {
                 Text("Version \(Bundle.main.fullVersion)")
