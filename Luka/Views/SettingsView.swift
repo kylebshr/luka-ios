@@ -8,6 +8,7 @@
 import SwiftUI
 import Defaults
 import Dexcom
+import KeychainAccess
 
 struct SettingsView: View {
     @Environment(RootViewModel.self) private var viewModel
@@ -20,8 +21,18 @@ struct SettingsView: View {
     @Default(.unit) private var unit
     @Default(.sessionHistory) private var sessionHistory
 
+    private var username: String? {
+        Keychain.shared.username
+    }
+
     var body: some View {
         List {
+            if let username {
+                Section("Account") {
+                    LabeledContent("Signed in as", value: username)
+                }
+            }
+
             Section("General") {
                 Picker("Units", selection: $unit) {
                     Text(GlucoseFormatter.Unit.mgdl.text)
