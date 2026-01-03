@@ -29,6 +29,6 @@ jobs:
           xcodebuild \
             -project Luka.xcodeproj \
             -scheme Luka \
-            -destination 'platform=iOS Simulator,name=iPhone 16' \
+            -destination 'platform=iOS Simulator,name=iPhone 17' \
             -configuration Debug \
             build
