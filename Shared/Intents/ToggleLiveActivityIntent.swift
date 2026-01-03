@@ -5,9 +5,8 @@
 //  Created by Claude on 1/2/26.
 //
 
-import AppIntents
 import ActivityKit
-import WidgetKit
+import AppIntents
 
 @available(iOS 26.0, *)
 struct ToggleLiveActivityIntent: SetValueIntent, LiveActivityIntent {

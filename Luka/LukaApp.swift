@@ -19,6 +19,8 @@ struct LukaApp: App {
 
     @State private var viewModel = RootViewModel()
 
+    private let liveActivityManager = LiveActivityManager.shared
+
     init() {
         let config = TelemetryDeck.Config(appID: "7C1E8E40-73DE-4BC4-BDBF-705218647D91")
         TelemetryDeck.initialize(config: config)
@@ -49,6 +51,8 @@ struct LukaApp: App {
         .onChange(of: scenePhase) {
             if scenePhase == .background {
                 WidgetCenter.shared.reloadAllTimelines()
+            } else if scenePhase == .active {
+                liveActivityManager.syncState()
             }
         }
     }
