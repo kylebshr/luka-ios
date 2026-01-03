@@ -62,44 +62,20 @@ struct SettingsView: View {
 
             Section {
                 ShareLink(item: URL(string: "https://apps.apple.com/us/app/luka-blood-glucose-readings/id6499279663")!) {
-                    HStack {
-                        Text("Share Luka")
-                        Spacer()
-                        Image(systemName: "square.and.arrow.up")
-                    }
+                    SettingsRow("Share Luka", systemImage: "square.and.arrow.up")
                 }
 
-                ShareLink(item: URL(string: "https://apps.apple.com/us/app/luka-mini-glucose-readings/id6497405885")!,
-                    label: {
-                        HStack {
-                            Text("Luka for macOS")
-                            Spacer()
-                            Image(systemName: "square.and.arrow.up")
-                        }
-                    }
-                )
+                ShareLink(item: URL(string: "https://apps.apple.com/us/app/luka-mini-glucose-readings/id6497405885")!) {
+                    SettingsRow("Luka for macOS", systemImage: "square.and.arrow.up")
+                }
 
-                Link(
-                    destination: URL(string: "itms-apps://itunes.apple.com/gb/app/id6499279663?action=write-review&mt=8")!,
-                    label: {
-                        HStack {
-                            Text("Leave a Review")
-                            Spacer()
-                            Image(systemName: "star")
-                        }
-                    }
-                )
+                Link(destination: URL(string: "itms-apps://itunes.apple.com/gb/app/id6499279663?action=write-review&mt=8")!) {
+                    SettingsRow("Leave a Review", systemImage: "star")
+                }
 
-                Link(
-                    destination: URL(string: "mailto:kylebshr@me.com")!,
-                    label: {
-                        HStack {
-                            Text("Email Me")
-                            Spacer()
-                            Image(systemName: "envelope")
-                        }
-                    }
-                )
+                Link(destination: URL(string: "mailto:kylebshr@me.com")!) {
+                    SettingsRow("Email Me", systemImage: "envelope")
+                }
             }
             .fontWeight(.medium)
 
@@ -111,11 +87,7 @@ struct SettingsView: View {
                 Button {
                     viewModel.signOut()
                 } label: {
-                    HStack {
-                        Text("Sign Out")
-                        Spacer()
-                        Image(systemName: "rectangle.portrait.and.arrow.right")
-                    }
+                    SettingsRow("Sign Out", systemImage: "rectangle.portrait.and.arrow.right")
                 }
             } header: {
                 if username != nil {
@@ -150,6 +122,25 @@ struct SettingsView: View {
             }
         }
         .fontDesign(.rounded)
+    }
+}
+
+private struct SettingsRow: View {
+    var title: String
+    var systemImage: String
+
+    init(_ title: String, systemImage: String) {
+        self.title = title
+        self.systemImage = systemImage
+    }
+
+    var body: some View {
+        HStack {
+            Text(title)
+            Spacer()
+            Image(systemName: systemImage)
+                .frame(width: 24, alignment: .center)
+        }
     }
 }
 
