@@ -1,0 +1,46 @@
+name: Build
+
+on:
+  push:
+    branches: [ main, develop, 'claude/**' ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build:
+    name: Build iOS App
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Select Xcode version
+        run: sudo xcode-select -s /Applications/Xcode_15.4.app/Contents/Developer
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Resolve Swift Package Dependencies
+        run: |
+          xcodebuild -project Luka.xcodeproj \
+            -scheme Luka \
+            -resolvePackageDependencies
+
+      - name: Build Luka (iPhone)
+        run: |
+          xcodebuild \
+            -project Luka.xcodeproj \
+            -scheme Luka \
+            -destination 'platform=iOS Simulator,name=iPhone 16' \
+            -configuration Debug \
+            build
+
+      - name: Build Watch App
+        run: |
+          xcodebuild \
+            -project Luka.xcodeproj \
+            -scheme Watch \
+            -destination 'platform=watchOS Simulator,name=Apple Watch Series 10 (46mm)' \
+            -configuration Debug \
+            build
