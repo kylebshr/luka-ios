@@ -8,6 +8,7 @@
 import SwiftUI
 import Defaults
 import Dexcom
+import KeychainAccess
 
 struct SettingsView: View {
     @Environment(RootViewModel.self) private var viewModel
@@ -19,6 +20,10 @@ struct SettingsView: View {
     @Default(.showChartLiveActivity) private var showChartLiveActivity
     @Default(.unit) private var unit
     @Default(.sessionHistory) private var sessionHistory
+
+    private var username: String? {
+        Keychain.shared.username
+    }
 
     var body: some View {
         List {
@@ -99,14 +104,22 @@ struct SettingsView: View {
             .fontWeight(.medium)
 
             Section {
+                if let username {
+                    Text(username)
+                }
+
                 Button {
                     viewModel.signOut()
                 } label: {
                     HStack {
                         Text("Sign Out")
                         Spacer()
-                        Image(systemName: "arrow.uturn.backward")
+                        Image(systemName: "rectangle.portrait.and.arrow.right")
                     }
+                }
+            } header: {
+                if username != nil {
+                    Text("Signed in as")
                 }
             } footer: {
                 Text("Version \(Bundle.main.fullVersion)")
