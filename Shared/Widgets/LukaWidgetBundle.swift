@@ -15,6 +15,9 @@ struct LukaWidgetBundle: WidgetBundle {
         ReadingWidget()
         #if os(iOS)
         ReadingActivityConfiguration()
+        if #available(iOS 26.0, *) {
+            LiveActivityControl()
+        }
         #endif
     }
 }

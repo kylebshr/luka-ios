@@ -7,7 +7,9 @@
 
 import AppIntents
 import ActivityKit
+import Defaults
 import TelemetryDeck
+import WidgetKit
 
 struct EndLiveActivityIntent: LiveActivityIntent {
     static var title: LocalizedStringResource = "End Live Activity"
@@ -20,6 +22,10 @@ struct EndLiveActivityIntent: LiveActivityIntent {
             await activity.end(nil, dismissalPolicy: .immediate)
         }
 
+        Defaults[.isLiveActivityRunning] = false
+        if #available(iOS 26.0, *) {
+            ControlCenter.shared.reloadAllControls()
+        }
         TelemetryDeck.signal("LiveActivity.end")
         return .result()
     }

@@ -31,6 +31,7 @@ extension Defaults.Keys {
         iCloud: true
     )
     static let launchCount = Key<Int>("launchCount", default: 0, suite: .shared, iCloud: true)
+    static let isLiveActivityRunning = Key<Bool>("isLiveActivityRunning", default: false, suite: .shared)
 }
 
 extension AccountLocation: Defaults.Serializable {}

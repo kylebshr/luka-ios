@@ -103,20 +103,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		27BA04A32ED238BD0096F131 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Intents/StartLiveActivityIntent.swift,
-				Intents/StopLiveActivityIntent.swift,
-			);
-			target = 2703324C2BD99E90009535EE /* LukaWidget */;
-		};
 		27DB99BC2EA203D4005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				AppIcon.icon,
 				Images.xcassets,
 				Intents/GraphRange.swift,
+				Intents/StartLiveActivityIntent.swift,
+				Intents/StopLiveActivityIntent.swift,
+				Intents/ToggleLiveActivityIntent.swift,
 				"Models/DexcomClient+Service.swift",
 				Models/DexcomClientService.swift,
 				Models/DexcomDelegate.swift,
@@ -204,6 +199,9 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				AppIcon.icon,
+				Intents/StartLiveActivityIntent.swift,
+				Intents/StopLiveActivityIntent.swift,
+				Intents/ToggleLiveActivityIntent.swift,
 				Models/ReadingAttributes.swift,
 				"Modifiers/View+Modifiers.swift",
 				Style/CardModifier.swift,
@@ -213,6 +211,7 @@
 				"Utilities/EdgeInsets+Extensions.swift",
 				"Utilities/View+Modifier.swift",
 				"View Models/LiveViewModel.swift",
+				Widgets/LiveActivityControl.swift,
 			);
 			target = 2741EA242BD8AF08003EDEB2 /* WatchWidget */;
 		};
@@ -255,7 +254,7 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		27DB994A2EA203D4005B8087 /* Shared */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (27DB99BC2EA203D4005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 27DB99BD2EA203D4005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 27DB99BE2EA203D4005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 27DB99BF2EA203D4005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Shared; sourceTree = "<group>"; };
-		27DB99D12EA203DC005B8087 /* Luka */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (27DB99E62EA203DC005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 27BA04A32ED238BD0096F131 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 27DB99E72EA203DC005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Luka; sourceTree = "<group>"; };
+		27DB99D12EA203DC005B8087 /* Luka */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (27DB99E62EA203DC005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 27DB99E72EA203DC005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Luka; sourceTree = "<group>"; };
 		27DB99EC2EA203E0005B8087 /* LukaWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (27DB99EF2EA203E0005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = LukaWidget; sourceTree = "<group>"; };
 		27DB99F52EA203E2005B8087 /* Watch */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Watch; sourceTree = "<group>"; };
 		27DB99FD2EA203E4005B8087 /* WatchWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (27DB99FF2EA203E4005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = WatchWidget; sourceTree = "<group>"; };

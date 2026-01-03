@@ -12,6 +12,7 @@ import AppIntents
 import ActivityKit
 @preconcurrency import Dexcom
 import TelemetryDeck
+import WidgetKit
 
 extension DexcomError: @retroactive CustomLocalizedStringResourceConvertible {
     public var localizedStringResource: LocalizedStringResource {
@@ -95,6 +96,11 @@ struct StartLiveActivityIntent: LiveActivityIntent {
                     range: range
                 )
 
+                Defaults[.isLiveActivityRunning] = true
+                if #available(iOS 26.0, *) {
+                    ControlCenter.shared.reloadAllControls()
+                }
+
                 TelemetryDeck.signal(
                     "LiveActivity.started",
                     parameters: ["source": source]
@@ -121,6 +127,10 @@ struct StartLiveActivityIntent: LiveActivityIntent {
             for await state in activity.activityStateUpdates {
                 switch state {
                 case .dismissed, .ended:
+                    Defaults[.isLiveActivityRunning] = false
+                    if #available(iOS 26.0, *) {
+                        ControlCenter.shared.reloadAllControls()
+                    }
                     await sendEndLiveActivity(username: username)
                 case .active, .pending, .stale:
                     break
