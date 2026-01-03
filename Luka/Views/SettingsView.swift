@@ -122,6 +122,8 @@ struct SettingsView: View {
 }
 
 private struct SettingsRow: View {
+    @ScaledMetric private var iconFrameWidth: CGFloat = 24
+
     var title: String
     var systemImage: String
 
@@ -135,7 +137,7 @@ private struct SettingsRow: View {
             Text(title)
             Spacer()
             Image(systemName: systemImage)
-                .frame(width: 24, alignment: .center)
+                .frame(width: iconFrameWidth, alignment: .center)
         }
     }
 }
