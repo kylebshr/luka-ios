@@ -104,11 +104,11 @@ extension AccountLocation: @retroactive Identifiable {
     var displayName: String {
         switch self {
         case .usa:
-            "United States"
+            String(localized: "United States")
         case .apac:
-            "Japan"
+            String(localized: "Japan")
         case .worldwide:
-            "Anywhere Else"
+            String(localized: "Anywhere Else")
         }
     }
 }

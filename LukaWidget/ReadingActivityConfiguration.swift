@@ -26,7 +26,7 @@ struct ReadingActivityConfiguration: Widget {
                     HStack(spacing: 0) {
                         context.timestamp
                         if !context.isStale {
-                            Text(" • Last \(context.attributes.range.abbreviatedName)")
+                            Text(" • Last \(context.attributes.range.abbreviatedName)", comment: "Live Activity label showing graph range")
                         }
                     }
                     .font(.caption2.bold())
@@ -210,7 +210,7 @@ private struct MainContentView: View {
                         context.timestamp
                         if showChartLiveActivity {
                             if context.state.c != nil, !context.isStale {
-                                Text("Last \(context.attributes.range.abbreviatedName)")
+                                Text("Last \(context.attributes.range.abbreviatedName)", comment: "Live Activity label showing graph range")
                             }
                         }
                     }
@@ -328,14 +328,14 @@ private struct GraphPieceView: View {
 
 private extension ActivityViewContext<ReadingAttributes> {
     var timestamp: Text {
-        let offlineText = Text("Offline").foregroundStyle(.red)
+        let offlineText = Text("Offline", comment: "Status indicator when Live Activity is not receiving updates").foregroundStyle(.red)
 
         if let current = state.c {
             if isStale {
                 let lastReading = current.date.formatted(date: .omitted, time: .shortened)
-                return Text("\(offlineText) at \(lastReading)")
+                return Text("Offline at \(lastReading)", comment: "Status showing last update time when offline").foregroundStyle(.red)
             } else {
-                return Text("Live").foregroundStyle(.green)
+                return Text("Live", comment: "Status indicator when Live Activity is receiving updates").foregroundStyle(.green)
             }
         } else {
             return offlineText

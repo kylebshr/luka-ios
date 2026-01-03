@@ -54,9 +54,9 @@ extension GlucoseEntryError {
     var buttonText: String {
         switch self {
         case .loggedOut:
-            "Sign In"
+            String(localized: "Sign In")
         case .failedToLoad, .noRecentReadings:
-            "Reload"
+            String(localized: "Reload")
         }
     }
 
@@ -74,11 +74,11 @@ extension GlucoseEntryError {
     var description: String {
         switch self {
         case .loggedOut:
-            "No Account"
+            String(localized: "No Account")
         case .noRecentReadings:
-            "No Recent Readings"
+            String(localized: "No Recent Readings")
         case .failedToLoad:
-            "Network Error"
+            String(localized: "Network Error")
         }
     }
 }

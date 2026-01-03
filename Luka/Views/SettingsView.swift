@@ -87,10 +87,10 @@ struct SettingsView: View {
                 }
             } header: {
                 if let username {
-                    Text("Signed in as \(username)")
+                    Text("Signed in as \(username)", comment: "Settings section header showing current user")
                 }
             } footer: {
-                Text("Version \(Bundle.main.fullVersion)")
+                Text("Version \(Bundle.main.fullVersion)", comment: "Settings footer showing app version")
                     .font(.footnote.weight(.medium))
                     .fontDesign(.monospaced)
                     .foregroundStyle(.secondary)
