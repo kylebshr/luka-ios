@@ -22,6 +22,12 @@
             "value" : " • Dernières %@"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " • Dernières %@"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -62,6 +68,12 @@
             "value" : "%1$@ %2$@"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ %2$@"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -92,6 +104,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "il y a %@"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "il y a %@"
@@ -137,6 +155,12 @@
             "value" : "%1$@%2$@"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@%2$@"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -166,6 +190,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "24 heures"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "24 heures"
@@ -205,6 +235,12 @@
             "value" : "Autres régions"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autres régions"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -234,6 +270,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configurer les paramètres du widget graphique."
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Configurer les paramètres du widget graphique."
@@ -273,6 +315,12 @@
             "value" : "Configurer les paramètres du widget de mesure."
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configurer les paramètres du widget de lecture."
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -307,6 +355,12 @@
             "value" : "Mesure actuelle"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lecture actuelle"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -336,6 +390,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Date"
@@ -375,6 +435,12 @@
             "value" : "Dexcom Clarity"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dexcom Clarity"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -404,6 +470,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dexcom G6"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dexcom G6"
@@ -443,6 +515,12 @@
             "value" : "Dexcom G7"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dexcom G7"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -472,6 +550,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminé"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Terminé"
@@ -511,6 +595,12 @@
             "value" : "Huit heures"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Huit heures"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -545,6 +635,12 @@
             "value" : "M'envoyer un e-mail"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "M'envoyer un courriel"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -574,6 +670,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminer"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Terminer"
@@ -613,6 +715,12 @@
             "value" : "Arrêter l'activité en direct"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrêter l'activité en direct"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -642,6 +750,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrêter l'activité en direct en cours."
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Arrêter l'activité en direct en cours."
@@ -681,6 +795,12 @@
             "value" : "D'excellents widgets et activités en direct pour les capteurs de glucose en continu Dexcom."
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "D'excellents widgets et activités en direct pour les capteurs de glycémie en continu Dexcom."
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -710,6 +830,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Général"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Général"
@@ -749,6 +875,12 @@
             "value" : "Glycémie"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Glycémie"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -778,6 +910,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plage du graphique"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Plage du graphique"
@@ -817,6 +955,12 @@
             "value" : "Plage du graphique"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plage du graphique"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -846,6 +990,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widget graphique"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Widget graphique"
@@ -885,6 +1035,12 @@
             "value" : "Graphiques"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Graphiques"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -919,6 +1075,12 @@
             "value" : "Japon"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Japon"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -948,6 +1110,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À l'instant"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "À l'instant"
@@ -988,6 +1156,12 @@
             "value" : "Dernières %@"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dernières %@"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1017,6 +1191,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir l'app"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ouvrir l'app"
@@ -1056,6 +1236,12 @@
             "value" : "Ouvrir au toucher"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir au toucher"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1085,6 +1271,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laisser un avis"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Laisser un avis"
@@ -1125,6 +1317,12 @@
             "value" : "En direct"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En direct"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1154,6 +1352,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les activités en direct sont désactivées."
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Les activités en direct sont désactivées."
@@ -1193,6 +1397,12 @@
             "value" : "Activité en direct"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activité en direct"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1222,6 +1432,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activité en direct terminée"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Activité en direct terminée"
@@ -1261,6 +1477,12 @@
             "value" : "Limite inférieure de la cible"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limite inférieure de la cible"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1290,6 +1512,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Luka"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Luka"
@@ -1330,6 +1558,12 @@
             "value" : "Luka %@"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Luka %@"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1359,6 +1593,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Luka pour macOS"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Luka pour macOS"
@@ -1398,6 +1638,12 @@
             "value" : "Max"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Max"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1427,6 +1673,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Min"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Min"
@@ -1466,6 +1718,12 @@
             "value" : "Suivre les mesures de glycémie dans une activité en direct."
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suivre les lectures de glycémie dans une activité en direct."
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1495,6 +1753,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur réseau"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erreur réseau"
@@ -1534,6 +1798,12 @@
             "value" : "Aucun compte"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun compte"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1566,6 +1836,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aucune mesure récente"
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune lecture récente"
           }
         },
         "nb" : {
@@ -1602,6 +1878,12 @@
             "value" : "Maintenant"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maintenant"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1631,6 +1913,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Désactivé"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Désactivé"
@@ -1671,6 +1959,12 @@
             "value" : "Hors ligne"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hors ligne"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1701,6 +1995,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hors ligne à %@"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hors ligne à %@"
@@ -1740,6 +2040,12 @@
             "value" : "OK"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1769,6 +2075,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activé"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Activé"
@@ -1808,6 +2120,12 @@
             "value" : "Une heure"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une heure"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1837,6 +2155,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mot de passe"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mot de passe"
@@ -1876,6 +2200,12 @@
             "value" : "Graphique de mesure"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Graphique de lecture"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1910,6 +2240,12 @@
             "value" : "Widget de mesure"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widget de lecture"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1939,6 +2275,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualiser"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Actualiser"
@@ -1978,6 +2320,12 @@
             "value" : "Recharger"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recharger"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2007,6 +2355,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Redémarrer"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Redémarrer"
@@ -2046,6 +2400,12 @@
             "value" : "En cours"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En cours"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2075,6 +2435,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sélectionnez une région de compte pour commencer"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sélectionnez une région de compte pour commencer"
@@ -2114,6 +2480,12 @@
             "value" : "Paramètres"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paramètres"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2143,6 +2515,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partager Luka"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Partager Luka"
@@ -2182,6 +2560,12 @@
             "value" : "Afficher le graphique dans l'activité en direct"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher le graphique dans l'activité en direct"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2211,6 +2595,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se connecter"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Se connecter"
@@ -2250,6 +2640,12 @@
             "value" : "Connectez-vous avec votre nom d'utilisateur et mot de passe Dexcom. **Dexcom Share doit être activé avec au moins un follower**, mais connectez-vous avec **vos propres identifiants Dexcom**, pas ceux du follower. Si votre nom d'utilisateur est un numéro de téléphone, formatez-le avec + et l'indicatif régional, par exemple +33123456789."
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connectez-vous avec votre nom d'utilisateur et mot de passe Dexcom. **Dexcom Share doit être activé avec au moins un abonné**, mais connectez-vous avec **vos propres identifiants Dexcom**, pas ceux de l'abonné. Si votre nom d'utilisateur est un numéro de téléphone, formatez-le avec + et l'indicatif régional, par exemple +15141234567."
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2279,6 +2675,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se déconnecter"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Se déconnecter"
@@ -2319,6 +2721,12 @@
             "value" : "Connecté en tant que %@"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connecté en tant que %@"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2348,6 +2756,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Six heures"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Six heures"
@@ -2387,6 +2801,12 @@
             "value" : "Seize heures"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seize heures"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2421,6 +2841,12 @@
             "value" : "Quelque chose s'est mal passé"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une erreur s'est produite"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2450,6 +2876,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Démarrer"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Démarrer"
@@ -2489,6 +2921,12 @@
             "value" : "Démarrer l'activité en direct"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Démarrer l'activité en direct"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2518,6 +2956,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Démarrer ou arrêter l'activité en direct de glycémie."
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Démarrer ou arrêter l'activité en direct de glycémie."
@@ -2557,6 +3001,12 @@
             "value" : "Action au toucher"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Action au toucher"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2586,6 +3036,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette version de Luka n'est plus prise en charge. Veuillez mettre à jour pour continuer."
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cette version de Luka n'est plus prise en charge. Veuillez mettre à jour pour continuer."
@@ -2625,6 +3081,12 @@
             "value" : "Trois heures"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trois heures"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2654,6 +3116,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heure"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Heure"
@@ -2693,6 +3161,12 @@
             "value" : "Basculer l'activité en direct"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Basculer l'activité en direct"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2722,6 +3196,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Basculer votre activité en direct de glycémie."
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Basculer votre activité en direct de glycémie."
@@ -2761,6 +3241,12 @@
             "value" : "Réessayez dans quelques minutes"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réessayez dans quelques minutes"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2790,6 +3276,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Douze heures"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Douze heures"
@@ -2829,6 +3321,12 @@
             "value" : "États-Unis"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "États-Unis"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2858,6 +3356,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unités"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unités"
@@ -2897,6 +3401,12 @@
             "value" : "Mettre à jour maintenant"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mettre à jour maintenant"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2926,6 +3436,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mise à jour requise"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mise à jour requise"
@@ -2965,6 +3481,12 @@
             "value" : "Limite supérieure"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limite supérieure"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2994,6 +3516,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limite supérieure de la cible"
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Limite supérieure de la cible"
@@ -3033,6 +3561,12 @@
             "value" : "Nom d'utilisateur"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nom d'utilisateur"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3067,6 +3601,12 @@
             "value" : "Bienvenue dans"
           }
         },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bienvenue dans"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3096,6 +3636,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous n'êtes pas connecté."
+          }
+        },
+        "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vous n'êtes pas connecté."
