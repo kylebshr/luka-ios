@@ -8,7 +8,7 @@
 import ActivityKit
 import AppIntents
 import Defaults
-@preconcurrency import Dexcom
+import Dexcom
 import Foundation
 import KeychainAccess
 import TelemetryDeck
@@ -34,8 +34,8 @@ struct StartLiveActivityIntent: LiveActivityIntent {
         }
     }
 
-    static var title: LocalizedStringResource = "Start Live Activity"
-    static var description = IntentDescription("Monitor glucose readings in a Live Activity.")
+    static let title: LocalizedStringResource = "Start Live Activity"
+    static let description = IntentDescription("Monitor glucose readings in a Live Activity.")
 
     private let username = Keychain.shared.username
     private let password = Keychain.shared.password

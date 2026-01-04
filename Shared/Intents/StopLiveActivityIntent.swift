@@ -10,8 +10,8 @@ import AppIntents
 import TelemetryDeck
 
 struct EndLiveActivityIntent: LiveActivityIntent {
-    static var title: LocalizedStringResource = "End Live Activity"
-    static var description = IntentDescription("End the currently running Live Activity.")
+    static let title: LocalizedStringResource = "End Live Activity"
+    static let description = IntentDescription("End the currently running Live Activity.")
 
     init() {}
 

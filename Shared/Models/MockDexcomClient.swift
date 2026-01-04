@@ -8,8 +8,8 @@
 import Foundation
 import Dexcom
 
-class MockDexcomClient: DexcomClientService {
-    weak var delegate: DexcomClientDelegate?
+final class MockDexcomClient: DexcomClientService, @unchecked Sendable {
+    func setDelegate(_ delegate: DexcomClientDelegate?) {}
 
     func getGlucoseReadings(duration: Measurement<UnitDuration>, maxCount: Int) async throws -> [GlucoseReading] {
         try? await Task.sleep(for: .seconds(0.2))

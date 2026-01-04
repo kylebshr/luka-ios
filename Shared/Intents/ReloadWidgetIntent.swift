@@ -8,8 +8,8 @@
 import AppIntents
 
 struct ReloadWidgetIntent: AppIntent {
-    static var title: LocalizedStringResource = "Reload"
-    static var description = IntentDescription("Reload")
+    static let title: LocalizedStringResource = "Reload"
+    static let description = IntentDescription("Reload")
 
     init() {}
 

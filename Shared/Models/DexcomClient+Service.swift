@@ -7,4 +7,4 @@
 
 import Dexcom
 
-extension DexcomClient: DexcomClientService {}
+extension DexcomClient: @preconcurrency DexcomClientService {}

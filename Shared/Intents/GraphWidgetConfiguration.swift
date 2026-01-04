@@ -9,8 +9,8 @@ import WidgetKit
 import AppIntents
 
 struct GraphWidgetConfiguration: WidgetConfigurationIntent {
-    static var title: LocalizedStringResource = "Graph Widget"
-    static var description = IntentDescription("Configure graph widget settings.")
+    static let title: LocalizedStringResource = "Graph Widget"
+    static let description = IntentDescription("Configure graph widget settings.")
 
     @Parameter(title: "Graph Range", default: .eightHours)
     var graphRange: GraphRange

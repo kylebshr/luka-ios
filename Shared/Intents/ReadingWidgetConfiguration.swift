@@ -9,8 +9,8 @@ import WidgetKit
 import AppIntents
 
 struct ReadingWidgetConfiguration: WidgetConfigurationIntent {
-    static var title: LocalizedStringResource = "Reading Widget"
-    static var description = IntentDescription("Configure reading widget settings.")
+    static let title: LocalizedStringResource = "Reading Widget"
+    static let description = IntentDescription("Configure reading widget settings.")
 
     @Parameter(title: "Tap Action", default: .refresh)
     var tapAction: WidgetTapAction

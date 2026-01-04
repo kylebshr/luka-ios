@@ -15,16 +15,15 @@ import Foundation
 /// - Cache is valid if the newest reading is less than 5 minutes old
 /// - Lower fidelity requests can be satisfied by filtering higher-fidelity cached data
 /// - Cache is updated when fetched data has higher fidelity than existing cache
-final class CachingDexcomClient: DexcomClientService {
+final class CachingDexcomClient: DexcomClientService, @unchecked Sendable {
     private let underlying: DexcomClientService
-
-    var delegate: DexcomClientDelegate? {
-        get { underlying.delegate }
-        set { underlying.delegate = newValue }
-    }
 
     init(wrapping client: DexcomClientService) {
         self.underlying = client
+    }
+
+    func setDelegate(_ delegate: DexcomClientDelegate?) {
+        underlying.setDelegate(delegate)
     }
 
     func getGlucoseReadings(

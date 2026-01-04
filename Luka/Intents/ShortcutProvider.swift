@@ -7,10 +7,10 @@
 
 import AppIntents
 
-extension LukaApp: AppShortcutsProvider {
-    static var shortcutTileColor: ShortcutTileColor = .lime
+struct LukaAppShortcutsProvider: AppShortcutsProvider {
+    static let shortcutTileColor: ShortcutTileColor = .lime
 
-    static var appShortcuts: [AppShortcut] {
+    nonisolated static var appShortcuts: [AppShortcut] {
         AppShortcut(
             intent: StartLiveActivityIntent(source: "Shortcut"),
             phrases: [
