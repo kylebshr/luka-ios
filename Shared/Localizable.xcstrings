@@ -1,12 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "" : {
-
-    },
-    " " : {
-
-    },
     " • Last %@" : {
       "comment" : "Live Activity label showing graph range"
     },
@@ -232,6 +226,9 @@
 
     },
     "Three hours" : {
+
+    },
+    "Time" : {
 
     },
     "Toggle Live Activity" : {

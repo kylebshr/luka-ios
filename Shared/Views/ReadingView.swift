@@ -32,7 +32,7 @@ struct ReadingView: View {
         HStack(spacing: 0) {
             Text(text).contentTransition(.numericText(value: Double(reading?.value ?? 0)))
             if let image {
-                Text("\u{200A}") // hair space
+                Text(verbatim: "\u{200A}") // hair space
                 image
                     .id(reading?.trend)
                     .transition(.blurReplace)

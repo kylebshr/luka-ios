@@ -50,7 +50,7 @@ struct GraphView: View {
                 ForEach(readings) { reading in
                     let value = min(reading.value, graphUpperBound)
                     PointMark(
-                        x: .value("", reading.date),
+                        x: .value("Time", reading.date),
                         y: .value(value.formatted(), value)
                     )
                     .symbol {
