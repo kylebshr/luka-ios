@@ -8,8 +8,8 @@
 import Foundation
 import Dexcom
 
-protocol DexcomClientService: AnyObject {
-    var delegate: DexcomClientDelegate? { get set }
+protocol DexcomClientService: AnyObject, Sendable {
+    func setDelegate(_ delegate: DexcomClientDelegate?)
 
     func getGlucoseReadings(duration: Measurement<UnitDuration>, maxCount: Int) async throws -> [GlucoseReading]
     func getLatestGlucoseReading() async throws -> GlucoseReading?

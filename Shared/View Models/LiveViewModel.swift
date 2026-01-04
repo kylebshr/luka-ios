@@ -68,7 +68,7 @@ import KeychainAccess
                 existingSessionID: Keychain.shared.sessionID,
                 accountLocation: accountLocation
             )
-            client?.delegate = delegate
+            client?.setDelegate(delegate)
             beginRefreshing()
         }
     }

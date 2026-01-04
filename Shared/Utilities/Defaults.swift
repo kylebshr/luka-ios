@@ -10,7 +10,8 @@ import Dexcom
 import Defaults
 
 extension UserDefaults {
-    static let shared = UserDefaults(suiteName: "group.com.kylebashour.Glimpse")!
+    /// UserDefaults is thread-safe for reads/writes
+    nonisolated(unsafe) static let shared = UserDefaults(suiteName: "group.com.kylebashour.Glimpse")!
 }
 
 extension Defaults.Keys {

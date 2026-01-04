@@ -88,7 +88,7 @@ private extension View {
 }
 
 private struct Frames: PreferenceKey {
-    static var defaultValue: Rects = .init()
+    static let defaultValue: Rects = .init()
 
     static func reduce(value: inout Rects, nextValue: () -> Rects) {
         let next = nextValue()
