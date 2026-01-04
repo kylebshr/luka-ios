@@ -143,7 +143,7 @@ private struct SettingsRow: View {
 }
 
 private struct GraphSliderView: View {
-    var title: String
+    var title: LocalizedStringKey
     @Binding var currentValue: Double
     var range: ClosedRange<Double>
 

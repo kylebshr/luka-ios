@@ -32,7 +32,7 @@ struct SignInView: View {
 
     private var content: some View {
         VStack(alignment: .leading) {
-            (Text("Welcome to") + Text(" Luka").foregroundStyle(.accent))
+            (Text("Welcome to") + Text(verbatim: " ") + Text("Luka").foregroundStyle(.accent))
             #if os(iOS)
                 .font(.largeTitle.weight(.bold))
                 .padding(.top, 64)
