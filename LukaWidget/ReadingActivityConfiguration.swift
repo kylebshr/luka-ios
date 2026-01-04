@@ -316,6 +316,7 @@ private struct GraphPieceView: View {
     var body: some View {
         ZStack {
             LineChart(range: context.attributes.range, readings: context.state.h, lineWidth: 15)
+                .saturation(2)
                 .blur(radius: 30)
                 .opacity(0.85)
             LineChart(range: context.attributes.range, readings: context.state.h)
