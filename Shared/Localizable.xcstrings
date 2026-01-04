@@ -200,7 +200,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hervorragende Widgets und Live-Aktivitäten für Dexcom-Glukosemessgeräte."
+            "value" : "Hervorragende Widgets und Live-Aktivitäten für Dexcom CGM-Systeme."
           }
         }
       }
@@ -474,7 +474,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Offline seit %@"
+            "value" : "Offline um %@"
           }
         }
       }
@@ -705,7 +705,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tippen-Aktion"
+            "value" : "Aktion beim Tippen"
           }
         }
       }
