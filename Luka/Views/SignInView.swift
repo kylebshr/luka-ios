@@ -101,14 +101,14 @@ struct SignInView: View {
 extension AccountLocation: @retroactive Identifiable {
     public var id: Self { self }
 
-    var displayName: String {
+    var displayName: LocalizedStringKey {
         switch self {
         case .usa:
-            String(localized: "United States")
+            "United States"
         case .apac:
-            String(localized: "Japan")
+            "Japan"
         case .worldwide:
-            String(localized: "Anywhere Else")
+            "Anywhere Else"
         }
     }
 }

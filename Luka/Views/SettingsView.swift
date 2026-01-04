@@ -124,10 +124,10 @@ struct SettingsView: View {
 private struct SettingsRow: View {
     @ScaledMetric private var iconFrameWidth: CGFloat = 24
 
-    var title: String
+    var title: LocalizedStringKey
     var systemImage: String
 
-    init(_ title: String, systemImage: String) {
+    init(_ title: LocalizedStringKey, systemImage: String) {
         self.title = title
         self.systemImage = systemImage
     }

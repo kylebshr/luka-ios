@@ -165,6 +165,16 @@
         }
       }
     },
+    "Email Me" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E-Mail schreiben"
+          }
+        }
+      }
+    },
     "End" : {
       "localizations" : {
         "de" : {
@@ -316,6 +326,16 @@
         }
       }
     },
+    "Leave a Review" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bewertung schreiben"
+          }
+        }
+      }
+    },
     "Live" : {
       "comment" : "Status indicator when Live Activity is receiving updates",
       "localizations" : {
@@ -373,6 +393,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Luka"
+          }
+        }
+      }
+    },
+    "Luka for macOS" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Luka für macOS"
           }
         }
       }
@@ -599,6 +629,16 @@
         }
       }
     },
+    "Share Luka" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Luka teilen"
+          }
+        }
+      }
+    },
     "Show Graph in Live Activity" : {
       "localizations" : {
         "de" : {
@@ -625,6 +665,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Melde dich mit deinem Dexcom-Benutzernamen und Passwort an. **Dexcom Share muss mit mindestens einem Follower aktiviert sein**, aber melde dich mit **deinen eigenen Dexcom-Anmeldedaten** an, nicht mit denen der Follower. Wenn dein Benutzername eine Telefonnummer ist, formatiere sie mit + und der Vorwahl, zum Beispiel +4912345678901."
+          }
+        }
+      }
+    },
+    "Sign Out" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abmelden"
           }
         }
       }
