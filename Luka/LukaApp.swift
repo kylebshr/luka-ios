@@ -33,6 +33,13 @@ struct LukaApp: App {
 
         // Increment launch count
         Defaults[.launchCount] += 1
+
+        // Start G7 BLE sensor if enabled
+        if Defaults[.g7BLEEnabled] {
+            Task { @MainActor in
+                G7SensorManager.shared.start()
+            }
+        }
     }
 
     var body: some Scene {
