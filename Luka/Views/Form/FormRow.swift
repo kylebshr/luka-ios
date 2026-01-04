@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct FormRow<Accessory: View>: View {
-    var title: String
-    var description: String?
+    var title: LocalizedStringKey
+    var description: LocalizedStringKey?
     @ViewBuilder var accessory: Accessory
 
     var body: some View {
@@ -37,8 +37,8 @@ struct FormRow<Accessory: View>: View {
 
 extension FormRow where Accessory == EmptyView {
     init(
-        title: String,
-        description: String? = nil
+        title: LocalizedStringKey,
+        description: LocalizedStringKey? = nil
     ) {
         self.init(title: title, description: description) {
             EmptyView()

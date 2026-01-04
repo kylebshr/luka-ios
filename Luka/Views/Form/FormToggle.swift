@@ -9,14 +9,14 @@ import SwiftUI
 import Defaults
 
 struct FormToggle: View {
-    var title: String
-    var description: String?
+    var title: LocalizedStringKey
+    var description: LocalizedStringKey?
 
     @Binding private var isOn: Bool
 
     init(
-        title: String,
-        description: String? = nil,
+        title: LocalizedStringKey,
+        description: LocalizedStringKey? = nil,
         get: @escaping () -> Bool,
         set: @escaping (Bool) -> Void
     ) {
@@ -26,8 +26,8 @@ struct FormToggle: View {
     }
 
     init(
-        title: String,
-        description: String? = nil,
+        title: LocalizedStringKey,
+        description: LocalizedStringKey? = nil,
         key: Defaults.Key<Bool>
     ) {
         self.title = title

@@ -90,9 +90,8 @@ struct SettingsView: View {
                     Text("Signed in as \(username)", comment: "Settings section header showing current user")
                 }
             } footer: {
-                Text("Version \(Bundle.main.fullVersion)", comment: "Settings footer showing app version")
-                    .font(.footnote.weight(.medium))
-                    .fontDesign(.monospaced)
+                Text("Luka \(Bundle.main.fullVersion)", comment: "Settings footer showing app version")
+                    .font(.footnote.weight(.semibold))
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity)
                     .multilineTextAlignment(.center)
@@ -124,10 +123,10 @@ struct SettingsView: View {
 private struct SettingsRow: View {
     @ScaledMetric private var iconFrameWidth: CGFloat = 24
 
-    var title: String
+    var title: LocalizedStringKey
     var systemImage: String
 
-    init(_ title: String, systemImage: String) {
+    init(_ title: LocalizedStringKey, systemImage: String) {
         self.title = title
         self.systemImage = systemImage
     }
@@ -143,7 +142,7 @@ private struct SettingsRow: View {
 }
 
 private struct GraphSliderView: View {
-    var title: String
+    var title: LocalizedStringKey
     @Binding var currentValue: Double
     var range: ClosedRange<Double>
 

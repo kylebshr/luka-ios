@@ -32,7 +32,7 @@ struct SignInView: View {
 
     private var content: some View {
         VStack(alignment: .leading) {
-            (Text("Welcome to") + Text(" Luka").foregroundStyle(.accent))
+            (Text("Welcome to") + Text(verbatim: " ") + Text("Luka").foregroundStyle(.accent))
             #if os(iOS)
                 .font(.largeTitle.weight(.bold))
                 .padding(.top, 64)
@@ -101,14 +101,14 @@ struct SignInView: View {
 extension AccountLocation: @retroactive Identifiable {
     public var id: Self { self }
 
-    var displayName: String {
+    var displayName: LocalizedStringKey {
         switch self {
         case .usa:
-            String(localized: "United States")
+            "United States"
         case .apac:
-            String(localized: "Japan")
+            "Japan"
         case .worldwide:
-            String(localized: "Anywhere Else")
+            "Anywhere Else"
         }
     }
 }
