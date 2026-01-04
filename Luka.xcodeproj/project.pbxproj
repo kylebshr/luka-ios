@@ -433,7 +433,6 @@
 				2741EA342BD8AF0A003EDEB2 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				27DB994A2EA203D4005B8087 /* Shared */,
 				27DB99F52EA203E2005B8087 /* Watch */,
 			);
 			name = Watch;
