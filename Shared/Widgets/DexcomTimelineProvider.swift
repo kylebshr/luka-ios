@@ -14,11 +14,15 @@ import Defaults
 protocol DexcomTimelineProvider {
     associatedtype Entry
 
-    var delegate: DexcomDelegate { get }
+    var delegate: KeychainDexcomDelegate { get }
 }
 
 extension DexcomTimelineProvider {
-    func makeClient(username: String, password: String, accountLocation: AccountLocation) -> DexcomClientService {
+    func makeClient(
+        username: String,
+        password: String,
+        accountLocation: AccountLocation
+    ) async -> DexcomClientService {
         let client = DexcomHelper.createService(
             username: username,
             password: password,
@@ -26,7 +30,7 @@ extension DexcomTimelineProvider {
             existingSessionID: Keychain.shared.sessionID,
             accountLocation: accountLocation
         )
-        client.setDelegate(delegate)
+        await client.setDelegate(delegate)
         return client
     }
 

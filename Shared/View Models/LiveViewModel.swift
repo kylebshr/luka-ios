@@ -32,7 +32,7 @@ import KeychainAccess
     @ObservationIgnored private var timer: Timer?
     @ObservationIgnored private var client: DexcomClientService?
     @ObservationIgnored private let decoder = JSONDecoder()
-    @ObservationIgnored private let delegate = DexcomDelegate(source: "app")
+    @ObservationIgnored private let delegate = KeychainDexcomDelegate()
 
     var messageValue: TimeInterval {
         switch state {
@@ -60,16 +60,18 @@ import KeychainAccess
     }
 
     func setUpClientAndBeginRefreshing() {
-        if let username, let password, let accountLocation {
-            client = DexcomHelper.createService(
-                username: username,
-                password: password,
-                existingAccountID: Keychain.shared.accountID,
-                existingSessionID: Keychain.shared.sessionID,
-                accountLocation: accountLocation
-            )
-            client?.setDelegate(delegate)
-            beginRefreshing()
+        Task {
+            if let username, let password, let accountLocation {
+                client = DexcomHelper.createService(
+                    username: username,
+                    password: password,
+                    existingAccountID: Keychain.shared.accountID,
+                    existingSessionID: Keychain.shared.sessionID,
+                    accountLocation: accountLocation
+                )
+                await client?.setDelegate(delegate)
+                beginRefreshing()
+            }
         }
     }
 
