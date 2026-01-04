@@ -39,9 +39,9 @@ public final class G7SensorManager: ObservableObject {
     public func start() {
         guard !isEnabled else { return }
         isEnabled = true
+        connectionState = .scanning  // Set immediately, don't wait for CBCentralManager
         log.info("Starting G7 BLE sensor")
         sensor.resumeScanning()
-        updateConnectionState()
     }
 
     /// Stop BLE scanning and disconnect
@@ -63,7 +63,8 @@ public final class G7SensorManager: ObservableObject {
     private func updateConnectionState() {
         if sensor.isConnected, let sensorID {
             connectionState = .connected(sensorName: sensorID)
-        } else if sensor.isScanning {
+        } else if isEnabled {
+            // If enabled, assume scanning even if CBCentralManager isn't ready yet
             connectionState = .scanning
         } else {
             connectionState = .disconnected
