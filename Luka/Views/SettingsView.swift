@@ -90,9 +90,8 @@ struct SettingsView: View {
                     Text("Signed in as \(username)", comment: "Settings section header showing current user")
                 }
             } footer: {
-                Text("Version \(Bundle.main.fullVersion)", comment: "Settings footer showing app version")
-                    .font(.footnote.weight(.medium))
-                    .fontDesign(.monospaced)
+                Text("Luka \(Bundle.main.fullVersion)", comment: "Settings footer showing app version")
+                    .font(.footnote.weight(.semibold))
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity)
                     .multilineTextAlignment(.center)

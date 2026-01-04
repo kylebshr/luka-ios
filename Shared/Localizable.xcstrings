@@ -397,6 +397,17 @@
         }
       }
     },
+    "Luka %@" : {
+      "comment" : "Settings footer showing app version",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Luka %@"
+          }
+        }
+      }
+    },
     "Luka for macOS" : {
       "localizations" : {
         "de" : {
@@ -896,17 +907,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Benutzername"
-          }
-        }
-      }
-    },
-    "Version %@" : {
-      "comment" : "Settings footer showing app version",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Version %@"
           }
         }
       }
