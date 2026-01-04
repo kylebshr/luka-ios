@@ -20,9 +20,23 @@ struct SettingsView: View {
     @Default(.showChartLiveActivity) private var showChartLiveActivity
     @Default(.unit) private var unit
     @Default(.sessionHistory) private var sessionHistory
+    @Default(.g7BLEEnabled) private var g7BLEEnabled
+
+    @StateObject private var sensorManager = G7SensorManager.shared
 
     private var username: String? {
         Keychain.shared.username
+    }
+
+    private var connectionStatusText: String {
+        switch sensorManager.connectionState {
+        case .disconnected:
+            return g7BLEEnabled ? "Disconnected" : "Disabled"
+        case .scanning:
+            return "Scanning..."
+        case .connected(let sensorName):
+            return "Connected to \(sensorName)"
+        }
     }
 
     var body: some View {
@@ -38,6 +52,46 @@ struct SettingsView: View {
 
                 Toggle("Show Graph in Live Activity", isOn: $showChartLiveActivity)
                     .tint(.accent)
+            }
+
+            Section {
+                Toggle("Enable G7 Direct Connect", isOn: $g7BLEEnabled)
+                    .tint(.accent)
+                    .onChange(of: g7BLEEnabled) { _, newValue in
+                        if newValue {
+                            sensorManager.start()
+                        } else {
+                            sensorManager.stop()
+                        }
+                    }
+
+                HStack {
+                    Text("Status")
+                    Spacer()
+                    Text(connectionStatusText)
+                        .foregroundStyle(.secondary)
+                }
+
+                if case .connected = sensorManager.connectionState {
+                    if let reading = sensorManager.latestReading {
+                        HStack {
+                            Text("Last Reading")
+                            Spacer()
+                            Text("\(reading.value) mg/dL")
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+
+                if g7BLEEnabled {
+                    Button("Scan for New Sensor") {
+                        sensorManager.scanForNewSensor()
+                    }
+                }
+            } header: {
+                Text("G7 Bluetooth (Beta)")
+            } footer: {
+                Text("Connect directly to your Dexcom G7 sensor via Bluetooth for offline Live Activity updates.")
             }
 
             Section("Graphs") {
