@@ -126,7 +126,7 @@ public final class G7Sensor: G7BluetoothManagerDelegate {
                 }
             }
         } else {
-            log.error("Dropping unhandled glucose message: \(message)")
+            log.error("Dropping unhandled glucose message: \(message.debugDescription)")
         }
     }
 
