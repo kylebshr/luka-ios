@@ -2,854 +2,274 @@
   "sourceLanguage" : "en",
   "strings" : {
     "" : {
+
+    },
+    " " : {
+
+    },
+    " • Last %@" : {
+      "comment" : "Live Activity label showing graph range"
+    },
+    " Luka" : {
+
+    },
+    "%@ %@" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : ""
-          }
-        },
         "en" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : ""
+            "state" : "new",
+            "value" : "%1$@ %2$@"
           }
         }
       }
     },
     "%@ ago" : {
-      "comment" : "Relative time suffix, e.g. '5 min ago'",
+      "comment" : "Relative time suffix, e.g. '5 min ago'"
+    },
+    "%@%@" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vor %@"
-          }
-        },
         "en" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ ago"
+            "state" : "new",
+            "value" : "%1$@%2$@"
           }
         }
       }
+    },
+    "24 hours" : {
+
     },
     "Anywhere Else" : {
-      "comment" : "Account location option for users outside US and Japan",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Anderswo"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Anywhere Else"
-          }
-        }
-      }
+
+    },
+    "Configure graph widget settings." : {
+
+    },
+    "Configure reading widget settings." : {
+
+    },
+    "Current Reading" : {
+
+    },
+    "Date" : {
+
+    },
+    "Dexcom Clarity" : {
+
+    },
+    "Dexcom G6" : {
+
+    },
+    "Dexcom G7" : {
+
     },
     "Done" : {
-      "comment" : "Button to dismiss settings",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fertig"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Done"
-          }
-        }
-      }
+
     },
-    "Email Me" : {
-      "comment" : "Settings row to contact developer",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "E-Mail senden"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Email Me"
-          }
-        }
-      }
+    "Eight hours" : {
+
+    },
+    "End" : {
+
     },
     "End Live Activity" : {
-      "comment" : "Button to stop Live Activity",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Live-Aktivität beenden"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "End Live Activity"
-          }
-        }
-      }
+
+    },
+    "End the currently running Live Activity." : {
+
     },
     "Excellent widgets and Live Activities for Dexcom continuous glucose monitors." : {
-      "comment" : "App tagline on sign-in screen",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hervorragende Widgets und Live-Aktivitäten für Dexcom-Glukosemessgeräte."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Excellent widgets and Live Activities for Dexcom continuous glucose monitors."
-          }
-        }
-      }
+
     },
     "General" : {
-      "comment" : "Settings section header",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Allgemein"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "General"
-          }
-        }
-      }
+
+    },
+    "Glucose" : {
+
     },
     "Graph range" : {
-      "comment" : "Picker label for selecting graph time range",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diagrammbereich"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Graph range"
-          }
-        }
-      }
+
+    },
+    "Graph Range" : {
+
+    },
+    "Graph Widget" : {
+
     },
     "Graphs" : {
-      "comment" : "Settings section header for graph options",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diagramme"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Graphs"
-          }
-        }
-      }
+
     },
     "Japan" : {
-      "comment" : "Account location option for Japan/APAC region",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Japan"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Japan"
-          }
-        }
-      }
+
     },
     "Just now" : {
-      "comment" : "Timestamp for very recent readings",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gerade eben"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Just now"
-          }
-        }
-      }
+
     },
     "Last %@" : {
-      "comment" : "Live Activity label showing graph range, e.g. 'Last 3H'",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Letzte %@"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Last %@"
-          }
-        }
-      }
+      "comment" : "Live Activity label showing graph range"
     },
-    "Leave a Review" : {
-      "comment" : "Settings row to leave App Store review",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bewertung schreiben"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Leave a Review"
-          }
-        }
-      }
+    "Launch App" : {
+
+    },
+    "Launch on Tap" : {
+
     },
     "Live" : {
-      "comment" : "Status indicator when Live Activity is receiving updates",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Live"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Live"
-          }
-        }
-      }
+      "comment" : "Status indicator when Live Activity is receiving updates"
+    },
+    "Live Activities are disabled." : {
+
+    },
+    "Live Activity" : {
+
     },
     "Live Activity ended" : {
-      "comment" : "Message shown when Live Activity has expired",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Live-Aktivität beendet"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Live Activity ended"
-          }
-        }
-      }
+
     },
-    "Lower target range" : {
-      "comment" : "Settings slider title for low glucose threshold",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unterer Zielbereich"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lower target range"
-          }
-        }
-      }
+    "Luka" : {
+
     },
-    "Luka for macOS" : {
-      "comment" : "Settings row to share macOS app",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Luka für macOS"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Luka for macOS"
-          }
-        }
-      }
+    "Max" : {
+
+    },
+    "Min" : {
+
+    },
+    "Monitor glucose readings in a Live Activity." : {
+
     },
     "Network Error" : {
-      "comment" : "Widget error when unable to fetch data",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Netzwerkfehler"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Network Error"
-          }
-        }
-      }
+
     },
     "No Account" : {
-      "comment" : "Widget error when user is not signed in",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kein Konto"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No Account"
-          }
-        }
-      }
+
     },
     "No Recent Readings" : {
-      "comment" : "Widget error when no recent glucose data available",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Keine aktuellen Werte"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No Recent Readings"
-          }
-        }
-      }
+
     },
     "Now" : {
-      "comment" : "Short timestamp for very recent readings",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jetzt"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Now"
-          }
-        }
-      }
+
+    },
+    "Off" : {
+
     },
     "Offline" : {
-      "comment" : "Status indicator when Live Activity is not receiving updates",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Offline"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Offline"
-          }
-        }
-      }
+      "comment" : "Status indicator when Live Activity is not receiving updates"
     },
     "Offline at %@" : {
-      "comment" : "Status showing last update time when offline",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Offline seit %@"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Offline at %@"
-          }
-        }
-      }
+      "comment" : "Status showing last update time when offline"
     },
     "OK" : {
-      "comment" : "Alert dismiss button",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OK"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OK"
-          }
-        }
-      }
+
+    },
+    "On" : {
+
+    },
+    "One hour" : {
+
     },
     "Password" : {
-      "comment" : "Password text field placeholder",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Passwort"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Password"
-          }
-        }
-      }
+
+    },
+    "Reading Graph" : {
+
+    },
+    "Reading Widget" : {
+
+    },
+    "Refresh" : {
+
     },
     "Reload" : {
-      "comment" : "Widget button to refresh data",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Neu laden"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reload"
-          }
-        }
-      }
+
     },
     "Restart" : {
-      "comment" : "Button to restart Live Activity",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Neustart"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Restart"
-          }
-        }
-      }
+
+    },
+    "Running" : {
+
     },
     "Select an account location to get started" : {
-      "comment" : "Instruction on sign-in screen",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wähle einen Kontostandort aus, um zu beginnen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Select an account location to get started"
-          }
-        }
-      }
+
     },
     "Settings" : {
-      "comment" : "Navigation title and toolbar button",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Einstellungen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Settings"
-          }
-        }
-      }
-    },
-    "Share Luka" : {
-      "comment" : "Settings row to share the app",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Luka teilen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Share Luka"
-          }
-        }
-      }
+
     },
     "Show Graph in Live Activity" : {
-      "comment" : "Settings toggle for Live Activity graph",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diagramm in Live-Aktivität anzeigen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show Graph in Live Activity"
-          }
-        }
-      }
+
     },
     "Sign In" : {
-      "comment" : "Navigation title and button label",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Anmelden"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sign In"
-          }
-        }
-      }
+
     },
     "Sign in using your Dexcom username and password. **Dexcom share must be enabled with at least one follower**, but sign in using **your own Dexcom credentials**, not the followers. If your username is a phone number, format it with a + and the area code, for example +12223334444." : {
-      "comment" : "Help text explaining sign-in requirements",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Melde dich mit deinem Dexcom-Benutzernamen und Passwort an. **Dexcom Share muss mit mindestens einem Follower aktiviert sein**, aber melde dich mit **deinen eigenen Dexcom-Zugangsdaten** an, nicht mit denen der Follower. Wenn dein Benutzername eine Telefonnummer ist, formatiere sie mit + und Vorwahl, zum Beispiel +4917012345678."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sign in using your Dexcom username and password. **Dexcom share must be enabled with at least one follower**, but sign in using **your own Dexcom credentials**, not the followers. If your username is a phone number, format it with a + and the area code, for example +12223334444."
-          }
-        }
-      }
-    },
-    "Sign Out" : {
-      "comment" : "Button to sign out of account",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abmelden"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sign Out"
-          }
-        }
-      }
+
     },
     "Signed in as %@" : {
-      "comment" : "Settings section header showing current user",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Angemeldet als %@"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Signed in as %@"
-          }
-        }
-      }
+      "comment" : "Settings section header showing current user"
+    },
+    "Six hours" : {
+
+    },
+    "Sixteen hours" : {
+
     },
     "Something Went Wrong" : {
-      "comment" : "Alert title for sign-in error",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Etwas ist schiefgelaufen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Something Went Wrong"
-          }
-        }
-      }
+
+    },
+    "Start" : {
+
     },
     "Start Live Activity" : {
-      "comment" : "Button to start Live Activity",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Live-Aktivität starten"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Start Live Activity"
-          }
-        }
-      }
+
+    },
+    "Start or stop the glucose Live Activity." : {
+
+    },
+    "Tap Action" : {
+
     },
     "This version of Luka is no longer supported. Please update to continue." : {
-      "comment" : "Force upgrade message",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diese Version von Luka wird nicht mehr unterstützt. Bitte aktualisiere die App, um fortzufahren."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This version of Luka is no longer supported. Please update to continue."
-          }
-        }
-      }
+
+    },
+    "Three hours" : {
+
     },
     "Toggle Live Activity" : {
-      "comment" : "Accessibility label for Live Activity button",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Live-Aktivität umschalten"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toggle Live Activity"
-          }
-        }
-      }
+
+    },
+    "Toggle your glucose Live Activity." : {
+
     },
     "Try again in a few minutes" : {
-      "comment" : "Alert message for sign-in error",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Versuche es in ein paar Minuten erneut"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Try again in a few minutes"
-          }
-        }
-      }
+
+    },
+    "Twelve hours" : {
+
     },
     "United States" : {
-      "comment" : "Account location option for US users",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vereinigte Staaten"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "United States"
-          }
-        }
-      }
+
     },
     "Units" : {
-      "comment" : "Settings picker label for glucose units",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Einheiten"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Units"
-          }
-        }
-      }
+
     },
     "Update Now" : {
-      "comment" : "Button to open App Store for update",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jetzt aktualisieren"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Update Now"
-          }
-        }
-      }
+
     },
     "Update Required" : {
-      "comment" : "Force upgrade screen title",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aktualisierung erforderlich"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Update Required"
-          }
-        }
-      }
-    },
-    "Upper bound" : {
-      "comment" : "Settings slider title for graph upper limit",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Obergrenze"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Upper bound"
-          }
-        }
-      }
-    },
-    "Upper target range" : {
-      "comment" : "Settings slider title for high glucose threshold",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Oberer Zielbereich"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Upper target range"
-          }
-        }
-      }
+
     },
     "Username" : {
-      "comment" : "Username text field placeholder",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Benutzername"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Username"
-          }
-        }
-      }
+
     },
     "Version %@" : {
-      "comment" : "Settings footer showing app version",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Version %@"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Version %@"
-          }
-        }
-      }
+      "comment" : "Settings footer showing app version"
     },
     "Welcome to" : {
-      "comment" : "Welcome message prefix before app name",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Willkommen bei"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Welcome to"
-          }
-        }
-      }
+
+    },
+    "You're not logged in." : {
+
     }
   },
-  "version" : "1.0"
+  "version" : "1.1"
 }
