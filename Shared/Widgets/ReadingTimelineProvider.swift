@@ -13,7 +13,7 @@ import Defaults
 struct ReadingTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider {
     typealias Entry = GlucoseEntry<GlucoseReading>
 
-    let delegate = DexcomDelegate(source: "widget")
+    let delegate = KeychainDexcomDelegate()
 
     func placeholder(in context: Context) -> Entry {
         GlucoseEntry(date: .now, widgetURL: nil, state: .reading(.placeholder))
@@ -37,7 +37,7 @@ struct ReadingTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvide
             return .error(.loggedOut)
         }
 
-        let client = makeClient(
+        let client = await makeClient(
             username: username,
             password: password,
             accountLocation: accountLocation

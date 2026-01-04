@@ -9,13 +9,7 @@ import Foundation
 import KeychainAccess
 import Dexcom
 
-class DexcomDelegate: DexcomClientDelegate {
-    let source: String
-
-    init(source: String) {
-        self.source = source
-    }
-
+final class KeychainDexcomDelegate: DexcomClientDelegate, Sendable {
     func didUpdateAccountID(_ accountID: UUID) {
         Keychain.shared.accountID = accountID
     }
