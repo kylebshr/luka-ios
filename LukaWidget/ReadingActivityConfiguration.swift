@@ -21,12 +21,11 @@ struct ReadingActivityConfiguration: Widget {
         ActivityConfiguration(for: ReadingAttributes.self) { context in
             MainContentView(context: context)
         } dynamicIsland: { context in
-            let hasHistory = !context.state.h.isEmpty
             return DynamicIsland {
                 DynamicIslandExpandedRegion(.center) {
                     HStack(spacing: 0) {
                         context.timestamp
-                        if !context.isStale && hasHistory {
+                        if !context.isStale {
                             Text(" • Last \(context.attributes.range.abbreviatedName)", comment: "Live Activity label showing graph range")
                         }
                     }
@@ -36,10 +35,8 @@ struct ReadingActivityConfiguration: Widget {
                 }
 
                 DynamicIslandExpandedRegion(.bottom) {
-                    if hasHistory {
-                        GraphPieceView(context: context)
-                            .padding(.bottom, 10)
-                    }
+                    GraphPieceView(context: context)
+                        .padding(.bottom, 10)
                 }
 
                 DynamicIslandExpandedRegion(.leading) {
@@ -169,11 +166,6 @@ private struct MainContentView: View {
     @Environment(\.activityFamily) private var family
     @Default(.showChartLiveActivity) private var showChartLiveActivity
 
-    /// Show chart only if enabled AND we have history data (BLE mode has no history)
-    private var shouldShowChart: Bool {
-        showChartLiveActivity && !context.state.h.isEmpty
-    }
-
     var body: some View {
         switch family {
         case .small: smallContentView()
@@ -216,7 +208,7 @@ private struct MainContentView: View {
 
                     VStack(alignment: .trailing, spacing: 0) {
                         context.timestamp
-                        if shouldShowChart {
+                        if showChartLiveActivity {
                             if context.state.c != nil, !context.isStale {
                                 Text("Last \(context.attributes.range.abbreviatedName)", comment: "Live Activity label showing graph range")
                             }
@@ -229,9 +221,9 @@ private struct MainContentView: View {
                     .contentTransition(.numericText())
                 }
                 .padding([.horizontal, .top])
-                .padding(shouldShowChart ? [] : .bottom)
+                .padding(showChartLiveActivity ? [] : .bottom)
 
-                if shouldShowChart {
+                if showChartLiveActivity {
                     GraphPieceView(context: context)
                         .padding(.top, 10)
                         .padding(.bottom)
@@ -356,7 +348,6 @@ private extension ActivityViewContext<ReadingAttributes> {
     ReadingActivityConfiguration()
 } contentStates: {
     LiveActivityState(c: .placeholder, h: .placeholder)
-    LiveActivityState(c: .placeholder, h: []) // BLE mode - no graph
     LiveActivityState(c: nil, h: [], se: true)
 }
 
@@ -378,6 +369,5 @@ private extension ActivityViewContext<ReadingAttributes> {
     ReadingActivityConfiguration()
 } contentStates: {
     LiveActivityState(c: .placeholder, h: .placeholder)
-    LiveActivityState(c: .placeholder, h: []) // BLE mode - no graph
     LiveActivityState(c: nil, h: [], se: true)
 }
