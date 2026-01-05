@@ -22,7 +22,7 @@ struct SettingsView: View {
     @Default(.sessionHistory) private var sessionHistory
     @Default(.g7BLEEnabled) private var g7BLEEnabled
 
-    @StateObject private var sensorManager = G7SensorManager.shared
+    @State private var sensorManager = G7SensorManager.shared
 
     private var username: String? {
         Keychain.shared.username
