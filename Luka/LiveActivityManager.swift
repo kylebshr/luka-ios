@@ -7,10 +7,7 @@
 
 import ActivityKit
 import Defaults
-import Dexcom
 import Foundation
-import KeychainAccess
-import TelemetryDeck
 import WidgetKit
 
 @MainActor
@@ -51,7 +48,6 @@ final class LiveActivityManager {
             for await state in activity.activityStateUpdates {
                 switch state {
                 case .dismissed, .ended:
-                    await sendEndLiveActivity()
                     observationTasks.removeValue(forKey: activity.id)
                     syncState()
                     return
@@ -61,72 +57,6 @@ final class LiveActivityManager {
                     break
                 }
             }
-        }
-
-        Task {
-            for await token in activity.pushTokenUpdates {
-                let tokenString = token.map { String(format: "%02x", $0) }.joined()
-                await sendStartLiveActivity(token: tokenString)
-            }
-        }
-    }
-
-    private func sendStartLiveActivity(token: String) async {
-        guard let username = Keychain.shared.username,
-              let password = Keychain.shared.password,
-              let accountLocation = Defaults[.accountLocation],
-              username != DexcomHelper.mockEmail else {
-            return
-        }
-
-        let range: GraphRange = .threeHours
-        let payload = StartLiveActivityRequest(
-            pushToken: token,
-            environment: .current,
-            username: username,
-            password: password,
-            accountLocation: accountLocation,
-            duration: range.timeInterval + 60 * 15,
-            preferences: LiveActivityPreferences(
-                targetRange: Int(Defaults[.targetRangeLowerBound])...Int(Defaults[.targetRangeUpperBound]),
-                unit: Defaults[.unit]
-            )
-        )
-
-        let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .useDefaultKeys
-
-        var request = URLRequest(url: Backend.current.url(for: "start-live-activity"))
-        request.httpMethod = "POST"
-        request.httpBody = try! encoder.encode(payload)
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        do {
-            _ = try await URLSession.shared.data(for: request)
-            TelemetryDeck.signal("LiveActivity.sentToken")
-        } catch {
-            TelemetryDeck.signal("LiveActivity.failedToSendToken")
-        }
-    }
-
-    private func sendEndLiveActivity() async {
-        guard let username = Keychain.shared.username else { return }
-
-        let payload = EndLiveActivityRequest(username: username)
-
-        let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .useDefaultKeys
-
-        var request = URLRequest(url: Backend.current.url(for: "end-live-activity"))
-        request.httpMethod = "POST"
-        request.httpBody = try! encoder.encode(payload)
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        do {
-            _ = try await URLSession.shared.data(for: request)
-            TelemetryDeck.signal("LiveActivity.sentEnd")
-        } catch {
-            TelemetryDeck.signal("LiveActivity.failedToSendEnd")
         }
     }
 }

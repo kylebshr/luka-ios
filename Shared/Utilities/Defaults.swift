@@ -35,10 +35,12 @@ extension Defaults.Keys {
     static let isLiveActivityRunning = Key<Bool>("isLiveActivityRunning", default: false, suite: .shared)
     static let cachedReadings = Key<GlucoseReadingsCache?>("cachedReadings", default: nil, suite: .shared)
     static let g7BLEEnabled = Key<Bool>("g7BLEEnabled", default: false, suite: .shared)
+    static let g7Readings = Key<[GlucoseReading]?>("g7Readings", default: nil, suite: .shared)
 }
 
 extension AccountLocation: Defaults.Serializable {}
 extension GlucoseFormatter.Unit: Defaults.Serializable {}
+extension GlucoseReading: Defaults.Serializable {}
 
 struct DexcomSessionHistoryEntry: Defaults.Serializable, Identifiable, Codable, Equatable {
     var sessionID: UUID

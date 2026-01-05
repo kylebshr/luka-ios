@@ -175,6 +175,12 @@
         }
       }
     },
+    "%lld mg/dL" : {
+
+    },
+    "%lld readings" : {
+
+    },
     "24 hours" : {
       "localizations" : {
         "de" : {
@@ -334,6 +340,9 @@
           }
         }
       }
+    },
+    "Connect directly to your Dexcom G7 sensor via Bluetooth for offline Live Activity updates." : {
+
     },
     "Current Reading" : {
       "localizations" : {
@@ -655,6 +664,9 @@
         }
       }
     },
+    "Enable G7 Direct Connect" : {
+
+    },
     "End" : {
       "localizations" : {
         "de" : {
@@ -814,6 +826,9 @@
           }
         }
       }
+    },
+    "G7 Bluetooth (Beta)" : {
+
     },
     "General" : {
       "localizations" : {
@@ -1175,6 +1190,9 @@
           }
         }
       }
+    },
+    "Last Reading" : {
+
     },
     "Launch App" : {
       "localizations" : {
@@ -1818,6 +1836,9 @@
         }
       }
     },
+    "No Readings" : {
+
+    },
     "No Recent Readings" : {
       "localizations" : {
         "de" : {
@@ -2220,6 +2241,9 @@
         }
       }
     },
+    "Reading History" : {
+
+    },
     "Reading Widget" : {
       "localizations" : {
         "de" : {
@@ -2259,6 +2283,9 @@
           }
         }
       }
+    },
+    "Readings from your G7 sensor will appear here." : {
+
     },
     "Refresh" : {
       "localizations" : {
@@ -2419,6 +2446,9 @@
           }
         }
       }
+    },
+    "Scan for New Sensor" : {
+
     },
     "Select an account location to get started" : {
       "localizations" : {
@@ -2980,6 +3010,9 @@
           }
         }
       }
+    },
+    "Status" : {
+
     },
     "Tap Action" : {
       "localizations" : {
@@ -3622,6 +3655,7 @@
       }
     },
     "You're not logged in." : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {

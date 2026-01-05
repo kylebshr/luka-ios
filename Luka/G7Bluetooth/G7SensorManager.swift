@@ -8,12 +8,14 @@
 #if canImport(ActivityKit)
 import ActivityKit
 #endif
-import Foundation
+import Defaults
 import Dexcom
+import Foundation
 import os.log
 
 @MainActor
-public final class G7SensorManager: ObservableObject {
+@Observable
+public final class G7SensorManager {
     public static let shared = G7SensorManager()
 
     public enum ConnectionState: Equatable {
@@ -22,9 +24,11 @@ public final class G7SensorManager: ObservableObject {
         case connected(sensorName: String)
     }
 
-    @Published public private(set) var connectionState: ConnectionState = .disconnected
-    @Published public private(set) var latestReading: GlucoseReading?
-    @Published public private(set) var isEnabled: Bool = false
+    private static let maxReadingAge: TimeInterval = 24 * 60 * 60 // 24 hours
+
+    private(set) var connectionState: ConnectionState = .disconnected
+    private(set) var latestReading: GlucoseReading?
+    private(set) var isEnabled: Bool = false
 
     private let sensor: G7Sensor
     private let log = Logger(subsystem: "com.kylebashour.Luka", category: "G7SensorManager")
@@ -70,25 +74,63 @@ public final class G7SensorManager: ObservableObject {
         }
     }
 
+    /// Stores a new reading, discarding readings older than 24 hours
+    private func storeReading(_ reading: GlucoseReading) {
+        var readings = Defaults[.g7Readings] ?? []
+
+        // Remove readings older than 24 hours
+        let cutoff = Date.now.addingTimeInterval(-Self.maxReadingAge)
+        readings = readings.filter { $0.date >= cutoff }
+
+        // Add new reading if not already present
+        if !readings.contains(where: { $0.date == reading.date }) {
+            readings.append(reading)
+            readings.sort { $0.date < $1.date }
+        }
+
+        Defaults[.g7Readings] = readings
+        log.info("Stored reading, total count: \(readings.count)")
+    }
+
+    /// Stores multiple readings, discarding readings older than 24 hours
+    private func storeReadings(_ newReadings: [GlucoseReading]) {
+        var readings = Defaults[.g7Readings] ?? []
+
+        // Remove readings older than 24 hours
+        let cutoff = Date.now.addingTimeInterval(-Self.maxReadingAge)
+        readings = readings.filter { $0.date >= cutoff }
+
+        // Add new readings that aren't already present
+        for reading in newReadings where reading.date >= cutoff {
+            if !readings.contains(where: { $0.date == reading.date }) {
+                readings.append(reading)
+            }
+        }
+
+        readings.sort { $0.date < $1.date }
+        Defaults[.g7Readings] = readings
+        log.info("Stored \(newReadings.count) backfill readings, total count: \(readings.count)")
+    }
+
     #if canImport(ActivityKit)
-    private func updateLiveActivity(with reading: GlucoseReading) {
+    private func updateLiveActivity() {
         guard let activity = Activity<ReadingAttributes>.activities.first else { return }
 
-        // For BLE mode, we only have the current reading (no history for graph)
-        let newState = LiveActivityState(
-            c: reading,
-            h: [], // No history in BLE-only mode
-            se: nil
-        )
+        let range = activity.attributes.range
+        let readings = Defaults[.g7Readings] ?? []
+        let cutoff = Date.now.addingTimeInterval(-range.timeInterval)
+        let filteredReadings = readings.filter { $0.date >= cutoff }
+
+        let newState = LiveActivityState(readings: filteredReadings, range: range)
 
         let content = ActivityContent(
             state: newState,
-            staleDate: reading.date.addingTimeInterval(10 * 60)
+            staleDate: newState.c?.date.addingTimeInterval(10 * 60)
         )
 
         Task {
             await activity.update(content)
-            log.info("Updated Live Activity with BLE reading: \(reading.value)")
+            log.info("Updated Live Activity with \(filteredReadings.count) readings")
         }
     }
     #endif
@@ -125,9 +167,10 @@ extension G7SensorManager: G7SensorDelegate {
         Task { @MainActor in
             log.info("Received glucose reading: \(reading.value) mg/dL")
             latestReading = reading
+            storeReading(reading)
 
             #if canImport(ActivityKit)
-            updateLiveActivity(with: reading)
+            updateLiveActivity()
             #endif
         }
     }
@@ -135,7 +178,11 @@ extension G7SensorManager: G7SensorDelegate {
     nonisolated public func sensor(_ sensor: G7Sensor, didReadBackfill readings: [GlucoseReading]) {
         Task { @MainActor in
             log.info("Received \(readings.count) backfill readings")
-            // Could store these for graph display if needed
+            storeReadings(readings)
+
+            #if canImport(ActivityKit)
+            updateLiveActivity()
+            #endif
         }
     }
 

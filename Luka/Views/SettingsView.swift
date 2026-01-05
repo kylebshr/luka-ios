@@ -88,6 +88,17 @@ struct SettingsView: View {
                         sensorManager.scanForNewSensor()
                     }
                 }
+
+                NavigationLink {
+                    G7ReadingsHistoryView()
+                } label: {
+                    HStack {
+                        Text("Reading History")
+                        Spacer()
+                        Text("\(Defaults[.g7Readings]?.count ?? 0) readings")
+                            .foregroundStyle(.secondary)
+                    }
+                }
             } header: {
                 Text("G7 Bluetooth (Beta)")
             } footer: {
@@ -219,6 +230,57 @@ private struct GraphSliderView: View {
                 }
             )
         }
+    }
+}
+
+struct G7ReadingsHistoryView: View {
+    @Default(.g7Readings) private var readings
+    @Default(.unit) private var unit
+    @Default(.targetRangeLowerBound) private var lowerBound
+    @Default(.targetRangeUpperBound) private var upperBound
+
+    private var targetRange: ClosedRange<Double> {
+        lowerBound...upperBound
+    }
+
+    private var sortedReadings: [GlucoseReading] {
+        (readings ?? []).sorted { $0.date > $1.date }
+    }
+
+    var body: some View {
+        List {
+            if sortedReadings.isEmpty {
+                ContentUnavailableView(
+                    "No Readings",
+                    systemImage: "waveform.path.ecg",
+                    description: Text("Readings from your G7 sensor will appear here.")
+                )
+            } else {
+                ForEach(sortedReadings, id: \.date) { reading in
+                    HStack {
+                        Text(reading.value.formatted(.glucose(unit)))
+                            .font(.headline)
+                            .foregroundStyle(reading.color(target: targetRange))
+
+                        if let image = reading.image {
+                            image
+                                .foregroundStyle(.secondary)
+                        }
+
+                        Spacer()
+
+                        Text(reading.date, format: .dateTime.hour().minute())
+                            .foregroundStyle(.secondary)
+
+                        Text(reading.date, format: .dateTime.month().day())
+                            .foregroundStyle(.tertiary)
+                    }
+                }
+            }
+        }
+        .listStyle(.insetGrouped)
+        .navigationTitle("Reading History")
+        .fontDesign(.rounded)
     }
 }
 
