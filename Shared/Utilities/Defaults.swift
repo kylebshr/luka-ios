@@ -34,7 +34,6 @@ extension Defaults.Keys {
     static let launchCount = Key<Int>("launchCount", default: 0, suite: .shared, iCloud: true)
     static let isLiveActivityRunning = Key<Bool>("isLiveActivityRunning", default: false, suite: .shared)
     static let cachedReadings = Key<GlucoseReadingsCache?>("cachedReadings", default: nil, suite: .shared)
-    static let g7BLEEnabled = Key<Bool>("g7BLEEnabled", default: false, suite: .shared)
 }
 
 extension AccountLocation: Defaults.Serializable {}
