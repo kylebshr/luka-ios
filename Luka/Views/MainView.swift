@@ -22,6 +22,7 @@ import WidgetKit
     @Default(.graphUpperBound) private var upperGraphRange
     @Default(.unit) private var unit
     @Default(.dismissedBannerIDs) private var dismissedBannerIDs
+    @Default(.showChartLiveActivity) private var showChartLiveActivity
 
     @Default(.isLiveActivityRunning) private var isActivityActive
 
@@ -168,6 +169,9 @@ import WidgetKit
             haptics.prepare()
         }
         .animation(.snappy, value: dismissedBannerIDs)
+        .onChange(of: showChartLiveActivity) {
+            liveViewModel.updateLiveActivityIfActive()
+        }
     }
 
     private func liveActivityButton() -> some View {
