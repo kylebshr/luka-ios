@@ -87,9 +87,7 @@ import KeychainAccess
                         .sorted { $0.date < $1.date }
                     if let latest = readings.last {
                         state = .loaded(readings, latest: latest)
-                        #if canImport(ActivityKit)
-                        updateLiveActivityIfActive(readings: readings, latest: latest)
-                        #endif
+                        updateLiveActivityIfActive()
                     } else {
                         state = .noRecentReading
                     }
@@ -162,12 +160,13 @@ import KeychainAccess
         }
     }
 
-    #if canImport(ActivityKit)
-    private func updateLiveActivityIfActive(readings: [GlucoseReading], latest: GlucoseReading) {
+    func updateLiveActivityIfActive() {
+        #if canImport(ActivityKit)
+        guard case .loaded(let readings, let latest) = state else { return }
         guard let activity = Activity<ReadingAttributes>.activities.first else { return }
 
         // Only update if the activity is not stale (stale means it's offline/disconnected from server)
-        guard activity.activityState != .stale else { return }
+        guard activity.activityState == .active else { return }
 
         let newState = LiveActivityState(readings: readings, range: activity.attributes.range)
 
@@ -179,6 +178,6 @@ import KeychainAccess
         Task {
             await activity.update(content)
         }
+        #endif
     }
-    #endif
 }
