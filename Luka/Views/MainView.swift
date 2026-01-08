@@ -23,6 +23,7 @@ import WidgetKit
     @Default(.unit) private var unit
     @Default(.dismissedBannerIDs) private var dismissedBannerIDs
     @Default(.showChartLiveActivity) private var showChartLiveActivity
+    @Default(.showDeltaInApp) private var showDeltaInApp
 
     @Default(.isLiveActivityRunning) private var isActivityActive
 
@@ -52,6 +53,20 @@ import WidgetKit
 
     private var displayReading: GlucoseReading? {
         scrubbingGlucoseReading ?? readings.last
+    }
+
+    private var displayDelta: Int? {
+        guard showDeltaInApp else { return nil }
+        if let selectedChartReading,
+           let selectedIndex = readings.firstIndex(where: { $0.date == selectedChartReading.t }),
+           selectedIndex > 0 {
+            let current = readings[selectedIndex]
+            let previous = readings[selectedIndex - 1]
+            return current.delta(from: previous)
+        } else if readings.count >= 2 {
+            return readings.last?.delta(from: readings[readings.count - 2])
+        }
+        return nil
     }
 
     private var subtitleText: String {
@@ -234,7 +249,7 @@ import WidgetKit
 
     private func readingView() -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            ReadingView(reading: displayReading)
+            ReadingView(reading: displayReading, delta: displayDelta)
                 .font(.largeTitle.weight(.semibold))
                 .id(displayReading != nil)
 

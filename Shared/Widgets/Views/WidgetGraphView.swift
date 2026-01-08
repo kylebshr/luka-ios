@@ -18,6 +18,7 @@ struct WidgetGraphView: View {
     @Environment(\.widgetFamily) private var family
 
     @Default(.unit) private var unit
+    @Default(.showDeltaInWidget) private var showDeltaInWidget
 
     private var isInStandby: Bool {
         margins.leading > 0 && margins.leading < 5
@@ -46,7 +47,7 @@ struct WidgetGraphView: View {
             VStack(spacing: geometry.size.height > 100 ? nil : 5) {
                 Button(intent: ReloadWidgetIntent()) {
                     HStack(spacing: 5) {
-                        ReadingView(reading: data.current)
+                        ReadingView(reading: data.current, delta: showDeltaInWidget ? data.delta : nil)
                             .invalidatableContent()
                             .fontWeight(.semibold)
 

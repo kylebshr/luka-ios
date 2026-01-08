@@ -94,6 +94,9 @@ private struct ReadingText: View {
 private struct ReadingArrow: View {
     var context: ActivityViewContext<ReadingAttributes>
 
+    @Default(.showDeltaInLiveActivity) private var showDeltaInLiveActivity
+    @Default(.unit) private var unit
+
     var reading: GlucoseReading? {
         context.state.c
     }
@@ -102,7 +105,13 @@ private struct ReadingArrow: View {
         if let reading {
             ZStack(alignment: .trailing) {
                 ReadingText(context: context).hidden()
-                reading.image.imageScale(.small)
+                HStack(spacing: 2) {
+                    reading.image.imageScale(.small)
+                    if showDeltaInLiveActivity, let delta = context.state.delta {
+                        Text(GlucoseReading.formattedDelta(delta, unit: unit))
+                            .foregroundStyle(.secondary)
+                    }
+                }
             }
         }
     }
@@ -165,6 +174,11 @@ private struct MainContentView: View {
 
     @Environment(\.activityFamily) private var family
     @Default(.showChartLiveActivity) private var showChartLiveActivity
+    @Default(.showDeltaInLiveActivity) private var showDeltaInLiveActivity
+
+    private var delta: Int? {
+        showDeltaInLiveActivity ? context.state.delta : nil
+    }
 
     var body: some View {
         switch family {
@@ -179,7 +193,7 @@ private struct MainContentView: View {
             smallExpiredView()
         } else {
             HStack(spacing: 0) {
-                ReadingView(reading: context.state.c)
+                ReadingView(reading: context.state.c, delta: delta)
                     .font(.title.weight(.regular))
 
                 Spacer(minLength: 0)
@@ -200,7 +214,7 @@ private struct MainContentView: View {
         } else {
             VStack(spacing: 0) {
                 HStack {
-                    ReadingView(reading: context.state.c)
+                    ReadingView(reading: context.state.c, delta: delta)
                         .font(.largeTitle)
                         .fontDesign(.rounded)
 

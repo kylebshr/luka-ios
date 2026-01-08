@@ -46,6 +46,24 @@ extension GlucoseReading {
         atDate.timeIntervalSince(date) > 25 * 60
     }
 
+    /// Calculates delta from previous reading. Returns nil if no previous reading.
+    func delta(from previous: GlucoseReading?) -> Int? {
+        guard let previous else { return nil }
+        return value - previous.value
+    }
+
+    /// Formats delta as "+12" or "-5" with explicit sign, respecting unit preference.
+    static func formattedDelta(_ delta: Int, unit: GlucoseFormatter.Unit) -> String {
+        switch unit {
+        case .mgdl:
+            return delta >= 0 ? "+\(delta)" : "\(delta)"
+        case .mmolL:
+            let converted = Double(delta) / 18.0182
+            let formatted = String(format: "%.1f", abs(converted))
+            return delta >= 0 ? "+\(formatted)" : "-\(formatted)"
+        }
+    }
+
     func timestamp(
         for currentDate: Date,
         style: DateComponentsFormatter.UnitsStyle = .short,

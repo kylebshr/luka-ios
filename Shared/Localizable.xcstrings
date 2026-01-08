@@ -88,6 +88,16 @@
         }
       }
     },
+    "%@ %@ %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@ %3$@"
+          }
+        }
+      }
+    },
     "%@ ago" : {
       "comment" : "Relative time suffix, e.g. '5 min ago'",
       "localizations" : {
@@ -414,6 +424,9 @@
           }
         }
       }
+    },
+    "Delta Display" : {
+
     },
     "Dexcom Clarity" : {
       "localizations" : {
@@ -2579,6 +2592,21 @@
           }
         }
       }
+    },
+    "Show in App" : {
+
+    },
+    "Show in Live Activity" : {
+
+    },
+    "Show in Widgets" : {
+
+    },
+    "Show on Watch" : {
+
+    },
+    "Shows the change from the previous reading (e.g., +12 or -5)" : {
+
     },
     "Sign In" : {
       "localizations" : {

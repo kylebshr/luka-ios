@@ -13,15 +13,17 @@ import Defaults
 struct SystemWidgetReadingView: View {
     let entry: ReadingTimelineProvider.Entry
     let reading: GlucoseReading
+    let delta: Int?
 
     @Environment(\.widgetRenderingMode) private var renderingMode
 
     @Default(.targetRangeLowerBound) private var targetLower
     @Default(.targetRangeUpperBound) private var targetUpper
+    @Default(.showDeltaInWidget) private var showDeltaInWidget
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            ReadingView(reading: reading)
+            ReadingView(reading: reading, delta: showDeltaInWidget ? delta : nil)
                 .font(.system(.largeTitle, design: .rounded))
                 .fontWeight(.regular)
                 .invalidatableContent()

@@ -18,6 +18,7 @@ import SwiftUI
     @Default(.targetRangeUpperBound) private var upperTargetRange
     @Default(.graphUpperBound) private var upperGraphRange
     @Default(.unit) private var unit
+    @Default(.showDeltaInWatch) private var showDeltaInWatch
 
     private var readings: [GlucoseReading] {
         switch liveViewModel.state {
@@ -30,6 +31,11 @@ import SwiftUI
 
     private var reading: GlucoseReading? {
         readings.last
+    }
+
+    private var delta: Int? {
+        guard showDeltaInWatch, readings.count >= 2 else { return nil }
+        return readings.last?.delta(from: readings[readings.count - 2])
     }
 
     private var readingText: String {
@@ -47,7 +53,7 @@ import SwiftUI
                 )
 
                 VStack(alignment: .leading, spacing: -3) {
-                    ReadingView(reading: reading)
+                    ReadingView(reading: reading, delta: delta)
                         .font(.title2)
 
                     Text(liveViewModel.message)

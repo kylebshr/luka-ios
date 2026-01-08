@@ -21,6 +21,11 @@ struct SettingsView: View {
     @Default(.unit) private var unit
     @Default(.sessionHistory) private var sessionHistory
 
+    @Default(.showDeltaInApp) private var showDeltaInApp
+    @Default(.showDeltaInWatch) private var showDeltaInWatch
+    @Default(.showDeltaInWidget) private var showDeltaInWidget
+    @Default(.showDeltaInLiveActivity) private var showDeltaInLiveActivity
+
     private var username: String? {
         Keychain.shared.username
     }
@@ -38,6 +43,21 @@ struct SettingsView: View {
 
                 Toggle("Show Graph in Live Activity", isOn: $showChartLiveActivity)
                     .tint(.accent)
+            }
+
+            Section {
+                Toggle("Show in App", isOn: $showDeltaInApp)
+                    .tint(.accent)
+                Toggle("Show on Watch", isOn: $showDeltaInWatch)
+                    .tint(.accent)
+                Toggle("Show in Widgets", isOn: $showDeltaInWidget)
+                    .tint(.accent)
+                Toggle("Show in Live Activity", isOn: $showDeltaInLiveActivity)
+                    .tint(.accent)
+            } header: {
+                Text("Delta Display")
+            } footer: {
+                Text("Shows the change from the previous reading (e.g., +12 or -5)")
             }
 
             Section("Graphs") {

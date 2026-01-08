@@ -11,14 +11,14 @@ import KeychainAccess
 import Defaults
 
 struct ReadingTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider {
-    typealias Entry = GlucoseEntry<GlucoseReading>
+    typealias Entry = GlucoseEntry<GlucoseReadingWithDelta>
 
     let delegate = KeychainDexcomDelegate()
 
     func placeholder(in context: Context) -> Entry {
-        GlucoseEntry(date: .now, widgetURL: nil, state: .reading(.placeholder))
+        GlucoseEntry(date: .now, widgetURL: nil, state: .reading(GlucoseReadingWithDelta(current: .placeholder, previous: nil)))
     }
-    
+
     func snapshot(for configuration: ReadingWidgetConfiguration, in context: Context) async -> Entry {
         await Entry(date: .now, widgetURL: configuration.url, state: makeState(for: configuration))
     }
@@ -44,8 +44,11 @@ struct ReadingTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvide
         )
 
         do {
-            if let current = try await client.getLatestGlucoseReading(), Date.now.timeIntervalSince(current.date) < 60 * 15 {
-                return .reading(current)
+            // Fetch 2 readings to enable delta calculation
+            let readings = try await client.getGlucoseReadings(maxCount: 2).sorted { $0.date < $1.date }
+            if let current = readings.last, Date.now.timeIntervalSince(current.date) < 60 * 15 {
+                let previous = readings.count >= 2 ? readings[readings.count - 2] : nil
+                return .reading(GlucoseReadingWithDelta(current: current, previous: previous))
             } else {
                 return .error(.noRecentReadings)
             }

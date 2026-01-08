@@ -12,6 +12,7 @@ import Defaults
 
 struct ReadingView: View {
     var reading: GlucoseReading?
+    var delta: Int? = nil
 
     @Environment(\.redactionReasons) private var redactionReasons
     @Default(.unit) private var unit
@@ -28,32 +29,51 @@ struct ReadingView: View {
         }
     }
 
+    var deltaText: String? {
+        guard !redactionReasons.contains(.placeholder), let delta else { return nil }
+        return GlucoseReading.formattedDelta(delta, unit: unit)
+    }
+
     var body: some View {
-        HStack(spacing: 0) {
-            Text(text).contentTransition(.numericText(value: Double(reading?.value ?? 0)))
-            if let image {
-                Text(verbatim: "\u{200A}") // hair space
-                image
-                    .id(reading?.trend)
-                    .transition(.blurReplace)
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(spacing: 0) {
+                Text(text).contentTransition(.numericText(value: Double(reading?.value ?? 0)))
+                if let image {
+                    Text(verbatim: "\u{200A}") // hair space
+                    image
+                        .id(reading?.trend)
+                        .transition(.blurReplace)
+                }
+            }
+            .imageScale(.small)
+
+            if let deltaText {
+                Text(deltaText)
+                    .font(.caption2)
+                    .fontWeight(.medium)
+                    .foregroundStyle(.secondary)
+                    .contentTransition(.numericText(value: Double(delta ?? 0)))
             }
         }
         .redacted(reason: reading == nil ? .placeholder : [])
-        .imageScale(.small)
     }
 }
 
 #Preview {
     @Previewable @State var value = GlucoseReading(value: 89, trend: .fortyFiveUp, date: .now)
+    @Previewable @State var delta: Int? = 12
 
         VStack {
-            ReadingView(reading: value)
+            ReadingView(reading: value, delta: delta)
+                .fontWeight(.semibold)
+
+            ReadingView(reading: value, delta: -5)
                 .fontWeight(.semibold)
 
             ReadingView(reading: nil)
                 .fontWeight(.semibold)
 
-            ReadingView(reading: value)
+            ReadingView(reading: value, delta: delta)
                 .font(.largeTitle)
 
             ReadingView(reading: nil)
@@ -71,6 +91,7 @@ struct ReadingView: View {
                     ].randomElement()!,
                     date: .now
                 )
+                delta = (-20...20).randomElement()!
             }
         }
         .animation(.default, value: value)

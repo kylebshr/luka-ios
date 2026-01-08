@@ -34,6 +34,12 @@ extension Defaults.Keys {
     static let launchCount = Key<Int>("launchCount", default: 0, suite: .shared, iCloud: true)
     static let isLiveActivityRunning = Key<Bool>("isLiveActivityRunning", default: false, suite: .shared)
     static let cachedReadings = Key<GlucoseReadingsCache?>("cachedReadings", default: nil, suite: .shared)
+
+    // Delta display settings
+    static let showDeltaInApp = Key<Bool>("showDeltaInApp", default: true, suite: .shared, iCloud: true)
+    static let showDeltaInWatch = Key<Bool>("showDeltaInWatch", default: true, suite: .shared, iCloud: true)
+    static let showDeltaInWidget = Key<Bool>("showDeltaInWidget", default: true, suite: .shared, iCloud: true)
+    static let showDeltaInLiveActivity = Key<Bool>("showDeltaInLiveActivity", default: true, suite: .shared, iCloud: true)
 }
 
 extension AccountLocation: Defaults.Serializable {}

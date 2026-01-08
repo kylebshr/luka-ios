@@ -38,4 +38,12 @@ struct LiveActivityState: Codable, Hashable {
         self.h = h
         self.se = se
     }
+
+    /// Returns the delta between current and previous reading, if available
+    var delta: Int? {
+        guard h.count >= 2 else { return nil }
+        let current = h[h.count - 1]
+        let previous = h[h.count - 2]
+        return Int(current.v) - Int(previous.v)
+    }
 }
