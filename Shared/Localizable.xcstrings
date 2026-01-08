@@ -10,6 +10,12 @@
             "value" : " • Letzte %@"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " • Last %@"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -52,7 +58,7 @@
         },
         "en" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "%1$@ %2$@"
           }
         },
@@ -97,6 +103,12 @@
             "value" : "vor %@"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ago"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -139,7 +151,7 @@
         },
         "en" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "%1$@%2$@"
           }
         },
@@ -183,6 +195,12 @@
             "value" : "24 Stunden"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "24 hours"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -221,6 +239,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Überall sonst"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anywhere Else"
           }
         },
         "es" : {
@@ -263,6 +287,12 @@
             "value" : "Graph-Widget-Einstellungen konfigurieren."
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configure graph widget settings."
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -301,6 +331,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Messwert-Widget-Einstellungen konfigurieren."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configure reading widget settings."
           }
         },
         "es" : {
@@ -343,6 +379,12 @@
             "value" : "Aktueller Messwert"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Current Reading"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -383,6 +425,12 @@
             "value" : "Datum"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -418,6 +466,12 @@
     "Dexcom Clarity" : {
       "localizations" : {
         "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dexcom Clarity"
+          }
+        },
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dexcom Clarity"
@@ -463,6 +517,12 @@
             "value" : "Dexcom G6"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dexcom G6"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -498,6 +558,12 @@
     "Dexcom G7" : {
       "localizations" : {
         "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dexcom G7"
+          }
+        },
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dexcom G7"
@@ -543,6 +609,12 @@
             "value" : "Fertig"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -575,12 +647,64 @@
         }
       }
     },
+    "Dots" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Punkte"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dots"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puntos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Points"
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Points"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prikker"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Punkter"
+          }
+        }
+      }
+    },
     "Eight hours" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Acht Stunden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eight hours"
           }
         },
         "es" : {
@@ -615,12 +739,18 @@
         }
       }
     },
-    "Email Me" : {
+    "Email me" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "E-Mail schreiben"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Email me"
           }
         },
         "es" : {
@@ -632,13 +762,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "M'envoyer un e-mail"
+            "value" : "M’envoyer un e-mail"
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "M'envoyer un courriel"
+            "value" : "M’envoyer un courriel"
           }
         },
         "nb" : {
@@ -661,6 +791,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Beenden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End"
           }
         },
         "es" : {
@@ -703,6 +839,12 @@
             "value" : "Live-Aktivität beenden"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End Live Activity"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -712,13 +854,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arrêter l'activité en direct"
+            "value" : "Arrêter l’activité en direct"
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arrêter l'activité en direct"
+            "value" : "Arrêter l’activité en direct"
           }
         },
         "nb" : {
@@ -743,6 +885,12 @@
             "value" : "Die laufende Live-Aktivität beenden."
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End the currently running Live Activity."
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -752,13 +900,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arrêter l'activité en direct en cours."
+            "value" : "Arrêter l’activité en direct en cours."
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arrêter l'activité en direct en cours."
+            "value" : "Arrêter l’activité en direct en cours."
           }
         },
         "nb" : {
@@ -783,6 +931,12 @@
             "value" : "Hervorragende Widgets und Live-Aktivitäten für Dexcom CGM-Systeme."
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Excellent widgets and Live Activities for Dexcom continuous glucose monitors."
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -792,13 +946,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "D'excellents widgets et activités en direct pour les capteurs de glucose en continu Dexcom."
+            "value" : "D’excellents widgets et activités en direct pour les capteurs de glucose en continu Dexcom."
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "D'excellents widgets et activités en direct pour les capteurs de glycémie en continu Dexcom."
+            "value" : "D’excellents widgets et activités en direct pour les capteurs de glycémie en continu Dexcom."
           }
         },
         "nb" : {
@@ -815,52 +969,18 @@
         }
       }
     },
-    "General" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Allgemein"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "General"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Général"
-          }
-        },
-        "fr-CA" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Général"
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Generelt"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Allmänt"
-          }
-        }
-      }
-    },
     "Glucose" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Glukose"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Glucose"
           }
         },
         "es" : {
@@ -903,6 +1023,12 @@
             "value" : "Zeitraum"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Graph range"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -943,6 +1069,12 @@
             "value" : "Zeitraum"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Graph Range"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -975,12 +1107,110 @@
         }
       }
     },
+    "Graph Style" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grafik-Stil"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Graph Style"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estilo del gráfico"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Style du graphique"
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Style du graphique"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grafstil"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grafstil"
+          }
+        }
+      }
+    },
+    "Graph upper bound" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oberer Grenzwert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Graph upper bound"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Límite superior del gráfico"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limite supérieure du graphique"
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limite supérieure du graphique"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grafens øvre grense"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grafens övre gräns"
+          }
+        }
+      }
+    },
     "Graph Widget" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Graph-Widget"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Graph Widget"
           }
         },
         "es" : {
@@ -1015,42 +1245,48 @@
         }
       }
     },
-    "Graphs" : {
+    "In-app graph style" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Graphen"
+            "value" : "In-App Grafik-Stil"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In-app graph style"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gráficos"
+            "value" : "Estilo del gráfico en la app"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Graphiques"
+            "value" : "Style du graphique dans l’app"
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Graphiques"
+            "value" : "Style du graphique dans l’app"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Grafer"
+            "value" : "Grafstil i appen"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Grafer"
+            "value" : "Grafstil i appen"
           }
         }
       }
@@ -1058,6 +1294,12 @@
     "Japan" : {
       "localizations" : {
         "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Japan"
+          }
+        },
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Japan"
@@ -1103,6 +1345,12 @@
             "value" : "Gerade eben"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Just now"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1112,13 +1360,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "À l'instant"
+            "value" : "À l’instant"
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "À l'instant"
+            "value" : "À l’instant"
           }
         },
         "nb" : {
@@ -1142,6 +1390,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Letzte %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last %@"
           }
         },
         "es" : {
@@ -1184,6 +1438,12 @@
             "value" : "App öffnen"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Launch App"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1193,13 +1453,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ouvrir l'app"
+            "value" : "Ouvrir l’app"
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ouvrir l'app"
+            "value" : "Ouvrir l’app"
           }
         },
         "nb" : {
@@ -1222,6 +1482,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Beim Tippen öffnen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Launch on Tap"
           }
         },
         "es" : {
@@ -1256,12 +1522,18 @@
         }
       }
     },
-    "Leave a Review" : {
+    "Leave a review" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bewertung schreiben"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leave a review"
           }
         },
         "es" : {
@@ -1296,10 +1568,62 @@
         }
       }
     },
+    "Line" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Linie"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Line"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Línea"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ligne"
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ligne"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Linje"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Linje"
+          }
+        }
+      }
+    },
     "Live" : {
       "comment" : "Status indicator when Live Activity is receiving updates",
       "localizations" : {
         "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live"
+          }
+        },
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Live"
@@ -1337,12 +1661,64 @@
         }
       }
     },
+    "Live Activities" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live-Aktivitäten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live Activities"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actividades en Vivo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activités en direct"
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activités en direct"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live Activities"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live Activities"
+          }
+        }
+      }
+    },
     "Live Activities are disabled." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Live-Aktivitäten sind deaktiviert."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live Activities are disabled."
           }
         },
         "es" : {
@@ -1385,6 +1761,12 @@
             "value" : "Live-Aktivität"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live Activity"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1425,6 +1807,12 @@
             "value" : "Live-Aktivität beendet"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live Activity ended"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1457,6 +1845,52 @@
         }
       }
     },
+    "Live Activity graph style" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live-Aktivität Grafik-Stil"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live Activity graph style"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estilo del gráfico en Actividad en Vivo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Style du graphique de l’activité en direct"
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Style du graphique de l’activité en direct"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grafstil for Live Activity"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grafstil för Live Activity"
+          }
+        }
+      }
+    },
     "Lower target range" : {
       "localizations" : {
         "de" : {
@@ -1465,10 +1899,16 @@
             "value" : "Unterer Zielbereich"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lower target range"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rango objetivo inferior"
+            "value" : "Límite inferior del rango objetivo"
           }
         },
         "fr" : {
@@ -1486,13 +1926,13 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nedre målverdi"
+            "value" : "Nedre målområde"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nedre målvärde"
+            "value" : "Nedre målområde"
           }
         }
       }
@@ -1500,6 +1940,12 @@
     "Luka" : {
       "localizations" : {
         "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Luka"
+          }
+        },
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Luka"
@@ -1546,6 +1992,12 @@
             "value" : "Luka %@"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Luka %@"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1586,6 +2038,12 @@
             "value" : "Luka für macOS"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Luka for macOS"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1621,6 +2079,12 @@
     "Max" : {
       "localizations" : {
         "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Max"
+          }
+        },
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Max"
@@ -1666,6 +2130,12 @@
             "value" : "Min"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Min"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1704,6 +2174,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Glukosewerte in einer Live-Aktivität überwachen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monitor glucose readings in a Live Activity."
           }
         },
         "es" : {
@@ -1746,6 +2222,12 @@
             "value" : "Netzwerkfehler"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Network Error"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1784,6 +2266,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kein Konto"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Account"
           }
         },
         "es" : {
@@ -1826,6 +2314,12 @@
             "value" : "Keine aktuellen Messwerte"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Recent Readings"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1864,6 +2358,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Jetzt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Now"
           }
         },
         "es" : {
@@ -1906,6 +2406,12 @@
             "value" : "Aus"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Off"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1942,6 +2448,12 @@
       "comment" : "Status indicator when Live Activity is not receiving updates",
       "localizations" : {
         "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Offline"
+          }
+        },
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Offline"
@@ -1988,6 +2500,12 @@
             "value" : "Offline um %@"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Offline at %@"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2023,6 +2541,12 @@
     "OK" : {
       "localizations" : {
         "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "OK"
@@ -2068,6 +2592,12 @@
             "value" : "An"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2106,6 +2636,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Eine Stunde"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "One hour"
           }
         },
         "es" : {
@@ -2148,6 +2684,12 @@
             "value" : "Passwort"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Password"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2186,6 +2728,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Messwert-Graph"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reading Graph"
           }
         },
         "es" : {
@@ -2228,6 +2776,12 @@
             "value" : "Messwert-Widget"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reading Widget"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2266,6 +2820,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aktualisieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Refresh"
           }
         },
         "es" : {
@@ -2308,6 +2868,12 @@
             "value" : "Neu laden"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reload"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2346,6 +2912,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Neu starten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restart"
           }
         },
         "es" : {
@@ -2388,6 +2960,12 @@
             "value" : "Aktiv"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Running"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2426,6 +3004,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wähle einen Kontostandort aus, um zu beginnen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select an account location to get started"
           }
         },
         "es" : {
@@ -2468,6 +3052,12 @@
             "value" : "Einstellungen"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2508,6 +3098,12 @@
             "value" : "Luka teilen"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share Luka"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2540,12 +3136,18 @@
         }
       }
     },
-    "Show Graph in Live Activity" : {
+    "Show graph in Live Activity" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Graph in Live-Aktivität anzeigen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show graph in Live Activity"
           }
         },
         "es" : {
@@ -2557,13 +3159,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Afficher le graphique dans l'activité en direct"
+            "value" : "Afficher le graphique dans l’activité en direct"
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Afficher le graphique dans l'activité en direct"
+            "value" : "Afficher le graphique dans l’activité en direct"
           }
         },
         "nb" : {
@@ -2586,6 +3188,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Anmelden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign In"
           }
         },
         "es" : {
@@ -2628,6 +3236,12 @@
             "value" : "Melde dich mit deinem Dexcom-Benutzernamen und Passwort an. **Dexcom Share muss mit mindestens einem Follower aktiviert sein**, aber melde dich mit **deinen eigenen Dexcom-Anmeldedaten** an, nicht mit denen der Follower. Wenn dein Benutzername eine Telefonnummer ist, formatiere sie mit + und der Vorwahl, zum Beispiel +4912345678901."
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign in using your Dexcom username and password. **Dexcom share must be enabled with at least one follower**, but sign in using **your own Dexcom credentials**, not the followers. If your username is a phone number, format it with a + and the area code, for example +12223334444."
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2637,13 +3251,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Connectez-vous avec votre nom d'utilisateur et mot de passe Dexcom. **Dexcom Share doit être activé avec au moins un follower**, mais connectez-vous avec **vos propres identifiants Dexcom**, pas ceux du follower. Si votre nom d'utilisateur est un numéro de téléphone, formatez-le avec + et l'indicatif régional, par exemple +33123456789."
+            "value" : "Connectez-vous avec votre nom d’utilisateur et mot de passe Dexcom. **Dexcom Share doit être activé avec au moins un follower**, mais connectez-vous avec **vos propres identifiants Dexcom**, pas ceux du follower. Si votre nom d’utilisateur est un numéro de téléphone, formatez-le avec + et l’indicatif régional, par exemple +33123456789."
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Connectez-vous avec votre nom d'utilisateur et mot de passe Dexcom. **Dexcom Share doit être activé avec au moins un abonné**, mais connectez-vous avec **vos propres identifiants Dexcom**, pas ceux de l'abonné. Si votre nom d'utilisateur est un numéro de téléphone, formatez-le avec + et l'indicatif régional, par exemple +15141234567."
+            "value" : "Connectez-vous avec votre nom d’utilisateur et mot de passe Dexcom. **Dexcom Share doit être activé avec au moins un abonné**, mais connectez-vous avec **vos propres identifiants Dexcom**, pas ceux de l’abonné. Si votre nom d’utilisateur est un numéro de téléphone, formatez-le avec + et l’indicatif régional, par exemple +15141234567."
           }
         },
         "nb" : {
@@ -2660,12 +3274,18 @@
         }
       }
     },
-    "Sign Out" : {
+    "Sign out" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Abmelden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign out"
           }
         },
         "es" : {
@@ -2709,6 +3329,12 @@
             "value" : "Angemeldet als %@"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Signed in as %@"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2747,6 +3373,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sechs Stunden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Six hours"
           }
         },
         "es" : {
@@ -2789,6 +3421,12 @@
             "value" : "Sechzehn Stunden"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sixteen hours"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2829,6 +3467,12 @@
             "value" : "Etwas ist schiefgelaufen"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Something Went Wrong"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2838,13 +3482,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quelque chose s'est mal passé"
+            "value" : "Quelque chose s’est mal passé"
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Une erreur s'est produite"
+            "value" : "Une erreur s’est produite"
           }
         },
         "nb" : {
@@ -2867,6 +3511,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Starten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start"
           }
         },
         "es" : {
@@ -2909,6 +3559,12 @@
             "value" : "Live-Aktivität starten"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start Live Activity"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2918,13 +3574,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Démarrer l'activité en direct"
+            "value" : "Démarrer l’activité en direct"
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Démarrer l'activité en direct"
+            "value" : "Démarrer l’activité en direct"
           }
         },
         "nb" : {
@@ -2949,6 +3605,12 @@
             "value" : "Die Glukose-Live-Aktivität starten oder stoppen."
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start or stop the glucose Live Activity."
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2958,13 +3620,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Démarrer ou arrêter l'activité en direct de glycémie."
+            "value" : "Démarrer ou arrêter l’activité en direct de glycémie."
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Démarrer ou arrêter l'activité en direct de glycémie."
+            "value" : "Démarrer ou arrêter l’activité en direct de glycémie."
           }
         },
         "nb" : {
@@ -2987,6 +3649,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aktion beim Tippen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap Action"
           }
         },
         "es" : {
@@ -3029,6 +3697,12 @@
             "value" : "Diese Version von Luka wird nicht mehr unterstützt. Bitte aktualisiere, um fortzufahren."
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This version of Luka is no longer supported. Please update to continue."
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3038,13 +3712,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cette version de Luka n'est plus prise en charge. Veuillez mettre à jour pour continuer."
+            "value" : "Cette version de Luka n’est plus prise en charge. Veuillez mettre à jour pour continuer."
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cette version de Luka n'est plus prise en charge. Veuillez mettre à jour pour continuer."
+            "value" : "Cette version de Luka n’est plus prise en charge. Veuillez mettre à jour pour continuer."
           }
         },
         "nb" : {
@@ -3067,6 +3741,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Drei Stunden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Three hours"
           }
         },
         "es" : {
@@ -3109,6 +3789,12 @@
             "value" : "Zeit"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3149,6 +3835,12 @@
             "value" : "Live-Aktivität umschalten"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toggle Live Activity"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3158,13 +3850,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Basculer l'activité en direct"
+            "value" : "Basculer l’activité en direct"
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Basculer l'activité en direct"
+            "value" : "Basculer l’activité en direct"
           }
         },
         "nb" : {
@@ -3187,6 +3879,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Deine Glukose-Live-Aktivität umschalten."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toggle your glucose Live Activity."
           }
         },
         "es" : {
@@ -3229,6 +3927,12 @@
             "value" : "Versuche es in ein paar Minuten erneut"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again in a few minutes"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3267,6 +3971,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zwölf Stunden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twelve hours"
           }
         },
         "es" : {
@@ -3309,6 +4019,12 @@
             "value" : "Vereinigte Staaten"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "United States"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3347,6 +4063,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Einheiten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Units"
           }
         },
         "es" : {
@@ -3389,6 +4111,12 @@
             "value" : "Jetzt aktualisieren"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update Now"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3429,6 +4157,12 @@
             "value" : "Update erforderlich"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update Required"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3461,46 +4195,6 @@
         }
       }
     },
-    "Upper bound" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Obergrenze"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Límite superior"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Limite supérieure"
-          }
-        },
-        "fr-CA" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Limite supérieure"
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Øvre grense"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Övre gräns"
-          }
-        }
-      }
-    },
     "Upper target range" : {
       "localizations" : {
         "de" : {
@@ -3509,10 +4203,16 @@
             "value" : "Oberer Zielbereich"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upper target range"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rango objetivo superior"
+            "value" : "Límite superior del rango objetivo"
           }
         },
         "fr" : {
@@ -3530,13 +4230,13 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Øvre målverdi"
+            "value" : "Øvre målområde"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Övre målvärde"
+            "value" : "Övre målområde"
           }
         }
       }
@@ -3549,6 +4249,12 @@
             "value" : "Benutzername"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Username"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3558,13 +4264,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nom d'utilisateur"
+            "value" : "Nom d’utilisateur"
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nom d'utilisateur"
+            "value" : "Nom d’utilisateur"
           }
         },
         "nb" : {
@@ -3587,6 +4293,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Willkommen bei"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome to"
           }
         },
         "es" : {
@@ -3621,7 +4333,7 @@
         }
       }
     },
-    "You're not logged in." : {
+    "You’re not logged in." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -3638,13 +4350,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vous n'êtes pas connecté."
+            "value" : "Vous n’êtes pas connecté."
           }
         },
         "fr-CA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vous n'êtes pas connecté."
+            "value" : "Vous n’êtes pas connecté."
           }
         },
         "nb" : {

@@ -14,6 +14,7 @@ import SwiftUI
     @State private var isPresentingPicker = false
 
     @Default(.selectedRange) private var selectedRange
+    @Default(.appGraphStyle) private var graphStyle
     @Default(.targetRangeLowerBound) private var lowerTargetRange
     @Default(.targetRangeUpperBound) private var upperTargetRange
     @Default(.graphUpperBound) private var upperGraphRange
@@ -41,6 +42,7 @@ import SwiftUI
             VStack(alignment: .leading) {
                 LineChart(
                     range: selectedRange,
+                    style: graphStyle,
                     readings: readings.toLiveActivityReadings(),
                     showAxisLabels: true,
                     useFullYRange: true

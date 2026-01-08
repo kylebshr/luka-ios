@@ -91,9 +91,10 @@ struct WidgetGraphView: View {
 
                 LineChart(
                     range: data.configuration.graphRange,
+                    style: data.configuration.graphStyle,
                     readings: data.history.toLiveActivityReadings(),
                     showAxisLabels: showLabels,
-                    useFullYRange: useFullYRange
+                    useFullYRange: useFullYRange,
                 )
                 .padding(graphPadding)
                 .padding(.bottom, showLabels ? -margins.bottom / 2 : 0)

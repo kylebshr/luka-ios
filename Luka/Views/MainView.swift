@@ -16,6 +16,7 @@ import WidgetKit
     @Environment(\.verticalSizeClass) private var verticalSizeClass
 
     @Default(.selectedRange) private var portraitRange
+    @Default(.appGraphStyle) private var graphStyle
     @Default(.selectedLandscapeRange) private var landscapeRange
     @Default(.targetRangeLowerBound) private var lowerTargetRange
     @Default(.targetRangeUpperBound) private var upperTargetRange
@@ -117,6 +118,7 @@ import WidgetKit
 
                 LineChart(
                     range: selectedRange.wrappedValue,
+                    style: graphStyle,
                     readings: readings.toLiveActivityReadings(),
                     showAxisLabels: true,
                     useFullYRange: true,

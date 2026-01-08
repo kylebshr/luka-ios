@@ -17,6 +17,7 @@ struct LineChart: View {
     @Default(.unit) var unit
 
     var range: GraphRange
+    var style: GraphStyle
     var readings: [LiveActivityState.Reading]
     var lineWidth: CGFloat = 2
     var showAxisLabels: Bool = false
@@ -24,14 +25,43 @@ struct LineChart: View {
     var selectedReading: Binding<LiveActivityState.Reading?>? = nil
 
     @GestureState private var isScrubbing = false
+    @State private var chartWidth: CGFloat = 350
+
+    /// Calculates dot size based on time range and chart width - more points or smaller width means smaller dots
+    private var dotSymbolSize: CGFloat {
+        // Dexcom provides ~12 readings per hour (every 5 min)
+        // Scale inversely with expected point count, clamped to reasonable bounds
+        let hours = range.timeInterval / 3600
+        let expectedPoints = hours * 12
+
+        // Base size that looks good, scaled by lineWidth for consistency
+        var calculatedSize = (lineWidth * 350) / expectedPoints
+
+        // Scale down for smaller chart widths (reference: 350pt typical phone width)
+        let widthScale = min(1.0, chartWidth / 350)
+        calculatedSize *= widthScale
+
+        return max(lineWidth * 4, min(lineWidth * 30, calculatedSize))
+    }
+
+    /// Size for the emphasized current reading dot (symbol size units)
+    private var emphasizedDotSymbolSize: CGFloat {
+        dotSymbolSize * 3
+    }
 
     private var filteredReadings: [LiveActivityState.Reading] {
         if useFullYRange {
             return readings
         } else {
-            // Filter out older readings so we scale the y axis to current readings;
-            // pad a little so it can go off the edge.
-            let startDate = Date.now.addingTimeInterval(-(range.timeInterval + 60 * 15))
+            // Filter out older readings so we scale the y axis to current readings
+            let startDate = switch style {
+            case .line:
+                // pad a little so it can go off the edge.
+                Date.now.addingTimeInterval(-(range.timeInterval + 60 * 15))
+            case .dots:
+                Date.now.addingTimeInterval(-range.timeInterval)
+            }
+
             return readings.filter { reading in
                 reading.t >= startDate
             }
@@ -62,49 +92,64 @@ struct LineChart: View {
         return Int(dataMin)...Int(dataMax)
     }
 
+    private var emphasizedReading: LiveActivityState.Reading? {
+        if let selectedReading = selectedReading?.wrappedValue {
+            return selectedReading
+        } else if let lastReading = filteredReadings.last, Date.now.timeIntervalSince(lastReading.t) < 7 * 60 {
+            return lastReading
+        } else {
+            return nil
+        }
+    }
+
     var body: some View {
         Chart {
             ForEach(filteredReadings, id: \.t) { reading in
                 let clampedValue = useFullYRange ? min(reading.v, Int16(graphUpperBound)) : reading.v
 
-                // Line on top
-                LineMark(
-                    x: .value("Date", reading.t),
-                    y: .value("Glucose", clampedValue)
-                )
-                .foregroundStyle(
-                    LinearGradient(
-                        stops: gradientStops,
-                        startPoint: .bottom,
-                        endPoint: .top
+                switch style {
+                case .dots:
+                    if reading != emphasizedReading {
+                        PointMark(
+                            x: .value("Date", reading.t),
+                            y: .value("Glucose", clampedValue)
+                        )
+                        .foregroundStyle(colorForValue(Int(reading.v)))
+                        .symbolSize(dotSymbolSize)
+                    }
+                case .line:
+                    LineMark(
+                        x: .value("Date", reading.t),
+                        y: .value("Glucose", clampedValue)
                     )
-                )
-                .interpolationMethod(.catmullRom)
-                .lineStyle(StrokeStyle(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
+                    .foregroundStyle(
+                        LinearGradient(
+                            stops: gradientStops,
+                            startPoint: .bottom,
+                            endPoint: .top
+                        )
+                    )
+                    .interpolationMethod(.catmullRom)
+                    .lineStyle(StrokeStyle(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
+                }
             }
 
-            if let selectedReading = selectedReading?.wrappedValue {
-                let clampedValue = useFullYRange ? min(selectedReading.v, Int16(graphUpperBound)) : selectedReading.v
+            if let emphasizedReading {
+                let clampedValue = useFullYRange ? min(emphasizedReading.v, Int16(graphUpperBound)) : emphasizedReading.v
 
-                RuleMark(x: .value("Date", selectedReading.t))
-                    .foregroundStyle(Color.secondary)
-                    .lineStyle(StrokeStyle(lineWidth: 0.5))
-
-                PointMark(
-                    x: .value("Date", selectedReading.t),
-                    y: .value("Glucose", clampedValue)
-                )
-                .foregroundStyle(colorForValue(Int(selectedReading.v)))
-                .symbolSize(40)
-            } else if let lastReading = filteredReadings.last, Date.now.timeIntervalSince(lastReading.t) < 7 * 60 {
-                let clampedValue = useFullYRange ? min(lastReading.v, Int16(graphUpperBound)) : lastReading.v
+                if selectedReading?.wrappedValue != nil {
+                    RuleMark(x: .value("Date", emphasizedReading.t))
+                        .foregroundStyle(Color.secondary)
+                        .lineStyle(StrokeStyle(lineWidth: 0.5))
+                }
 
                 PointMark(
-                    x: .value("Date", lastReading.t),
+                    x: .value("Date", emphasizedReading.t),
                     y: .value("Glucose", clampedValue)
                 )
-                .foregroundStyle(colorForValue(Int(lastReading.v)))
-                .symbolSize(25)
+                .foregroundStyle(colorForValue(Int(emphasizedReading.v)))
+                .symbolSize(emphasizedDotSymbolSize)
+                .symbol(DonutSymbolShape(fill: style == .line))
             }
         }
         .chartYScale(domain: yScaleRange)
@@ -195,6 +240,16 @@ struct LineChart: View {
                 }
             }
         }
+        .background {
+            GeometryReader { geometry in
+                Color.clear.onAppear {
+                    chartWidth = geometry.size.width
+                }
+                .onChange(of: geometry.size.width) { _, newWidth in
+                    chartWidth = newWidth
+                }
+            }
+        }
     }
 
     private var gradientStops: [Gradient.Stop] {
@@ -262,8 +317,9 @@ struct LineChart: View {
     VStack {
         LineChart(
             range: .eightHours,
+            style: .line,
             readings: .placeholder,
-            showAxisLabels: true
+            showAxisLabels: true,
         )
         .frame(height: 70)
         .padding(1)
@@ -271,10 +327,35 @@ struct LineChart: View {
         .padding()
 
         LineChart(
-            range: .eightHours,
+            range: .threeHours,
+            style: .dots,
             readings: .placeholder,
             showAxisLabels: true,
-            useFullYRange: true
+            useFullYRange: false,
+        )
+        .frame(height: 100)
+        .padding(1)
+        .border(.blue.opacity(0.5))
+        .padding()
+
+        LineChart(
+            range: .eightHours,
+            style: .dots,
+            readings: .placeholder,
+            showAxisLabels: true,
+            useFullYRange: false,
+        )
+        .frame(height: 100)
+        .padding(1)
+        .border(.blue.opacity(0.5))
+        .padding()
+
+        LineChart(
+            range: .twentyFourHours,
+            style: .dots,
+            readings: .placeholder,
+            showAxisLabels: true,
+            useFullYRange: true,
         )
         .frame(height: 400)
         .padding(1)
