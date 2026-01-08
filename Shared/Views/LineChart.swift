@@ -46,7 +46,7 @@ struct LineChart: View {
 
     /// Size for the emphasized current reading dot (symbol size units)
     private var emphasizedDotSymbolSize: CGFloat {
-        dotSymbolSize * 2.5
+        dotSymbolSize * 3
     }
 
     private var filteredReadings: [LiveActivityState.Reading] {
@@ -92,6 +92,16 @@ struct LineChart: View {
         return Int(dataMin)...Int(dataMax)
     }
 
+    private var emphasizedReading: LiveActivityState.Reading? {
+        if let selectedReading = selectedReading?.wrappedValue {
+            return selectedReading
+        } else if let lastReading = filteredReadings.last, Date.now.timeIntervalSince(lastReading.t) < 7 * 60 {
+            return lastReading
+        } else {
+            return nil
+        }
+    }
+
     var body: some View {
         Chart {
             ForEach(filteredReadings, id: \.t) { reading in
@@ -99,12 +109,14 @@ struct LineChart: View {
 
                 switch style {
                 case .dots:
-                    PointMark(
-                        x: .value("Date", reading.t),
-                        y: .value("Glucose", clampedValue)
-                    )
-                    .foregroundStyle(colorForValue(Int(reading.v)))
-                    .symbolSize(dotSymbolSize)
+                    if reading != emphasizedReading {
+                        PointMark(
+                            x: .value("Date", reading.t),
+                            y: .value("Glucose", clampedValue)
+                        )
+                        .foregroundStyle(colorForValue(Int(reading.v)))
+                        .symbolSize(dotSymbolSize)
+                    }
                 case .line:
                     LineMark(
                         x: .value("Date", reading.t),
@@ -122,28 +134,22 @@ struct LineChart: View {
                 }
             }
 
-            if let selectedReading = selectedReading?.wrappedValue {
-                let clampedValue = useFullYRange ? min(selectedReading.v, Int16(graphUpperBound)) : selectedReading.v
+            if let emphasizedReading {
+                let clampedValue = useFullYRange ? min(emphasizedReading.v, Int16(graphUpperBound)) : emphasizedReading.v
 
-                RuleMark(x: .value("Date", selectedReading.t))
-                    .foregroundStyle(Color.secondary)
-                    .lineStyle(StrokeStyle(lineWidth: 0.5))
-
-                PointMark(
-                    x: .value("Date", selectedReading.t),
-                    y: .value("Glucose", clampedValue)
-                )
-                .foregroundStyle(colorForValue(Int(selectedReading.v)))
-                .symbolSize(emphasizedDotSymbolSize)
-            } else if let lastReading = filteredReadings.last, Date.now.timeIntervalSince(lastReading.t) < 7 * 60 {
-                let clampedValue = useFullYRange ? min(lastReading.v, Int16(graphUpperBound)) : lastReading.v
+                if selectedReading?.wrappedValue != nil {
+                    RuleMark(x: .value("Date", emphasizedReading.t))
+                        .foregroundStyle(Color.secondary)
+                        .lineStyle(StrokeStyle(lineWidth: 0.5))
+                }
 
                 PointMark(
-                    x: .value("Date", lastReading.t),
+                    x: .value("Date", emphasizedReading.t),
                     y: .value("Glucose", clampedValue)
                 )
-                .foregroundStyle(colorForValue(Int(lastReading.v)))
+                .foregroundStyle(colorForValue(Int(emphasizedReading.v)))
                 .symbolSize(emphasizedDotSymbolSize)
+                .symbol(DonutSymbolShape(fill: style == .line))
             }
         }
         .chartYScale(domain: yScaleRange)
