@@ -29,7 +29,7 @@ struct StartLiveActivityIntent: LiveActivityIntent {
             case .disabled:
                 "Live Activities are disabled."
             case .loggedOut:
-                "You're not logged in."
+                "You’re not logged in."
             }
         }
     }

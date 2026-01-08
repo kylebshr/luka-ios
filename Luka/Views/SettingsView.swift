@@ -38,37 +38,37 @@ struct SettingsView: View {
                 }
                 .pickerStyle(.menu)
 
-                Picker("In-App Graph Style", selection: $appGraphStyle) {
+                Picker("In-app graph style", selection: $appGraphStyle) {
                     Text("Dots").tag(GraphStyle.dots)
                     Text("Line").tag(GraphStyle.line)
                 }
                 .pickerStyle(.menu)
 
                 GraphSliderView(
-                    title: "Graph Upper Bound",
+                    title: "Graph upper bound",
                     currentValue: $upperGraphRange,
                     range: 250...400
                 )
 
                 GraphSliderView(
-                    title: "Upper Target Range",
+                    title: "Upper target range",
                     currentValue: $upperTargetRange,
                     range: 120...220
                 )
 
                 GraphSliderView(
-                    title: "Lower Target Range",
+                    title: "Lower target range",
                     currentValue: $lowerTargetRange,
                     range: 55...110
                 )
             }
 
             Section("Live Activities") {
-                Toggle("Show Graph in Live Activity", isOn: $showChartLiveActivity)
+                Toggle("Show graph in Live Activity", isOn: $showChartLiveActivity)
                     .tint(.accent)
 
                 if showChartLiveActivity {
-                    Picker("Live Activity Graph Style", selection: $liveActivityGraphStyle) {
+                    Picker("Live Activity graph style", selection: $liveActivityGraphStyle) {
                         Text("Dots").tag(GraphStyle.dots)
                         Text("Line").tag(GraphStyle.line)
                     }
@@ -86,11 +86,11 @@ struct SettingsView: View {
                 }
 
                 Link(destination: URL(string: "itms-apps://itunes.apple.com/gb/app/id6499279663?action=write-review&mt=8")!) {
-                    SettingsRow("Leave a Review", systemImage: "star")
+                    SettingsRow("Leave a review", systemImage: "star")
                 }
 
                 Link(destination: URL(string: "mailto:kylebshr@me.com")!) {
-                    SettingsRow("Email Me", systemImage: "envelope")
+                    SettingsRow("Email me", systemImage: "envelope")
                 }
             }
             .fontWeight(.medium)
@@ -99,7 +99,7 @@ struct SettingsView: View {
                 Button {
                     viewModel.signOut()
                 } label: {
-                    SettingsRow("Sign Out", systemImage: "rectangle.portrait.and.arrow.right")
+                    SettingsRow("Sign out", systemImage: "rectangle.portrait.and.arrow.right")
                 }
             } header: {
                 if let username {

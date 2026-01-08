@@ -32,7 +32,8 @@
       "Bash(git commit -m \"$\\(cat <<''EOF''\nMigrate to Swift 6 with strict concurrency\n\n- Update SWIFT_VERSION to 6 for all targets\n- Add setDelegate\\(_:\\) to DexcomClientService protocol\n- Use @preconcurrency for DexcomClient actor conformance\n- Mark global state as nonisolated\\(unsafe\\) or use static let\n- Add Sendable conformance to service types\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
       "Bash(git push:*)",
       "Bash(gh pr create:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(python3:*)"
     ],
     "deny": [],
     "ask": []
