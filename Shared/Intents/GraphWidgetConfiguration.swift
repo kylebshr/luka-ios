@@ -15,6 +15,9 @@ struct GraphWidgetConfiguration: WidgetConfigurationIntent {
     @Parameter(title: "Graph Range", default: .eightHours)
     var graphRange: GraphRange
 
+    @Parameter(title: "Graph Style", default: .line)
+    var graphStyle: GraphStyle
+
     @Parameter(title: "Launch on Tap", default: .luka)
     var app: LaunchableApp
 }

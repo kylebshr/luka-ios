@@ -647,6 +647,9 @@
         }
       }
     },
+    "Dots" : {
+
+    },
     "Eight hours" : {
       "localizations" : {
         "de" : {
@@ -924,6 +927,7 @@
       }
     },
     "General" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1107,6 +1111,12 @@
         }
       }
     },
+    "Graph Style" : {
+
+    },
+    "Graph Upper Bound" : {
+
+    },
     "Graph Widget" : {
       "localizations" : {
         "de" : {
@@ -1154,6 +1164,7 @@
       }
     },
     "Graphs" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1198,6 +1209,9 @@
           }
         }
       }
+    },
+    "In-App Graph Style" : {
+
     },
     "Japan" : {
       "localizations" : {
@@ -1476,6 +1490,9 @@
         }
       }
     },
+    "Line" : {
+
+    },
     "Live" : {
       "comment" : "Status indicator when Live Activity is receiving updates",
       "localizations" : {
@@ -1522,6 +1539,9 @@
           }
         }
       }
+    },
+    "Live Activities" : {
+
     },
     "Live Activities are disabled." : {
       "localizations" : {
@@ -1661,7 +1681,11 @@
         }
       }
     },
+    "Live Activity Graph Style" : {
+
+    },
     "Lower target range" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1706,6 +1730,9 @@
           }
         }
       }
+    },
+    "Lower Target Range" : {
+
     },
     "Luka" : {
       "localizations" : {
@@ -3966,6 +3993,7 @@
       }
     },
     "Upper bound" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -4012,6 +4040,7 @@
       }
     },
     "Upper target range" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -4056,6 +4085,9 @@
           }
         }
       }
+    },
+    "Upper Target Range" : {
+
     },
     "Username" : {
       "localizations" : {

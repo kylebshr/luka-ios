@@ -22,5 +22,11 @@ extension Color {
             Color.green
         }
     }
-    static let highColor = Color.yellow
+    static var highColor: Color {
+        if #available(iOS 26, *), #available(watchOS 11, *) {
+            Color.yellow.mix(with: .orange, by: 0.5)
+        } else {
+            Color.yellow
+        }
+    }
 }

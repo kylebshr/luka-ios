@@ -18,6 +18,8 @@ struct SettingsView: View {
     @Default(.targetRangeUpperBound) private var upperTargetRange
     @Default(.graphUpperBound) private var upperGraphRange
     @Default(.showChartLiveActivity) private var showChartLiveActivity
+    @Default(.appGraphStyle) private var appGraphStyle
+    @Default(.liveActivityGraphStyle) private var liveActivityGraphStyle
     @Default(.unit) private var unit
     @Default(.sessionHistory) private var sessionHistory
 
@@ -27,7 +29,7 @@ struct SettingsView: View {
 
     var body: some View {
         List {
-            Section("General") {
+            Section {
                 Picker("Units", selection: $unit) {
                     Text(GlucoseFormatter.Unit.mgdl.text)
                         .tag(GlucoseFormatter.Unit.mgdl)
@@ -36,28 +38,42 @@ struct SettingsView: View {
                 }
                 .pickerStyle(.menu)
 
-                Toggle("Show Graph in Live Activity", isOn: $showChartLiveActivity)
-                    .tint(.accent)
-            }
+                Picker("In-App Graph Style", selection: $appGraphStyle) {
+                    Text("Dots").tag(GraphStyle.dots)
+                    Text("Line").tag(GraphStyle.line)
+                }
+                .pickerStyle(.menu)
 
-            Section("Graphs") {
                 GraphSliderView(
-                    title: "Upper bound",
+                    title: "Graph Upper Bound",
                     currentValue: $upperGraphRange,
                     range: 250...400
                 )
 
                 GraphSliderView(
-                    title: "Upper target range",
+                    title: "Upper Target Range",
                     currentValue: $upperTargetRange,
                     range: 120...220
                 )
 
                 GraphSliderView(
-                    title: "Lower target range",
+                    title: "Lower Target Range",
                     currentValue: $lowerTargetRange,
                     range: 55...110
                 )
+            }
+
+            Section("Live Activities") {
+                Toggle("Show Graph in Live Activity", isOn: $showChartLiveActivity)
+                    .tint(.accent)
+
+                if showChartLiveActivity {
+                    Picker("Live Activity Graph Style", selection: $liveActivityGraphStyle) {
+                        Text("Dots").tag(GraphStyle.dots)
+                        Text("Line").tag(GraphStyle.line)
+                    }
+                    .pickerStyle(.menu)
+                }
             }
 
             Section {
@@ -99,6 +115,7 @@ struct SettingsView: View {
             }
             .fontWeight(.medium)
         }
+        .animation(.default, value: showChartLiveActivity)
         .listStyle(.insetGrouped)
         .navigationTitle("Settings")
         .toolbar {

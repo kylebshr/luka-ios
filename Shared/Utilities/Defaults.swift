@@ -21,6 +21,8 @@ extension Defaults.Keys {
     static let accountLocation = Key<AccountLocation?>(.accountLocation, default: nil, suite: .shared, iCloud: true)
     static let unit = Key<GlucoseFormatter.Unit>("unit", default: .mgdl, suite: .shared, iCloud: true)
     static let showChartLiveActivity = Key<Bool>(.showChartLiveActivity, default: true, suite: .shared, iCloud: true)
+    static let appGraphStyle = Key<GraphStyle>("appGraphStyle", default: .dots, suite: .shared, iCloud: true)
+    static let liveActivityGraphStyle = Key<GraphStyle>("liveActivityGraphStyle", default: .dots, suite: .shared, iCloud: true)
 
     static let selectedRange = Key("selectedRange", default: GraphRange.eightHours, iCloud: true)
     static let selectedLandscapeRange = Key("landscapeRange", default: GraphRange.twentyFourHours, iCloud: true)
