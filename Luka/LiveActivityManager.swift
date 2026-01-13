@@ -25,6 +25,7 @@ final class LiveActivityManager {
         for activity in Activity<ReadingAttributes>.activities {
             observeActivity(activity)
         }
+
         syncState()
 
         // Observe new activities as they're created
@@ -47,7 +48,7 @@ final class LiveActivityManager {
     private func observeActivity(_ activity: Activity<ReadingAttributes>) {
         guard observationTasks[activity.id] == nil else { return }
 
-        observationTasks[activity.id] = Task {
+        let stateTask = Task {
             for await state in activity.activityStateUpdates {
                 switch state {
                 case .dismissed, .ended:
@@ -63,11 +64,17 @@ final class LiveActivityManager {
             }
         }
 
-        Task {
+        let tokenTask = Task {
             for await token in activity.pushTokenUpdates {
                 let tokenString = token.map { String(format: "%02x", $0) }.joined()
                 await sendStartLiveActivity(token: tokenString)
             }
+        }
+
+        // Store a task that waits for state changes and cancels the token task when done
+        observationTasks[activity.id] = Task {
+            await stateTask.value
+            tokenTask.cancel()
         }
     }
 
