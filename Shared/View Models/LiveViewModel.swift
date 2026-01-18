@@ -162,7 +162,10 @@ import KeychainAccess
 
     func updateLiveActivityIfActive() {
         #if canImport(ActivityKit)
-        guard case .loaded(let readings, let latest) = state else { return }
+        guard case .loaded(let readings, let latest) = state, !latest.isExpired(at: .now, expiration: .init(value: 5, unit: .minutes)) else {
+            return
+        }
+
         guard let activity = Activity<ReadingAttributes>.activities.first else { return }
 
         // Only update if the activity is not stale (stale means it's offline/disconnected from server)

@@ -54,6 +54,13 @@
 			remoteGlobalIDString = 2741EA242BD8AF08003EDEB2;
 			remoteInfo = WatchWidgetExtension;
 		};
+		276486022F1C65AF00CFEFC9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 27F5775F2BCF38330012D66C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 27F577662BCF38330012D66C;
+			remoteInfo = Luka;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -98,6 +105,7 @@
 		2741EA252BD8AF08003EDEB2 /* WatchWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WatchWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		2741EA272BD8AF08003EDEB2 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		2741EA292BD8AF08003EDEB2 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		276485FE2F1C65AF00CFEFC9 /* LukaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LukaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		27DB990D2EA2005A005B8087 /* ActivityKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ActivityKit.framework; path = System/Library/Frameworks/ActivityKit.framework; sourceTree = SDKROOT; };
 		27F577672BCF38330012D66C /* Luka.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Luka.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -261,6 +269,7 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		276485FF2F1C65AF00CFEFC9 /* LukaTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = LukaTests; sourceTree = "<group>"; };
 		27DB994A2EA203D4005B8087 /* Shared */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (27DB99BC2EA203D4005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 27DB99BD2EA203D4005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 27DB99BE2EA203D4005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 27DB99BF2EA203D4005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Shared; sourceTree = "<group>"; };
 		27DB99D12EA203DC005B8087 /* Luka */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (27DB99E62EA203DC005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 27DB99E72EA203DC005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Luka; sourceTree = "<group>"; };
 		27DB99EC2EA203E0005B8087 /* LukaWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (27DB99EF2EA203E0005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = LukaWidget; sourceTree = "<group>"; };
@@ -305,6 +314,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		276485FB2F1C65AF00CFEFC9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		27F577642BCF38330012D66C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -338,6 +354,7 @@
 				27DB99EC2EA203E0005B8087 /* LukaWidget */,
 				27DB99F52EA203E2005B8087 /* Watch */,
 				27DB99FD2EA203E4005B8087 /* WatchWidget */,
+				276485FF2F1C65AF00CFEFC9 /* LukaTests */,
 				2741EA262BD8AF08003EDEB2 /* Frameworks */,
 				27F577682BCF38330012D66C /* Products */,
 			);
@@ -350,6 +367,7 @@
 				2741EA0F2BD8AEBA003EDEB2 /* Luka.app */,
 				2741EA252BD8AF08003EDEB2 /* WatchWidget.appex */,
 				2703324D2BD99E90009535EE /* LukaWidget.appex */,
+				276485FE2F1C65AF00CFEFC9 /* LukaTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -435,6 +453,29 @@
 			productReference = 2741EA252BD8AF08003EDEB2 /* WatchWidget.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		276485FD2F1C65AF00CFEFC9 /* LukaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 276486042F1C65AF00CFEFC9 /* Build configuration list for PBXNativeTarget "LukaTests" */;
+			buildPhases = (
+				276485FA2F1C65AF00CFEFC9 /* Sources */,
+				276485FB2F1C65AF00CFEFC9 /* Frameworks */,
+				276485FC2F1C65AF00CFEFC9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				276486032F1C65AF00CFEFC9 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				276485FF2F1C65AF00CFEFC9 /* LukaTests */,
+			);
+			name = LukaTests;
+			packageProductDependencies = (
+			);
+			productName = LukaTests;
+			productReference = 276485FE2F1C65AF00CFEFC9 /* LukaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		27F577662BCF38330012D66C /* Luka */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 27F577752BCF38340012D66C /* Build configuration list for PBXNativeTarget "Luka" */;
@@ -472,7 +513,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1530;
+				LastSwiftUpdateCheck = 2620;
 				LastUpgradeCheck = 2620;
 				TargetAttributes = {
 					2703324C2BD99E90009535EE = {
@@ -483,6 +524,10 @@
 					};
 					2741EA242BD8AF08003EDEB2 = {
 						CreatedOnToolsVersion = 15.3;
+					};
+					276485FD2F1C65AF00CFEFC9 = {
+						CreatedOnToolsVersion = 26.2;
+						TestTargetID = 27F577662BCF38330012D66C;
 					};
 					27F577662BCF38330012D66C = {
 						CreatedOnToolsVersion = 15.3;
@@ -517,6 +562,7 @@
 				2703324C2BD99E90009535EE /* LukaWidget */,
 				2741EA0E2BD8AEBA003EDEB2 /* Watch */,
 				2741EA242BD8AF08003EDEB2 /* WatchWidget */,
+				276485FD2F1C65AF00CFEFC9 /* LukaTests */,
 			);
 		};
 /* End PBXProject section */
@@ -537,6 +583,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		2741EA232BD8AF08003EDEB2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		276485FC2F1C65AF00CFEFC9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -574,6 +627,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		276485FA2F1C65AF00CFEFC9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		27F577632BCF38330012D66C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -598,6 +658,11 @@
 			isa = PBXTargetDependency;
 			target = 2741EA242BD8AF08003EDEB2 /* WatchWidget */;
 			targetProxy = 2741EA332BD8AF0A003EDEB2 /* PBXContainerItemProxy */;
+		};
+		276486032F1C65AF00CFEFC9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 27F577662BCF38330012D66C /* Luka */;
+			targetProxy = 276486022F1C65AF00CFEFC9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -765,6 +830,48 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 6;
 				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Release;
+		};
+		276486052F1C65AF00CFEFC9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kylebashour.LukaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Luka.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Luka";
+			};
+			name = Debug;
+		};
+		276486062F1C65AF00CFEFC9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kylebashour.LukaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Luka.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Luka";
 			};
 			name = Release;
 		};
@@ -983,6 +1090,15 @@
 			buildConfigurations = (
 				2741EA372BD8AF0A003EDEB2 /* Debug */,
 				2741EA382BD8AF0A003EDEB2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		276486042F1C65AF00CFEFC9 /* Build configuration list for PBXNativeTarget "LukaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				276486052F1C65AF00CFEFC9 /* Debug */,
+				276486062F1C65AF00CFEFC9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
