@@ -42,8 +42,8 @@ extension GlucoseReading {
         }
     }
 
-    func isExpired(at atDate: Date) -> Bool {
-        atDate.timeIntervalSince(date) > 25 * 60
+    func isExpired(at atDate: Date, expiration: Measurement<UnitDuration> = .init(value: 25, unit: .minutes)) -> Bool {
+        atDate.timeIntervalSince(date) > expiration.converted(to: .seconds).value
     }
 
     func timestamp(
