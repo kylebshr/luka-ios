@@ -67,6 +67,12 @@ final class LiveActivityManager {
         let tokenTask = Task {
             for await token in activity.pushTokenUpdates {
                 let tokenString = token.map { String(format: "%02x", $0) }.joined()
+
+                TelemetryDeck.signal(
+                    "LiveActivity.pushTokenReceived",
+                    parameters: ["activityState": activity.activityState.telemetryName]
+                )
+
                 await sendStartLiveActivity(token: tokenString)
             }
         }
@@ -134,6 +140,23 @@ final class LiveActivityManager {
             TelemetryDeck.signal("LiveActivity.sentEnd")
         } catch {
             TelemetryDeck.signal("LiveActivity.failedToSendEnd")
+        }
+    }
+}
+
+extension ActivityState {
+    var telemetryName: String {
+        switch self {
+        case .active:
+            "active"
+        case .ended:
+            "ended"
+        case .dismissed:
+            "dismissed"
+        case .stale:
+            "stale"
+        @unknown default:
+            "unknown"
         }
     }
 }
