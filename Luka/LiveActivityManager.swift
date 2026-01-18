@@ -23,7 +23,7 @@ final class LiveActivityManager {
     private init() {
         // Observe existing activities
         for activity in Activity<ReadingAttributes>.activities {
-            observeActivity(activity)
+            observeActivity(activity, isExisting: true)
         }
 
         syncState()
@@ -31,7 +31,7 @@ final class LiveActivityManager {
         // Observe new activities as they're created
         activityUpdatesTask = Task {
             for await activity in Activity<ReadingAttributes>.activityUpdates {
-                observeActivity(activity)
+                observeActivity(activity, isExisting: false)
                 syncState()
             }
         }
@@ -45,11 +45,33 @@ final class LiveActivityManager {
         }
     }
 
-    private func observeActivity(_ activity: Activity<ReadingAttributes>) {
+    private func observeActivity(_ activity: Activity<ReadingAttributes>, isExisting: Bool) {
         guard observationTasks[activity.id] == nil else { return }
+
+        let activityIdPrefix = String(activity.id.prefix(8))
+        let totalActivities = Activity<ReadingAttributes>.activities.count
+
+        TelemetryDeck.signal(
+            "LiveActivity.observing",
+            parameters: [
+                "activityIdPrefix": activityIdPrefix,
+                "activityState": activity.activityState.telemetryName,
+                "isExisting": isExisting ? "true" : "false",
+                "totalActivities": "\(totalActivities)"
+            ]
+        )
 
         let stateTask = Task {
             for await state in activity.activityStateUpdates {
+                TelemetryDeck.signal(
+                    "LiveActivity.stateChanged",
+                    parameters: [
+                        "activityIdPrefix": activityIdPrefix,
+                        "newState": state.telemetryName,
+                        "totalActivities": "\(Activity<ReadingAttributes>.activities.count)"
+                    ]
+                )
+
                 switch state {
                 case .dismissed, .ended:
                     await sendEndLiveActivity()
@@ -67,10 +89,15 @@ final class LiveActivityManager {
         let tokenTask = Task {
             for await token in activity.pushTokenUpdates {
                 let tokenString = token.map { String(format: "%02x", $0) }.joined()
+                let currentState = activity.activityState
 
                 TelemetryDeck.signal(
                     "LiveActivity.pushTokenReceived",
-                    parameters: ["activityState": activity.activityState.telemetryName]
+                    parameters: [
+                        "activityIdPrefix": activityIdPrefix,
+                        "activityState": currentState.telemetryName,
+                        "totalActivities": "\(Activity<ReadingAttributes>.activities.count)"
+                    ]
                 )
 
                 await sendStartLiveActivity(token: tokenString)
@@ -155,6 +182,8 @@ extension ActivityState {
             "dismissed"
         case .stale:
             "stale"
+        case .pending:
+            "pending"
         @unknown default:
             "unknown"
         }
