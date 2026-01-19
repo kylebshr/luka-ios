@@ -148,10 +148,23 @@ final class LiveActivityManager {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         do {
-            _ = try await URLSession.shared.data(for: request)
-            TelemetryDeck.signal("LiveActivity.sentToken")
+            let (_, response) = try await URLSession.shared.data(for: request)
+            let httpResponse = response as? HTTPURLResponse
+            let statusCode = httpResponse?.statusCode ?? -1
+
+            TelemetryDeck.signal(
+                "LiveActivity.sentToken",
+                parameters: [
+                    "statusCode": "\(statusCode)"
+                ]
+            )
         } catch {
-            TelemetryDeck.signal("LiveActivity.failedToSendToken")
+            TelemetryDeck.signal(
+                "LiveActivity.failedToSendToken",
+                parameters: [
+                    "error": error.localizedDescription
+                ]
+            )
         }
     }
 
@@ -169,10 +182,23 @@ final class LiveActivityManager {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         do {
-            _ = try await URLSession.shared.data(for: request)
-            TelemetryDeck.signal("LiveActivity.sentEnd")
+            let (_, response) = try await URLSession.shared.data(for: request)
+            let httpResponse = response as? HTTPURLResponse
+            let statusCode = httpResponse?.statusCode ?? -1
+
+            TelemetryDeck.signal(
+                "LiveActivity.sentEnd",
+                parameters: [
+                    "statusCode": "\(statusCode)"
+                ]
+            )
         } catch {
-            TelemetryDeck.signal("LiveActivity.failedToSendEnd")
+            TelemetryDeck.signal(
+                "LiveActivity.failedToSendEnd",
+                parameters: [
+                    "error": error.localizedDescription
+                ]
+            )
         }
     }
 }
