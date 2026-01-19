@@ -91,12 +91,18 @@ final class LiveActivityManager {
                 let tokenString = token.map { String(format: "%02x", $0) }.joined()
                 let currentState = activity.activityState
 
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                dateFormatter.timeZone = .current
+                let dateTimeString = dateFormatter.string(from: Date())
+
                 TelemetryDeck.signal(
                     "LiveActivity.pushTokenReceived",
                     parameters: [
                         "activityIdPrefix": activityIdPrefix,
                         "activityState": currentState.telemetryName,
-                        "totalActivities": "\(Activity<ReadingAttributes>.activities.count)"
+                        "totalActivities": "\(Activity<ReadingAttributes>.activities.count)",
+                        "dateTime": dateTimeString
                     ]
                 )
 
