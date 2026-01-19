@@ -147,6 +147,11 @@ final class LiveActivityManager {
         request.httpBody = try! encoder.encode(payload)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.timeZone = .current
+        let dateTimeString = dateFormatter.string(from: Date())
+
         do {
             let (_, response) = try await URLSession.shared.data(for: request)
             let httpResponse = response as? HTTPURLResponse
@@ -155,14 +160,16 @@ final class LiveActivityManager {
             TelemetryDeck.signal(
                 "LiveActivity.sentToken",
                 parameters: [
-                    "statusCode": "\(statusCode)"
+                    "statusCode": "\(statusCode)",
+                    "dateTime": dateTimeString
                 ]
             )
         } catch {
             TelemetryDeck.signal(
                 "LiveActivity.failedToSendToken",
                 parameters: [
-                    "error": error.localizedDescription
+                    "error": error.localizedDescription,
+                    "dateTime": dateTimeString
                 ]
             )
         }
@@ -181,6 +188,11 @@ final class LiveActivityManager {
         request.httpBody = try! encoder.encode(payload)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.timeZone = .current
+        let dateTimeString = dateFormatter.string(from: Date())
+
         do {
             let (_, response) = try await URLSession.shared.data(for: request)
             let httpResponse = response as? HTTPURLResponse
@@ -189,14 +201,16 @@ final class LiveActivityManager {
             TelemetryDeck.signal(
                 "LiveActivity.sentEnd",
                 parameters: [
-                    "statusCode": "\(statusCode)"
+                    "statusCode": "\(statusCode)",
+                    "dateTime": dateTimeString
                 ]
             )
         } catch {
             TelemetryDeck.signal(
                 "LiveActivity.failedToSendEnd",
                 parameters: [
-                    "error": error.localizedDescription
+                    "error": error.localizedDescription,
+                    "dateTime": dateTimeString
                 ]
             )
         }
