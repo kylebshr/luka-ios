@@ -175,7 +175,7 @@ import KeychainAccess
 
         let content = ActivityContent(
             state: newState,
-            staleDate: latest.date.addingTimeInterval(10 * 60)
+            staleDate: max(latest.date.addingTimeInterval(10 * 60), Date.now.addingTimeInterval(120))
         )
 
         Task {

@@ -84,7 +84,7 @@ struct StartLiveActivityIntent: LiveActivityIntent {
             attributes: attributes,
             content: .init(
                 state: initialState,
-                staleDate: initialState.c?.date.addingTimeInterval(10 * 60)
+                staleDate: max((initialState.c?.date.addingTimeInterval(10 * 60) ?? .now), Date.now.addingTimeInterval(120))
             ),
             pushType: .token
         )

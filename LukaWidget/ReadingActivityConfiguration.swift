@@ -24,14 +24,17 @@ struct ReadingActivityConfiguration: Widget {
             return DynamicIsland {
                 DynamicIslandExpandedRegion(.center) {
                     HStack(spacing: 0) {
-                        context.timestamp
-                        if !context.isOffline {
-                            Text(" • Last \(context.attributes.range.abbreviatedName)", comment: "Live Activity label showing graph range")
+                        if context.isOffline {
+                            context.timestamp.multilineTextAlignment(.center)
+                        } else {
+                            Text("\(context.timestamp) • Last \(context.attributes.range.abbreviatedName)", comment: "Live Activity label showing graph range")
                         }
                     }
+                    .multilineTextAlignment(.center)
                     .font(.caption2.bold())
                     .textCase(.uppercase)
                     .foregroundStyle(.secondary)
+                    .frame(maxWidth: 200)
                 }
 
                 DynamicIslandExpandedRegion(.bottom) {
@@ -353,18 +356,27 @@ private extension ActivityViewContext<ReadingAttributes> {
         }
     }
 
-    var timestamp: Text {
-        let offlineText = Text("Offline", comment: "Status indicator when Live Activity is not receiving updates").foregroundStyle(.red)
-
-        if let current = state.c {
-            if isOffline {
-                let lastReading = current.date.formatted(date: .omitted, time: .shortened)
-                return Text("Offline at \(lastReading)", comment: "Status showing last update time when offline").foregroundStyle(.red)
+    private var timestampColor: Color {
+        if let reading = state.c {
+            if reading.isExpired(at: .now, expiration: .init(value: 10, unit: .minutes)) {
+                return .red
+            } else if reading.isExpired(at: .now, expiration: .init(value: 5, unit: .minutes)) {
+                return .orange
             } else {
-                return Text("Live", comment: "Status indicator when Live Activity is receiving updates").foregroundStyle(.green)
+                return .green
             }
         } else {
-            return offlineText
+            return .red
+        }
+    }
+
+    var timestamp: Text {
+        if let current = state.c {
+            let text = Text(timerInterval: current.date...Date.distantFuture, countsDown: false, showsHours: false) + Text(" Ago")
+            return text.foregroundStyle(timestampColor)
+        } else {
+            return Text("Offline", comment: "Status indicator when Live Activity is not receiving updates")
+                .foregroundStyle(.red)
         }
     }
 }
