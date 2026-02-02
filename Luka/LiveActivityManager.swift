@@ -147,31 +147,11 @@ final class LiveActivityManager {
         request.httpBody = try! encoder.encode(payload)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        dateFormatter.timeZone = .current
-        let dateTimeString = dateFormatter.string(from: Date())
-
         do {
-            let (_, response) = try await URLSession.shared.data(for: request)
-            let httpResponse = response as? HTTPURLResponse
-            let statusCode = httpResponse?.statusCode ?? -1
-
-            TelemetryDeck.signal(
-                "LiveActivity.sentToken",
-                parameters: [
-                    "statusCode": "\(statusCode)",
-                    "dateTime": dateTimeString
-                ]
-            )
+            _ = try await URLSession.shared.data(for: request)
+            TelemetryDeck.signal("LiveActivity.sentToken")
         } catch {
-            TelemetryDeck.signal(
-                "LiveActivity.failedToSendToken",
-                parameters: [
-                    "error": error.localizedDescription,
-                    "dateTime": dateTimeString
-                ]
-            )
+            TelemetryDeck.signal("LiveActivity.failedToSendToken")
         }
     }
 
@@ -188,31 +168,11 @@ final class LiveActivityManager {
         request.httpBody = try! encoder.encode(payload)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        dateFormatter.timeZone = .current
-        let dateTimeString = dateFormatter.string(from: Date())
-
         do {
-            let (_, response) = try await URLSession.shared.data(for: request)
-            let httpResponse = response as? HTTPURLResponse
-            let statusCode = httpResponse?.statusCode ?? -1
-
-            TelemetryDeck.signal(
-                "LiveActivity.sentEnd",
-                parameters: [
-                    "statusCode": "\(statusCode)",
-                    "dateTime": dateTimeString
-                ]
-            )
+            _ = try await URLSession.shared.data(for: request)
+            TelemetryDeck.signal("LiveActivity.sentEnd")
         } catch {
-            TelemetryDeck.signal(
-                "LiveActivity.failedToSendEnd",
-                parameters: [
-                    "error": error.localizedDescription,
-                    "dateTime": dateTimeString
-                ]
-            )
+            TelemetryDeck.signal("LiveActivity.failedToSendEnd")
         }
     }
 }
