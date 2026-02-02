@@ -82,6 +82,11 @@ extension GlucoseReading {
 
 extension GlucoseReading {
     static let placeholder = [GlucoseReading].placeholder.last!
+    static func placeholder(date: Date) -> GlucoseReading {
+        var reading = placeholder
+        reading.date = date
+        return reading
+    }
 }
 
 extension [LiveActivityState.Reading] {

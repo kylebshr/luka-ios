@@ -48,6 +48,9 @@
         }
       }
     },
+    " Ago" : {
+
+    },
     "%@ %@" : {
       "localizations" : {
         "de" : {
@@ -1616,6 +1619,7 @@
     },
     "Live" : {
       "comment" : "Status indicator when Live Activity is receiving updates",
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2493,6 +2497,7 @@
     },
     "Offline at %@" : {
       "comment" : "Status showing last update time when offline",
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
