@@ -25,7 +25,7 @@ struct ReadingActivityConfiguration: Widget {
                 DynamicIslandExpandedRegion(.center) {
                     HStack(spacing: 0) {
                         context.timestamp
-                        if !context.isStale {
+                        if !context.isOffline {
                             Text(" • Last \(context.attributes.range.abbreviatedName)", comment: "Live Activity label showing graph range")
                         }
                     }
@@ -35,8 +35,10 @@ struct ReadingActivityConfiguration: Widget {
                 }
 
                 DynamicIslandExpandedRegion(.bottom) {
-                    GraphPieceView(context: context)
-                        .padding(.bottom, 10)
+                    if !context.isOffline {
+                        GraphPieceView(context: context)
+                            .padding(.bottom, 10)
+                    }
                 }
 
                 DynamicIslandExpandedRegion(.leading) {
@@ -120,7 +122,7 @@ private struct CompactReadingText: View {
             ReadingText(context: context)
                 .fontWeight(.bold)
                 .foregroundStyle((reading?.color(target: $0) ?? .secondary).gradient)
-                .redacted(reason: context.isStale ? .placeholder : [])
+                .redacted(reason: context.isOffline ? .placeholder : [])
         }
     }
 }
@@ -137,7 +139,7 @@ private struct CompactReadingArrow: View {
             reading?.image
                 .fontWeight(.bold)
                 .foregroundStyle((reading?.color(target: $0) ?? .secondary).gradient)
-                .redacted(reason: context.isStale ? .placeholder : [])
+                .redacted(reason: context.isOffline ? .placeholder : [])
         }
     }
 }
@@ -155,7 +157,7 @@ private struct MinimalReadingView: View {
                 .fontWeight(.bold)
                 .fontWidth(.compressed)
                 .foregroundStyle((reading?.color(target: $0) ?? .secondary).gradient)
-                .redacted(reason: context.isStale ? .placeholder : [])
+                .redacted(reason: context.isOffline ? .placeholder : [])
         }
     }
 }
@@ -164,7 +166,11 @@ private struct MainContentView: View {
     var context: ActivityViewContext<ReadingAttributes>
 
     @Environment(\.activityFamily) private var family
-    @Default(.showChartLiveActivity) private var showChartLiveActivity
+    @Default(.showChartLiveActivity) private var _showChartLiveActivity
+
+    var showChartLiveActivity: Bool {
+        _showChartLiveActivity && !context.isOffline
+    }
 
     var body: some View {
         switch family {
@@ -203,13 +209,14 @@ private struct MainContentView: View {
                     ReadingView(reading: context.state.c)
                         .font(.largeTitle)
                         .fontDesign(.rounded)
+                        .opacity(context.isOffline ? 0.5 : 1)
 
                     Spacer()
 
                     VStack(alignment: .trailing, spacing: 0) {
                         context.timestamp
                         if showChartLiveActivity {
-                            if context.state.c != nil, !context.isStale {
+                            if context.state.c != nil, !context.isOffline {
                                 Text("Last \(context.attributes.range.abbreviatedName)", comment: "Live Activity label showing graph range")
                             }
                         }
@@ -338,11 +345,19 @@ private struct GraphPieceView: View {
 }
 
 private extension ActivityViewContext<ReadingAttributes> {
+    var isOffline: Bool {
+        if let reading = state.c {
+            return isStale || reading.isExpired(at: .now, expiration: .init(value: 10, unit: .minutes))
+        } else {
+            return isStale
+        }
+    }
+
     var timestamp: Text {
         let offlineText = Text("Offline", comment: "Status indicator when Live Activity is not receiving updates").foregroundStyle(.red)
 
         if let current = state.c {
-            if isStale {
+            if isOffline {
                 let lastReading = current.date.formatted(date: .omitted, time: .shortened)
                 return Text("Offline at \(lastReading)", comment: "Status showing last update time when offline").foregroundStyle(.red)
             } else {
@@ -358,6 +373,8 @@ private extension ActivityViewContext<ReadingAttributes> {
     ReadingActivityConfiguration()
 } contentStates: {
     LiveActivityState(c: .placeholder, h: .placeholder)
+    LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-10 * 61)), h: .placeholder)
+    LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-5 * 61)), h: .placeholder)
     LiveActivityState(c: nil, h: [], se: true)
 }
 
@@ -365,6 +382,8 @@ private extension ActivityViewContext<ReadingAttributes> {
     ReadingActivityConfiguration()
 } contentStates: {
     LiveActivityState(c: .placeholder, h: .placeholder)
+    LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-10 * 61)), h: .placeholder)
+    LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-5 * 61)), h: .placeholder)
     LiveActivityState(c: nil, h: [], se: true)
 }
 
@@ -372,6 +391,8 @@ private extension ActivityViewContext<ReadingAttributes> {
     ReadingActivityConfiguration()
 } contentStates: {
     LiveActivityState(c: .placeholder, h: .placeholder)
+    LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-10 * 61)), h: .placeholder)
+    LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-5 * 61)), h: .placeholder)
     LiveActivityState(c: nil, h: [], se: true)
 }
 
@@ -379,5 +400,7 @@ private extension ActivityViewContext<ReadingAttributes> {
     ReadingActivityConfiguration()
 } contentStates: {
     LiveActivityState(c: .placeholder, h: .placeholder)
+    LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-10 * 61)), h: .placeholder)
+    LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-5 * 61)), h: .placeholder)
     LiveActivityState(c: nil, h: [], se: true)
 }
