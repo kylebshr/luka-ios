@@ -96,7 +96,8 @@ final class LiveActivityManager {
             duration: range.timeInterval + 60 * 15,
             preferences: LiveActivityPreferences(
                 targetRange: Int(Defaults[.targetRangeLowerBound])...Int(Defaults[.targetRangeUpperBound]),
-                unit: Defaults[.unit]
+                unit: Defaults[.unit],
+                sendStaleUpdates: true
             )
         )
 
