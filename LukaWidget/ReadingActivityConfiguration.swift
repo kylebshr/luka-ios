@@ -25,9 +25,9 @@ struct ReadingActivityConfiguration: Widget {
                 DynamicIslandExpandedRegion(.center) {
                     HStack(spacing: 0) {
                         if context.isOffline {
-                            context.timestamp.multilineTextAlignment(.center)
+                            context.timestamp(relative: true).multilineTextAlignment(.center)
                         } else {
-                            Text("\(context.timestamp) • Last \(context.attributes.range.abbreviatedName)", comment: "Live Activity label showing graph range")
+                            Text("\(context.timestamp(relative: true)) • Last \(context.attributes.range.abbreviatedName)", comment: "Live Activity label showing graph range")
                         }
                     }
                     .multilineTextAlignment(.center)
@@ -190,14 +190,16 @@ private struct MainContentView: View {
             HStack(spacing: 0) {
                 ReadingView(reading: context.state.c)
                     .font(.title.weight(.regular))
+                    .layoutPriority(100)
 
                 Spacer(minLength: 0)
 
-                context.timestamp
+                context.timestamp(relative: false)
                     .lineLimit(2)
                     .font(.caption2.weight(.medium))
                     .multilineTextAlignment(.trailing)
                     .minimumScaleFactor(0.5)
+                    .layoutPriority(10)
             }
             .padding(10)
         }
@@ -217,7 +219,7 @@ private struct MainContentView: View {
                     Spacer()
 
                     VStack(alignment: .trailing, spacing: 0) {
-                        context.timestamp
+                        context.timestamp(relative: true)
                         if showChartLiveActivity {
                             if context.state.c != nil, !context.isOffline {
                                 Text("Last \(context.attributes.range.abbreviatedName)", comment: "Live Activity label showing graph range")
@@ -370,9 +372,17 @@ private extension ActivityViewContext<ReadingAttributes> {
         }
     }
 
-    var timestamp: Text {
+    func timestamp(relative: Bool = true) -> Text {
         if let current = state.c {
-            let text = Text(timerInterval: current.date...Date.distantFuture, countsDown: false, showsHours: false) + Text(" Ago")
+            var text = Text(
+                timerInterval: current.date...Date.distantFuture,
+                countsDown: false
+            )
+
+            if relative {
+                text = text + Text(" Ago")
+            }
+
             return text.foregroundStyle(timestampColor)
         } else {
             return Text("Offline", comment: "Status indicator when Live Activity is not receiving updates")
