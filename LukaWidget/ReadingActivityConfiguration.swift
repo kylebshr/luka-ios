@@ -374,16 +374,17 @@ private extension ActivityViewContext<ReadingAttributes> {
 
     func timestamp(relative: Bool = true) -> Text {
         if let current = state.c {
-            var text = Text(
+            let timerText = Text(
                 timerInterval: current.date...Date.distantFuture,
                 countsDown: false
             )
 
             if relative {
-                text = text + Text(" Ago")
+                return Text("\(timerText) ago", comment: "Relative time suffix, e.g. '5 min ago'")
+                    .foregroundStyle(timestampColor)
+            } else {
+                return timerText.foregroundStyle(timestampColor)
             }
-
-            return text.foregroundStyle(timestampColor)
         } else {
             return Text("Offline", comment: "Status indicator when Live Activity is not receiving updates")
                 .foregroundStyle(.red)
