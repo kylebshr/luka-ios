@@ -204,8 +204,8 @@ private struct MainContentView: View {
 
                 Spacer(minLength: 0)
 
-                MinuteTimerView(date: context.state.c?.date)
-                    .lineLimit(2)
+                MinuteTimerView(context: context, relative: false)
+                    .lineLimit(1)
                     .font(.footnote.bold())
                     .multilineTextAlignment(.trailing)
                     .minimumScaleFactor(0.5)
@@ -229,12 +229,10 @@ private struct MainContentView: View {
                     Spacer()
 
                     VStack(alignment: .trailing, spacing: 0) {
-                        MinuteTimerView(date: context.state.c?.date)
+                        MinuteTimerView(context: context, relative: true)
                             .font(.footnote.bold())
                             .foregroundStyle(context.timestampColor)
 
-//                        context.timestamp(relative: true)
-//                            .font(.footnote.bold())
                         if showChartLiveActivity {
                             if context.state.c != nil, !context.isOffline {
                                 Text("Last \(context.attributes.range.abbreviatedName)", comment: "Live Activity label showing graph range")
@@ -404,40 +402,45 @@ private extension ActivityViewContext<ReadingAttributes> {
 }
 
 private struct MinuteTimerView: View {
-    let date: Date?
+    var context: ActivityViewContext<ReadingAttributes>
+    var relative: Bool
 
     @State private var offset: CGFloat = 1
 
     var body: some View {
-        if let date {
-            HStack(spacing: 0) {
-                Text(
-                    timerInterval: date.addingTimeInterval(-60)...Date.distantFuture,
-                    countsDown: false
-                )
-                .mask {
-                    HStack(spacing: 0) {
-                        Rectangle().fill()
-                        Text(":00")
-                            .opacity(0)
-                            .background {
-                                GeometryReader { geometry in
-                                    Color.clear.onChange(
-                                        of: geometry.size.width,
-                                        initial: true
-                                    ) { _, newValue in
-                                        offset = newValue
+        ZStack {
+            if let date = context.state.c?.date {
+                HStack(spacing: 0) {
+                    Text(
+                        timerInterval: date.addingTimeInterval(-60)...Date.distantFuture,
+                        countsDown: false
+                    )
+                    .mask {
+                        HStack(spacing: 0) {
+                            Rectangle().fill()
+                            Text(":00")
+                                .opacity(0)
+                                .background {
+                                    GeometryReader { geometry in
+                                        Color.clear.onChange(
+                                            of: geometry.size.width,
+                                            initial: true
+                                        ) { _, newValue in
+                                            offset = newValue
+                                        }
                                     }
                                 }
-                            }
+                        }
                     }
+                    .padding(.trailing, -offset)
+
+                    Text(relative ? "m ago" : "m")
                 }
-                .padding(.trailing, -offset)
-                Text("m ago")
+            } else {
+                Text("Offline")
             }
-        } else {
-            Text("Offline")
         }
+        .foregroundStyle(context.timestampColor)
     }
 }
 
