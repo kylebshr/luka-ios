@@ -162,7 +162,7 @@ extension [GlucoseReading] {
             (84, .flat), (73, .fortyFiveDown), (85, .flat), (92, .flat), (86, .flat),
             (85, .flat), (84, .flat), (84, .flat), (90, .flat), (91, .flat),
             (86, .flat), (87, .flat), (94, .flat), (95, .flat), (95, .flat),
-            (101, .flat), (117, .fortyFiveUp), (133, .fortyFiveUp)
+            (101, .flat), (117, .fortyFiveUp), (263, .fortyFiveUp)
         ]
 
         // Create readings with timestamps relative to now
