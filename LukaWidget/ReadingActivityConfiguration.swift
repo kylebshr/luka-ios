@@ -204,7 +204,7 @@ private struct MainContentView: View {
 
                 Spacer(minLength: 0)
 
-                context.timestamp(relative: false)
+                MinuteTimerView(date: context.state.c?.date)
                     .lineLimit(2)
                     .font(.footnote.bold())
                     .multilineTextAlignment(.trailing)
@@ -229,8 +229,12 @@ private struct MainContentView: View {
                     Spacer()
 
                     VStack(alignment: .trailing, spacing: 0) {
-                        context.timestamp(relative: true)
+                        MinuteTimerView(date: context.state.c?.date)
                             .font(.footnote.bold())
+                            .foregroundStyle(context.timestampColor)
+
+//                        context.timestamp(relative: true)
+//                            .font(.footnote.bold())
                         if showChartLiveActivity {
                             if context.state.c != nil, !context.isOffline {
                                 Text("Last \(context.attributes.range.abbreviatedName)", comment: "Live Activity label showing graph range")
@@ -238,7 +242,6 @@ private struct MainContentView: View {
                         }
                     }
                     .font(.caption2.bold())
-                    .textCase(.uppercase)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.trailing)
                     .contentTransition(.numericText())
@@ -261,9 +264,6 @@ private struct MainContentView: View {
 
     func smallExpiredView() -> some View {
         VStack(alignment: .leading) {
-            Text("Live Activity ended")
-                .font(.footnote)
-
             HStack {
                 Button(intent: EndLiveActivityIntent()) {
                     Image(systemName: "xmark")
@@ -278,7 +278,7 @@ private struct MainContentView: View {
                 }
                 .tint(.green)
             }
-            .font(.caption)
+            .font(.callout)
         }
         .fontWeight(.medium)
         .multilineTextAlignment(.center)
@@ -369,7 +369,7 @@ private extension ActivityViewContext<ReadingAttributes> {
         }
     }
 
-    private var timestampColor: Color {
+    var timestampColor: Color {
         if let reading = state.c {
             if reading.isExpired(at: .now, expiration: .init(value: 10, unit: .minutes)) {
                 return .red
@@ -399,6 +399,44 @@ private extension ActivityViewContext<ReadingAttributes> {
         } else {
             return Text("Offline", comment: "Status indicator when Live Activity is not receiving updates")
                 .foregroundStyle(.red)
+        }
+    }
+}
+
+private struct MinuteTimerView: View {
+    let date: Date?
+
+    @State private var offset: CGFloat = 1
+
+    var body: some View {
+        if let date {
+            HStack(spacing: 0) {
+                Text(
+                    timerInterval: date.addingTimeInterval(-60)...Date.distantFuture,
+                    countsDown: false
+                )
+                .mask {
+                    HStack(spacing: 0) {
+                        Rectangle().fill()
+                        Text(":00")
+                            .opacity(0)
+                            .background {
+                                GeometryReader { geometry in
+                                    Color.clear.onChange(
+                                        of: geometry.size.width,
+                                        initial: true
+                                    ) { _, newValue in
+                                        offset = newValue
+                                    }
+                                }
+                            }
+                    }
+                }
+                .padding(.trailing, -offset)
+                Text("m ago")
+            }
+        } else {
+            Text("Offline")
         }
     }
 }
