@@ -62,13 +62,23 @@ struct ReadingActivityConfiguration: Widget {
             } compactTrailing: {
                 CompactReadingArrow(context: context)
             } minimal: {
-                HStack(spacing: 0) {
-                    MinimalReadingView(context: context)
-                    CompactReadingArrow(context: context)
-                        .imageScale(.small)
-                        .font(.caption2)
+                ViewThatFits {
+                    HStack(spacing: 0) {
+                        MinimalReadingView(context: context)
+                        CompactReadingArrow(context: context)
+                            .imageScale(.small)
+                            .font(.caption2)
+                    }
+                    .minimumScaleFactor(0.95)
+
+                    HStack(spacing: 0) {
+                        MinimalReadingView(context: context)
+                        CompactReadingArrow(context: context)
+                            .imageScale(.small)
+                            .font(.system(size: 10))
+                    }
+                    .minimumScaleFactor(0.8)
                 }
-                .minimumScaleFactor(0.95)
             }
             .keylineTint(context.state.c?.color(target: targetLower...targetUpper))
         }
@@ -196,7 +206,7 @@ private struct MainContentView: View {
 
                 context.timestamp(relative: false)
                     .lineLimit(2)
-                    .font(.caption2.weight(.medium))
+                    .font(.footnote.bold())
                     .multilineTextAlignment(.trailing)
                     .minimumScaleFactor(0.5)
                     .layoutPriority(10)
@@ -220,6 +230,7 @@ private struct MainContentView: View {
 
                     VStack(alignment: .trailing, spacing: 0) {
                         context.timestamp(relative: true)
+                            .font(.footnote.bold())
                         if showChartLiveActivity {
                             if context.state.c != nil, !context.isOffline {
                                 Text("Last \(context.attributes.range.abbreviatedName)", comment: "Live Activity label showing graph range")
