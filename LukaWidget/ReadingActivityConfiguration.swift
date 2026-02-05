@@ -25,7 +25,7 @@ struct ReadingActivityConfiguration: Widget {
                 DynamicIslandExpandedRegion(.center) {
                     HStack(spacing: 0) {
                         if context.isOffline {
-                            context.timestamp(relative: true).multilineTextAlignment(.center)
+                            context.timestamp(relative: false).multilineTextAlignment(.center)
                         } else {
                             Text("\(context.timestamp(relative: true)) • Last \(context.attributes.range.abbreviatedName)", comment: "Live Activity label showing graph range")
                         }
@@ -34,7 +34,7 @@ struct ReadingActivityConfiguration: Widget {
                     .font(.caption2.bold())
                     .textCase(.uppercase)
                     .foregroundStyle(.secondary)
-                    .frame(maxWidth: 200)
+                    .frame(maxWidth: 150)
                 }
 
                 DynamicIslandExpandedRegion(.bottom) {
@@ -48,6 +48,8 @@ struct ReadingActivityConfiguration: Widget {
                     ReadingText(context: context)
                         .font(.largeTitle)
                         .fontDesign(.rounded)
+                        .opacity(context.isOffline ? 0.5 : 1)
+                        .fixedSize(horizontal: true, vertical: true)
                 }
                 .contentMargins([.leading, .top, .trailing], 20)
 
@@ -62,23 +64,8 @@ struct ReadingActivityConfiguration: Widget {
             } compactTrailing: {
                 CompactReadingArrow(context: context)
             } minimal: {
-                ViewThatFits {
-                    HStack(spacing: 0) {
-                        MinimalReadingView(context: context)
-                        CompactReadingArrow(context: context)
-                            .imageScale(.small)
-                            .font(.caption2)
-                    }
-                    .minimumScaleFactor(0.95)
-
-                    HStack(spacing: 0) {
-                        MinimalReadingView(context: context)
-                        CompactReadingArrow(context: context)
-                            .imageScale(.small)
-                            .font(.system(size: 10))
-                    }
-                    .minimumScaleFactor(0.8)
-                }
+                MinimalReadingView(context: context)
+                    .fixedSize()
             }
             .keylineTint(context.state.c?.color(target: targetLower...targetUpper))
         }
@@ -135,7 +122,7 @@ private struct CompactReadingText: View {
             ReadingText(context: context)
                 .fontWeight(.bold)
                 .foregroundStyle((reading?.color(target: $0) ?? .secondary).gradient)
-                .redacted(reason: context.isOffline ? .placeholder : [])
+                .opacity(context.isOffline ? 0.5 : 1)
         }
     }
 }
@@ -149,10 +136,16 @@ private struct CompactReadingArrow: View {
 
     var body: some View {
         WithRange {
-            reading?.image
-                .fontWeight(.bold)
-                .foregroundStyle((reading?.color(target: $0) ?? .secondary).gradient)
-                .redacted(reason: context.isOffline ? .placeholder : [])
+            ZStack {
+                if context.isOffline {
+                    Image(systemName: "wifi.slash")
+                        .symbolRenderingMode(.hierarchical)
+                } else {
+                    reading?.image
+                }
+            }
+            .fontWeight(.bold)
+            .foregroundStyle((reading?.color(target: $0) ?? .secondary).gradient)
         }
     }
 }
@@ -165,12 +158,16 @@ private struct MinimalReadingView: View {
     }
 
     var body: some View {
-        WithRange {
-            ReadingText(context: context)
-                .fontWeight(.bold)
-                .fontWidth(.compressed)
-                .foregroundStyle((reading?.color(target: $0) ?? .secondary).gradient)
-                .redacted(reason: context.isOffline ? .placeholder : [])
+        if context.isOffline {
+            CompactReadingArrow(context: context)
+        } else {
+            WithRange {
+                ReadingView(reading: context.state.c)
+                    .fontWeight(.bold)
+                    .fontWidth(.compressed)
+                    .redacted(reason: context.isOffline ? .placeholder : [])
+                    .foregroundStyle((reading?.color(target: $0) ?? .secondary).gradient)
+            }
         }
     }
 }
@@ -201,6 +198,7 @@ private struct MainContentView: View {
                 ReadingView(reading: context.state.c)
                     .font(.title.weight(.regular))
                     .layoutPriority(100)
+                    .opacity(context.isOffline ? 0.5 : 1)
 
                 Spacer(minLength: 0)
 
@@ -444,7 +442,11 @@ private struct MinuteTimerView: View {
     }
 }
 
-#Preview(as: .dynamicIsland(.expanded), using: ReadingAttributes(range: .threeHours)) {
+#Preview(
+    "Expanded",
+    as: .dynamicIsland(.expanded),
+    using: ReadingAttributes(range: .threeHours)
+) {
     ReadingActivityConfiguration()
 } contentStates: {
     LiveActivityState(c: .placeholder, h: .placeholder)
@@ -453,7 +455,11 @@ private struct MinuteTimerView: View {
     LiveActivityState(c: nil, h: [], se: true)
 }
 
-#Preview(as: .dynamicIsland(.compact), using: ReadingAttributes(range: .threeHours)) {
+#Preview(
+    "Compact",
+    as: .dynamicIsland(.compact),
+    using: ReadingAttributes(range: .threeHours)
+) {
     ReadingActivityConfiguration()
 } contentStates: {
     LiveActivityState(c: .placeholder, h: .placeholder)
@@ -462,7 +468,11 @@ private struct MinuteTimerView: View {
     LiveActivityState(c: nil, h: [], se: true)
 }
 
-#Preview(as: .dynamicIsland(.minimal), using: ReadingAttributes(range: .threeHours)) {
+#Preview(
+    "Minimal",
+    as: .dynamicIsland(.minimal),
+    using: ReadingAttributes(range: .threeHours)
+) {
     ReadingActivityConfiguration()
 } contentStates: {
     LiveActivityState(c: .placeholder, h: .placeholder)
@@ -471,7 +481,11 @@ private struct MinuteTimerView: View {
     LiveActivityState(c: nil, h: [], se: true)
 }
 
-#Preview(as: .content, using: ReadingAttributes(range: .threeHours)) {
+#Preview(
+    "Content",
+    as: .content,
+    using: ReadingAttributes(range: .threeHours)
+) {
     ReadingActivityConfiguration()
 } contentStates: {
     LiveActivityState(c: .placeholder, h: .placeholder)
