@@ -95,7 +95,7 @@ struct LineChart: View {
     private var emphasizedReading: LiveActivityState.Reading? {
         if let selectedReading = selectedReading?.wrappedValue {
             return selectedReading
-        } else if let lastReading = filteredReadings.last, Date.now.timeIntervalSince(lastReading.t) < 7 * 60 {
+        } else if let lastReading = filteredReadings.last, Date.now.timeIntervalSince(lastReading.t) <= 5 * 60 {
             return lastReading
         } else {
             return nil
