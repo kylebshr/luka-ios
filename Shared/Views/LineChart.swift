@@ -46,7 +46,7 @@ struct LineChart: View {
 
     /// Size for the emphasized current reading dot (symbol size units)
     private var emphasizedDotSymbolSize: CGFloat {
-        dotSymbolSize * 3
+        dotSymbolSize * 4
     }
 
     private var filteredReadings: [LiveActivityState.Reading] {
