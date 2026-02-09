@@ -18,7 +18,7 @@ struct DonutSymbolShape: ChartSymbolShape {
             return Path(ellipseIn: rect)
         }
 
-        let lineWidth = rect.width * 0.3
+        let lineWidth = rect.width * 0.25
         let insetRect = rect.insetBy(dx: lineWidth / 2, dy: lineWidth / 2)
         return Path(ellipseIn: insetRect).strokedPath(StrokeStyle(lineWidth: lineWidth))
     }

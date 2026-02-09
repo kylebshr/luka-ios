@@ -404,7 +404,7 @@ private struct MinuteTimerView: View {
             if let date = context.state.c?.date {
                 HStack(spacing: 0) {
                     Text(
-                        timerInterval: date.addingTimeInterval(-60)...Date.distantFuture,
+                        timerInterval: date...Date.distantFuture,
                         countsDown: false
                     )
                     .mask {
