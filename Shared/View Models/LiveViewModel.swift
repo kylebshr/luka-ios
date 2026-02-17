@@ -30,7 +30,7 @@ import KeychainAccess
 
     @ObservationIgnored private var timestampTimer: Timer?
     @ObservationIgnored private var timer: Timer?
-    @ObservationIgnored private var client: DexcomClientService?
+    @ObservationIgnored private var source: GlucoseSource?
     @ObservationIgnored private let decoder = JSONDecoder()
     @ObservationIgnored private let delegate = KeychainDexcomDelegate()
 
@@ -49,6 +49,11 @@ import KeychainAccess
             return latest.date.timeIntervalSinceNow < -60 * 5
         }
     }
+
+    private var isG7Mode: Bool {
+        Defaults[.dataSource] == .g7Bluetooth
+    }
+
     init() {
         decoder.dateDecodingStrategy = .iso8601
         timestampTimer = .scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
@@ -61,29 +66,40 @@ import KeychainAccess
 
     func setUpClientAndBeginRefreshing() {
         Task {
-            if let username, let password, let accountLocation {
-                client = DexcomHelper.createService(
+            if isG7Mode {
+                let g7Service = G7GlucoseService.shared
+                if g7Service.connectionStatus == .disconnected {
+                    g7Service.startWithExistingSensor()
+                }
+                g7Service.onNewReading = { [weak self] in
+                    self?.beginRefreshing()
+                }
+                source = g7Service
+                beginRefreshing()
+            } else if let username, let password, let accountLocation {
+                let client = DexcomHelper.createService(
                     username: username,
                     password: password,
                     existingAccountID: Keychain.shared.accountID,
                     existingSessionID: Keychain.shared.sessionID,
                     accountLocation: accountLocation
                 )
-                await client?.setDelegate(delegate)
+                await client.setDelegate(delegate)
+                source = client
                 beginRefreshing()
             }
         }
     }
 
     func beginRefreshing() {
-        guard let client else { return }
+        guard let source else { return }
 
         Task<Void, Never> {
             if shouldRefreshReading {
                 print("Refreshing reading")
 
                 do {
-                    let readings = try await client.getGlucoseReadings()
+                    let readings = try await source.getGlucoseReadings()
                         .sorted { $0.date < $1.date }
                     if let latest = readings.last {
                         state = .loaded(readings, latest: latest)
@@ -97,6 +113,9 @@ import KeychainAccess
             }
 
             updateMessageIfNeeded()
+
+            // For G7 mode, don't schedule timer — we refresh on BLE callback via onNewReading
+            guard !isG7Mode else { return }
 
             let refreshTime: TimeInterval? = {
                 switch state {

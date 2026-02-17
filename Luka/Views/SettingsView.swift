@@ -27,8 +27,16 @@ struct SettingsView: View {
         Keychain.shared.username
     }
 
+    private var isG7Mode: Bool {
+        viewModel.dataSource == .g7Bluetooth
+    }
+
     var body: some View {
         List {
+            if isG7Mode {
+                G7SensorSection()
+            }
+
             Section {
                 Picker("Units", selection: $unit) {
                     Text(GlucoseFormatter.Unit.mgdl.text)
@@ -99,10 +107,12 @@ struct SettingsView: View {
                 Button {
                     viewModel.signOut()
                 } label: {
-                    SettingsRow("Sign out", systemImage: "rectangle.portrait.and.arrow.right")
+                    SettingsRow(isG7Mode ? "Disconnect" : "Sign out", systemImage: "rectangle.portrait.and.arrow.right")
                 }
             } header: {
-                if let username {
+                if isG7Mode {
+                    Text("Connected via Bluetooth")
+                } else if let username {
                     Text("Signed in as \(username)", comment: "Settings section header showing current user")
                 }
             } footer: {
@@ -134,6 +144,72 @@ struct SettingsView: View {
             }
         }
         .fontDesign(.rounded)
+    }
+}
+
+private struct G7SensorSection: View {
+    @State private var connectionStatus: G7GlucoseService.ConnectionStatus = G7GlucoseService.shared.connectionStatus
+
+    private var g7Service: G7GlucoseService { G7GlucoseService.shared }
+
+    var body: some View {
+        Section("Sensor") {
+            HStack {
+                Text("Status")
+                Spacer()
+                Text(statusText)
+                    .foregroundStyle(.secondary)
+            }
+
+            if let sensorName = g7Service.sensorName {
+                HStack {
+                    Text("Sensor")
+                    Spacer()
+                    Text(sensorName)
+                        .foregroundStyle(.secondary)
+                }
+            }
+
+            if let activationDate = g7Service.activationDate {
+                HStack {
+                    Text("Activated")
+                    Spacer()
+                    Text(activationDate, style: .relative)
+                        .foregroundStyle(.secondary)
+                }
+            }
+
+            if let expirationDate = g7Service.sensorExpirationDate {
+                HStack {
+                    Text("Expires")
+                    Spacer()
+                    Text(expirationDate, style: .relative)
+                        .foregroundStyle(.secondary)
+                }
+            }
+
+            Button("Scan for New Sensor") {
+                g7Service.scanForNewSensor()
+            }
+        }
+        .onAppear {
+            g7Service.onStatusChange = {
+                connectionStatus = g7Service.connectionStatus
+            }
+        }
+    }
+
+    private var statusText: String {
+        switch connectionStatus {
+        case .disconnected:
+            "Disconnected"
+        case .scanning:
+            "Searching..."
+        case .connected:
+            "Connected"
+        case .warmup:
+            "Warming Up"
+        }
     }
 }
 

@@ -29,7 +29,7 @@ struct StartLiveActivityIntent: LiveActivityIntent {
             case .disabled:
                 "Live Activities are disabled."
             case .loggedOut:
-                "You’re not logged in."
+                "You're not logged in."
             }
         }
     }
@@ -42,6 +42,7 @@ struct StartLiveActivityIntent: LiveActivityIntent {
     private let accountID = Keychain.shared.accountID
     private let sessionID = Keychain.shared.sessionID
     private let accountLocation: AccountLocation? = Defaults[.accountLocation]
+    private let dataSource: DataSource? = Defaults[.dataSource]
 
     private var source: String = "none"
 
@@ -52,10 +53,6 @@ struct StartLiveActivityIntent: LiveActivityIntent {
     }
 
     func perform() async throws -> some IntentResult {
-        guard let username, let password, let accountLocation else {
-            throw LiveActivityError.loggedOut
-        }
-
         for activity in Activity<ReadingAttributes>.activities {
             await activity.end(nil, dismissalPolicy: .immediate)
         }
@@ -64,18 +61,33 @@ struct StartLiveActivityIntent: LiveActivityIntent {
             throw LiveActivityError.disabled
         }
 
-        let client = DexcomHelper.createService(
-            username: username,
-            password: password,
-            existingAccountID: accountID,
-            existingSessionID: sessionID,
-            accountLocation: accountLocation
-        )
-
         let range: GraphRange = .threeHours
-        let readings = try await client
-            .getGlucoseReadings(duration: .init(value: range.timeInterval, unit: .seconds))
-            .sorted { $0.date < $1.date }
+        let readings: [GlucoseReading]
+
+        if dataSource == .g7Bluetooth {
+            // For G7 mode, read from shared cache
+            guard let cache = Defaults[.cachedReadings] else {
+                throw LiveActivityError.loggedOut
+            }
+            readings = cache.readings(for: range.timeInterval).sorted { $0.date < $1.date }
+        } else {
+            // Share API mode
+            guard let username, let password, let accountLocation else {
+                throw LiveActivityError.loggedOut
+            }
+
+            let client = DexcomHelper.createService(
+                username: username,
+                password: password,
+                existingAccountID: accountID,
+                existingSessionID: sessionID,
+                accountLocation: accountLocation
+            )
+
+            readings = try await client
+                .getGlucoseReadings(duration: .init(value: range.timeInterval, unit: .seconds))
+                .sorted { $0.date < $1.date }
+        }
 
         let attributes = ReadingAttributes(range: range)
         let initialState = LiveActivityState(readings: readings, range: range)
@@ -86,12 +98,12 @@ struct StartLiveActivityIntent: LiveActivityIntent {
                 state: initialState,
                 staleDate: max((initialState.c?.date.addingTimeInterval(10 * 60) ?? .now), Date.now.addingTimeInterval(120))
             ),
-            pushType: .token
+            pushType: dataSource == .g7Bluetooth ? nil : .token
         )
 
         TelemetryDeck.signal(
             "LiveActivity.started",
-            parameters: ["source": source]
+            parameters: ["source": source, "dataSource": dataSource?.rawValue ?? "unknown"]
         )
 
         return .result()

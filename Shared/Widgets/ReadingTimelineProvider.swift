@@ -18,7 +18,7 @@ struct ReadingTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvide
     func placeholder(in context: Context) -> Entry {
         GlucoseEntry(date: .now, widgetURL: nil, state: .reading(.placeholder))
     }
-    
+
     func snapshot(for configuration: ReadingWidgetConfiguration, in context: Context) async -> Entry {
         await Entry(date: .now, widgetURL: configuration.url, state: makeState(for: configuration))
     }
@@ -33,6 +33,12 @@ struct ReadingTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvide
     }
 
     private func makeState(for configuration: ReadingWidgetConfiguration) async -> Entry.State {
+        // Try G7 BLE cache first
+        if let reading = latestCachedG7Reading(), Date.now.timeIntervalSince(reading.date) < 60 * 15 {
+            return .reading(reading)
+        }
+
+        // Fall back to Share API
         guard let username = Keychain.shared.username, let password = Keychain.shared.password, let accountLocation = Defaults[.accountLocation] else {
             return .error(.loggedOut)
         }

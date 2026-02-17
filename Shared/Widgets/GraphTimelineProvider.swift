@@ -47,6 +47,20 @@ struct GraphTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider 
     }
 
     private func makeState(for configuration: GraphWidgetConfiguration) async -> Entry.State {
+        // Try G7 BLE cache first
+        if let readings = cachedG7Readings(duration: configuration.graphRange.timeInterval),
+           let current = readings.last,
+           Date.now.timeIntervalSince(current.date) < 60 * 15 {
+            return .reading(
+                GlucoseGraphEntryData(
+                    configuration: configuration,
+                    current: current,
+                    history: readings
+                )
+            )
+        }
+
+        // Fall back to Share API
         guard let username = Keychain.shared.username, let password = Keychain.shared.password, let accountLocation = Defaults[.accountLocation] else {
             return .error(.loggedOut)
         }

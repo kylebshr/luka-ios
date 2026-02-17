@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    ":00" : {
+
+    },
     "%@ %@" : {
       "localizations" : {
         "de" : {
@@ -233,6 +236,9 @@
         }
       }
     },
+    "Activated" : {
+
+    },
     "Anywhere Else" : {
       "localizations" : {
         "de" : {
@@ -370,6 +376,24 @@
           }
         }
       }
+    },
+    "Connect directly via Bluetooth, or sign in with Dexcom Share" : {
+
+    },
+    "Connect G7 Sensor" : {
+
+    },
+    "Connect to G7 Sensor" : {
+
+    },
+    "Connected to %@. Tap Continue to start using Luka with your G7 sensor." : {
+
+    },
+    "Connected via Bluetooth" : {
+
+    },
+    "Continue" : {
+
     },
     "Current Reading" : {
       "localizations" : {
@@ -600,6 +624,9 @@
           }
         }
       }
+    },
+    "Disconnect" : {
+
     },
     "Done" : {
       "localizations" : {
@@ -968,6 +995,9 @@
           }
         }
       }
+    },
+    "Expires" : {
+
     },
     "Glucose" : {
       "localizations" : {
@@ -2029,6 +2059,15 @@
         }
       }
     },
+    "m" : {
+
+    },
+    "m ago" : {
+
+    },
+    "Make sure your Dexcom G7 sensor is active and nearby. The sensor must be paired with your phone via the Dexcom app first." : {
+
+    },
     "Max" : {
       "localizations" : {
         "de" : {
@@ -2904,7 +2943,17 @@
         }
       }
     },
+    "Scan for New Sensor" : {
+
+    },
+    "Scanning for G7 Sensor" : {
+
+    },
+    "Select a connection method to get started" : {
+
+    },
     "Select an account location to get started" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2949,6 +2998,15 @@
           }
         }
       }
+    },
+    "Sensor" : {
+
+    },
+    "Sensor Connected" : {
+
+    },
+    "Sensor Warming Up" : {
+
     },
     "Settings" : {
       "localizations" : {
@@ -3548,6 +3606,9 @@
           }
         }
       }
+    },
+    "Status" : {
+
     },
     "Tap Action" : {
       "localizations" : {
@@ -4239,7 +4300,11 @@
         }
       }
     },
+    "You're not logged in." : {
+
+    },
     "You’re not logged in." : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -4278,6 +4343,9 @@
           }
         }
       }
+    },
+    "Your sensor is still warming up. This takes about 27 minutes after insertion. You can continue — readings will appear once warmup is complete." : {
+
     }
   },
   "version" : "1.1"

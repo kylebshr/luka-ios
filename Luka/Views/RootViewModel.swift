@@ -37,6 +37,10 @@ import Defaults
         }
     }
 
+    var dataSource: DataSource? = Defaults[.dataSource] {
+        didSet { Defaults[.dataSource] = dataSource }
+    }
+
     private(set) var banners: Banners?
 
     var requiresForceUpgrade: Bool {
@@ -44,7 +48,9 @@ import Defaults
     }
 
     var isSignedIn: Bool {
-        username != nil && password != nil && accountLocation != nil
+        let shareSignedIn = username != nil && password != nil && accountLocation != nil
+        let g7Connected = dataSource == .g7Bluetooth
+        return shareSignedIn || g7Connected
     }
 
     func loadBanners() async {
@@ -72,7 +78,7 @@ import Defaults
         let client = DexcomHelper.createService(
             username: username,
             password: password,
-            existingAccountID: accountID, 
+            existingAccountID: accountID,
             existingSessionID: sessionID,
             accountLocation: accountLocation
         )
@@ -82,12 +88,24 @@ import Defaults
         self.username = username
         self.password = password
         self.accountLocation = accountLocation
+        self.dataSource = .share
+    }
+
+    func signInWithG7() {
+        dataSource = .g7Bluetooth
+        G7GlucoseService.shared.scanForNewSensor()
     }
 
     func signOut() {
+        if dataSource == .g7Bluetooth {
+            G7GlucoseService.shared.stop()
+            Defaults[.g7SensorID] = nil
+            Defaults[.g7ActivationDate] = nil
+        }
         username = nil
         password = nil
         accountID = nil
         sessionID = nil
+        dataSource = nil
     }
 }

@@ -30,6 +30,7 @@
 		27DB8CBD2E9DE40E005B8087 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 27DB8CBC2E9DE40E005B8087 /* Defaults */; };
 		27DB990E2EA2005A005B8087 /* ActivityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27DB990D2EA2005A005B8087 /* ActivityKit.framework */; };
 		27DB9A012EA2048C005B8087 /* ActivityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27DB990D2EA2005A005B8087 /* ActivityKit.framework */; };
+		0CDC9999A3CFD97DF7D87C06 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F483781F0E78563FF1AF68F /* CoreBluetooth.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,6 +109,7 @@
 		276485FE2F1C65AF00CFEFC9 /* LukaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LukaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		27DB990D2EA2005A005B8087 /* ActivityKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ActivityKit.framework; path = System/Library/Frameworks/ActivityKit.framework; sourceTree = SDKROOT; };
 		27F577672BCF38330012D66C /* Luka.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Luka.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F483781F0E78563FF1AF68F /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -115,6 +117,22 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				AppIcon.icon,
+				G7/BluetoothServices.swift,
+				"G7/CBPeripheral+G7.swift",
+				"G7/Data+G7.swift",
+				G7/G7BluetoothManager.swift,
+				G7/G7Log.swift,
+				G7/G7PeripheralManager.swift,
+				G7/G7Sensor.swift,
+				G7/GlucoseLimits.swift,
+				G7/Locked.swift,
+				G7/Messages/AlgorithmState.swift,
+				G7/Messages/AuthChallengeRxMessage.swift,
+				G7/Messages/ExtendedVersionMessage.swift,
+				G7/Messages/G7BackfillMessage.swift,
+				G7/Messages/G7GlucoseMessage.swift,
+				G7/Messages/G7Opcode.swift,
+				G7/Messages/SensorMessage.swift,
 				Images.xcassets,
 				Intents/GraphRange.swift,
 				Intents/GraphStyle.swift,
@@ -123,11 +141,14 @@
 				Intents/ToggleLiveActivityIntent.swift,
 				Localizable.xcstrings,
 				Models/CachingDexcomClient.swift,
+				Models/DataSource.swift,
 				Models/DexcomClientService.swift,
 				Models/DexcomDelegate.swift,
 				Models/DexcomHelper.swift,
 				Models/EndLiveActivityRequest.swift,
+				Models/G7GlucoseService.swift,
 				Models/GlucoseReadingsCache.swift,
+				Models/GlucoseSource.swift,
 				Models/LiveActivityState.swift,
 				Models/MockDexcomClient.swift,
 				Models/ReadingAttributes.swift,
@@ -175,16 +196,35 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				AppIcon.icon,
+				G7/BluetoothServices.swift,
+				"G7/CBPeripheral+G7.swift",
+				"G7/Data+G7.swift",
+				G7/G7BluetoothManager.swift,
+				G7/G7Log.swift,
+				G7/G7PeripheralManager.swift,
+				G7/G7Sensor.swift,
+				G7/GlucoseLimits.swift,
+				G7/Locked.swift,
+				G7/Messages/AlgorithmState.swift,
+				G7/Messages/AuthChallengeRxMessage.swift,
+				G7/Messages/ExtendedVersionMessage.swift,
+				G7/Messages/G7BackfillMessage.swift,
+				G7/Messages/G7GlucoseMessage.swift,
+				G7/Messages/G7Opcode.swift,
+				G7/Messages/SensorMessage.swift,
 				Images.xcassets,
 				Intents/GraphRange.swift,
 				Intents/GraphStyle.swift,
 				Localizable.xcstrings,
 				Models/CachingDexcomClient.swift,
+				Models/DataSource.swift,
 				Models/DexcomClientService.swift,
 				Models/DexcomDelegate.swift,
 				Models/DexcomHelper.swift,
 				Models/EndLiveActivityRequest.swift,
+				Models/G7GlucoseService.swift,
 				Models/GlucoseReadingsCache.swift,
+				Models/GlucoseSource.swift,
 				Models/LiveActivityState.swift,
 				Models/MockDexcomClient.swift,
 				Models/StartLiveActivityRequest.swift,
@@ -330,6 +370,7 @@
 				27DB9A012EA2048C005B8087 /* ActivityKit.framework in Frameworks */,
 				27834B8A2ECF81A70096D201 /* TelemetryDeck in Frameworks */,
 				27C6E25F2BCF386E006BAE98 /* Dexcom in Frameworks */,
+				0CDC9999A3CFD97DF7D87C06 /* CoreBluetooth.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,6 +383,7 @@
 				27DB990D2EA2005A005B8087 /* ActivityKit.framework */,
 				2741EA272BD8AF08003EDEB2 /* WidgetKit.framework */,
 				2741EA292BD8AF08003EDEB2 /* SwiftUI.framework */,
+				4F483781F0E78563FF1AF68F /* CoreBluetooth.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

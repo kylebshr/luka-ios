@@ -48,13 +48,22 @@ struct SignInView: View {
             Spacer()
 
             #if os(watchOS)
-            Text("Select an account location to get started")
+            Text("Select a connection method to get started")
                 .foregroundStyle(.secondary)
                 .padding(.vertical)
             #endif
 
             Group {
                 #if os(iOS)
+                FormSection {
+                    NavigationLink(value: "g7") {
+                        FormRow(title: "Connect to G7 Sensor") {
+                            Image(systemName: "chevron.right")
+                        }
+                    }
+                }
+                .padding(.bottom, .spacing4)
+
                 FormSection {
                     locationLinks
                 }
@@ -63,12 +72,19 @@ struct SignInView: View {
                 locationLinks
                 #endif
             }
+            #if os(iOS)
+            .navigationDestination(for: String.self) { value in
+                if value == "g7" {
+                    G7PairingView()
+                }
+            }
+            #endif
             .navigationDestination(for: AccountLocation.self) { accountLocation in
                 UsernamePasswordView(accountLocation: accountLocation)
             }
 
             #if os(iOS)
-            Text("Select an account location to get started")
+            Text("Connect directly via Bluetooth, or sign in with Dexcom Share")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity)

@@ -34,6 +34,20 @@ extension DexcomTimelineProvider {
         return client
     }
 
+    /// Returns the latest reading from the G7 BLE cache, if available and fresh.
+    func latestCachedG7Reading() -> GlucoseReading? {
+        guard Defaults[.dataSource] == .g7Bluetooth else { return nil }
+        guard let cache = Defaults[.cachedReadings], cache.isValid else { return nil }
+        return cache.latestReading
+    }
+
+    /// Returns cached readings for G7 BLE mode within the given duration.
+    func cachedG7Readings(duration: TimeInterval) -> [GlucoseReading]? {
+        guard Defaults[.dataSource] == .g7Bluetooth else { return nil }
+        guard let cache = Defaults[.cachedReadings], cache.isValid else { return nil }
+        return cache.readings(for: duration)
+    }
+
     func buildTimeline<Data>(for state: GlucoseEntry<Data>.State, widgetURL: URL?) -> Timeline<GlucoseEntry<Data>> {
         let now = Date.now
 
