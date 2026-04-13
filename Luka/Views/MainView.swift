@@ -229,6 +229,7 @@ import WidgetKit
             } else {
                 _ = try await StartLiveActivityIntent(source: "App").perform()
             }
+            LiveActivityManager.shared.syncState()
             UINotificationFeedbackGenerator().notificationOccurred(.success)
         } catch {
             print("Failed to toggle Live Activity: \(error)")

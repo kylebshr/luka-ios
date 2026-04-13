@@ -5,7 +5,7 @@
 //  Created by Claude on 1/2/26.
 //
 
-import Defaults
+import ActivityKit
 import SwiftUI
 import WidgetKit
 
@@ -35,7 +35,7 @@ extension LiveActivityControl {
         var previewValue: Bool { false }
 
         func currentValue() async throws -> Bool {
-            Defaults[.isLiveActivityRunning]
+            !Activity<ReadingAttributes>.activities.isEmpty
         }
     }
 }
