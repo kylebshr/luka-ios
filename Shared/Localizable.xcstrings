@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    ":00" : {
+
+    },
     "%@ %@" : {
       "localizations" : {
         "de" : {
@@ -2028,6 +2031,12 @@
           }
         }
       }
+    },
+    "m" : {
+
+    },
+    "m ago" : {
+
     },
     "Max" : {
       "localizations" : {
