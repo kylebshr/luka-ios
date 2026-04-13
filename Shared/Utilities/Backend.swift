@@ -21,7 +21,7 @@ enum Backend {
     var baseURL: URL {
         switch self {
         case .production:
-            URL(string: "https://luka-vapor-staging.fly.dev")!
+            URL(string: "https://a1c.dev")!
         case .local:
             URL(string: "http://localhost:8080")!
         }
