@@ -45,7 +45,7 @@ import SwiftUI
                     style: graphStyle,
                     readings: readings.toLiveActivityReadings(),
                     showAxisLabels: true,
-                    useFullYRange: true
+                    yRangeMode: .full
                 )
 
                 VStack(alignment: .leading, spacing: -3) {

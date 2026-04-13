@@ -10,6 +10,15 @@ import Charts
 import Dexcom
 import Defaults
 
+enum YRangeMode {
+    /// Fixed 0...graphUpperBound, clamps values above the upper bound
+    case full
+    /// Scales to fit the visible data
+    case fit
+    /// At least 0...targetRangeUpperBound, but expands if data exceeds it
+    case targetRange
+}
+
 struct LineChart: View {
     @Default(.targetRangeLowerBound) var lowerBound
     @Default(.targetRangeUpperBound) var upperBound
@@ -21,7 +30,7 @@ struct LineChart: View {
     var readings: [LiveActivityState.Reading]
     var lineWidth: CGFloat = 2
     var showAxisLabels: Bool = false
-    var useFullYRange: Bool = false
+    var yRangeMode: YRangeMode = .fit
     var selectedReading: Binding<LiveActivityState.Reading?>? = nil
 
     @GestureState private var isScrubbing = false
@@ -50,46 +59,55 @@ struct LineChart: View {
     }
 
     private var filteredReadings: [LiveActivityState.Reading] {
-        if useFullYRange {
+        if yRangeMode == .full {
             return readings
-        } else {
-            // Filter out older readings so we scale the y axis to current readings
-            let startDate = switch style {
-            case .line:
-                // pad a little so it can go off the edge.
-                Date.now.addingTimeInterval(-(range.timeInterval + 60 * 15))
-            case .dots:
-                Date.now.addingTimeInterval(-range.timeInterval)
-            }
+        }
 
-            return readings.filter { reading in
-                reading.t >= startDate
-            }
+        // Filter out older readings so we scale the y axis to current readings
+        let startDate = switch style {
+        case .line:
+            // pad a little so it can go off the edge.
+            Date.now.addingTimeInterval(-(range.timeInterval + 60 * 15))
+        case .dots:
+            Date.now.addingTimeInterval(-range.timeInterval)
+        }
+
+        return readings.filter { reading in
+            reading.t >= startDate
         }
     }
 
     private var yScaleRange: ClosedRange<Int> {
-        if useFullYRange {
+        switch yRangeMode {
+        case .full:
             return 0...Int(graphUpperBound)
+
+        case .fit:
+            let allValues = filteredReadings.map(\.v)
+            guard let dataMin = allValues.min(), let dataMax = allValues.max() else {
+                return Int(lowerBound)...Int(upperBound)
+            }
+
+            let targetRangeHeight = Int(upperBound - lowerBound)
+            let dataRangeHeight = Int(dataMax - dataMin)
+
+            // Ensure minimum height equals target range
+            if dataRangeHeight < targetRangeHeight {
+                let expansion = targetRangeHeight - dataRangeHeight
+                let expandBottom = expansion / 2
+                let expandTop = expansion - expandBottom
+                return (Int(dataMin) - expandBottom)...(Int(dataMax) + expandTop)
+            }
+
+            return Int(dataMin)...Int(dataMax)
+
+        case .targetRange:
+            let allValues = filteredReadings.map(\.v)
+            guard let dataMax = allValues.max() else {
+                return 0...Int(upperBound)
+            }
+            return 0...max(Int(upperBound), Int(dataMax))
         }
-
-        let allValues = filteredReadings.map(\.v)
-        guard let dataMin = allValues.min(), let dataMax = allValues.max() else {
-            return Int(lowerBound)...Int(upperBound)
-        }
-
-        let targetRangeHeight = Int(upperBound - lowerBound)
-        let dataRangeHeight = Int(dataMax - dataMin)
-
-        // Ensure minimum height equals target range
-        if dataRangeHeight < targetRangeHeight {
-            let expansion = targetRangeHeight - dataRangeHeight
-            let expandBottom = expansion / 2
-            let expandTop = expansion - expandBottom
-            return (Int(dataMin) - expandBottom)...(Int(dataMax) + expandTop)
-        }
-
-        return Int(dataMin)...Int(dataMax)
     }
 
     private var emphasizedReading: LiveActivityState.Reading? {
@@ -105,7 +123,7 @@ struct LineChart: View {
     var body: some View {
         Chart {
             ForEach(filteredReadings, id: \.t) { reading in
-                let clampedValue = useFullYRange ? min(reading.v, Int16(graphUpperBound)) : reading.v
+                let clampedValue = yRangeMode == .full ? min(reading.v, Int16(graphUpperBound)) : reading.v
 
                 switch style {
                 case .dots:
@@ -135,7 +153,7 @@ struct LineChart: View {
             }
 
             if let emphasizedReading {
-                let clampedValue = useFullYRange ? min(emphasizedReading.v, Int16(graphUpperBound)) : emphasizedReading.v
+                let clampedValue = yRangeMode == .full ? min(emphasizedReading.v, Int16(graphUpperBound)) : emphasizedReading.v
 
                 if selectedReading?.wrappedValue != nil {
                     RuleMark(x: .value("Date", emphasizedReading.t))
@@ -331,7 +349,7 @@ struct LineChart: View {
             style: .dots,
             readings: .placeholder,
             showAxisLabels: true,
-            useFullYRange: false,
+            yRangeMode: .fit,
         )
         .frame(height: 100)
         .padding(1)
@@ -343,7 +361,7 @@ struct LineChart: View {
             style: .dots,
             readings: .placeholder,
             showAxisLabels: true,
-            useFullYRange: false,
+            yRangeMode: .fit,
         )
         .frame(height: 100)
         .padding(1)
@@ -355,7 +373,7 @@ struct LineChart: View {
             style: .dots,
             readings: .placeholder,
             showAxisLabels: true,
-            useFullYRange: true,
+            yRangeMode: .full,
         )
         .frame(height: 400)
         .padding(1)

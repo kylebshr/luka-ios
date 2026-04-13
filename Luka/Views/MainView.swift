@@ -121,7 +121,7 @@ import WidgetKit
                     style: graphStyle,
                     readings: readings.toLiveActivityReadings(),
                     showAxisLabels: true,
-                    useFullYRange: true,
+                    yRangeMode: .full,
                     selectedReading: $selectedChartReading,
                 )
                 .padding(.trailing)

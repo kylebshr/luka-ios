@@ -83,10 +83,14 @@ struct WidgetGraphView: View {
 
                 #if os(iOS)
                 let showLabels = family == .systemMedium || family == .systemLarge
-                let useFullYRange = family == .systemLarge
+                let yRangeMode: YRangeMode = switch family {
+                case .systemLarge, .systemExtraLarge: .full
+                case .systemSmall, .systemMedium: .targetRange
+                default: .fit
+                }
                 #else
                 let showLabels = false
-                let useFullYRange = false
+                let yRangeMode: YRangeMode = .fit
                 #endif
 
                 LineChart(
@@ -94,7 +98,7 @@ struct WidgetGraphView: View {
                     style: data.configuration.graphStyle,
                     readings: data.history.toLiveActivityReadings(),
                     showAxisLabels: showLabels,
-                    useFullYRange: useFullYRange,
+                    yRangeMode: yRangeMode,
                 )
                 .padding(graphPadding)
                 .padding(.bottom, showLabels ? -margins.bottom / 2 : 0)
