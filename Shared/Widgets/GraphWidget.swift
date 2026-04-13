@@ -47,7 +47,7 @@ struct GraphWidget: Widget {
         widgetURL: nil,
         state: .reading(
             .init(
-                configuration: GraphWidgetConfiguration(),
+                configuration: GraphWidgetConfiguration(graphRange: .threeHours),
                 current: .placeholder,
                 history: .placeholder
             )
