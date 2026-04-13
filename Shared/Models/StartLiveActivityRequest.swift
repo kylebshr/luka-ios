@@ -25,7 +25,6 @@ enum PushEnvironment: String, Codable {
 struct LiveActivityPreferences: Codable {
     var targetRange: ClosedRange<Int>
     var unit: GlucoseFormatter.Unit
-    var sendStaleUpdates: Bool?
 }
 
 struct StartLiveActivityRequest: Codable {
