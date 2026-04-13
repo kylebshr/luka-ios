@@ -9,5 +9,6 @@
 import Foundation
 
 struct EndLiveActivityRequest: Codable {
+    var pushToken: String
     var username: String
 }

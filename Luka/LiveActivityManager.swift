@@ -18,6 +18,7 @@ final class LiveActivityManager {
     static let shared = LiveActivityManager()
 
     private var observationTasks: [String: Task<Void, Never>] = [:]
+    private var activityTokens: [String: String] = [:]
     private var activityUpdatesTask: Task<Void, Never>?
 
     private init() {
@@ -52,8 +53,9 @@ final class LiveActivityManager {
             for await state in activity.activityStateUpdates {
                 switch state {
                 case .dismissed, .ended:
-                    await sendEndLiveActivity()
+                    await sendEndLiveActivity(activityID: activity.id)
                     observationTasks.removeValue(forKey: activity.id)
+                    activityTokens.removeValue(forKey: activity.id)
                     syncState()
                     return
                 case .active, .pending, .stale:
@@ -67,6 +69,7 @@ final class LiveActivityManager {
         let tokenTask = Task {
             for await token in activity.pushTokenUpdates {
                 let tokenString = token.map { String(format: "%02x", $0) }.joined()
+                activityTokens[activity.id] = tokenString
                 await sendStartLiveActivity(token: tokenString)
             }
         }
@@ -117,10 +120,11 @@ final class LiveActivityManager {
         }
     }
 
-    private func sendEndLiveActivity() async {
-        guard let username = Keychain.shared.username else { return }
+    private func sendEndLiveActivity(activityID: String) async {
+        guard let username = Keychain.shared.username,
+              let pushToken = activityTokens[activityID] else { return }
 
-        let payload = EndLiveActivityRequest(username: username)
+        let payload = EndLiveActivityRequest(pushToken: pushToken, username: username)
 
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .useDefaultKeys
