@@ -87,7 +87,7 @@ import KeychainAccess
                         .sorted { $0.date < $1.date }
                     if let latest = readings.last {
                         state = .loaded(readings, latest: latest)
-                        updateLiveActivityIfActive()
+                        await updateLiveActivityIfActive()
                     } else {
                         state = .noRecentReading
                     }
@@ -160,7 +160,7 @@ import KeychainAccess
         }
     }
 
-    func updateLiveActivityIfActive() {
+    func updateLiveActivityIfActive() async {
         #if canImport(ActivityKit)
         guard case .loaded(let readings, let latest) = state, !latest.isExpired(at: .now, expiration: .init(value: 5, unit: .minutes)) else {
             return
@@ -178,9 +178,7 @@ import KeychainAccess
             staleDate: Date.now.addingTimeInterval(60 * 10)
         )
 
-        Task {
-            await activity.update(content)
-        }
+        await activity.update(content)
         #endif
     }
 }

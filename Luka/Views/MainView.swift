@@ -172,7 +172,9 @@ import WidgetKit
         }
         .animation(.snappy, value: dismissedBannerIDs)
         .onChange(of: showChartLiveActivity) {
-            liveViewModel.updateLiveActivityIfActive()
+            Task {
+                await liveViewModel.updateLiveActivityIfActive()
+            }
         }
     }
 
