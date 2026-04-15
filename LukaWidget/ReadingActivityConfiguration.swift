@@ -191,7 +191,7 @@ private struct MainContentView: View {
     }
 
     @ViewBuilder func smallContentView() -> some View {
-        if context.state.se == true {
+        if context.isExpired == true {
             smallExpiredView()
         } else {
             HStack(spacing: 0) {
@@ -214,7 +214,7 @@ private struct MainContentView: View {
     }
 
     @ViewBuilder func mediumContentView() -> some View {
-        if context.state.se == true {
+        if context.isExpired == true {
             mediumExpiredView()
         } else {
             VStack(spacing: 0) {
@@ -363,6 +363,10 @@ private extension ActivityViewContext<ReadingAttributes> {
         } else {
             return isStale
         }
+    }
+
+    var isExpired: Bool {
+        state.se ?? (state.c == nil)
     }
 
     var timestampColor: Color {
