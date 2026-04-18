@@ -33,6 +33,10 @@ struct ReadingWidgetView: View {
             InlineWidgetReadingView(entry: entry, reading: reading)
         case .accessoryCircular:
             CircularWidgetView(entry: entry, reading: reading)
+        #if os(watchOS)
+        case .accessoryCorner:
+            CornerWidgetView(entry: entry, reading: reading)
+        #endif
         default:
             fatalError()
         }
