@@ -22,6 +22,10 @@ struct WidgetErrorView: View {
             RectangularWidgetErrorView(error: error)
         case .accessoryCircular:
             CircularWidgetErrorView(imageName: error.image)
+        #if os(watchOS)
+        case .accessoryCorner:
+            CornerWidgetErrorView(error: error)
+        #endif
         default:
             fatalError()
         }

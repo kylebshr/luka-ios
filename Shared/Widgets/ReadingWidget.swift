@@ -29,6 +29,7 @@ struct ReadingWidget: Widget {
         [
             .accessoryInline,
             .accessoryCircular,
+            .accessoryCorner,
         ]
         #else
         [
