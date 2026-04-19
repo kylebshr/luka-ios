@@ -2268,7 +2268,11 @@
         }
       }
     },
+    "No Readings" : {
+
+    },
     "No Recent Readings" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {

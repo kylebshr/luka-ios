@@ -14,6 +14,7 @@ struct CornerWidgetErrorView: View {
         Button(intent: ReloadWidgetIntent()) {
             Image(systemName: error.image)
                 .resizable()
+                .aspectRatio(contentMode: .fit)
                 .widgetLabel(error.description)
         }
         .buttonStyle(.plain)
