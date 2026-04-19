@@ -48,7 +48,7 @@ struct CornerWidgetView: View {
                 } currentValueLabel: {
                     EmptyView()
                 } minimumValueLabel: {
-                    Text(reading.timestamp(for: entry.date, style: .abbreviated))
+                    Text(reading.timestamp(for: entry.date, style: .abbreviated, nowText: "Now"))
                 } maximumValueLabel: {
                     Text(verbatim: "")
                 }
