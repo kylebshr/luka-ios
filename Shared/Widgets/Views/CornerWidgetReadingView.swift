@@ -36,18 +36,36 @@ struct CornerWidgetView: View {
 
     private var content: some View {
         Text(redactionReasons.isEmpty ? reading.value.formatted(.glucose(unit)) : "80")
-            .font(.title3)
             .fontWeight(.bold)
-            .fontDesign(.rounded)
             .invalidatableContent()
             .foregroundStyle(reading.color(target: targetLower...targetUpper))
+            .widgetCurvesContent()
             .widgetLabel {
-                HStack(spacing: 2) {
-                    if redactionReasons.isEmpty, let image = reading.image {
-                        image
-                    }
-                    Text(reading.timestamp(for: entry.date, style: .abbreviated, appendRelativeText: false).localizedLowercase)
+                let value = Double(reading.value)
+                let lower = min(value, targetLower)
+                let upper = max(value, targetUpper)
+                Gauge(value: value, in: lower...upper) {
+                    EmptyView()
+                } currentValueLabel: {
+                    Text(reading.value.formatted(.glucose(unit)))
+                } minimumValueLabel: {
+                    Text(Int(lower).formatted(.glucose(unit)))
+                } maximumValueLabel: {
+                    Text(Int(upper).formatted(.glucose(unit)))
                 }
+                .tint(reading.color(target: targetLower...targetUpper))
             }
     }
 }
+
+#if os(watchOS)
+#Preview(as: .accessoryCorner) {
+    ReadingWidget()
+} timeline: {
+    GlucoseEntry<GlucoseReading>(
+        date: .now,
+        widgetURL: nil,
+        state: .reading(.init(value: 55, trend: .fortyFiveDown, date: .now))
+    )
+}
+#endif
