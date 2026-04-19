@@ -50,6 +50,7 @@ struct CornerWidgetView: View {
                     EmptyView()
                 } minimumValueLabel: {
                     Text(reading.timestamp(for: entry.date, style: .abbreviated).localizedLowercase)
+                        .font(.body.lowercaseSmallCaps())
                 } maximumValueLabel: {
                     EmptyView()
                 }
