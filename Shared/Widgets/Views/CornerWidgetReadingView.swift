@@ -47,8 +47,12 @@ struct CornerWidgetView: View {
                 Gauge(value: value, in: lower...upper) {
                     EmptyView()
                 } currentValueLabel: {
+                    EmptyView()
+                } minimumValueLabel: {
                     Text(reading.timestamp(for: entry.date, style: .abbreviated).localizedLowercase)
                         .font(.body.lowercaseSmallCaps())
+                } maximumValueLabel: {
+                    Text(verbatim: "")
                 }
                 .tint(reading.color(target: targetLower...targetUpper))
             }
