@@ -42,12 +42,22 @@ struct CornerWidgetView: View {
             .invalidatableContent()
             .foregroundStyle(reading.color(target: targetLower...targetUpper))
             .widgetLabel {
-                HStack(spacing: 2) {
-                    if redactionReasons.isEmpty, let image = reading.image {
-                        image
-                    }
-                    Text(reading.timestamp(for: entry.date, style: .abbreviated, appendRelativeText: false).localizedLowercase)
-                }
+                label
             }
+    }
+
+    private var label: Text {
+        let value = redactionReasons.isEmpty ? reading.value.formatted(.glucose(unit)) : "80"
+        let timestamp = reading.timestamp(
+            for: entry.date,
+            style: .abbreviated,
+            appendRelativeText: false
+        ).localizedLowercase
+
+        if redactionReasons.isEmpty, let image = reading.image {
+            return Text("\(value) \(image) \(timestamp)")
+        } else {
+            return Text("\(value) \(timestamp)")
+        }
     }
 }
