@@ -34,20 +34,41 @@ struct CornerWidgetView: View {
         .containerBackground(.background, for: .widget)
     }
 
+    private var text: String {
+        let value = redactionReasons.isEmpty ? reading.value.formatted(.glucose(unit)) : "80"
+        let timestamp = reading.timestamp(
+            for: entry.date,
+            style: .abbreviated,
+            appendRelativeText: false
+        ).localizedLowercase
+
+        if redactionReasons.isEmpty, let arrow = reading.trendArrow {
+            return "\(value) \(arrow) \(timestamp)"
+        } else {
+            return "\(value) \(timestamp)"
+        }
+    }
+
     private var content: some View {
-        Text(redactionReasons.isEmpty ? reading.value.formatted(.glucose(unit)) : "80")
-            .font(.title3)
+        Text(text)
             .fontWeight(.bold)
             .fontDesign(.rounded)
             .invalidatableContent()
             .foregroundStyle(reading.color(target: targetLower...targetUpper))
-            .widgetLabel {
-                HStack(spacing: 2) {
-                    if redactionReasons.isEmpty, let image = reading.image {
-                        image
-                    }
-                    Text(reading.timestamp(for: entry.date, style: .abbreviated, appendRelativeText: false).localizedLowercase)
-                }
-            }
+    }
+}
+
+private extension GlucoseReading {
+    var trendArrow: String? {
+        switch trend {
+        case .none, .notComputable, .rateOutOfRange: nil
+        case .doubleUp: "⇈"
+        case .singleUp: "↑"
+        case .fortyFiveUp: "↗"
+        case .flat: "→"
+        case .fortyFiveDown: "↘"
+        case .singleDown: "↓"
+        case .doubleDown: "⇊"
+        }
     }
 }
