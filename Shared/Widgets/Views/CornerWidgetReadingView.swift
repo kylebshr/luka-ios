@@ -34,7 +34,7 @@ struct CornerWidgetView: View {
         .containerBackground(.background, for: .widget)
     }
 
-    private var text: String {
+    private var text: Text {
         let value = redactionReasons.isEmpty ? reading.value.formatted(.glucose(unit)) : "80"
         let timestamp = reading.timestamp(
             for: entry.date,
@@ -42,33 +42,18 @@ struct CornerWidgetView: View {
             appendRelativeText: false
         ).localizedLowercase
 
-        if redactionReasons.isEmpty, let arrow = reading.trendArrow {
-            return "\(value) \(arrow) \(timestamp)"
+        if redactionReasons.isEmpty, let image = reading.image {
+            return Text("\(value) \(image) \(timestamp)")
         } else {
-            return "\(value) \(timestamp)"
+            return Text("\(value) \(timestamp)")
         }
     }
 
     private var content: some View {
-        Text(text)
+        text
             .fontWeight(.bold)
             .fontDesign(.rounded)
             .invalidatableContent()
             .foregroundStyle(reading.color(target: targetLower...targetUpper))
-    }
-}
-
-private extension GlucoseReading {
-    var trendArrow: String? {
-        switch trend {
-        case .none, .notComputable, .rateOutOfRange: nil
-        case .doubleUp: "⇈"
-        case .singleUp: "↑"
-        case .fortyFiveUp: "↗"
-        case .flat: "→"
-        case .fortyFiveDown: "↘"
-        case .singleDown: "↓"
-        case .doubleDown: "⇊"
-        }
     }
 }
