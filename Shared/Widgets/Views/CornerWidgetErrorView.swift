@@ -13,9 +13,7 @@ struct CornerWidgetErrorView: View {
     var body: some View {
         Button(intent: ReloadWidgetIntent()) {
             Image(systemName: error.image)
-                .widgetCurvesContent()
-                .fontWeight(.semibold)
-                .invalidatableContent()
+                .resizable()
                 .widgetLabel(error.description)
         }
         .buttonStyle(.plain)
