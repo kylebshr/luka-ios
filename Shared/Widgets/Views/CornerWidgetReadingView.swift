@@ -49,7 +49,7 @@ struct CornerWidgetView: View {
                 } currentValueLabel: {
                     EmptyView()
                 } minimumValueLabel: {
-                    Text(reading.timestamp(for: entry.date, style: .abbreviated, appendRelativeText: false).localizedLowercase)
+                    Text(reading.timestamp(for: entry.date, style: .abbreviated).localizedLowercase)
                 } maximumValueLabel: {
                     EmptyView()
                 }
