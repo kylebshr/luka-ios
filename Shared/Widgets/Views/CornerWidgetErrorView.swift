@@ -13,7 +13,7 @@ struct CornerWidgetErrorView: View {
     var body: some View {
         Button(intent: ReloadWidgetIntent()) {
             Image(systemName: error.image)
-                .font(.title3)
+                .widgetCurvesContent()
                 .fontWeight(.semibold)
                 .invalidatableContent()
                 .widgetLabel(error.description)
@@ -22,3 +22,4 @@ struct CornerWidgetErrorView: View {
         .containerBackground(.background, for: .widget)
     }
 }
+
