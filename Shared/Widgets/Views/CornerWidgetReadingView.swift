@@ -52,7 +52,7 @@ struct CornerWidgetView: View {
                     Text(reading.timestamp(for: entry.date, style: .abbreviated).localizedLowercase)
                         .font(.body.lowercaseSmallCaps())
                 } maximumValueLabel: {
-                    EmptyView()
+                    Text(verbatim: "")
                 }
                 .tint(reading.color(target: targetLower...targetUpper))
             }
