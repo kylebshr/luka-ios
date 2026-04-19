@@ -76,7 +76,7 @@ extension GlucoseEntryError {
         case .loggedOut:
             String(localized: "No Account")
         case .noRecentReadings:
-            String(localized: "No Recent Readings")
+            String(localized: "No Readings")
         case .failedToLoad:
             String(localized: "Network Error")
         }
