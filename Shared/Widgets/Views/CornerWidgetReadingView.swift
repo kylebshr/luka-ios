@@ -38,7 +38,7 @@ struct CornerWidgetView: View {
         Text(redactionReasons.isEmpty ? reading.value.formatted(.glucose(unit)) : "80")
             .fontWeight(.bold)
             .invalidatableContent()
-            .foregroundStyle(tintColor)
+            .foregroundStyle(reading.color(target: targetLower...targetUpper))
             .widgetCurvesContent()
             .widgetLabel {
                 let value = Double(reading.value)
@@ -47,22 +47,14 @@ struct CornerWidgetView: View {
                 Gauge(value: value, in: lower...upper) {
                     EmptyView()
                 } currentValueLabel: {
-                    Text(reading.value.formatted(.glucose(unit)))
+                    EmptyView()
                 } minimumValueLabel: {
-                    Text(Int(lower).formatted(.glucose(unit)))
+                    Text(reading.timestamp(for: entry.date, style: .abbreviated, appendRelativeText: false).localizedLowercase)
                 } maximumValueLabel: {
-                    Text(Int(upper).formatted(.glucose(unit)))
+                    EmptyView()
                 }
-                .tint(tintColor)
+                .tint(reading.color(target: targetLower...targetUpper))
             }
-    }
-
-    private var tintColor: Color {
-        switch Double(reading.value) {
-        case ..<targetLower: .red
-        case ...targetUpper: .green
-        default: .yellow
-        }
     }
 }
 
