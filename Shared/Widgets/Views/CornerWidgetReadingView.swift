@@ -35,14 +35,13 @@ struct CornerWidgetView: View {
     }
 
     private var content: some View {
-        Text(redactionReasons.isEmpty ? reading.value.formatted(.glucose(unit)) : "80")
-            .font(.title3)
-            .fontWeight(.bold)
-            .fontDesign(.rounded)
-            .invalidatableContent()
-            .foregroundStyle(reading.color(target: targetLower...targetUpper))
+        Color.clear
             .widgetLabel {
                 label
+                    .fontWeight(.bold)
+                    .fontDesign(.rounded)
+                    .invalidatableContent()
+                    .foregroundStyle(reading.color(target: targetLower...targetUpper))
             }
     }
 
