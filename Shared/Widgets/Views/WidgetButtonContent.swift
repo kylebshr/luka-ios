@@ -9,13 +9,13 @@ import SwiftUI
 
 struct WidgetButtonContent: View {
     let text: String
-    let image: String
+    let image: String?
 
     private var font: Font {
         .system(watchOS ? .footnote : .subheadline, design: .rounded)
     }
 
-    init(text: String, image: String) {
+    init(text: String, image: String?) {
         self.text = text
         self.image = image
     }
@@ -30,10 +30,12 @@ struct WidgetButtonContent: View {
             Text(text)
                 .contentTransition(.numericText())
 
-            Spacer()
-
-            Image(systemName: image)
-                .unredacted()
+            if let image {
+                Spacer()
+                
+                Image(systemName: image)
+                    .unredacted()
+            }
         }
         .font(font)
         .fontWeight(.medium)

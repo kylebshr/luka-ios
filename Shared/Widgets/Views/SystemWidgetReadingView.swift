@@ -14,32 +14,49 @@ struct SystemWidgetReadingView: View {
     let entry: ReadingTimelineProvider.Entry
     let reading: GlucoseReading
 
+    @Environment(\.widgetContentMargins) private var margins
     @Environment(\.widgetRenderingMode) private var renderingMode
     @Environment(\.showsWidgetContainerBackground) var showsBackground
 
     @Default(.targetRangeLowerBound) private var targetLower
     @Default(.targetRangeUpperBound) private var targetUpper
 
-    var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            ReadingView(reading: reading)
-                .font(.system(.largeTitle, design: .rounded))
-                .fontWeight(.regular)
-                .invalidatableContent()
+    private var isInStandby: Bool {
+        margins.leading > 0 && margins.leading < 10 && !showsBackground
+    }
 
-            Spacer(minLength: 0)
+    var body: some View {
+        VStack(alignment: isInStandby ? .center : .leading, spacing: 0) {
+            if isInStandby {
+                Spacer(minLength: 0)
+            }
+
+            ReadingView(reading: reading)
+                .font(isInStandby ? .system(size: 50, design: .rounded) : .system(.largeTitle, design: .rounded))
+                .fontWeight(isInStandby ? .medium : .regular)
+                .invalidatableContent()
+                .minimumScaleFactor(0.5)
+
+            if !isInStandby {
+                Spacer(minLength: 0)
+            }
 
             Button(intent: ReloadWidgetIntent()) {
                 WidgetButtonContent(
                     text: reading.timestamp(for: entry.date),
-                    image: entry.shouldRefresh ? "arrow.triangle.2.circlepath" : ""
+                    image: entry.shouldRefresh ? "arrow.triangle.2.circlepath" : nil
                 )
                 .foregroundStyle(.secondary)
             }
             .buttonStyle(.plain)
+
+            if isInStandby {
+                Spacer(minLength: 0)
+            }
         }
         .containerBackground(reading.color(target: targetLower...targetUpper).gradient, for: .widget)
         .foregroundStyle(useBlackForeground ? .black : .primary)
+        .frame(maxWidth: .infinity, alignment: isInStandby ? .center : .leading)
     }
 
     private var useBlackForeground: Bool {
