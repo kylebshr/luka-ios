@@ -33,7 +33,7 @@ struct SystemWidgetReadingView: View {
 
             ReadingView(reading: reading)
                 .font(isInStandby ? .system(size: 50, design: .rounded) : .system(.largeTitle, design: .rounded))
-                .fontWeight(.regular)
+                .fontWeight(isInStandby ? .medium : .regular)
                 .invalidatableContent()
                 .minimumScaleFactor(0.5)
 
