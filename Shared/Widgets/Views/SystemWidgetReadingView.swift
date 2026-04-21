@@ -36,6 +36,7 @@ struct SystemWidgetReadingView: View {
                 .fontWeight(isInStandby ? .medium : .regular)
                 .invalidatableContent()
                 .minimumScaleFactor(0.5)
+                .foregroundStyle(readingColor)
 
             if !isInStandby {
                 Spacer(minLength: 0)
@@ -61,5 +62,17 @@ struct SystemWidgetReadingView: View {
 
     private var useBlackForeground: Bool {
         renderingMode == .fullColor && showsBackground
+    }
+
+    private var readingColor: AnyShapeStyle {
+        if isInStandby {
+            if renderingMode == .fullColor {
+                AnyShapeStyle(reading.color(target: targetLower...targetUpper).gradient)
+            } else {
+                AnyShapeStyle(Color.primary)
+            }
+        } else {
+            AnyShapeStyle(Color.black)
+        }
     }
 }
