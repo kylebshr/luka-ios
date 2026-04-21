@@ -15,6 +15,7 @@ struct SystemWidgetReadingView: View {
     let reading: GlucoseReading
 
     @Environment(\.widgetRenderingMode) private var renderingMode
+    @Environment(\.showsWidgetContainerBackground) var showsBackground
 
     @Default(.targetRangeLowerBound) private var targetLower
     @Default(.targetRangeUpperBound) private var targetUpper
@@ -38,6 +39,10 @@ struct SystemWidgetReadingView: View {
             .buttonStyle(.plain)
         }
         .containerBackground(reading.color(target: targetLower...targetUpper).gradient, for: .widget)
-        .foregroundStyle(renderingMode == .fullColor ? .black : .primary)
+        .foregroundStyle(useBlackForeground ? .black : .primary)
+    }
+
+    private var useBlackForeground: Bool {
+        renderingMode == .fullColor && showsBackground
     }
 }
