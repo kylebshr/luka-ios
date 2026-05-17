@@ -119,6 +119,12 @@ final class LiveActivityManager {
         }
     }
 
+    func endLiveActivityOnServer() async {
+        for activity in Activity<ReadingAttributes>.activities {
+            await sendEndLiveActivity(activityID: activity.id)
+        }
+    }
+
     private func sendEndLiveActivity(activityID: String) async {
         guard let username = Keychain.shared.username,
               let pushToken = activityTokens[activityID] else { return }
