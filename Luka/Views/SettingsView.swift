@@ -95,6 +95,19 @@ struct SettingsView: View {
             }
             .fontWeight(.medium)
 
+            if Bundle.main.isSandboxReceipt {
+                Section("TestFlight") {
+                    Button {
+                        Task {
+                            await LiveActivityManager.shared.endLiveActivityOnServer()
+                        }
+                    } label: {
+                        SettingsRow("End Live Activity on server", systemImage: "antenna.radiowaves.left.and.right.slash")
+                    }
+                }
+                .fontWeight(.medium)
+            }
+
             Section {
                 Button {
                     viewModel.signOut()
