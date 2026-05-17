@@ -370,6 +370,10 @@ private extension ActivityViewContext<ReadingAttributes> {
     }
 
     var timestampColor: Color {
+        if isOffline {
+            return .red
+        }
+
         if let reading = state.c {
             if reading.isExpired(at: .now, expiration: .init(value: 10, unit: .minutes)) {
                 return .red
@@ -384,7 +388,7 @@ private extension ActivityViewContext<ReadingAttributes> {
     }
 
     var timestamp: Text {
-        if let current = state.c {
+        if let current = state.c, !isOffline {
             Text(
                 timerInterval: current.date...Date.distantFuture,
                 countsDown: false
@@ -405,7 +409,7 @@ private struct MinuteTimerView: View {
 
     var body: some View {
         ZStack {
-            if let date = context.state.c?.date {
+            if let date = context.state.c?.date, !context.isOffline {
                 HStack(spacing: 0) {
                     Text(
                         timerInterval: date.addingTimeInterval(-60)...Date.distantFuture,
