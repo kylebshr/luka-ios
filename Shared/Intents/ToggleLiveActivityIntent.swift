@@ -23,9 +23,8 @@ struct ToggleLiveActivityIntent: SetValueIntent, LiveActivityIntent {
         } else {
             _ = try await EndLiveActivityIntent().perform()
         }
-        _ = await MainActor.run {
-            ReadingAttributes.syncIsRunningDefault()
-        }
+
+        ReadingAttributes.syncIsRunningDefault()
         return .result()
     }
 }

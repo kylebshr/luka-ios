@@ -18,7 +18,6 @@ struct ReadingAttributes: ActivityAttributes {
 
 extension ReadingAttributes {
     /// Returns true if there is at least one Live Activity that has not yet ended or been dismissed.
-    @MainActor
     static var hasRunningActivity: Bool {
         Activity<ReadingAttributes>.activities.contains { activity in
             switch activity.activityState {
@@ -34,7 +33,6 @@ extension ReadingAttributes {
 
     /// Updates `Defaults[.isLiveActivityRunning]` to reflect the current Live Activity state.
     /// Returns true if the stored value changed.
-    @MainActor
     @discardableResult
     static func syncIsRunningDefault() -> Bool {
         let isRunning = hasRunningActivity
