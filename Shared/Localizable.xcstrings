@@ -880,6 +880,9 @@
         }
       }
     },
+    "End Live Activity on server" : {
+
+    },
     "End the currently running Live Activity." : {
       "localizations" : {
         "de" : {
@@ -3607,6 +3610,9 @@
           }
         }
       }
+    },
+    "TestFlight" : {
+
     },
     "This version of Luka is no longer supported. Please update to continue." : {
       "localizations" : {

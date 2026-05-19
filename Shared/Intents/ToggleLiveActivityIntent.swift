@@ -5,9 +5,7 @@
 //  Created by Claude on 1/2/26.
 //
 
-import ActivityKit
 import AppIntents
-import Defaults
 
 @available(iOS 18.0, *)
 struct ToggleLiveActivityIntent: SetValueIntent, LiveActivityIntent {
@@ -25,7 +23,9 @@ struct ToggleLiveActivityIntent: SetValueIntent, LiveActivityIntent {
         } else {
             _ = try await EndLiveActivityIntent().perform()
         }
-        Defaults[.isLiveActivityRunning] = !Activity<ReadingAttributes>.activities.isEmpty
+        _ = await MainActor.run {
+            ReadingAttributes.syncIsRunningDefault()
+        }
         return .result()
     }
 }
