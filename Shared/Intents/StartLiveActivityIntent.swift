@@ -84,7 +84,7 @@ struct StartLiveActivityIntent: LiveActivityIntent {
             attributes: attributes,
             content: .init(
                 state: initialState,
-                staleDate: Date.now.addingTimeInterval(60 * 10)
+                staleDate: Date.now.addingTimeInterval(60 * 15)
             ),
             pushType: .token
         )

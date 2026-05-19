@@ -175,7 +175,7 @@ import KeychainAccess
 
         let content = ActivityContent(
             state: newState,
-            staleDate: Date.now.addingTimeInterval(60 * 10)
+            staleDate: Date.now.addingTimeInterval(60 * 15)
         )
 
         await activity.update(content)
