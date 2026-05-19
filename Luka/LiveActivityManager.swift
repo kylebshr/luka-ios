@@ -39,9 +39,7 @@ final class LiveActivityManager {
     }
 
     func syncState() {
-        let hasActivities = !Activity<ReadingAttributes>.activities.isEmpty
-        if Defaults[.isLiveActivityRunning] != hasActivities {
-            Defaults[.isLiveActivityRunning] = hasActivities
+        if ReadingAttributes.syncIsRunningDefault() {
             ControlCenter.shared.reloadAllControls()
         }
     }
