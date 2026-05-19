@@ -357,12 +357,15 @@ private struct GraphPieceView: View {
 }
 
 private extension ActivityViewContext<ReadingAttributes> {
+    /// Effective stale level. `context.isStale` is the OS-side fallback when no push
+    /// arrives by the activity's staleDate — treat it as offline.
+    var staleLevel: LiveActivityState.StaleLevel {
+        if isStale { return .offline }
+        return state.s ?? .fresh
+    }
+
     var isOffline: Bool {
-        if let reading = state.c {
-            return isStale || reading.isExpired(at: .now, expiration: .init(value: 10, unit: .minutes))
-        } else {
-            return isStale
-        }
+        staleLevel == .offline
     }
 
     var isExpired: Bool {
@@ -370,20 +373,10 @@ private extension ActivityViewContext<ReadingAttributes> {
     }
 
     var timestampColor: Color {
-        if isOffline {
-            return .red
-        }
-
-        if let reading = state.c {
-            if reading.isExpired(at: .now, expiration: .init(value: 10, unit: .minutes)) {
-                return .red
-            } else if reading.isExpired(at: .now, expiration: .init(value: 5, unit: .minutes)) {
-                return .orange
-            } else {
-                return .green
-            }
-        } else {
-            return .red
+        switch staleLevel {
+        case .fresh: .green
+        case .warning: .orange
+        case .stale, .offline: .red
         }
     }
 
