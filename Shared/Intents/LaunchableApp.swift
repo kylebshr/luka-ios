@@ -18,6 +18,8 @@ enum LaunchableApp: String, AppEnum {
             .g7: "Dexcom G7",
             .g6: "Dexcom G6",
             .clarity: "Dexcom Clarity",
+            .sugarmate: "Sugarmate",
+            .omnipod: "Omnipod",
         ]
     }
 
@@ -31,6 +33,10 @@ enum LaunchableApp: String, AppEnum {
             "dexcomg6://"
         case .clarity:
             "claritymobile://"
+        case .sugarmate:
+            "sugarmate://"
+        case .omnipod:
+            "omnipod://"
         }
 
         return URL(string: string)!
@@ -40,4 +46,6 @@ enum LaunchableApp: String, AppEnum {
     case g7
     case g6
     case clarity
+    case sugarmate
+    case omnipod
 }
