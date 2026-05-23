@@ -137,6 +137,7 @@
 				Models/GlucoseReadingsCache.swift,
 				Models/LiveActivityState.swift,
 				Models/MockDexcomClient.swift,
+				Models/ProxyDexcomClient.swift,
 				Models/ReadingAttributes.swift,
 				Models/StartLiveActivityRequest.swift,
 				"Models/Unit+Extensions.swift",
@@ -195,10 +196,12 @@
 				Models/GlucoseReadingsCache.swift,
 				Models/LiveActivityState.swift,
 				Models/MockDexcomClient.swift,
+				Models/ProxyDexcomClient.swift,
 				Models/StartLiveActivityRequest.swift,
 				"Models/Unit+Extensions.swift",
 				"Modifiers/View+Modifiers.swift",
 				Style/CardModifier.swift,
+				Utilities/Backend.swift,
 				"Utilities/Bundle+Extensions.swift",
 				"Utilities/Color+Extensions.swift",
 				Utilities/Constants.swift,
@@ -230,7 +233,6 @@
 				"Modifiers/View+Modifiers.swift",
 				Style/CardModifier.swift,
 				Style/CardTextFieldStyle.swift,
-				Utilities/Backend.swift,
 				"Utilities/Bundle+Extensions.swift",
 				"Utilities/EdgeInsets+Extensions.swift",
 				"Utilities/View+Modifier.swift",
@@ -692,7 +694,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.6.0;
+				MARKETING_VERSION = 2.6.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kylebashour.Glimpse.GlimpseWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -718,7 +720,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.6.0;
+				MARKETING_VERSION = 2.6.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kylebashour.Glimpse.GlimpseWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -744,7 +746,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.6.0;
+				MARKETING_VERSION = 2.6.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kylebashour.Glimpse.watchkitapp;
 				PRODUCT_NAME = Luka;
 				SDKROOT = watchos;
@@ -772,7 +774,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.6.0;
+				MARKETING_VERSION = 2.6.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kylebashour.Glimpse.watchkitapp;
 				PRODUCT_NAME = Luka;
 				SDKROOT = watchos;
@@ -801,7 +803,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 2.6.0;
+				MARKETING_VERSION = 2.6.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kylebashour.Glimpse.watchkitapp.WatchWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -830,7 +832,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 2.6.0;
+				MARKETING_VERSION = 2.6.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kylebashour.Glimpse.watchkitapp.WatchWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -1038,7 +1040,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.6.0;
+				MARKETING_VERSION = 2.6.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kylebashour.Glimpse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1070,7 +1072,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.6.0;
+				MARKETING_VERSION = 2.6.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kylebashour.Glimpse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

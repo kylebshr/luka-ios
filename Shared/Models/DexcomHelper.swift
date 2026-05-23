@@ -5,8 +5,9 @@
 //  Created by Kyle Bashour on 11/12/25.
 //
 
-import Foundation
+import Defaults
 import Dexcom
+import Foundation
 
 enum DexcomHelper {
     static let mockEmail = "demo@pitou.tech"
@@ -28,7 +29,17 @@ enum DexcomHelper {
                 existingSessionID: existingSessionID,
                 accountLocation: accountLocation
             )
-            return CachingDexcomClient(wrapping: client)
+            let caching = CachingDexcomClient(wrapping: client)
+
+            if Defaults[.useReadingsProxy], let username, let password {
+                return ProxyDexcomClient(
+                    wrapping: caching,
+                    username: username,
+                    password: password
+                )
+            }
+
+            return caching
         }
     }
 }
