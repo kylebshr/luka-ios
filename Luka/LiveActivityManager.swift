@@ -68,9 +68,10 @@ final class LiveActivityManager {
         let tokenTask = Task {
             for await token in activity.pushTokenUpdates {
                 let tokenString = token.map { String(format: "%02x", $0) }.joined()
+                let kind: String = activityTokens[activity.id] == nil ? "initial" : "update"
                 activityTokens[activity.id] = tokenString
-                TelemetryDeck.signal("LiveActivity.receivedToken")
-                await sendStartLiveActivity(token: tokenString)
+                TelemetryDeck.signal("LiveActivity.receivedToken", parameters: ["kind": kind])
+                await sendStartLiveActivity(token: tokenString, kind: kind)
             }
         }
 
@@ -81,7 +82,7 @@ final class LiveActivityManager {
         }
     }
 
-    private func sendStartLiveActivity(token: String) async {
+    private func sendStartLiveActivity(token: String, kind: String) async {
         guard let username = Keychain.shared.username,
               let password = Keychain.shared.password,
               let accountLocation = Defaults[.accountLocation],
@@ -114,9 +115,9 @@ final class LiveActivityManager {
         await withBackgroundTask(name: "LiveActivity.sendStartLiveActivity") {
             do {
                 _ = try await URLSession.shared.data(for: request)
-                TelemetryDeck.signal("LiveActivity.sentToken")
+                TelemetryDeck.signal("LiveActivity.sentToken", parameters: ["kind": kind])
             } catch {
-                TelemetryDeck.signal("LiveActivity.failedToSendToken")
+                TelemetryDeck.signal("LiveActivity.failedToSendToken", parameters: ["kind": kind])
             }
         }
     }
