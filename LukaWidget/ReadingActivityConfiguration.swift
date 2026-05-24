@@ -177,6 +177,7 @@ private struct MainContentView: View {
 
     @Environment(\.activityFamily) private var family
     @Default(.showChartLiveActivity) private var _showChartLiveActivity
+    @Default(.debugInfo) private var debugInfo
 
     var showChartLiveActivity: Bool {
         _showChartLiveActivity && !context.isOffline
@@ -243,12 +244,18 @@ private struct MainContentView: View {
                     .contentTransition(.numericText())
                 }
                 .padding([.horizontal, .top])
-                .padding(showChartLiveActivity ? [] : .bottom)
+                .padding((showChartLiveActivity || debugInfo) ? [] : .bottom)
 
                 if showChartLiveActivity {
                     GraphPieceView(context: context)
                         .padding(.top, 10)
-                        .padding(.bottom)
+                        .padding(debugInfo ? [] : .bottom)
+                }
+
+                if debugInfo {
+                    DebugInfoGrid(context: context)
+                        .padding(.top, 10)
+                        .padding([.horizontal, .bottom])
                 }
             }
         }
@@ -434,6 +441,47 @@ private struct MinuteTimerView: View {
             }
         }
         .foregroundStyle(context.timestampColor)
+    }
+}
+
+private struct DebugInfoGrid: View {
+    var context: ActivityViewContext<ReadingAttributes>
+
+    var body: some View {
+        Grid(alignment: .leading, horizontalSpacing: .spacing6, verticalSpacing: .spacing3) {
+            GridRow {
+                LabeledValue(label: "Session", value: context.state.sd?.formatted())
+                LabeledValue(label: "Token", value: context.state.td?.formatted())
+            }
+            GridRow {
+                LabeledValue(label: "Push", value: context.state.pd?.formatted())
+                LabeledValue(label: "Now", value: Date.now.formatted())
+            }
+            GridRow {
+                LabeledValue(label: "Tokens", value: context.state.tc.map { "\($0)" })
+                Color.clear.gridCellUnsizedAxes([.horizontal, .vertical])
+            }
+        }
+        .font(.footnote.bold())
+        .foregroundStyle(.secondary)
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+private struct LabeledValue: View {
+    var label: LocalizedStringKey
+    var value: String?
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text(label)
+                .textCase(.uppercase)
+                .foregroundStyle(.tertiary)
+            Text(verbatim: value ?? "—")
+        }
+        .lineLimit(1)
+        .minimumScaleFactor(0.6)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
