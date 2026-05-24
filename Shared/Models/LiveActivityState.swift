@@ -31,6 +31,14 @@ struct LiveActivityState: Codable, Hashable {
     var se: Bool?
     /// staleLevel
     var s: StaleLevel?
+    /// sessionStartDate — when the live activity session first started
+    var sd: Date?
+    /// tokenStartDate — when this push token was added to the session
+    var td: Date?
+    /// tokenCount — number of tokens currently receiving pushes for this session
+    var tc: Int?
+    /// pushDate — when this push was sent
+    var pd: Date?
 
     /// Creates a LiveActivityState from readings, filtering history to the specified range
     init(readings: [GlucoseReading], range: GraphRange) {
@@ -43,10 +51,23 @@ struct LiveActivityState: Codable, Hashable {
     }
 
     /// Memberwise initializer for backwards compatibility
-    init(c: GlucoseReading?, h: [Reading], se: Bool? = nil, s: StaleLevel? = nil) {
+    init(
+        c: GlucoseReading?,
+        h: [Reading],
+        se: Bool? = nil,
+        s: StaleLevel? = nil,
+        sd: Date? = nil,
+        td: Date? = nil,
+        tc: Int? = nil,
+        pd: Date? = nil
+    ) {
         self.c = c
         self.h = h
         self.se = se
         self.s = s
+        self.sd = sd
+        self.td = td
+        self.tc = tc
+        self.pd = pd
     }
 }

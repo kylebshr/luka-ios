@@ -23,6 +23,7 @@ struct SettingsView: View {
     @Default(.unit) private var unit
     @Default(.sessionHistory) private var sessionHistory
     @Default(.useReadingsProxy) private var useReadingsProxy
+    @Default(.debugInfo) private var debugInfo
 
     private var username: String? {
         Keychain.shared.username
@@ -75,6 +76,9 @@ struct SettingsView: View {
                     }
                     .pickerStyle(.menu)
                 }
+
+                Toggle("Debug info", isOn: $debugInfo)
+                    .tint(.accent)
             }
 
             Section {
