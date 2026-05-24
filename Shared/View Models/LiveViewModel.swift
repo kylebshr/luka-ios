@@ -5,9 +5,6 @@
 //  Created by Kyle Bashour on 5/2/24.
 //
 
-#if canImport(ActivityKit)
-import ActivityKit
-#endif
 import Defaults
 import Dexcom
 import Foundation
@@ -87,7 +84,6 @@ import KeychainAccess
                         .sorted { $0.date < $1.date }
                     if let latest = readings.last {
                         state = .loaded(readings, latest: latest)
-                        await updateLiveActivityIfActive()
                     } else {
                         state = .noRecentReading
                     }
@@ -158,27 +154,5 @@ import KeychainAccess
                 return "Updating"
             }
         }
-    }
-
-    func updateLiveActivityIfActive() async {
-        #if canImport(ActivityKit)
-        guard case .loaded(let readings, let latest) = state, !latest.isExpired(at: .now, expiration: .init(value: 5, unit: .minutes)) else {
-            return
-        }
-
-        guard let activity = Activity<ReadingAttributes>.activities.first else { return }
-
-        // Only update if the activity is not stale (stale means it's offline/disconnected from server)
-        guard activity.activityState == .active else { return }
-
-        let newState = LiveActivityState(readings: readings, range: activity.attributes.range)
-
-        let content = ActivityContent(
-            state: newState,
-            staleDate: Date.now.addingTimeInterval(60 * 15)
-        )
-
-        await activity.update(content)
-        #endif
     }
 }
