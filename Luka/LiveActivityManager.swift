@@ -11,6 +11,7 @@ import Dexcom
 import Foundation
 import KeychainAccess
 import TelemetryDeck
+import UIKit
 import WidgetKit
 
 @MainActor
@@ -68,6 +69,7 @@ final class LiveActivityManager {
             for await token in activity.pushTokenUpdates {
                 let tokenString = token.map { String(format: "%02x", $0) }.joined()
                 activityTokens[activity.id] = tokenString
+                TelemetryDeck.signal("LiveActivity.receivedToken")
                 await sendStartLiveActivity(token: tokenString)
             }
         }
@@ -109,11 +111,13 @@ final class LiveActivityManager {
         request.httpBody = try! encoder.encode(payload)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
-        do {
-            _ = try await URLSession.shared.data(for: request)
-            TelemetryDeck.signal("LiveActivity.sentToken")
-        } catch {
-            TelemetryDeck.signal("LiveActivity.failedToSendToken")
+        await withBackgroundTask(name: "LiveActivity.sendStartLiveActivity") {
+            do {
+                _ = try await URLSession.shared.data(for: request)
+                TelemetryDeck.signal("LiveActivity.sentToken")
+            } catch {
+                TelemetryDeck.signal("LiveActivity.failedToSendToken")
+            }
         }
     }
 
@@ -137,11 +141,21 @@ final class LiveActivityManager {
         request.httpBody = try! encoder.encode(payload)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
-        do {
-            _ = try await URLSession.shared.data(for: request)
-            TelemetryDeck.signal("LiveActivity.sentEnd")
-        } catch {
-            TelemetryDeck.signal("LiveActivity.failedToSendEnd")
+        await withBackgroundTask(name: "LiveActivity.sendEndLiveActivity") {
+            do {
+                _ = try await URLSession.shared.data(for: request)
+                TelemetryDeck.signal("LiveActivity.sentEnd")
+            } catch {
+                TelemetryDeck.signal("LiveActivity.failedToSendEnd")
+            }
+        }
+    }
+
+    private func withBackgroundTask(name: String, _ work: () async -> Void) async {
+        let taskID = UIApplication.shared.beginBackgroundTask(withName: name)
+        await work()
+        if taskID != .invalid {
+            UIApplication.shared.endBackgroundTask(taskID)
         }
     }
 }
