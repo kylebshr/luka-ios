@@ -11,6 +11,7 @@ import Dexcom
 import Foundation
 import KeychainAccess
 import TelemetryDeck
+import UIKit
 import WidgetKit
 
 @MainActor
@@ -67,8 +68,10 @@ final class LiveActivityManager {
         let tokenTask = Task {
             for await token in activity.pushTokenUpdates {
                 let tokenString = token.map { String(format: "%02x", $0) }.joined()
+                let kind: String = activityTokens[activity.id] == nil ? "initial" : "update"
                 activityTokens[activity.id] = tokenString
-                await sendStartLiveActivity(token: tokenString)
+                TelemetryDeck.signal("LiveActivity.receivedToken", parameters: ["kind": kind])
+                await sendStartLiveActivity(token: tokenString, kind: kind)
             }
         }
 
@@ -79,7 +82,7 @@ final class LiveActivityManager {
         }
     }
 
-    private func sendStartLiveActivity(token: String) async {
+    private func sendStartLiveActivity(token: String, kind: String) async {
         guard let username = Keychain.shared.username,
               let password = Keychain.shared.password,
               let accountLocation = Defaults[.accountLocation],
@@ -109,11 +112,13 @@ final class LiveActivityManager {
         request.httpBody = try! encoder.encode(payload)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
-        do {
-            _ = try await URLSession.shared.data(for: request)
-            TelemetryDeck.signal("LiveActivity.sentToken")
-        } catch {
-            TelemetryDeck.signal("LiveActivity.failedToSendToken")
+        await withBackgroundTask(name: "LiveActivity.sendStartLiveActivity") {
+            do {
+                _ = try await URLSession.shared.data(for: request)
+                TelemetryDeck.signal("LiveActivity.sentToken", parameters: ["kind": kind])
+            } catch {
+                TelemetryDeck.signal("LiveActivity.failedToSendToken", parameters: ["kind": kind])
+            }
         }
     }
 
@@ -137,11 +142,21 @@ final class LiveActivityManager {
         request.httpBody = try! encoder.encode(payload)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
-        do {
-            _ = try await URLSession.shared.data(for: request)
-            TelemetryDeck.signal("LiveActivity.sentEnd")
-        } catch {
-            TelemetryDeck.signal("LiveActivity.failedToSendEnd")
+        await withBackgroundTask(name: "LiveActivity.sendEndLiveActivity") {
+            do {
+                _ = try await URLSession.shared.data(for: request)
+                TelemetryDeck.signal("LiveActivity.sentEnd")
+            } catch {
+                TelemetryDeck.signal("LiveActivity.failedToSendEnd")
+            }
+        }
+    }
+
+    private func withBackgroundTask(name: String, _ work: () async -> Void) async {
+        let taskID = UIApplication.shared.beginBackgroundTask(withName: name)
+        await work()
+        if taskID != .invalid {
+            UIApplication.shared.endBackgroundTask(taskID)
         }
     }
 }
