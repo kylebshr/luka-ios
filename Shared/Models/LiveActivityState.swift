@@ -39,6 +39,8 @@ struct LiveActivityState: Codable, Hashable {
     var tc: Int?
     /// pushDate — when this push was sent
     var pd: Date?
+    /// reason — short human-readable reason for non-reading pushes
+    var r: String?
 
     /// Creates a LiveActivityState from readings, filtering history to the specified range
     init(readings: [GlucoseReading], range: GraphRange) {
@@ -59,7 +61,8 @@ struct LiveActivityState: Codable, Hashable {
         sd: Date? = nil,
         td: Date? = nil,
         tc: Int? = nil,
-        pd: Date? = nil
+        pd: Date? = nil,
+        r: String? = nil
     ) {
         self.c = c
         self.h = h
@@ -69,5 +72,6 @@ struct LiveActivityState: Codable, Hashable {
         self.td = td
         self.tc = tc
         self.pd = pd
+        self.r = r
     }
 }

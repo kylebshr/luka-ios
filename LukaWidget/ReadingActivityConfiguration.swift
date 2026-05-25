@@ -245,6 +245,10 @@ private struct MainContentView: View {
                                 Text("Last \(context.attributes.range.abbreviatedName)", comment: "Live Activity label showing graph range")
                             }
                         }
+
+                        if debugInfo, let reason = context.state.r {
+                            Text(verbatim: reason)
+                        }
                     }
                     .font(.caption2.bold())
                     .foregroundStyle(.secondary)

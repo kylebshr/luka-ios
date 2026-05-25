@@ -107,7 +107,8 @@ struct SettingsView: View {
                 NavigationLink {
                     ExperimentalView()
                 } label: {
-                    SettingsRow("Experimental", systemImage: "flask")
+                    Text("Experimental")
+                        .foregroundStyle(.tint)
                 }
             }
             .fontWeight(.medium)

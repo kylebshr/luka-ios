@@ -14,22 +14,19 @@ final class ProxyDexcomClient: DexcomClientService, @unchecked Sendable {
     private let underlying: DexcomClientService
     private let username: String
     private let password: String
-    private let baseURL: URL
-    private let session: URLSession
+    private let client: HTTPClient
     private let decoder: JSONDecoder
 
     init(
         wrapping underlying: DexcomClientService,
         username: String,
         password: String,
-        baseURL: URL = Backend.current.baseURL,
-        session: URLSession = .shared
+        client: HTTPClient = HTTPClient()
     ) {
         self.underlying = underlying
         self.username = username
         self.password = password
-        self.baseURL = baseURL
-        self.session = session
+        self.client = client
 
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
@@ -78,24 +75,14 @@ final class ProxyDexcomClient: DexcomClientService, @unchecked Sendable {
     }
 
     private func fetchFromProxy(minutes: Int, maxCount: Int) async throws -> [GlucoseReading] {
-        var components = URLComponents(
-            url: baseURL.appendingPathComponent("glucose-readings"),
-            resolvingAgainstBaseURL: false
-        )!
-        components.queryItems = [
+        var request = client.makeRequest("glucose-readings", query: [
             URLQueryItem(name: "minutes", value: String(minutes)),
             URLQueryItem(name: "maxCount", value: String(maxCount)),
-        ]
-
-        var request = URLRequest(url: components.url!)
+        ])
         let token = Data("\(username):\(password)".utf8).base64EncodedString()
         request.setValue("Basic \(token)", forHTTPHeaderField: "Authorization")
 
-        let (data, response) = try await session.data(for: request)
-
-        guard let http = response as? HTTPURLResponse else {
-            throw ProxyError.invalidResponse(-1)
-        }
+        let (data, http) = try await client.send(request)
 
         if http.statusCode == 404 {
             throw ProxyError.notFound
