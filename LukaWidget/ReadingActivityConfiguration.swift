@@ -262,7 +262,7 @@ private struct MainContentView: View {
     }
 
     func mediumExpiredView() -> some View {
-        MediumExpiredView()
+        MediumExpiredView(context: context)
     }
 
     func smallExpiredView() -> some View {
@@ -291,30 +291,42 @@ private struct MainContentView: View {
 }
 
 private struct MediumExpiredView: View {
+    var context: ActivityViewContext<ReadingAttributes>
+
+    @Default(.debugInfo) private var debugInfo
+
     var body: some View {
-        HStack {
-            Text("Live Activity ended")
+        VStack(spacing: 0) {
+            HStack {
+                Text("Live Activity ended")
 
-            Spacer()
+                Spacer()
 
-            Button(intent: EndLiveActivityIntent()) {
-                Image(systemName: "xmark")
-                    .font(.system(size: 24))
-                    .padding(2)
+                Button(intent: EndLiveActivityIntent()) {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 24))
+                        .padding(2)
+                }
+                .tint(.primary)
+
+                Button(intent: StartLiveActivityIntent(source: "LiveActivity")) {
+                    Image(systemName: "arrow.clockwise")
+                        .font(.system(size: 24))
+                        .padding(2)
+                }
+                .tint(.green)
             }
-            .tint(.primary)
+            .fixedSize(horizontal: false, vertical: true)
+            .buttonBorderShape(.circle)
+            .fontWeight(.medium)
+            .padding([.horizontal, .top])
+            .padding(debugInfo ? [] : .bottom)
 
-            Button(intent: StartLiveActivityIntent(source: "LiveActivity")) {
-                Image(systemName: "arrow.clockwise")
-                    .font(.system(size: 24))
-                    .padding(2)
+            if debugInfo {
+                DebugInfoList(context: context)
+                    .padding([.horizontal, .bottom])
             }
-            .tint(.green)
         }
-        .fixedSize(horizontal: false, vertical: true)
-        .buttonBorderShape(.circle)
-        .fontWeight(.medium)
-        .padding()
     }
 }
 
