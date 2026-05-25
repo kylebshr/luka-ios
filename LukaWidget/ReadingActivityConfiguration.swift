@@ -216,8 +216,8 @@ private struct MainContentView: View {
             .overlay {
                 ContainerRelativeShape()
                     .strokeBorder(
-                        context.state.c?.color(target: targetLower...targetUpper) ?? .clear,
-                        lineWidth: 1
+                        (context.state.c?.color(target: targetLower...targetUpper) ?? .clear).opacity(0.5),
+                        lineWidth: 2
                     )
             }
         }
