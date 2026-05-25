@@ -176,6 +176,8 @@ private struct MainContentView: View {
     var context: ActivityViewContext<ReadingAttributes>
 
     @Environment(\.activityFamily) private var family
+    @Default(.targetRangeLowerBound) private var targetLower
+    @Default(.targetRangeUpperBound) private var targetUpper
     @Default(.showChartLiveActivity) private var _showChartLiveActivity
     @Default(.debugInfo) private var debugInfo
 
@@ -211,6 +213,13 @@ private struct MainContentView: View {
                     .layoutPriority(10)
             }
             .padding(10)
+            .overlay {
+                ContainerRelativeShape()
+                    .strokeBorder(
+                        context.state.c?.color(target: targetLower...targetUpper) ?? .clear,
+                        lineWidth: 2
+                    )
+            }
         }
     }
 
