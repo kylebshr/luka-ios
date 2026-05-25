@@ -12,3 +12,7 @@ struct EndLiveActivityRequest: Codable {
     var pushToken: String
     var username: String
 }
+
+struct EndLiveActivitiesRequest: Codable {
+    var username: String
+}
