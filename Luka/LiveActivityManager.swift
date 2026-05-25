@@ -133,12 +133,9 @@ final class LiveActivityManager {
 
         let payload = EndLiveActivitiesRequest(username: username)
 
-        let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .useDefaultKeys
-
         var request = URLRequest(url: Backend.current.url(for: "end-live-activities"))
         request.httpMethod = "POST"
-        request.httpBody = try! encoder.encode(payload)
+        request.httpBody = try! JSONEncoder().encode(payload)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         await withBackgroundTask(name: "LiveActivity.sendEndAllLiveActivities") {
