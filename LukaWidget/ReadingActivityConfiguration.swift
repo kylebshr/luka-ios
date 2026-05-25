@@ -213,12 +213,10 @@ private struct MainContentView: View {
                     .layoutPriority(10)
             }
             .padding(10)
-            .overlay {
-                ContainerRelativeShape()
-                    .strokeBorder(
-                        (context.state.c?.color(target: targetLower...targetUpper) ?? .clear).opacity(0.5),
-                        lineWidth: 2
-                    )
+            .containerBackground(for: .widget) {
+                (context.state.c?.color(target: targetLower...targetUpper) ?? .clear)
+                    .opacity(0.3)
+                    .gradient
             }
         }
     }
