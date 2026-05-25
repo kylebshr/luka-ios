@@ -213,12 +213,14 @@ private struct MainContentView: View {
                     .layoutPriority(10)
             }
             .padding(10)
-            .containerBackground(
-                (context.state.c?.color(target: targetLower...targetUpper) ?? .clear)
-                    .opacity(0.3)
-                    .gradient,
-                for: .widget
-            )
+            .background {
+                ContainerRelativeShape()
+                    .fill(
+                        (context.state.c?.color(target: targetLower...targetUpper) ?? .clear)
+                            .opacity(0.3)
+                            .gradient
+                    )
+            }
         }
     }
 
