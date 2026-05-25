@@ -18,6 +18,8 @@ import WidgetKit
 final class LiveActivityManager {
     static let shared = LiveActivityManager()
 
+    private let client = HTTPClient()
+
     private var observationTasks: [String: Task<Void, Never>] = [:]
     private var activityTokens: [String: String] = [:]
     private var activityUpdatesTask: Task<Void, Never>?
@@ -104,17 +106,10 @@ final class LiveActivityManager {
             )
         )
 
-        let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .useDefaultKeys
-
-        var request = URLRequest(url: Backend.current.url(for: "start-live-activity"))
-        request.httpMethod = "POST"
-        request.httpBody = try! encoder.encode(payload)
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        await withBackgroundTask(name: "LiveActivity.sendStartLiveActivity") {
+        await client.withBackgroundTask(name: "LiveActivity.sendStartLiveActivity") {
             do {
-                _ = try await URLSession.shared.data(for: request)
+                let request = try client.makePostRequest("start-live-activity", body: payload)
+                try await client.send(request)
                 TelemetryDeck.signal("LiveActivity.sentToken", parameters: ["kind": kind])
             } catch {
                 TelemetryDeck.signal("LiveActivity.failedToSendToken", parameters: ["kind": kind])
@@ -133,14 +128,10 @@ final class LiveActivityManager {
 
         let payload = EndLiveActivitiesRequest(username: username)
 
-        var request = URLRequest(url: Backend.current.url(for: "end-live-activities"))
-        request.httpMethod = "POST"
-        request.httpBody = try! JSONEncoder().encode(payload)
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        await withBackgroundTask(name: "LiveActivity.sendEndAllLiveActivities") {
+        await client.withBackgroundTask(name: "LiveActivity.sendEndAllLiveActivities") {
             do {
-                _ = try await URLSession.shared.data(for: request)
+                let request = try client.makePostRequest("end-live-activities", body: payload)
+                try await client.send(request)
                 TelemetryDeck.signal("LiveActivity.sentEndAll")
             } catch {
                 TelemetryDeck.signal("LiveActivity.failedToSendEndAll")
@@ -154,29 +145,14 @@ final class LiveActivityManager {
 
         let payload = EndLiveActivityRequest(pushToken: pushToken, username: username)
 
-        let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .useDefaultKeys
-
-        var request = URLRequest(url: Backend.current.url(for: "end-live-activity"))
-        request.httpMethod = "POST"
-        request.httpBody = try! encoder.encode(payload)
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        await withBackgroundTask(name: "LiveActivity.sendEndLiveActivity") {
+        await client.withBackgroundTask(name: "LiveActivity.sendEndLiveActivity") {
             do {
-                _ = try await URLSession.shared.data(for: request)
+                let request = try client.makePostRequest("end-live-activity", body: payload)
+                try await client.send(request)
                 TelemetryDeck.signal("LiveActivity.sentEnd")
             } catch {
                 TelemetryDeck.signal("LiveActivity.failedToSendEnd")
             }
-        }
-    }
-
-    private func withBackgroundTask(name: String, _ work: () async -> Void) async {
-        let taskID = UIApplication.shared.beginBackgroundTask(withName: name)
-        await work()
-        if taskID != .invalid {
-            UIApplication.shared.endBackgroundTask(taskID)
         }
     }
 }
