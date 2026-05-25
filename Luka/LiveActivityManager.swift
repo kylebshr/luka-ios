@@ -128,6 +128,26 @@ final class LiveActivityManager {
         }
     }
 
+    func endAllLiveActivitiesOnServer() async {
+        guard let username = Keychain.shared.username else { return }
+
+        let payload = EndLiveActivitiesRequest(username: username)
+
+        var request = URLRequest(url: Backend.current.url(for: "end-live-activities"))
+        request.httpMethod = "POST"
+        request.httpBody = try! JSONEncoder().encode(payload)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        await withBackgroundTask(name: "LiveActivity.sendEndAllLiveActivities") {
+            do {
+                _ = try await URLSession.shared.data(for: request)
+                TelemetryDeck.signal("LiveActivity.sentEndAll")
+            } catch {
+                TelemetryDeck.signal("LiveActivity.failedToSendEndAll")
+            }
+        }
+    }
+
     private func sendEndLiveActivity(activityID: String) async {
         guard let username = Keychain.shared.username,
               let pushToken = activityTokens[activityID] else { return }

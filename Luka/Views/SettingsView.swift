@@ -23,7 +23,6 @@ struct SettingsView: View {
     @Default(.unit) private var unit
     @Default(.sessionHistory) private var sessionHistory
     @Default(.useReadingsProxy) private var useReadingsProxy
-    @Default(.debugInfo) private var debugInfo
 
     private var username: String? {
         Keychain.shared.username
@@ -76,9 +75,6 @@ struct SettingsView: View {
                     }
                     .pickerStyle(.menu)
                 }
-
-                Toggle("Debug info", isOn: $debugInfo)
-                    .tint(.accent)
             }
 
             Section {
@@ -107,18 +103,14 @@ struct SettingsView: View {
             }
             .fontWeight(.medium)
 
-            if Bundle.main.isSandboxReceipt {
-                Section("TestFlight") {
-                    Button {
-                        Task {
-                            await LiveActivityManager.shared.endLiveActivityOnServer()
-                        }
-                    } label: {
-                        SettingsRow("End Live Activity on server", systemImage: "antenna.radiowaves.left.and.right.slash")
-                    }
+            Section {
+                NavigationLink {
+                    ExperimentalView()
+                } label: {
+                    SettingsRow("Experimental", systemImage: "flask")
                 }
-                .fontWeight(.medium)
             }
+            .fontWeight(.medium)
 
             Section {
                 Button {
@@ -159,27 +151,6 @@ struct SettingsView: View {
             }
         }
         .fontDesign(.rounded)
-    }
-}
-
-private struct SettingsRow: View {
-    @ScaledMetric private var iconFrameWidth: CGFloat = 24
-
-    var title: LocalizedStringKey
-    var systemImage: String
-
-    init(_ title: LocalizedStringKey, systemImage: String) {
-        self.title = title
-        self.systemImage = systemImage
-    }
-
-    var body: some View {
-        HStack {
-            Text(title)
-            Spacer()
-            Image(systemName: systemImage)
-                .frame(width: iconFrameWidth, alignment: .center)
-        }
     }
 }
 
