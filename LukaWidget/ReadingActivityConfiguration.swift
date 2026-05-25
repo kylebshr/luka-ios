@@ -180,7 +180,7 @@ private struct MainContentView: View {
     @Default(.debugInfo) private var debugInfo
 
     var showChartLiveActivity: Bool {
-        _showChartLiveActivity && !context.isOffline
+        _showChartLiveActivity && !context.isOffline && !debugInfo
     }
 
     var body: some View {
@@ -249,11 +249,11 @@ private struct MainContentView: View {
                 if showChartLiveActivity {
                     GraphPieceView(context: context)
                         .padding(.top, 10)
-                        .padding(debugInfo ? [] : .bottom)
+                        .padding(.bottom)
                 }
 
                 if debugInfo {
-                    DebugInfoGrid(context: context)
+                    DebugInfoList(context: context)
                         .padding(.top, 10)
                         .padding([.horizontal, .bottom])
                 }
@@ -262,7 +262,7 @@ private struct MainContentView: View {
     }
 
     func mediumExpiredView() -> some View {
-        MediumExpiredView()
+        MediumExpiredView(context: context)
     }
 
     func smallExpiredView() -> some View {
@@ -291,30 +291,42 @@ private struct MainContentView: View {
 }
 
 private struct MediumExpiredView: View {
+    var context: ActivityViewContext<ReadingAttributes>
+
+    @Default(.debugInfo) private var debugInfo
+
     var body: some View {
-        HStack {
-            Text("Live Activity ended")
+        VStack(spacing: 0) {
+            HStack {
+                Text("Live Activity ended")
 
-            Spacer()
+                Spacer()
 
-            Button(intent: EndLiveActivityIntent()) {
-                Image(systemName: "xmark")
-                    .font(.system(size: 24))
-                    .padding(2)
+                Button(intent: EndLiveActivityIntent()) {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 24))
+                        .padding(2)
+                }
+                .tint(.primary)
+
+                Button(intent: StartLiveActivityIntent(source: "LiveActivity")) {
+                    Image(systemName: "arrow.clockwise")
+                        .font(.system(size: 24))
+                        .padding(2)
+                }
+                .tint(.green)
             }
-            .tint(.primary)
+            .fixedSize(horizontal: false, vertical: true)
+            .buttonBorderShape(.circle)
+            .fontWeight(.medium)
+            .padding([.horizontal, .top])
+            .padding(debugInfo ? [] : .bottom)
 
-            Button(intent: StartLiveActivityIntent(source: "LiveActivity")) {
-                Image(systemName: "arrow.clockwise")
-                    .font(.system(size: 24))
-                    .padding(2)
+            if debugInfo {
+                DebugInfoList(context: context)
+                    .padding([.horizontal, .bottom])
             }
-            .tint(.green)
         }
-        .fixedSize(horizontal: false, vertical: true)
-        .buttonBorderShape(.circle)
-        .fontWeight(.medium)
-        .padding()
     }
 }
 
@@ -444,44 +456,35 @@ private struct MinuteTimerView: View {
     }
 }
 
-private struct DebugInfoGrid: View {
+private struct DebugInfoList: View {
     var context: ActivityViewContext<ReadingAttributes>
 
     var body: some View {
-        Grid(alignment: .leading, horizontalSpacing: .spacing6, verticalSpacing: .spacing3) {
-            GridRow {
-                LabeledValue(label: "Session", value: context.state.sd?.formatted())
-                LabeledValue(label: "Token", value: context.state.td?.formatted())
-            }
-            GridRow {
-                LabeledValue(label: "Push", value: context.state.pd?.formatted())
-                LabeledValue(label: "Now", value: Date.now.formatted())
-            }
-            GridRow {
-                LabeledValue(label: "Tokens", value: context.state.tc.map { "\($0)" })
-                Color.clear.gridCellUnsizedAxes([.horizontal, .vertical])
-            }
+        VStack(spacing: .spacing3) {
+            DebugRow(label: "Session start", value: context.state.sd?.formatted())
+            DebugRow(label: "Token start", value: context.state.td?.formatted())
+            DebugRow(label: "Push date", value: context.state.pd?.formatted())
+            DebugRow(label: "Local date", value: Date.now.formatted())
+            DebugRow(label: "Tokens", value: context.state.tc.map { "\($0)" })
         }
-        .font(.footnote.bold())
-        .foregroundStyle(.secondary)
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .font(.subheadline.bold())
     }
 }
 
-private struct LabeledValue: View {
+private struct DebugRow: View {
     var label: LocalizedStringKey
     var value: String?
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        HStack {
             Text(label)
-                .textCase(.uppercase)
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(.secondary)
+            Spacer(minLength: .spacing4)
             Text(verbatim: value ?? "—")
+                .foregroundStyle(.primary)
         }
         .lineLimit(1)
-        .minimumScaleFactor(0.6)
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .minimumScaleFactor(0.7)
     }
 }
 
