@@ -217,7 +217,7 @@ private struct MainContentView: View {
                 ContainerRelativeShape()
                     .strokeBorder(
                         context.state.c?.color(target: targetLower...targetUpper) ?? .clear,
-                        lineWidth: 2
+                        lineWidth: 1
                     )
             }
         }
