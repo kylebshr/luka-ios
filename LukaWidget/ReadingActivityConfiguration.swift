@@ -198,11 +198,11 @@ private struct MainContentView: View {
             smallExpiredView()
         } else {
             ZStack {
-                if let color = context.state.c?.color(target: targetLower...targetUpper) {
-                    Rectangle().fill(
-                        color.gradient.opacity(0.25)
-                    )
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                if !context.isOffline, let color = context.state.c?.vividColor(target: targetLower...targetUpper) {
+                    Rectangle()
+                        .fill(color.gradient)
+                        .brightness(-0.7)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
 
                 HStack(spacing: 0) {
@@ -553,4 +553,17 @@ private struct DebugRow: View {
     LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-10 * 61)), h: .placeholder)
     LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-5 * 61)), h: .placeholder)
     LiveActivityState(c: nil, h: [], se: true)
+}
+
+private extension GlucoseReading {
+    /// Pure red/green/yellow for use as a tinted background — the global
+    /// low/inRange/high colors mix in pink/mint/orange which wash out at low
+    /// opacity over a dark background.
+    func vividColor(target: ClosedRange<Double>) -> Color {
+        switch Double(value) {
+        case ..<target.lowerBound: .red
+        case ...target.upperBound: .green
+        default: .yellow
+        }
+    }
 }
