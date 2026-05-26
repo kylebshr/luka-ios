@@ -245,11 +245,11 @@ private struct MainContentView: View {
 
                         if let reason = context.state.r {
                             Text(verbatim: reason)
-                        }
-
-                        if showChartLiveActivity {
-                            if context.state.c != nil, !context.isOffline {
-                                Text("Last \(context.attributes.range.abbreviatedName)", comment: "Live Activity label showing graph range")
+                        } else {
+                            if showChartLiveActivity {
+                                if context.state.c != nil, !context.isOffline {
+                                    Text("Last \(context.attributes.range.abbreviatedName)", comment: "Live Activity label showing graph range")
+                                }
                             }
                         }
                     }
