@@ -49,7 +49,7 @@ struct ExperimentalView: View {
             }
         }
         .listStyle(.insetGrouped)
-        .navigationTitle("Experimental")
+        .navigationTitle("Advanced")
         .fontDesign(.rounded)
         .alert("Ended", isPresented: $showCompleteAlert) {
             Button("OK") {}
