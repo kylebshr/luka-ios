@@ -834,6 +834,9 @@
         }
       }
     },
+    "End all Live Activities" : {
+
+    },
     "End Live Activity" : {
       "localizations" : {
         "de" : {
@@ -974,6 +977,12 @@
           }
         }
       }
+    },
+    "Experimental" : {
+
+    },
+    "Fetch glucose readings from the Luka server when a Live Activity is running. Falls back to Dexcom if no cached readings are available." : {
+
     },
     "Glucose" : {
       "localizations" : {
@@ -1850,6 +1859,9 @@
         }
       }
     },
+    "Local date" : {
+
+    },
     "Lower target range" : {
       "localizations" : {
         "de" : {
@@ -2506,6 +2518,9 @@
         }
       }
     },
+    "Omnipod" : {
+
+    },
     "On" : {
       "localizations" : {
         "de" : {
@@ -2643,6 +2658,9 @@
           }
         }
       }
+    },
+    "Push date" : {
+
     },
     "Reading Graph" : {
       "localizations" : {
@@ -2966,6 +2984,9 @@
         }
       }
     },
+    "Session start" : {
+
+    },
     "Settings" : {
       "localizations" : {
         "de" : {
@@ -3057,6 +3078,9 @@
           }
         }
       }
+    },
+    "Show debug info" : {
+
     },
     "Show graph in Live Activity" : {
       "localizations" : {
@@ -3565,6 +3589,9 @@
         }
       }
     },
+    "Sugarmate" : {
+
+    },
     "Tap Action" : {
       "localizations" : {
         "de" : {
@@ -3610,9 +3637,6 @@
           }
         }
       }
-    },
-    "TestFlight" : {
-
     },
     "This version of Luka is no longer supported. Please update to continue." : {
       "localizations" : {
@@ -3843,6 +3867,12 @@
           }
         }
       }
+    },
+    "Token start" : {
+
+    },
+    "Tokens" : {
+
     },
     "Try again in a few minutes" : {
       "localizations" : {
@@ -4165,6 +4195,9 @@
           }
         }
       }
+    },
+    "Use Luka server for readings" : {
+
     },
     "Username" : {
       "localizations" : {
