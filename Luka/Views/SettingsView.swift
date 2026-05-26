@@ -22,7 +22,6 @@ struct SettingsView: View {
     @Default(.liveActivityGraphStyle) private var liveActivityGraphStyle
     @Default(.unit) private var unit
     @Default(.sessionHistory) private var sessionHistory
-    @Default(.useReadingsProxy) private var useReadingsProxy
 
     private var username: String? {
         Keychain.shared.username
@@ -75,13 +74,6 @@ struct SettingsView: View {
                     }
                     .pickerStyle(.menu)
                 }
-            }
-
-            Section {
-                Toggle("Use server for readings", isOn: $useReadingsProxy)
-                    .tint(.accent)
-            } footer: {
-                Text("Fetch glucose readings from the Luka server when a Live Activity is running. Falls back to Dexcom if no cached readings are available.")
             }
 
             Section {

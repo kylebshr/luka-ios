@@ -197,28 +197,31 @@ private struct MainContentView: View {
         if context.isExpired == true {
             smallExpiredView()
         } else {
-            HStack(spacing: 0) {
-                ReadingView(reading: context.state.c)
-                    .font(.title.weight(.regular))
-                    .layoutPriority(100)
-                    .opacity(context.isOffline ? 0.5 : 1)
+            ZStack {
+                if let color = context.state.c?.color(target: targetLower...targetUpper) {
+                    Rectangle().fill(
+                        color.gradient.opacity(0.25)
+                    )
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
 
-                Spacer(minLength: 0)
+                HStack(spacing: 0) {
+                    ReadingView(reading: context.state.c)
+                        .font(.title.weight(.regular))
+                        .layoutPriority(100)
+                        .opacity(context.isOffline ? 0.5 : 1)
 
-                MinuteTimerView(context: context, relative: false)
-                    .lineLimit(1)
-                    .font(.footnote.bold())
-                    .multilineTextAlignment(.trailing)
-                    .minimumScaleFactor(0.5)
-                    .layoutPriority(10)
+                    Spacer(minLength: 0)
+
+                    MinuteTimerView(context: context, relative: false)
+                        .lineLimit(1)
+                        .font(.footnote.bold())
+                        .multilineTextAlignment(.trailing)
+                        .minimumScaleFactor(0.5)
+                        .layoutPriority(10)
+                }
+                .padding(10)
             }
-            .padding(10)
-            .containerBackground(
-                (context.state.c?.color(target: targetLower...targetUpper) ?? .clear)
-                    .opacity(0.3)
-                    .gradient,
-                for: .widget
-            )
         }
     }
 
@@ -240,14 +243,14 @@ private struct MainContentView: View {
                             .font(.footnote.bold())
                             .foregroundStyle(context.timestampColor)
 
+                        if let reason = context.state.r {
+                            Text(verbatim: reason)
+                        }
+
                         if showChartLiveActivity {
                             if context.state.c != nil, !context.isOffline {
                                 Text("Last \(context.attributes.range.abbreviatedName)", comment: "Live Activity label showing graph range")
                             }
-                        }
-
-                        if debugInfo, let reason = context.state.r {
-                            Text(verbatim: reason)
                         }
                     }
                     .font(.caption2.bold())
