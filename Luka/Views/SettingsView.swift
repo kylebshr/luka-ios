@@ -18,6 +18,7 @@ struct SettingsView: View {
     @Default(.targetRangeUpperBound) private var upperTargetRange
     @Default(.graphUpperBound) private var upperGraphRange
     @Default(.showChartLiveActivity) private var showChartLiveActivity
+    @Default(.liveActivityAlertsEnabled) private var liveActivityAlertsEnabled
     @Default(.appGraphStyle) private var appGraphStyle
     @Default(.liveActivityGraphStyle) private var liveActivityGraphStyle
     @Default(.unit) private var unit
@@ -29,7 +30,7 @@ struct SettingsView: View {
 
     var body: some View {
         List {
-            Section {
+            Section("General") {
                 Picker("Units", selection: $unit) {
                     Text(GlucoseFormatter.Unit.mgdl.text)
                         .tag(GlucoseFormatter.Unit.mgdl)
@@ -74,6 +75,14 @@ struct SettingsView: View {
                     }
                     .pickerStyle(.menu)
                 }
+
+            }
+
+            Section {
+                Toggle("Live Activity alerts", isOn: $liveActivityAlertsEnabled)
+                    .tint(.accent)
+            } footer: {
+                Text("Live Activities can send alerts when glucose levels are rising or dropping quickly, or when you leave or enter your target range. When enabled, they will play a sound and show the activity if it’s hidden.")
             }
 
             Section {
@@ -99,7 +108,7 @@ struct SettingsView: View {
                 NavigationLink {
                     ExperimentalView()
                 } label: {
-                    Text("Experimental")
+                    Text("Advanced")
                         .foregroundStyle(.tint)
                 }
             }

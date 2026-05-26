@@ -23,6 +23,7 @@ extension Defaults.Keys {
     static let showChartLiveActivity = Key<Bool>(.showChartLiveActivity, default: true, suite: .shared, iCloud: true)
     static let appGraphStyle = Key<GraphStyle>("appGraphStyle", default: .dots, suite: .shared, iCloud: true)
     static let liveActivityGraphStyle = Key<GraphStyle>("liveActivityGraphStyle", default: .dots, suite: .shared, iCloud: true)
+    static let liveActivityAlertsEnabled = Key<Bool>("liveActivityAlertsEnabled", default: true, suite: .shared, iCloud: true)
 
     static let selectedRange = Key("selectedRange", default: GraphRange.eightHours, iCloud: true)
     static let selectedLandscapeRange = Key("landscapeRange", default: GraphRange.twentyFourHours, iCloud: true)
