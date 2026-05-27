@@ -200,8 +200,8 @@ private struct MainContentView: View {
             ZStack {
                 if !context.isOffline, let color = context.state.c?.vividColor(target: targetLower...targetUpper) {
                     Rectangle()
-                        .fill(color.gradient)
-                        .brightness(-0.7)
+                        .fill(color)
+                        .opacity(0.23)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
 
