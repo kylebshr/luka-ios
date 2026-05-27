@@ -6,8 +6,9 @@
 //
 
 import AppIntents
+import Defaults
 
-enum LaunchableApp: String, AppEnum {
+enum LaunchableApp: String, Codable, AppEnum, CaseIterable, Defaults.Serializable, Identifiable {
     static var typeDisplayRepresentation: TypeDisplayRepresentation {
         "Launch App"
     }
@@ -22,6 +23,8 @@ enum LaunchableApp: String, AppEnum {
             .omnipod: "Omnipod",
         ]
     }
+
+    var id: Self { self }
 
     var url: URL {
         let string = switch self {
@@ -40,6 +43,10 @@ enum LaunchableApp: String, AppEnum {
         }
 
         return URL(string: string)!
+    }
+
+    var name: String {
+        String(localized: Self.caseDisplayRepresentations[self]!.title)
     }
 
     case luka

@@ -16,10 +16,12 @@ import Charts
 struct ReadingActivityConfiguration: Widget {
     @Default(.targetRangeLowerBound) private var targetLower
     @Default(.targetRangeUpperBound) private var targetUpper
+    @Default(.liveActivityTapApp) private var tapApp
 
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: ReadingAttributes.self) { context in
             MainContentView(context: context)
+                .widgetURL(tapApp.url)
         } dynamicIsland: { context in
             return DynamicIsland {
                 DynamicIslandExpandedRegion(.center) {
@@ -35,12 +37,14 @@ struct ReadingActivityConfiguration: Widget {
                     .textCase(.uppercase)
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: 150)
+                    .widgetURL(tapApp.url)
                 }
 
                 DynamicIslandExpandedRegion(.bottom) {
                     if !context.isOffline {
                         GraphPieceView(context: context)
                             .padding(.bottom, 10)
+                            .widgetURL(tapApp.url)
                     }
                 }
 
@@ -50,22 +54,27 @@ struct ReadingActivityConfiguration: Widget {
                         .fontDesign(.rounded)
                         .opacity(context.isOffline ? 0.5 : 1)
                         .fixedSize(horizontal: true, vertical: true)
+                        .widgetURL(tapApp.url)
                 }
                 .contentMargins([.leading, .top, .trailing], 20)
 
                 DynamicIslandExpandedRegion(.trailing) {
                     ReadingArrow(context: context)
                         .font(.largeTitle)
+                        .widgetURL(tapApp.url)
                 }
                 .contentMargins([.leading, .top, .trailing], 20)
 
             } compactLeading: {
                 CompactReadingText(context: context)
+                    .widgetURL(tapApp.url)
             } compactTrailing: {
                 CompactReadingArrow(context: context)
+                    .widgetURL(tapApp.url)
             } minimal: {
                 MinimalReadingView(context: context)
                     .fixedSize()
+                    .widgetURL(tapApp.url)
             }
             .keylineTint(context.state.c?.color(target: targetLower...targetUpper))
         }
