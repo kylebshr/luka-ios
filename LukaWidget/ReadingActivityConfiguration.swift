@@ -63,14 +63,16 @@ struct ReadingActivityConfiguration: Widget {
 
             } compactLeading: {
                 CompactReadingText(context: context)
+                    .widgetURL(tapApp.url)
             } compactTrailing: {
                 CompactReadingArrow(context: context)
+                    .widgetURL(tapApp.url)
             } minimal: {
                 MinimalReadingView(context: context)
                     .fixedSize()
+                    .widgetURL(tapApp.url)
             }
             .keylineTint(context.state.c?.color(target: targetLower...targetUpper))
-            .widgetURL(tapApp.url)
         }
         .supplementalActivityFamilies([.small])
     }
