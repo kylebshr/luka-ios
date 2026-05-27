@@ -7,7 +7,6 @@
 
 import AppIntents
 import Defaults
-import SwiftUI
 
 enum LaunchableApp: String, Codable, AppEnum, CaseIterable, Defaults.Serializable, Identifiable {
     static var typeDisplayRepresentation: TypeDisplayRepresentation {
@@ -44,17 +43,6 @@ enum LaunchableApp: String, Codable, AppEnum, CaseIterable, Defaults.Serializabl
         }
 
         return URL(string: string)!
-    }
-
-    var displayName: LocalizedStringKey {
-        switch self {
-        case .luka: "Luka"
-        case .g7: "Dexcom G7"
-        case .g6: "Dexcom G6"
-        case .clarity: "Dexcom Clarity"
-        case .sugarmate: "Sugarmate"
-        case .omnipod: "Omnipod"
-        }
     }
 
     case luka

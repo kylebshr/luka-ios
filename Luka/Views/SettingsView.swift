@@ -79,7 +79,7 @@ struct SettingsView: View {
 
                 Picker("Launch on tap", selection: $liveActivityTapApp) {
                     ForEach(LaunchableApp.allCases) { app in
-                        Text(app.displayName).tag(app)
+                        Text(app.localizedStringResource).tag(app)
                     }
                 }
                 .pickerStyle(.menu)
