@@ -204,7 +204,8 @@ private struct MainContentView: View {
                 if !context.isOffline, let color = context.state.c?.vividColor(target: targetLower...targetUpper) {
                     Rectangle()
                         .fill(color)
-                        .opacity(0.23)
+                        .brightness(-0.6)
+                        .opacity(0.4)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
 

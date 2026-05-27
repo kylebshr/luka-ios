@@ -236,6 +236,9 @@
         }
       }
     },
+    "Advanced" : {
+
+    },
     "Anywhere Else" : {
       "localizations" : {
         "de" : {
@@ -932,6 +935,9 @@
         }
       }
     },
+    "Ended" : {
+
+    },
     "Excellent widgets and Live Activities for Dexcom continuous glucose monitors." : {
       "localizations" : {
         "de" : {
@@ -978,10 +984,10 @@
         }
       }
     },
-    "Experimental" : {
+    "Fetch glucose readings from the Luka server when a Live Activity is running. Falls back to Dexcom if no cached readings are available." : {
 
     },
-    "Fetch glucose readings from the Luka server when a Live Activity is running. Falls back to Dexcom if no cached readings are available." : {
+    "General" : {
 
     },
     "Glucose" : {
@@ -1491,6 +1497,9 @@
         }
       }
     },
+    "Launch on tap" : {
+
+    },
     "Launch on Tap" : {
       "localizations" : {
         "de" : {
@@ -1721,6 +1730,9 @@
         }
       }
     },
+    "Live Activities can send alerts when glucose levels are rising or dropping quickly, or when you leave or enter your target range. When enabled, they will play a sound and show the activity if it’s hidden." : {
+
+    },
     "Live Activity" : {
       "localizations" : {
         "de" : {
@@ -1766,6 +1778,9 @@
           }
         }
       }
+    },
+    "Live Activity alerts" : {
+
     },
     "Live Activity ended" : {
       "localizations" : {
