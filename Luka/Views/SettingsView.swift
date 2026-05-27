@@ -78,9 +78,12 @@ struct SettingsView: View {
                 }
 
                 Picker("Launch on tap", selection: $liveActivityTapApp) {
-                    ForEach(LaunchableApp.allCases) { app in
-                        Text(app.displayName).tag(app)
-                    }
+                    Text("Luka").tag(LaunchableApp.luka)
+                    Text("Dexcom G7").tag(LaunchableApp.g7)
+                    Text("Dexcom G6").tag(LaunchableApp.g6)
+                    Text("Dexcom Clarity").tag(LaunchableApp.clarity)
+                    Text("Sugarmate").tag(LaunchableApp.sugarmate)
+                    Text("Omnipod").tag(LaunchableApp.omnipod)
                 }
                 .pickerStyle(.menu)
             }
