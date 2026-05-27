@@ -23,8 +23,4 @@ extension Bundle {
     var fullVersion: String {
         "\(version) (\(build))"
     }
-
-    var isSandboxReceipt: Bool {
-        appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
-    }
 }
