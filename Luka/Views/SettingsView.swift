@@ -19,6 +19,7 @@ struct SettingsView: View {
     @Default(.graphUpperBound) private var upperGraphRange
     @Default(.showChartLiveActivity) private var showChartLiveActivity
     @Default(.liveActivityAlertsEnabled) private var liveActivityAlertsEnabled
+    @Default(.liveActivityTapApp) private var liveActivityTapApp
     @Default(.appGraphStyle) private var appGraphStyle
     @Default(.liveActivityGraphStyle) private var liveActivityGraphStyle
     @Default(.unit) private var unit
@@ -76,6 +77,12 @@ struct SettingsView: View {
                     .pickerStyle(.menu)
                 }
 
+                Picker("Launch on tap", selection: $liveActivityTapApp) {
+                    ForEach(LaunchableApp.allCases) { app in
+                        Text(app.localizedStringResource).tag(app)
+                    }
+                }
+                .pickerStyle(.menu)
             }
 
             Section {

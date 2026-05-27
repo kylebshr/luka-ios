@@ -16,10 +16,12 @@ import Charts
 struct ReadingActivityConfiguration: Widget {
     @Default(.targetRangeLowerBound) private var targetLower
     @Default(.targetRangeUpperBound) private var targetUpper
+    @Default(.liveActivityTapApp) private var tapApp
 
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: ReadingAttributes.self) { context in
             MainContentView(context: context)
+                .widgetURL(tapApp.url)
         } dynamicIsland: { context in
             return DynamicIsland {
                 DynamicIslandExpandedRegion(.center) {
@@ -68,6 +70,7 @@ struct ReadingActivityConfiguration: Widget {
                     .fixedSize()
             }
             .keylineTint(context.state.c?.color(target: targetLower...targetUpper))
+            .widgetURL(tapApp.url)
         }
         .supplementalActivityFamilies([.small])
     }
