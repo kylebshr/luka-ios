@@ -20,6 +20,12 @@ struct ExperimentalView: View {
                 Toggle("Show debug info", isOn: $debugInfo)
                     .tint(.accent)
 
+                NavigationLink {
+                    LiveActivityDebugView()
+                } label: {
+                    SettingsRow("Live Activity debug info", systemImage: "ladybug")
+                }
+
                 Button {
                     Task {
                         await LiveActivityManager.shared.endLiveActivityOnServer()
