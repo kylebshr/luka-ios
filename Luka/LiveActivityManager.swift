@@ -51,24 +51,33 @@ final class LiveActivityManager {
         guard observationTasks[activity.id] == nil else { return }
 
         let stateTask = Task {
-            for await state in activity.activityStateUpdates {
+            // Wait for a terminal state. We must finish iterating before
+            // touching `activity.update(_:)`: the async iterator produced by
+            // `activityStateUpdates` borrows `activity`, keeping it in the
+            // same isolation region. Sending `activity` into the nonisolated
+            // `update(_:)` while that iterator is still alive is what trips
+            // the "sending risks data races" diagnostic. Breaking out of the
+            // loop first releases the iterator so `activity`'s region is
+            // disconnected and can be sent safely.
+            stateLoop: for await state in activity.activityStateUpdates {
                 switch state {
                 case .dismissed, .ended:
-                    let activityID = activity.id
-                    var endState = activity.content.state
-                    endState.se = true
-                    await activity.update(ActivityContent(state: endState, staleDate: nil))
-                    await sendEndLiveActivity(activityID: activityID)
-                    observationTasks.removeValue(forKey: activityID)
-                    activityTokens.removeValue(forKey: activityID)
-                    syncState()
-                    return
+                    break stateLoop
                 case .active, .pending, .stale:
                     break
                 @unknown default:
                     break
                 }
             }
+
+            let activityID = activity.id
+            var endState = activity.content.state
+            endState.se = true
+            await activity.update(ActivityContent(state: endState, staleDate: nil))
+            await sendEndLiveActivity(activityID: activityID)
+            observationTasks.removeValue(forKey: activityID)
+            activityTokens.removeValue(forKey: activityID)
+            syncState()
         }
 
         let tokenTask = Task {
