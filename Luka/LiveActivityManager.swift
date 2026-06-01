@@ -54,9 +54,6 @@ final class LiveActivityManager {
             for await state in activity.activityStateUpdates {
                 switch state {
                 case .dismissed, .ended:
-                    var endState = activity.content.state
-                    endState.se = true
-                    await activity.update(ActivityContent(state: endState, staleDate: nil))
                     await sendEndLiveActivity(activityID: activity.id)
                     observationTasks.removeValue(forKey: activity.id)
                     activityTokens.removeValue(forKey: activity.id)
