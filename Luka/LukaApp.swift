@@ -13,7 +13,8 @@ import StoreKit
 
 @main
 struct LukaApp: App {
-    @Environment(\.openURL) private var openURL
+    @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.requestReview) private var requestReview
 
@@ -38,9 +39,6 @@ struct LukaApp: App {
     var body: some Scene {
         WindowGroup {
             RootView().environment(viewModel)
-                .onOpenURL(perform: { url in
-                    openURL(url)
-                })
                 .task {
                     // Request review after 10 launches
                     if Defaults[.launchCount] >= 10 {

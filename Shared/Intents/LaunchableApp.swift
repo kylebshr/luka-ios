@@ -52,3 +52,17 @@ enum LaunchableApp: String, Codable, AppEnum, CaseIterable, Defaults.Serializabl
     case sugarmate
     case omnipod
 }
+
+extension LaunchableApp {
+    /// Maps an incoming widget URL to the external app it should redirect to.
+    ///
+    /// Widget URLs always launch the containing app (Luka) first, so Luka acts as a
+    /// trampoline that re-opens the target app. Returns `nil` when the URL is Luka's
+    /// own scheme or is unrecognized — in those cases there's nothing to redirect to.
+    static func externalRedirect(for url: URL) -> LaunchableApp? {
+        guard let match = allCases.first(where: { $0.url.scheme == url.scheme }) else {
+            return nil
+        }
+        return match == .luka ? nil : match
+    }
+}

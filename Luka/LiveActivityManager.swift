@@ -42,9 +42,8 @@ final class LiveActivityManager {
     }
 
     func syncState() {
-        if ReadingAttributes.syncIsRunningDefault() {
-            ControlCenter.shared.reloadAllControls()
-        }
+        ReadingAttributes.syncIsRunningDefault()
+        ControlCenter.shared.reloadAllControls()
     }
 
     private func observeActivity(_ activity: Activity<ReadingAttributes>) {
