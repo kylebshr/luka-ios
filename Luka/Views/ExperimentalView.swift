@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Defaults
+import ActivityKit
 
 struct ExperimentalView: View {
     @Default(.debugInfo) private var debugInfo
@@ -23,8 +24,20 @@ struct ExperimentalView: View {
                 NavigationLink {
                     LiveActivityDebugView()
                 } label: {
-                    SettingsRow("Live Activity debug info", systemImage: "ladybug")
+                    Text("Live Activity debug info")
                 }
+
+                Button {
+                    Task {
+                        for activity in Activity<ReadingAttributes>.activities {
+                            let state = activity.content
+                            await activity.end(state)
+                        }
+                    }
+                } label: {
+                    SettingsRow("End Live Activity locally", systemImage: "stop.circle.fill")
+                }
+                .fontWeight(.medium)
 
                 Button {
                     Task {
