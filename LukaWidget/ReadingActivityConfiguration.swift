@@ -123,7 +123,7 @@ private func liveActivityReadingTint(_ reading: GlucoseReading?, target: ClosedR
     }
     let color = reading.color(target: target)
     if #available(iOS 26, *) {
-        return AnyShapeStyle(color.exposureAdjust(0.5).gradient)
+        return AnyShapeStyle(color.exposureAdjust(0.25).gradient)
     } else {
         return AnyShapeStyle(color.gradient)
     }
