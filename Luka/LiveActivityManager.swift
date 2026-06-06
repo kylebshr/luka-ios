@@ -72,7 +72,7 @@ final class LiveActivityManager {
                 let kind: String = activityTokens[activity.id] == nil ? "initial" : "update"
                 activityTokens[activity.id] = tokenString
                 TelemetryDeck.signal("LiveActivity.receivedToken", parameters: ["kind": kind])
-                await sendStartLiveActivity(token: tokenString, kind: kind)
+                await sendStartLiveActivity(activityID: activity.id, token: tokenString, kind: kind)
             }
         }
 
@@ -83,7 +83,7 @@ final class LiveActivityManager {
         }
     }
 
-    private func sendStartLiveActivity(token: String, kind: String) async {
+    private func sendStartLiveActivity(activityID: String, token: String, kind: String) async {
         guard let username = Keychain.shared.username,
               let password = Keychain.shared.password,
               let accountLocation = Defaults[.accountLocation],
@@ -93,6 +93,7 @@ final class LiveActivityManager {
 
         let range: GraphRange = .threeHours
         let payload = StartLiveActivityRequest(
+            activityID: activityID,
             pushToken: token,
             environment: .current,
             username: username,
@@ -143,7 +144,7 @@ final class LiveActivityManager {
         guard let username = Keychain.shared.username,
               let pushToken = activityTokens[activityID] else { return }
 
-        let payload = EndLiveActivityRequest(pushToken: pushToken, username: username)
+        let payload = EndLiveActivityRequest(pushToken: pushToken, username: username, activityID: activityID)
 
         await client.withBackgroundTask(name: "LiveActivity.sendEndLiveActivity") {
             do {

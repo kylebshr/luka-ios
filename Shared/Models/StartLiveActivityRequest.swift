@@ -29,6 +29,7 @@ struct LiveActivityPreferences: Codable {
 }
 
 struct StartLiveActivityRequest: Codable {
+    var activityID: String?
     var pushToken: String
     var environment: PushEnvironment
     var username: String?
