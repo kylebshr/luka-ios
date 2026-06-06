@@ -113,10 +113,11 @@ private struct ReadingArrow: View {
     }
 }
 
-/// The compact Live Activity tint, nudged into HDR headroom on iOS 26 so the
-/// reading glows in the Dynamic Island. Falls back to the SDR gradient on older
-/// OSes and non-HDR displays, and to `.secondary` when there's no reading.
-private func compactReadingTint(_ reading: GlucoseReading?, target: ClosedRange<Double>) -> AnyShapeStyle {
+/// The compact/minimal Live Activity tint, nudged into HDR headroom on iOS 26
+/// so the reading glows in the Dynamic Island. Falls back to the SDR gradient
+/// on older OSes and non-HDR displays, and to `.secondary` when there's no
+/// reading.
+private func liveActivityReadingTint(_ reading: GlucoseReading?, target: ClosedRange<Double>) -> AnyShapeStyle {
     guard let reading else {
         return AnyShapeStyle(Color.secondary.gradient)
     }
@@ -139,7 +140,7 @@ private struct CompactReadingText: View {
         WithRange {
             ReadingText(context: context)
                 .fontWeight(.bold)
-                .foregroundStyle(compactReadingTint(reading, target: $0))
+                .foregroundStyle(liveActivityReadingTint(reading, target: $0))
                 .opacity(context.isOffline ? 0.5 : 1)
         }
     }
@@ -163,7 +164,7 @@ private struct CompactReadingArrow: View {
                 }
             }
             .fontWeight(.bold)
-            .foregroundStyle(compactReadingTint(reading, target: $0))
+            .foregroundStyle(liveActivityReadingTint(reading, target: $0))
         }
     }
 }
@@ -184,7 +185,7 @@ private struct MinimalReadingView: View {
                     .fontWeight(.bold)
                     .fontWidth(.compressed)
                     .redacted(reason: context.isOffline ? .placeholder : [])
-                    .foregroundStyle((reading?.color(target: $0) ?? .secondary).gradient)
+                    .foregroundStyle(liveActivityReadingTint(reading, target: $0))
             }
         }
     }
