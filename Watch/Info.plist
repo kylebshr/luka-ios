@@ -3,6 +3,8 @@
 <plist version="1.0">
 <dict>
 	<key>WKSupportsLiveActivityLaunchAttributeTypes</key>
-	<array/>
+	<array>
+		<string>ReadingAttributes</string>
+	</array>
 </dict>
 </plist>
