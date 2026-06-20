@@ -29,7 +29,14 @@ struct ReadingTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvide
     }
 
     func recommendations() -> [AppIntentRecommendation<ReadingWidgetConfiguration>] {
-        [AppIntentRecommendation(intent: ReadingWidgetConfiguration(), description: "Current Reading")]
+        #if os(watchOS)
+        // watchOS 26 and later provide an interface for configuring widgets and
+        // complications, so return an empty array to let people configure them.
+        if #available(watchOS 26.0, *) {
+            return []
+        }
+        #endif
+        return [AppIntentRecommendation(intent: ReadingWidgetConfiguration(), description: "Current Reading")]
     }
 
     private func makeState(for configuration: ReadingWidgetConfiguration) async -> Entry.State {

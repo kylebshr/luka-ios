@@ -40,7 +40,14 @@ struct GraphTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider 
     }
 
     func recommendations() -> [AppIntentRecommendation<GraphWidgetConfiguration>] {
-        GraphRange.allCases.map {
+        #if os(watchOS)
+        // watchOS 26 and later provide an interface for configuring widgets and
+        // complications, so return an empty array to let people configure them.
+        if #available(watchOS 26.0, *) {
+            return []
+        }
+        #endif
+        return GraphRange.allCases.map {
             let configuration = GraphWidgetConfiguration(graphRange: $0)
             return AppIntentRecommendation(intent: configuration, description: $0.abbreviatedName + " Graph")
         }
