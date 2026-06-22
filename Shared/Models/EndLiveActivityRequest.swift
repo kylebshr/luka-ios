@@ -9,9 +9,9 @@
 import Foundation
 
 struct EndLiveActivityRequest: Codable {
-    var pushToken: String
     var username: String
-    var activityID: String?
+    /// Stable per-activity identity (ActivityKit's `Activity.id`); the server's sole match key.
+    var activityID: String
 }
 
 struct EndLiveActivitiesRequest: Codable {
@@ -21,6 +21,6 @@ struct EndLiveActivitiesRequest: Codable {
 /// Debug-only: asks the server to manually trigger a push-to-start restart for one activity.
 struct DebugRestartLiveActivityRequest: Codable {
     var username: String
-    var activityID: String?
-    var pushToken: String?
+    /// Stable per-activity identity (ActivityKit's `Activity.id`); the server's sole match key.
+    var activityID: String
 }
