@@ -59,6 +59,16 @@ struct ExperimentalView: View {
                     SettingsRow("End all Live Activities", systemImage: "xmark.circle")
                 }
                 .fontWeight(.medium)
+
+                Button {
+                    Task {
+                        await LiveActivityManager.shared.debugRestartLiveActivityOnServer()
+                        showCompleteAlert = true
+                    }
+                } label: {
+                    SettingsRow("Restart via push-to-start", systemImage: "arrow.clockwise.circle")
+                }
+                .fontWeight(.medium)
             }
 
             Section {

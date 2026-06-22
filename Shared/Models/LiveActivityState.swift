@@ -41,6 +41,9 @@ struct LiveActivityState: Codable, Hashable {
     var pd: Date?
     /// reason — short human-readable reason for non-reading pushes
     var r: String?
+    /// pushToStartAvailable — whether the server has a push-to-start token for this session
+    /// (i.e. it's eligible for auto-restart). Shown in debug info.
+    var ps: Bool?
 
     /// Creates a LiveActivityState from readings, filtering history to the specified range
     init(readings: [GlucoseReading], range: GraphRange) {
@@ -62,7 +65,8 @@ struct LiveActivityState: Codable, Hashable {
         td: Date? = nil,
         tc: Int? = nil,
         pd: Date? = nil,
-        r: String? = nil
+        r: String? = nil,
+        ps: Bool? = nil
     ) {
         self.c = c
         self.h = h
@@ -73,5 +77,6 @@ struct LiveActivityState: Codable, Hashable {
         self.tc = tc
         self.pd = pd
         self.r = r
+        self.ps = ps
     }
 }

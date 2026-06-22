@@ -501,6 +501,7 @@ private struct DebugInfoList: View {
             DebugRow(label: "Push date", value: context.state.pd?.formatted())
             DebugRow(label: "Local date", value: Date.now.formatted())
             DebugRow(label: "Tokens", value: context.state.tc.map { "\($0)" })
+            DebugRow(label: "Push-to-start", value: context.state.ps.map { $0 ? "Available" : "None" })
         }
         .font(.subheadline.bold())
     }
