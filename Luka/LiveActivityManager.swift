@@ -57,6 +57,9 @@ final class LiveActivityManager {
                     observationTasks.removeValue(forKey: activity.id)
                     activityTokens.removeValue(forKey: activity.id)
                     syncState()
+                    if state == .ended, Defaults[.autoRestartLiveActivity] {
+                        await restartLiveActivity()
+                    }
                     return
                 case .active, .pending, .stale:
                     break
@@ -115,6 +118,15 @@ final class LiveActivityManager {
             } catch {
                 TelemetryDeck.signal("LiveActivity.failedToSendToken", parameters: ["kind": kind])
             }
+        }
+    }
+
+    private func restartLiveActivity() async {
+        do {
+            _ = try await StartLiveActivityIntent(source: "auto-restart").perform()
+            TelemetryDeck.signal("LiveActivity.autoRestarted")
+        } catch {
+            TelemetryDeck.signal("LiveActivity.failedToAutoRestart")
         }
     }
 

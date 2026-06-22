@@ -40,6 +40,7 @@ extension Defaults.Keys {
     static let cachedReadings = Key<GlucoseReadingsCache?>("cachedReadings", default: nil, suite: .shared)
     static let useReadingsProxy = Key<Bool>("useReadingsProxy", default: true, suite: .shared, iCloud: true)
     static let debugInfo = Key<Bool>("debugInfo", default: false, suite: .shared)
+    static let autoRestartLiveActivity = Key<Bool>("autoRestartLiveActivity", default: false, suite: .shared, iCloud: true)
 }
 
 extension AccountLocation: Defaults.Serializable {}
