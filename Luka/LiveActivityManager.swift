@@ -23,6 +23,12 @@ final class LiveActivityManager {
     private var observationTasks: [String: Task<Void, Never>] = [:]
     private var activityTokens: [String: String] = [:]
     private var activityUpdatesTask: Task<Void, Never>?
+    private var pushToStartTask: Task<Void, Never>?
+
+    /// Latest push-to-start token for this device. Sent to the server (when the
+    /// auto-restart experiment is enabled) so it can restart the Live Activity
+    /// after the time limit is reached.
+    private var pushToStartToken: String?
 
     private init() {
         // Observe existing activities
@@ -37,6 +43,17 @@ final class LiveActivityManager {
             for await activity in Activity<ReadingAttributes>.activityUpdates {
                 observeActivity(activity)
                 syncState()
+            }
+        }
+
+        // Observe the device's push-to-start token. This arrives even when no
+        // activity is running; re-register any running activity so the server
+        // picks up the token (covers the first-launch race where the update
+        // token is sent before the push-to-start token exists).
+        pushToStartTask = Task {
+            for await data in Activity<ReadingAttributes>.pushToStartTokenUpdates {
+                pushToStartToken = data.map { String(format: "%02x", $0) }.joined()
+                await reregisterRunningActivities()
             }
         }
     }
@@ -57,9 +74,6 @@ final class LiveActivityManager {
                     observationTasks.removeValue(forKey: activity.id)
                     activityTokens.removeValue(forKey: activity.id)
                     syncState()
-                    if state == .ended, Defaults[.autoRestartLiveActivity] {
-                        await restartLiveActivity()
-                    }
                     return
                 case .active, .pending, .stale:
                     break
@@ -95,6 +109,10 @@ final class LiveActivityManager {
         }
 
         let range: GraphRange = .threeHours
+
+        // Gate auto-restart behind the experimental toggle: only hand the server
+        // a push-to-start token (and the attributes to replay) when enabled.
+        let restartEnabled = Defaults[.autoRestartLiveActivity]
         let payload = StartLiveActivityRequest(
             activityID: activityID,
             pushToken: token,
@@ -107,7 +125,10 @@ final class LiveActivityManager {
                 targetRange: Int(Defaults[.targetRangeLowerBound])...Int(Defaults[.targetRangeUpperBound]),
                 unit: Defaults[.unit],
                 alertsEnabled: Defaults[.liveActivityAlertsEnabled]
-            )
+            ),
+            pushToStartToken: restartEnabled ? pushToStartToken : nil,
+            attributesType: restartEnabled ? "ReadingAttributes" : nil,
+            attributes: restartEnabled ? try? JSONValue(encoding: ReadingAttributes(range: range)) : nil
         )
 
         await client.withBackgroundTask(name: "LiveActivity.sendStartLiveActivity") {
@@ -121,12 +142,21 @@ final class LiveActivityManager {
         }
     }
 
-    private func restartLiveActivity() async {
-        do {
-            _ = try await StartLiveActivityIntent(source: "auto-restart").perform()
-            TelemetryDeck.signal("LiveActivity.autoRestarted")
-        } catch {
-            TelemetryDeck.signal("LiveActivity.failedToAutoRestart")
+    /// Re-sends the start registration for every running activity using its
+    /// most recent push token, so the server receives the latest push-to-start
+    /// token. Called when the push-to-start token updates.
+    private func reregisterRunningActivities() async {
+        for activity in Activity<ReadingAttributes>.activities {
+            switch activity.activityState {
+            case .active, .pending, .stale:
+                if let token = activityTokens[activity.id] {
+                    await sendStartLiveActivity(activityID: activity.id, token: token, kind: "update")
+                }
+            case .dismissed, .ended:
+                break
+            @unknown default:
+                break
+            }
         }
     }
 
