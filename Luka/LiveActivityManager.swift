@@ -160,6 +160,29 @@ final class LiveActivityManager {
         }
     }
 
+    /// Debug-only: asks the server to manually trigger a push-to-start restart for each
+    /// running activity, for testing without waiting for the time limit. Requires the
+    /// auto-restart experiment to have been enabled (so the server has a push-to-start token).
+    func debugRestartLiveActivityOnServer() async {
+        guard let username = Keychain.shared.username else { return }
+        for activity in Activity<ReadingAttributes>.activities {
+            let payload = DebugRestartLiveActivityRequest(
+                username: username,
+                activityID: activity.id,
+                pushToken: activityTokens[activity.id]
+            )
+            await client.withBackgroundTask(name: "LiveActivity.debugRestart") {
+                do {
+                    let request = try client.makePostRequest("restart-live-activity", body: payload)
+                    try await client.send(request)
+                    TelemetryDeck.signal("LiveActivity.sentDebugRestart")
+                } catch {
+                    TelemetryDeck.signal("LiveActivity.failedToSendDebugRestart")
+                }
+            }
+        }
+    }
+
     func endLiveActivityOnServer() async {
         for activity in Activity<ReadingAttributes>.activities {
             await sendEndLiveActivity(activityID: activity.id)

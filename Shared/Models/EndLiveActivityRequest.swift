@@ -17,3 +17,10 @@ struct EndLiveActivityRequest: Codable {
 struct EndLiveActivitiesRequest: Codable {
     var username: String
 }
+
+/// Debug-only: asks the server to manually trigger a push-to-start restart for one activity.
+struct DebugRestartLiveActivityRequest: Codable {
+    var username: String
+    var activityID: String?
+    var pushToken: String?
+}
