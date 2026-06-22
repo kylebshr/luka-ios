@@ -168,8 +168,7 @@ final class LiveActivityManager {
         for activity in Activity<ReadingAttributes>.activities {
             let payload = DebugRestartLiveActivityRequest(
                 username: username,
-                activityID: activity.id,
-                pushToken: activityTokens[activity.id]
+                activityID: activity.id
             )
             await client.withBackgroundTask(name: "LiveActivity.debugRestart") {
                 do {
@@ -206,10 +205,11 @@ final class LiveActivityManager {
     }
 
     private func sendEndLiveActivity(activityID: String) async {
-        guard let username = Keychain.shared.username,
-              let pushToken = activityTokens[activityID] else { return }
+        guard let username = Keychain.shared.username else { return }
 
-        let payload = EndLiveActivityRequest(pushToken: pushToken, username: username, activityID: activityID)
+        // Match is by activityID, so end regardless of whether a push token was captured
+        // locally — the server no-ops if it has no entry for this activity.
+        let payload = EndLiveActivityRequest(username: username, activityID: activityID)
 
         await client.withBackgroundTask(name: "LiveActivity.sendEndLiveActivity") {
             do {

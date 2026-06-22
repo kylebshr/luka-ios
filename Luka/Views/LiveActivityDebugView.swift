@@ -118,6 +118,7 @@ struct LiveActivityDebugView: View {
             LabeledContent("Token count", value: state.tc.map { "\($0)" } ?? "nil")
             LabeledContent("Push date", value: dateOrNil(state.pd))
             LabeledContent("Reason", value: state.r ?? "nil")
+            LabeledContent("Push-to-start", value: state.ps.map { $0 ? "Available" : "None" } ?? "nil")
         }
     }
 

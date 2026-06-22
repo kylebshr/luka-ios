@@ -29,7 +29,9 @@ struct LiveActivityPreferences: Codable {
 }
 
 struct StartLiveActivityRequest: Codable {
-    var activityID: String?
+    /// Stable per-activity identity (ActivityKit's `Activity.id`). Always sent so the
+    /// server can map a rotated push token back to the same activity.
+    var activityID: String
     var pushToken: String
     var environment: PushEnvironment
     var username: String?
