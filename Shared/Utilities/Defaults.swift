@@ -41,6 +41,10 @@ extension Defaults.Keys {
     static let useReadingsProxy = Key<Bool>("useReadingsProxy", default: true, suite: .shared, iCloud: true)
     static let debugInfo = Key<Bool>("debugInfo", default: false, suite: .shared)
     static let autoRestartLiveActivity = Key<Bool>("autoRestartLiveActivity", default: false, suite: .shared, iCloud: true)
+    // Device-local (not iCloud-synced): the push-to-start token is per-install and must
+    // not leak to another device. Persisted so a token rotation that background-relaunches
+    // the app can still hand it to the server before the PTS stream re-yields.
+    static let pushToStartToken = Key<String?>("pushToStartToken", default: nil, suite: .shared)
 }
 
 extension AccountLocation: Defaults.Serializable {}
