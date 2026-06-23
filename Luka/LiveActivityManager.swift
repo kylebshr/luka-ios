@@ -25,11 +25,6 @@ final class LiveActivityManager {
     private var activityUpdatesTask: Task<Void, Never>?
     private var pushToStartTask: Task<Void, Never>?
 
-    /// Latest push-to-start token for this device. Sent to the server (when the
-    /// auto-restart experiment is enabled) so it can restart the Live Activity
-    /// after the time limit is reached.
-    private var pushToStartToken: String?
-
     private init() {
         // Observe existing activities
         for activity in Activity<ReadingAttributes>.activities {
@@ -46,13 +41,23 @@ final class LiveActivityManager {
             }
         }
 
-        // Observe the device's push-to-start token. This arrives even when no
-        // activity is running; re-register any running activity so the server
-        // picks up the token (covers the first-launch race where the update
-        // token is sent before the push-to-start token exists).
+        // Observe the device's push-to-start token and persist it. Persisting (rather
+        // than holding it only in memory) means a push-token rotation that
+        // background-relaunches the app still carries the token on re-registration —
+        // otherwise the fresh process sends nil before this stream re-yields, which
+        // clears the token server-side and breaks the hour-7 auto-restart.
+        //
+        // The token arrives even when no activity is running. Only act on a real
+        // change: the stream re-yields the same token on most cold launches, and
+        // re-registering then is wasted work — routine rotations already carry the
+        // persisted token. On a genuine change (or first acquisition while an activity
+        // is already running) we re-register so the server learns the new token now
+        // instead of waiting for the next rotation.
         pushToStartTask = Task {
             for await data in Activity<ReadingAttributes>.pushToStartTokenUpdates {
-                pushToStartToken = data.map { String(format: "%02x", $0) }.joined()
+                let token = data.map { String(format: "%02x", $0) }.joined()
+                guard token != Defaults[.pushToStartToken] else { continue }
+                Defaults[.pushToStartToken] = token
                 await reregisterRunningActivities()
             }
         }
@@ -126,7 +131,7 @@ final class LiveActivityManager {
                 unit: Defaults[.unit],
                 alertsEnabled: Defaults[.liveActivityAlertsEnabled]
             ),
-            pushToStartToken: restartEnabled ? pushToStartToken : nil,
+            pushToStartToken: restartEnabled ? Defaults[.pushToStartToken] : nil,
             attributesType: restartEnabled ? "ReadingAttributes" : nil,
             attributes: restartEnabled ? try? JSONValue(encoding: ReadingAttributes(range: range)) : nil
         )
