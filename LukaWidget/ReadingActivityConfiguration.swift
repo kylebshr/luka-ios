@@ -233,12 +233,21 @@ private struct MainContentView: View {
 
                     Spacer(minLength: 0)
 
-                    MinuteTimerView(context: context, relative: false)
-                        .lineLimit(1)
-                        .font(.footnote.bold())
-                        .multilineTextAlignment(.trailing)
-                        .minimumScaleFactor(0.5)
-                        .layoutPriority(10)
+                    VStack(alignment: .trailing, spacing: 2) {
+                        MinuteTimerView(context: context, relative: false)
+                            .lineLimit(1)
+                            .font(.footnote.bold())
+                            .minimumScaleFactor(0.5)
+
+                        if let reason = context.state.r {
+                            Text(verbatim: reason)
+                                .font(.footnote.bold())
+                                .foregroundStyle(.secondary)
+                                .lineLimit(2)
+                        }
+                    }
+                    .multilineTextAlignment(.trailing)
+                    .layoutPriority(10)
                 }
                 .padding(10)
             }
@@ -495,19 +504,25 @@ private struct DebugInfoList: View {
     var context: ActivityViewContext<ReadingAttributes>
 
     var body: some View {
-        VStack(spacing: .spacing3) {
-            DebugRow(label: "Session start", value: context.state.sd?.formatted())
-            DebugRow(label: "Token start", value: context.state.td?.formatted())
-            DebugRow(label: "Push date", value: context.state.pd?.formatted())
-            DebugRow(label: "Local date", value: Date.now.formatted())
-            DebugRow(label: "Tokens", value: context.state.tc.map { "\($0)" })
-            DebugRow(label: "Push-to-start", value: context.state.ps.map { $0 ? "Available" : "None" })
+        Grid(alignment: .leading, horizontalSpacing: .spacing6, verticalSpacing: .spacing3) {
+            GridRow {
+                DebugCell(label: "Session start", value: context.state.sd?.debugFormatted)
+                DebugCell(label: "Token start", value: context.state.td?.debugFormatted)
+            }
+            GridRow {
+                DebugCell(label: "Push date", value: context.state.pd?.debugFormatted)
+                DebugCell(label: "Local date", value: Date.now.debugFormatted)
+            }
+            GridRow {
+                DebugCell(label: "Tokens", value: context.state.tc.map { "\($0)" })
+                DebugCell(label: "Push-to-start", value: context.state.ps.map { $0 ? "Available" : "None" })
+            }
         }
         .font(.subheadline.bold())
     }
 }
 
-private struct DebugRow: View {
+private struct DebugCell: View {
     var label: LocalizedStringKey
     var value: String?
 
@@ -521,6 +536,13 @@ private struct DebugRow: View {
         }
         .lineLimit(1)
         .minimumScaleFactor(0.7)
+    }
+}
+
+private extension Date {
+    /// A compact representation used in the Live Activity debug view that drops the year.
+    var debugFormatted: String {
+        formatted(.dateTime.month(.defaultDigits).day().hour().minute())
     }
 }
 
