@@ -518,7 +518,7 @@ private struct DebugInfoList: View {
                 DebugCell(label: "Push-to-start", value: context.state.ps.map { $0 ? "Available" : "None" })
             }
         }
-        .font(.subheadline.bold())
+        .font(.caption2.bold())
     }
 }
 
