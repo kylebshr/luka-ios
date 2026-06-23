@@ -241,7 +241,7 @@ private struct MainContentView: View {
 
                         if let reason = context.state.r {
                             Text(verbatim: reason)
-                                .font(.caption2.bold())
+                                .font(.footnote.bold())
                                 .foregroundStyle(.secondary)
                                 .lineLimit(2)
                         }
