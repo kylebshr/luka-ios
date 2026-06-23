@@ -233,12 +233,21 @@ private struct MainContentView: View {
 
                     Spacer(minLength: 0)
 
-                    MinuteTimerView(context: context, relative: false)
-                        .lineLimit(1)
-                        .font(.footnote.bold())
-                        .multilineTextAlignment(.trailing)
-                        .minimumScaleFactor(0.5)
-                        .layoutPriority(10)
+                    VStack(alignment: .trailing, spacing: 2) {
+                        MinuteTimerView(context: context, relative: false)
+                            .lineLimit(1)
+                            .font(.footnote.bold())
+                            .minimumScaleFactor(0.5)
+
+                        if let reason = context.state.r {
+                            Text(verbatim: reason)
+                                .font(.caption2.bold())
+                                .foregroundStyle(.secondary)
+                                .lineLimit(2)
+                        }
+                    }
+                    .multilineTextAlignment(.trailing)
+                    .layoutPriority(10)
                 }
                 .padding(10)
             }
