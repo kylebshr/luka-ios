@@ -36,6 +36,7 @@ struct CornerWidgetView: View {
 
     private var content: some View {
         Text(redactionReasons.isEmpty ? reading.value.formatted(.glucose(unit)) : "80")
+            .lowercaseSmallCaps()
             .invalidatableContent()
             .foregroundStyle(reading.color(target: targetLower...targetUpper))
             .widgetCurvesContent()

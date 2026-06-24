@@ -30,7 +30,9 @@ struct ReadingView: View {
 
     var body: some View {
         HStack(spacing: 0) {
-            Text(text).contentTransition(.numericText(value: Double(reading?.value ?? 0)))
+            Text(text)
+                .contentTransition(.numericText(value: Double(reading?.value ?? 0)))
+                .lowercaseSmallCaps()
             if let image {
                 Text(verbatim: "\u{200A}") // hair space
                 image
