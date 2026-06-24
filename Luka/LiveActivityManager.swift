@@ -63,8 +63,8 @@ final class LiveActivityManager {
         }
     }
 
-    func syncState() {
-        ReadingAttributes.syncIsRunningDefault()
+    func syncState(excluding excludedID: String? = nil) {
+        ReadingAttributes.syncIsRunningDefault(excluding: excludedID)
         ControlCenter.shared.reloadAllControls()
     }
 
@@ -78,7 +78,10 @@ final class LiveActivityManager {
                     await sendEndLiveActivity(activityID: activity.id)
                     observationTasks.removeValue(forKey: activity.id)
                     activityTokens.removeValue(forKey: activity.id)
-                    syncState()
+                    // Exclude this activity: it just ended, but Activity.activities can still
+                    // report it as running for a moment, which would leave the flag (and the
+                    // Control Center toggle) stuck "on" until the next foreground sync.
+                    syncState(excluding: activity.id)
                     return
                 case .active, .pending, .stale:
                     break
