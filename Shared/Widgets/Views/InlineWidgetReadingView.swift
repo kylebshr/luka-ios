@@ -30,6 +30,7 @@ struct InlineWidgetReadingView: View {
             )
 
             Text("\(reading.value.formatted(.glucose(unit))) \(timestamp)")
+                .lowercaseSmallCaps()
         }
         .containerBackground(.background, for: .widget)
     }

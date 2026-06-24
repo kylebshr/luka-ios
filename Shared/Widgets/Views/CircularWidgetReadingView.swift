@@ -41,6 +41,7 @@ struct CircularWidgetView : View {
             currentValueLabel: {
                 VStack(spacing: watchOS ? -4 : -2) {
                     Text(redactionReasons.isEmpty ? reading.value.formatted(.glucose(unit)) : "80")
+                        .lowercaseSmallCaps()
                         .minimumScaleFactor(0.5)
                         .fontWeight(.bold)
                         .invalidatableContent()
