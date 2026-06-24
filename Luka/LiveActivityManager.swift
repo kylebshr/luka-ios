@@ -75,13 +75,22 @@ final class LiveActivityManager {
             for await state in activity.activityStateUpdates {
                 switch state {
                 case .dismissed, .ended:
-                    await sendEndLiveActivity(activityID: activity.id)
                     observationTasks.removeValue(forKey: activity.id)
                     activityTokens.removeValue(forKey: activity.id)
-                    // Exclude this activity: it just ended, but Activity.activities can still
-                    // report it as running for a moment, which would leave the flag (and the
-                    // Control Center toggle) stuck "on" until the next foreground sync.
-                    syncState(excluding: activity.id)
+                    // Dismissal happens while the app is backgrounded (you're on the Lock
+                    // Screen), so the app is suspended moments later. Hold a background
+                    // assertion across the *entire* teardown — not just the network call —
+                    // so the shared-default write actually reaches the App Group store and
+                    // the control reload isn't dropped before suspension. Otherwise the
+                    // Control Center toggle's currentValue() keeps reading the stale
+                    // "running" value even after Control Center is reopened.
+                    //
+                    // Exclude this activity from the running check: Activity.activities can
+                    // still report it as running for a moment after this state update fires.
+                    await client.withBackgroundTask(name: "LiveActivity.handleEnd") {
+                        syncState(excluding: activity.id)
+                        await sendEndLiveActivity(activityID: activity.id)
+                    }
                     return
                 case .active, .pending, .stale:
                     break
