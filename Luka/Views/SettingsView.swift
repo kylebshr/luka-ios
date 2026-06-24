@@ -19,14 +19,23 @@ struct SettingsView: View {
     @Default(.graphUpperBound) private var upperGraphRange
     @Default(.showChartLiveActivity) private var showChartLiveActivity
     @Default(.liveActivityAlertsEnabled) private var liveActivityAlertsEnabled
+    @Default(.autoRestartLiveActivity) private var autoRestartLiveActivity
     @Default(.liveActivityTapApp) private var liveActivityTapApp
     @Default(.appGraphStyle) private var appGraphStyle
     @Default(.liveActivityGraphStyle) private var liveActivityGraphStyle
     @Default(.unit) private var unit
     @Default(.sessionHistory) private var sessionHistory
+    @Default(.pushToStartToken) private var pushToStartToken
 
     private var username: String? {
         Keychain.shared.username
+    }
+
+    /// Auto-restart works by handing the server a push-to-start token, so it's only
+    /// meaningful once the device has received one. Absence means push-to-start isn't
+    /// available yet (e.g. Live Activities disabled, or none started since install).
+    private var pushToStartEnabled: Bool {
+        pushToStartToken != nil
     }
 
     var body: some View {
@@ -83,6 +92,15 @@ struct SettingsView: View {
                     }
                 }
                 .pickerStyle(.menu)
+            }
+
+            if pushToStartEnabled {
+                Section {
+                    Toggle("Automatically restart Live Activity", isOn: $autoRestartLiveActivity)
+                        .tint(.accent)
+                } footer: {
+                    Text("Live Activities have a maximum duration of about eight hours, but Luka can automatically start a new Live Activity when one ends.")
+                }
             }
 
             Section {

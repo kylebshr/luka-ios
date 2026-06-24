@@ -12,7 +12,6 @@ import ActivityKit
 struct ExperimentalView: View {
     @Default(.debugInfo) private var debugInfo
     @Default(.useReadingsProxy) private var useReadingsProxy
-    @Default(.autoRestartLiveActivity) private var autoRestartLiveActivity
 
     @State private var showCompleteAlert = false
 
@@ -76,15 +75,6 @@ struct ExperimentalView: View {
                     .tint(.accent)
             } footer: {
                 Text("Fetch glucose readings from the Luka server when a Live Activity is running. Falls back to Dexcom if no cached readings are available.")
-            }
-
-            Section {
-                Toggle("Automatically restart Live Activity", isOn: $autoRestartLiveActivity)
-                    .tint(.accent)
-            } header: {
-                Text("Experimental")
-            } footer: {
-                Text("Start a new Live Activity automatically when the current one ends from the server.")
             }
         }
         .listStyle(.insetGrouped)
