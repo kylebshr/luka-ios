@@ -38,6 +38,7 @@ struct ReadingView: View {
                     .transition(.blurReplace)
             }
         }
+        .lowercaseSmallCaps()
         .redacted(reason: reading == nil ? .placeholder : [])
         .imageScale(.small)
     }

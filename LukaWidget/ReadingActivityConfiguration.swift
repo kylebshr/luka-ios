@@ -93,6 +93,7 @@ private struct ReadingText: View {
                     .redacted(reason: .placeholder)
             }
         }
+        .lowercaseSmallCaps()
     }
 }
 
