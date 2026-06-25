@@ -37,6 +37,27 @@ import SwiftUI
         reading?.value.formatted(.glucose(unit)) ?? "100"
     }
 
+    private var containerBackground: Color {
+        guard let reading, !isRedacted else {
+            return .black
+        }
+
+        return reading.color(target: lowerTargetRange...upperTargetRange)
+    }
+
+    private var isRedacted: Bool {
+        switch liveViewModel.state {
+        case .initial:
+            return true
+        case .loaded(_, let latest):
+            return latest.isExpired(at: .now)
+        case .noRecentReading:
+            return true
+        case .error:
+            return true
+        }
+    }
+
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
@@ -51,6 +72,7 @@ import SwiftUI
                 VStack(alignment: .leading, spacing: -3) {
                     ReadingView(reading: reading)
                         .font(.title2)
+                        .redacted(reason: isRedacted ? .placeholder : [])
 
                     Text(liveViewModel.message)
                         .font(.footnote)
@@ -64,7 +86,7 @@ import SwiftUI
             .padding(.bottom)
             .padding(.bottom)
             .ignoresSafeArea(.all, edges: .bottom)
-            .containerBackground((reading?.color(target: lowerTargetRange...upperTargetRange) ?? .black).gradient, for: .navigation)
+            .containerBackground(containerBackground.gradient, for: .navigation)
             .toolbar {
                 ToolbarItemGroup(placement: .bottomBar) {
                     Color.clear

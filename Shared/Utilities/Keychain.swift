@@ -14,7 +14,9 @@ extension Keychain {
         Keychain(
             service: "group.com.kylebashour.Glimpse",
             accessGroup: "group.com.kylebashour.Glimpse"
-        ).synchronizable(true)
+        )
+        .synchronizable(true)
+        .accessibility(.afterFirstUnlock)
     }
 
     var username: String? {

@@ -218,35 +218,42 @@ private struct MainContentView: View {
             smallExpiredView()
         } else {
             ZStack {
+                #if os(watchOS)
                 if !context.isOffline, let color = context.state.c?.vividColor(target: targetLower...targetUpper) {
                     Rectangle()
                         .fill(color)
                         .brightness(-0.6)
-                        .opacity(0.4)
+                        .opacity(0.37)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
+                #endif
 
                 HStack(spacing: 0) {
                     ReadingView(reading: context.state.c)
+                        .fixedSize(horizontal: true, vertical: false)
                         .font(.title.weight(.regular))
                         .layoutPriority(100)
                         .opacity(context.isOffline ? 0.5 : 1)
 
-                    Spacer(minLength: 0)
+                    Spacer(minLength: 2)
 
-                    VStack(alignment: .trailing, spacing: 2) {
+                    VStack(alignment: .trailing, spacing: 0) {
                         MinuteTimerView(context: context, relative: false)
                             .lineLimit(1)
                             .font(.footnote.bold())
-                            .minimumScaleFactor(0.5)
 
-                        if let reason = context.state.r {
-                            Text(verbatim: reason)
-                                .font(.footnote.bold())
-                                .foregroundStyle(.secondary)
-                                .lineLimit(2)
+                        if #available(iOS 26, *) {
+                            if let reason = context.state.r {
+                                Text(verbatim: reason)
+                                    .font(.footnote.bold())
+                                    .foregroundStyle(.secondary)
+                                    .lineLimit(2)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .lineHeight(.tight)
+                            }
                         }
                     }
+                    .minimumScaleFactor(0.5)
                     .multilineTextAlignment(.trailing)
                     .layoutPriority(10)
                 }
@@ -313,25 +320,22 @@ private struct MainContentView: View {
     func smallExpiredView() -> some View {
         VStack(alignment: .leading) {
             HStack {
-                Button(intent: EndLiveActivityIntent()) {
-                    Image(systemName: "xmark")
-                }
-                .tint(.primary)
-                .buttonBorderShape(.circle)
-
                 Button(intent: StartLiveActivityIntent(source: "LiveActivity")) {
                     Label("Restart", systemImage: "arrow.clockwise")
-                        .frame(maxWidth: .infinity)
-                        .frame(maxHeight: .infinity)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
                 .tint(.green)
             }
             .font(.callout)
+
+            Text("Session ended")
+                .foregroundStyle(.secondary)
+                .font(.footnote.bold())
+                .frame(maxWidth: .infinity)
         }
         .fontWeight(.medium)
         .multilineTextAlignment(.center)
         .padding(10)
-        .fixedSize(horizontal: false, vertical: true)
     }
 }
 
@@ -593,7 +597,7 @@ private extension Date {
 ) {
     ReadingActivityConfiguration()
 } contentStates: {
-    LiveActivityState(c: .placeholder, h: .placeholder)
+    LiveActivityState(c: .init(value: 333, trend: .flat, date: .now), h: .placeholder, r: "No new readings")
     LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-10 * 61)), h: .placeholder)
     LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-5 * 61)), h: .placeholder)
     LiveActivityState(c: nil, h: [], se: true)
