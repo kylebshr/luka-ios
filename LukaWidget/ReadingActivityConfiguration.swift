@@ -218,7 +218,6 @@ private struct MainContentView: View {
             smallExpiredView()
         } else {
             ZStack {
-                #if os(watchOS)
                 if !context.isOffline, let color = context.state.c?.vividColor(target: targetLower...targetUpper) {
                     Rectangle()
                         .fill(color)
@@ -226,7 +225,6 @@ private struct MainContentView: View {
                         .opacity(0.37)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
-                #endif
 
                 HStack(spacing: 0) {
                     ReadingView(reading: context.state.c)
