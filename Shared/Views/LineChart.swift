@@ -122,11 +122,10 @@ struct LineChart: View {
 
     var body: some View {
         Chart {
-            ForEach(filteredReadings, id: \.t) { reading in
-                let clampedValue = yRangeMode == .full ? min(reading.v, Int16(graphUpperBound)) : reading.v
+            if style == .dots {
+                ForEach(filteredReadings, id: \.t) { reading in
+                    let clampedValue = yRangeMode == .full ? min(reading.v, Int16(graphUpperBound)) : reading.v
 
-                switch style {
-                case .dots:
                     if reading != emphasizedReading {
                         PointMark(
                             x: .value("Date", reading.t),
@@ -135,7 +134,13 @@ struct LineChart: View {
                         .foregroundStyle(colorForValue(Int(reading.v)))
                         .symbolSize(dotSymbolSize)
                     }
-                case .line:
+                }
+            }
+
+            if style == .line {
+                ForEach(filteredReadings, id: \.t) { reading in
+                    let clampedValue = yRangeMode == .full ? min(reading.v, Int16(graphUpperBound)) : reading.v
+
                     LineMark(
                         x: .value("Date", reading.t),
                         y: .value("Glucose", clampedValue)
