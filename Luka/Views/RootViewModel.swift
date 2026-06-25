@@ -15,11 +15,11 @@ import Defaults
 
     private static let bannersURL = URL(string: "https://raw.githubusercontent.com/kylebshr/luka-meta/refs/heads/main/meta.json")!
 
-    var username: String? = Keychain.shared.username {
+    var username: String? {
         didSet { keychain.username = username }
     }
 
-    var password: String? = Keychain.shared.password {
+    var password: String? {
         didSet { keychain.password = password }
     }
 
@@ -27,13 +27,46 @@ import Defaults
         didSet { Defaults[.accountLocation] = accountLocation }
     }
 
-    var accountID: UUID? = Keychain.shared.accountID {
+    var accountID: UUID? {
         didSet { keychain.accountID = accountID }
     }
 
-    var sessionID: UUID? = Keychain.shared.sessionID {
+    var sessionID: UUID? {
         didSet {
             keychain.sessionID = sessionID
+        }
+    }
+
+    /// True once we've successfully read the keychain at least once. Right after
+    /// a reboot the synchronizable keychain can be briefly locked; until we get a
+    /// clean read we must not treat missing credentials as "signed out".
+    private(set) var didLoadCredentials = false
+
+    init() {
+        loadCredentials()
+    }
+
+    /// Reads credentials from the keychain, distinguishing a temporarily-locked
+    /// keychain (throws → retry later) from a genuinely empty one (returns nil).
+    /// Safe to call repeatedly; it no-ops once a clean read has succeeded.
+    func loadCredentials() {
+        guard !didLoadCredentials else { return }
+
+        do {
+            let username = try keychain.getString(.usernameKey)
+            let password = try keychain.getString(.passwordKey)
+            let accountID = try keychain.getString(.accountIDKey).flatMap(UUID.init(uuidString:))
+            let sessionID = try keychain.getString(.sessionIDKey).flatMap(UUID.init(uuidString:))
+
+            self.username = username
+            self.password = password
+            self.accountID = accountID
+            self.sessionID = sessionID
+            didLoadCredentials = true
+        } catch {
+            // Keychain not yet readable (likely just rebooted). Leave state as-is
+            // and retry when the app next becomes active.
+            print("Keychain not ready, will retry: \(error)")
         }
     }
 
