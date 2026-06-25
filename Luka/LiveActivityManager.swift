@@ -105,7 +105,6 @@ final class LiveActivityManager {
                 let tokenString = token.map { String(format: "%02x", $0) }.joined()
                 let kind: String = activityTokens[activity.id] == nil ? "initial" : "update"
                 activityTokens[activity.id] = tokenString
-                TelemetryDeck.signal("LiveActivity.receivedToken", parameters: ["kind": kind])
                 await sendStartLiveActivity(activityID: activity.id, token: tokenString, kind: kind)
             }
         }
@@ -188,13 +187,8 @@ final class LiveActivityManager {
                 activityID: activity.id
             )
             await client.withBackgroundTask(name: "LiveActivity.debugRestart") {
-                do {
-                    let request = try client.makePostRequest("restart-live-activity", body: payload)
-                    try await client.send(request)
-                    TelemetryDeck.signal("LiveActivity.sentDebugRestart")
-                } catch {
-                    TelemetryDeck.signal("LiveActivity.failedToSendDebugRestart")
-                }
+                let request = try? client.makePostRequest("restart-live-activity", body: payload)
+                if let request { try? await client.send(request) }
             }
         }
     }
@@ -229,13 +223,8 @@ final class LiveActivityManager {
         let payload = EndLiveActivityRequest(username: username, activityID: activityID)
 
         await client.withBackgroundTask(name: "LiveActivity.sendEndLiveActivity") {
-            do {
-                let request = try client.makePostRequest("end-live-activity", body: payload)
-                try await client.send(request)
-                TelemetryDeck.signal("LiveActivity.sentEnd")
-            } catch {
-                TelemetryDeck.signal("LiveActivity.failedToSendEnd")
-            }
+            let request = try? client.makePostRequest("end-live-activity", body: payload)
+            if let request { try? await client.send(request) }
         }
     }
 }
