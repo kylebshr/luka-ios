@@ -606,10 +606,17 @@ private extension GlucoseReading {
     /// low/inRange/high colors mix in pink/mint/orange which wash out at low
     /// opacity over a dark background.
     func vividColor(target: ClosedRange<Double>) -> Color {
-        switch Double(value) {
-        case ..<target.lowerBound: .red
-        case ...target.upperBound: .green
-        default: .yellow
+        // Compare against integer-truncated bounds to stay consistent with the
+        // chart's `colorForValue`. The target bounds are stored as Doubles and a
+        // slider-set "70" can land just above 70 (e.g. 70.0000001), which would
+        // otherwise mark an in-range reading as low (red) here while the chart
+        // shows it in range (green).
+        if value < Int(target.lowerBound) {
+            return .red
+        } else if value > Int(target.upperBound) {
+            return .yellow
+        } else {
+            return .green
         }
     }
 }
