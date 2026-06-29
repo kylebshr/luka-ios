@@ -10,10 +10,17 @@ import SwiftUI
 
 extension GlucoseReading {
     func color(target: ClosedRange<Double>) -> Color {
-        switch Double(value) {
-        case ..<target.lowerBound: .lowColor
-        case ...target.upperBound: .inRangeColor
-        default: .highColor
+        // Compare against integer-truncated bounds to stay consistent with the
+        // chart's `colorForValue`. The target bounds are stored as Doubles and a
+        // slider-set "70" can land just above 70 (e.g. 70.0000001), which would
+        // otherwise mark an in-range reading as low while the chart shows it in
+        // range.
+        if value < Int(target.lowerBound) {
+            return .lowColor
+        } else if value > Int(target.upperBound) {
+            return .highColor
+        } else {
+            return .inRangeColor
         }
     }
 
