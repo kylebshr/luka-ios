@@ -28,6 +28,8 @@ struct ReadingActivityConfiguration: Widget {
                     HStack(spacing: 0) {
                         if context.isOffline {
                             context.timestamp
+                        } else if let reason = context.state.r {
+                            Text("\(context.timestamp) • \(reason)")
                         } else {
                             Text("\(context.timestamp) • Last \(context.attributes.range.abbreviatedName)", comment: "Live Activity label showing graph range")
                         }
