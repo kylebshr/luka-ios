@@ -26,10 +26,10 @@ struct ReadingActivityConfiguration: Widget {
             return DynamicIsland {
                 DynamicIslandExpandedRegion(.center) {
                     HStack(spacing: 0) {
-                        if context.isOffline {
-                            context.timestamp
-                        } else if let reason = context.state.r {
+                        if let reason = context.state.r {
                             Text("\(context.timestamp) • \(reason)")
+                        } else if context.isOffline {
+                            context.timestamp
                         } else {
                             Text("\(context.timestamp) • Last \(context.attributes.range.abbreviatedName)", comment: "Live Activity label showing graph range")
                         }
