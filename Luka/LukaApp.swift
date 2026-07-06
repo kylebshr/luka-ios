@@ -35,8 +35,13 @@ struct LukaApp: App {
         // Increment launch count
         Defaults[.launchCount] += 1
 
-        // Resume Direct to G7 following if enabled, including background
-        // relaunches for Bluetooth state restoration.
+        // The prototype Direct to G7 toggle predates app modes; drop it.
+        // (Prototype users were signed in, so they migrate to cloud mode
+        // when RootViewModel loads their credentials.)
+        UserDefaults.shared.removeObject(forKey: "directToG7Enabled")
+
+        // Resume Direct to G7 following if that's the app mode, including
+        // background relaunches for Bluetooth state restoration.
         DirectToG7Manager.shared.syncState()
     }
 

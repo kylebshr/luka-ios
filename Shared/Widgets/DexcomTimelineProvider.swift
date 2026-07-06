@@ -18,6 +18,27 @@ protocol DexcomTimelineProvider {
 }
 
 extension DexcomTimelineProvider {
+    /// The mode-appropriate client: the local reading store in Direct to G7
+    /// mode (fed over Bluetooth by the app; widgets never network), otherwise
+    /// the Dexcom Share client. Nil when signed out of cloud mode.
+    func makeModeClient() async -> DexcomClientService? {
+        if Defaults[.appMode] == .direct {
+            return DexcomHelper.createDirectService()
+        }
+
+        guard let username = Keychain.shared.username,
+              let password = Keychain.shared.password,
+              let accountLocation = Defaults[.accountLocation] else {
+            return nil
+        }
+
+        return await makeClient(
+            username: username,
+            password: password,
+            accountLocation: accountLocation
+        )
+    }
+
     func makeClient(
         username: String,
         password: String,

@@ -118,6 +118,11 @@ final class LiveActivityManager {
     }
 
     private func sendStartLiveActivity(activityID: String, token: String, kind: String) async {
+        // Direct to G7 updates activities locally; the server is never involved.
+        // (Belt and suspenders: direct-mode activities have no push token, so
+        // this can only fire for stale cloud activities anyway.)
+        guard Defaults[.appMode] != .direct else { return }
+
         guard let username = Keychain.shared.username,
               let password = Keychain.shared.password,
               let accountLocation = Defaults[.accountLocation],
@@ -181,6 +186,7 @@ final class LiveActivityManager {
     /// running activity, for testing without waiting for the time limit. Requires the
     /// auto-restart experiment to have been enabled (so the server has a push-to-start token).
     func debugRestartLiveActivityOnServer() async {
+        guard Defaults[.appMode] != .direct else { return }
         guard let username = Keychain.shared.username else { return }
         for activity in Activity<ReadingAttributes>.activities {
             let payload = DebugRestartLiveActivityRequest(
@@ -206,6 +212,7 @@ final class LiveActivityManager {
     }
 
     func endAllLiveActivitiesOnServer() async {
+        guard Defaults[.appMode] != .direct else { return }
         guard let username = Keychain.shared.username else { return }
 
         let payload = EndLiveActivitiesRequest(username: username)
@@ -222,6 +229,7 @@ final class LiveActivityManager {
     }
 
     private func sendEndLiveActivity(activityID: String) async {
+        guard Defaults[.appMode] != .direct else { return }
         guard let username = Keychain.shared.username else { return }
 
         // Match is by activityID, so end regardless of whether a push token was captured

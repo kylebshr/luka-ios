@@ -12,6 +12,7 @@ import ActivityKit
 struct ExperimentalView: View {
     @Default(.debugInfo) private var debugInfo
     @Default(.useReadingsProxy) private var useReadingsProxy
+    @Default(.appMode) private var appMode
 
     @State private var showCompleteAlert = false
 
@@ -70,11 +71,15 @@ struct ExperimentalView: View {
                 .fontWeight(.medium)
             }
 
-            Section {
-                Toggle("Use Luka server for readings", isOn: $useReadingsProxy)
-                    .tint(.accent)
-            } footer: {
-                Text("Fetch glucose readings from the Luka server when a Live Activity is running. Falls back to Dexcom if no cached readings are available.")
+            // The readings proxy is part of the cloud pipeline; direct mode
+            // never networks for readings.
+            if appMode != .direct {
+                Section {
+                    Toggle("Use Luka server for readings", isOn: $useReadingsProxy)
+                        .tint(.accent)
+                } footer: {
+                    Text("Fetch glucose readings from the Luka server when a Live Activity is running. Falls back to Dexcom if no cached readings are available.")
+                }
             }
         }
         .listStyle(.insetGrouped)

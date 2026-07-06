@@ -1,5 +1,5 @@
 //
-//  DirectToG7View.swift
+//  DirectSensorSettingsView.swift
 //  Luka
 //
 //  Created by Claude on 7/6/26.
@@ -10,22 +10,22 @@ import Dexcom
 import DexcomKit
 import SwiftUI
 
-struct DirectToG7View: View {
+/// Sensor status and management for Direct to G7 mode, reached from
+/// settings: connection state, session info, the latest reading, and
+/// forgetting the sensor to adopt a replacement.
+struct DirectSensorSettingsView: View {
+    @Environment(\.dismiss) private var dismiss
+
     @Default(.unit) private var unit
     @Default(.targetRangeLowerBound) private var lowerTargetRange
     @Default(.targetRangeUpperBound) private var upperTargetRange
 
+    @State private var isConfirmingForget = false
+
+    private var manager: DirectToG7Manager { .shared }
+
     var body: some View {
-        @Bindable var manager = DirectToG7Manager.shared
-
         List {
-            Section {
-                Toggle("Direct to G7", isOn: $manager.isEnabled)
-                    .tint(.accent)
-            } footer: {
-                Text("Listen to your G7 directly over Bluetooth, alongside the Dexcom app. The sensor must already be running a session with the Dexcom app on this phone.")
-            }
-
             if let monitor = manager.monitor {
                 Section("Connection") {
                     LabeledContent("Status") {
@@ -39,6 +39,14 @@ struct DirectToG7View: View {
 
                     if let session = monitor.session {
                         LabeledContent("Sensor", value: session.sensorName)
+
+                        if session.isInWarmup(at: .now) {
+                            LabeledContent(
+                                "Warms up",
+                                value: session.warmupEndDate.formatted(date: .omitted, time: .shortened)
+                            )
+                        }
+
                         LabeledContent(
                             "Expires",
                             value: session.expirationDate.formatted(date: .abbreviated, time: .shortened)
@@ -58,20 +66,43 @@ struct DirectToG7View: View {
                 } footer: {
                     Text("The sensor sends a new reading about every five minutes, and backfills readings missed while out of range.")
                 }
-
-                Section {
-                    Button("Forget sensor", role: .destructive) {
-                        manager.forgetSensor()
-                    }
-                } footer: {
-                    Text("Forget the followed sensor so the next scan can adopt a new one, for example after replacing a sensor early.")
-                }
             }
+
+            Section {
+                Button("Forget sensor", role: .destructive) {
+                    isConfirmingForget = true
+                }
+            } footer: {
+                Text("Forget the followed sensor so the next scan can adopt a new one, for example after replacing a sensor early.")
+            }
+
+            #if DEBUG
+            Section {
+                Button("Simulate readings") {
+                    Task {
+                        await manager.simulateReadings([Dexcom.GlucoseReading].placeholder)
+                    }
+                }
+            } footer: {
+                Text("Debug only: pushes 24 hours of sample readings through the local pipeline — store, widgets, Live Activity, and watch relay.")
+            }
+            #endif
         }
-        .animation(.default, value: manager.isEnabled)
         .listStyle(.insetGrouped)
-        .navigationTitle("Direct to G7")
+        .navigationTitle("Sensor")
         .fontDesign(.rounded)
+        .confirmationDialog(
+            "Forget this sensor?",
+            isPresented: $isConfirmingForget,
+            titleVisibility: .visible
+        ) {
+            Button("Forget Sensor", role: .destructive) {
+                manager.forgetSensor()
+                dismiss()
+            }
+        } message: {
+            Text("Luka will scan for a sensor to connect to. Your readings stay on this iPhone.")
+        }
     }
 
     private func readingRow(_ reading: DexcomKit.GlucoseReading) -> some View {
@@ -108,69 +139,8 @@ struct DirectToG7View: View {
     }
 }
 
-private extension G7ConnectionState {
-    var text: LocalizedStringKey {
-        switch self {
-        case .idle:
-            "Off"
-        case .bluetoothUnavailable(.poweredOff):
-            "Bluetooth is off"
-        case .bluetoothUnavailable(.unauthorized):
-            "Bluetooth not allowed"
-        case .bluetoothUnavailable(.unsupported):
-            "Bluetooth unsupported"
-        case .bluetoothUnavailable(.resetting), .bluetoothUnavailable(.unknown):
-            "Bluetooth unavailable"
-        case .scanning:
-            "Scanning"
-        case .connecting:
-            "Connecting"
-        case .authenticating:
-            "Authenticating"
-        case .connected:
-            "Connected"
-        case .waitingForReading:
-            "Waiting for next reading"
-        }
-    }
-
-    var indicatorColor: Color {
-        switch self {
-        case .idle:
-            .gray
-        case .bluetoothUnavailable:
-            .lowColor
-        case .scanning, .connecting, .authenticating:
-            .highColor
-        case .connected, .waitingForReading:
-            .inRangeColor
-        }
-    }
-}
-
-private extension DexcomKit.TrendArrow {
-    var image: Image {
-        switch self {
-        case .fallingQuickly:
-            Image("arrow.down.double")
-        case .falling:
-            Image(systemName: "arrow.down")
-        case .fallingSlightly:
-            Image(systemName: "arrow.down.right")
-        case .steady:
-            Image(systemName: "arrow.right")
-        case .risingSlightly:
-            Image(systemName: "arrow.up.right")
-        case .rising:
-            Image(systemName: "arrow.up")
-        case .risingQuickly:
-            Image("arrow.up.double")
-        }
-    }
-}
-
 #Preview {
     NavigationStack {
-        DirectToG7View()
+        DirectSensorSettingsView()
     }
 }

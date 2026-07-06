@@ -63,6 +63,11 @@ import Defaults
             self.accountID = accountID
             self.sessionID = sessionID
             didLoadCredentials = true
+
+            // Users signed in before app modes existed are cloud users.
+            if Defaults[.appMode] == nil && isSignedIn {
+                Defaults[.appMode] = .cloud
+            }
         } catch {
             // Keychain not yet readable (likely just rebooted). Leave state as-is
             // and retry when the app next becomes active.
@@ -115,6 +120,8 @@ import Defaults
         self.username = username
         self.password = password
         self.accountLocation = accountLocation
+
+        Defaults[.appMode] = .cloud
     }
 
     func signOut() {
@@ -122,5 +129,8 @@ import Defaults
         password = nil
         accountID = nil
         sessionID = nil
+
+        // Back to the mode chooser.
+        Defaults[.appMode] = nil
     }
 }

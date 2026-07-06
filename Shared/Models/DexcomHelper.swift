@@ -12,6 +12,13 @@ import Foundation
 enum DexcomHelper {
     static let mockEmail = "demo@pitou.tech"
 
+    /// The client for Direct to G7 mode: serves locally persisted readings,
+    /// no credentials, no network. Don't route direct mode through
+    /// `createService` — passing a nil username there means the mock client.
+    static func createDirectService() -> DexcomClientService {
+        DirectDexcomClient()
+    }
+
     static func createService(
         username: String?,
         password: String?,
