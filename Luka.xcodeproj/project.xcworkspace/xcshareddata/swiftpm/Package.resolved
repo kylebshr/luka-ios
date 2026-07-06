@@ -1,5 +1,5 @@
 {
-  "originHash" : "6ce6d16cc83a3ae4dc592b95304a9ae5b1f68d058f276a696210429a38488ef0",
+  "originHash" : "5ec03cd0de22996a7c79a8bdb72ac62b8d732a0ddc4daf34f5c9ee204d8c576a",
   "pins" : [
     {
       "identity" : "defaults",
@@ -17,6 +17,15 @@
       "state" : {
         "branch" : "main",
         "revision" : "732e832bbf11961e744d5f97d24c94218ab85734"
+      }
+    },
+    {
+      "identity" : "dexcomkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/kylebshr/DexcomKit",
+      "state" : {
+        "branch" : "main",
+        "revision" : "525c29cf950fbb00d0247d5ac2b2dda721fc6e2a"
       }
     },
     {
