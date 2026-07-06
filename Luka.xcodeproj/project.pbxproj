@@ -1152,7 +1152,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kylebshr/DexcomKit";
 			requirement = {
-				branch = "claude/dexcomkit-luka-prototype-37ulik";
+				branch = main;
 				kind = branch;
 			};
 		};
