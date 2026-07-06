@@ -45,6 +45,8 @@ extension Defaults.Keys {
     // not leak to another device. Persisted so a token rotation that background-relaunches
     // the app can still hand it to the server before the PTS stream re-yields.
     static let pushToStartToken = Key<String?>("pushToStartToken", default: nil, suite: .shared)
+    // Device-local: following a sensor over Bluetooth is inherently per-device.
+    static let directToG7Enabled = Key<Bool>("directToG7Enabled", default: false, suite: .shared)
 }
 
 extension AccountLocation: Defaults.Serializable {}

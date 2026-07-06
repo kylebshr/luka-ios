@@ -131,6 +131,17 @@ struct SettingsView: View {
 
             Section {
                 NavigationLink {
+                    DirectToG7View()
+                } label: {
+                    Text("Direct to G7")
+                }
+            } footer: {
+                Text("An early prototype of connecting directly to your G7 over Bluetooth.")
+            }
+            .fontWeight(.medium)
+
+            Section {
+                NavigationLink {
                     ExperimentalView()
                 } label: {
                     Text("Advanced")
