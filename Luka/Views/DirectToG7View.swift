@@ -46,13 +46,15 @@ struct DirectToG7View: View {
                     }
                 }
 
-                Section("Latest reading") {
+                Section {
                     if let reading = monitor.latestReading {
                         readingRow(reading)
                     } else {
                         Text("Waiting for a reading…")
                             .foregroundStyle(.secondary)
                     }
+                } header: {
+                    Text("Latest reading")
                 } footer: {
                     Text("The sensor sends a new reading about every five minutes, and backfills readings missed while out of range.")
                 }
