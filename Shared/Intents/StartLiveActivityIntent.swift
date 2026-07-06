@@ -52,8 +52,25 @@ struct StartLiveActivityIntent: LiveActivityIntent {
     }
 
     func perform() async throws -> some IntentResult {
-        guard let username, let password, let accountLocation else {
-            throw LiveActivityError.loggedOut
+        let isDirectMode = Defaults[.appMode] == .direct
+
+        // Direct to G7 updates the activity locally from Bluetooth readings;
+        // the cloud path registers a push token with the Luka server.
+        let client: DexcomClientService
+        if isDirectMode {
+            client = DexcomHelper.createDirectService()
+        } else {
+            guard let username, let password, let accountLocation else {
+                throw LiveActivityError.loggedOut
+            }
+
+            client = DexcomHelper.createService(
+                username: username,
+                password: password,
+                existingAccountID: accountID,
+                existingSessionID: sessionID,
+                accountLocation: accountLocation
+            )
         }
 
         for activity in Activity<ReadingAttributes>.activities {
@@ -63,14 +80,6 @@ struct StartLiveActivityIntent: LiveActivityIntent {
         guard ActivityAuthorizationInfo().areActivitiesEnabled else {
             throw LiveActivityError.disabled
         }
-
-        let client = DexcomHelper.createService(
-            username: username,
-            password: password,
-            existingAccountID: accountID,
-            existingSessionID: sessionID,
-            accountLocation: accountLocation
-        )
 
         let range: GraphRange = .threeHours
         let readings = try await client
@@ -86,7 +95,7 @@ struct StartLiveActivityIntent: LiveActivityIntent {
                 state: initialState,
                 staleDate: Date.now.addingTimeInterval(60 * 15)
             ),
-            pushType: .token
+            pushType: isDirectMode ? nil : .token
         )
 
         TelemetryDeck.signal(

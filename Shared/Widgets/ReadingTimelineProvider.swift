@@ -40,15 +40,9 @@ struct ReadingTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvide
     }
 
     private func makeState(for configuration: ReadingWidgetConfiguration) async -> Entry.State {
-        guard let username = Keychain.shared.username, let password = Keychain.shared.password, let accountLocation = Defaults[.accountLocation] else {
+        guard let client = await makeModeClient() else {
             return .error(.loggedOut)
         }
-
-        let client = await makeClient(
-            username: username,
-            password: password,
-            accountLocation: accountLocation
-        )
 
         do {
             if let current = try await client.getLatestGlucoseReading(), Date.now.timeIntervalSince(current.date) < 60 * 15 {

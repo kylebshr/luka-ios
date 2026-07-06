@@ -5,11 +5,15 @@
 //  Created by Kyle Bashour on 4/26/24.
 //
 
+import Defaults
 import SwiftUI
 import TelemetryDeck
 
 struct RootView: View {
     @Environment(RootViewModel.self) private var viewModel
+
+    @Default(.appMode) private var appMode
+    @Default(.directSensorAdopted) private var directSensorAdopted
 
     init() {
         var largeTitleFont = UIFont.preferredFont(forTextStyle: .largeTitle)
@@ -42,6 +46,14 @@ struct RootView: View {
                     .onAppear {
                         TelemetryDeck.signal("ForceUpgrade.viewed")
                     }
+            } else if appMode == .direct {
+                if directSensorAdopted {
+                    MainView()
+                        .transition(.blurReplace(.downUp))
+                } else {
+                    SensorAdoptionView()
+                        .transition(.blurReplace(.downUp))
+                }
             } else if viewModel.isSignedIn {
                 MainView()
                     .transition(.blurReplace(.downUp))
@@ -54,13 +66,15 @@ struct RootView: View {
                         ProgressView()
                     }
             } else {
-                SignInView()
+                ModeSelectionView()
                     .transition(.blurReplace(.downUp))
             }
         }
         .animation(.default, value: viewModel.username)
         .animation(.default, value: viewModel.didLoadCredentials)
         .animation(.default, value: viewModel.requiresForceUpgrade)
+        .animation(.default, value: appMode)
+        .animation(.default, value: directSensorAdopted)
         .task {
             await viewModel.loadBanners()
         }

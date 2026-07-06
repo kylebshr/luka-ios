@@ -45,8 +45,21 @@ extension Defaults.Keys {
     // not leak to another device. Persisted so a token rotation that background-relaunches
     // the app can still hand it to the server before the PTS stream re-yields.
     static let pushToStartToken = Key<String?>("pushToStartToken", default: nil, suite: .shared)
-    // Device-local: following a sensor over Bluetooth is inherently per-device.
-    static let directToG7Enabled = Key<Bool>("directToG7Enabled", default: false, suite: .shared)
+    // Device-local (not iCloud-synced): which data source powers the app.
+    // Following a sensor over Bluetooth is inherently per-device. nil means
+    // the user hasn't chosen yet, so the app shows the mode chooser (or, for
+    // users signed in before modes existed, migrates to .cloud on launch).
+    static let appMode = Key<AppMode?>("appMode", default: nil, suite: .shared)
+    // Device-local: whether a sensor session has been adopted in Direct to G7
+    // mode. Gates the main UI; false routes to the sensor adoption flow.
+    static let directSensorAdopted = Key<Bool>("directSensorAdopted", default: false, suite: .shared)
+    // Device-local: last two characters of the pairing code, used to target a
+    // specific sensor when automatic adoption is ambiguous (crowded homes).
+    static let directSensorNameSuffix = Key<String?>("directSensorNameSuffix", default: nil, suite: .shared)
+    // Device-local: watch-relay bookkeeping for the budgeted (~50/day)
+    // complication transfers. See PhoneWatchRelay.
+    static let lastComplicationTransferDate = Key<Date?>("lastComplicationTransferDate", default: nil, suite: .shared)
+    static let lastComplicationTransferBucket = Key<String?>("lastComplicationTransferBucket", default: nil, suite: .shared)
 }
 
 extension AccountLocation: Defaults.Serializable {}

@@ -25,6 +25,7 @@ import WidgetKit
     @Default(.dismissedBannerIDs) private var dismissedBannerIDs
 
     @Default(.isLiveActivityRunning) private var isActivityActive
+    @Default(.appMode) private var appMode
 
     @State private var isPresentingSettings = false
     @State private var liveViewModel = LiveViewModel()
@@ -94,6 +95,12 @@ import WidgetKit
             VStack(alignment: .leading) {
                 readingView()
                     .padding([.horizontal, .bottom])
+
+                if appMode == .direct && !isCompact {
+                    DirectStatusRow()
+                        .padding(.horizontal)
+                        .padding(.bottom)
+                }
 
                 if !isCompact {
                     ForEach(banners) { banner in

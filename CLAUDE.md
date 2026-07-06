@@ -2,7 +2,12 @@
 
 ## Overview
 
-Luka is an iOS companion app for Dexcom continuous glucose monitors (CGM). It provides Lock Screen, Home Screen, and Apple Watch widgets displaying real-time Dexcom glucose readings. The app uses the [dexcom-swift](https://github.com/kylebshr/dexcom-swift) library and supports iOS Live Activities with Dynamic Island.
+Luka is an iOS companion app for Dexcom continuous glucose monitors (CGM). It provides Lock Screen, Home Screen, and Apple Watch widgets displaying real-time Dexcom glucose readings, and supports iOS Live Activities with Dynamic Island.
+
+The app has two mutually exclusive **data source modes**, chosen on first launch (`Defaults[.appMode]`, device-local):
+
+- **Cloud (Dexcom Share)** — the classic app: sign in with Dexcom credentials, readings come from Dexcom's servers via [dexcom-swift](https://github.com/kylebshr/dexcom-swift). Live Activities are updated by the Luka server via push.
+- **Direct to G7** — no account: readings come straight from the sensor over Bluetooth via [DexcomKit](https://github.com/kylebshr/DexcomKit), which *follows* the official Dexcom app's session (no pairing). The app persists readings into the shared cache (`DirectReadingStore` → `Defaults[.cachedReadings]`), so widgets read locally; Live Activities update locally (`DirectLiveActivityUpdater`); the watch gets readings relayed over WatchConnectivity (`PhoneWatchRelay` → `WatchSessionListener`).
 
 **App Store ID:** 6499279663
 
@@ -22,6 +27,9 @@ xcodebuild -project Luka.xcodeproj -scheme Luka -destination 'platform=iOS Simul
 /Luka                    # Main iOS app target
   /Views                 # SwiftUI views (MainView, SignInView, SettingsView)
   /Views/Form            # Reusable form components
+  /Views/Onboarding      # Mode chooser (ModeSelectionView)
+  /Views/DirectToG7      # Direct-mode UI (SensorAdoptionView, DirectSensorSettingsView)
+  /DirectToG7            # Direct-mode pipeline (DirectToG7Manager, bridge, LA updater, watch relay)
   /Intents               # App Intents for Live Activities & Shortcuts
   /Models                # App-specific models (Banners)
   LukaApp.swift          # @main entry point
@@ -30,6 +38,7 @@ xcodebuild -project Luka.xcodeproj -scheme Luka -destination 'platform=iOS Simul
   LukaApp.swift          # Watch entry point
   MainView.swift         # Watch glucose display
   RootView.swift         # Watch navigation
+  WatchSessionListener.swift  # Receives direct-mode readings from the phone
 
 /Shared                  # Code shared across all targets
   /Views                 # Shared UI (ReadingView, LineChart, GraphView)
@@ -107,7 +116,8 @@ The app uses modern SwiftUI with the `@Observable` macro:
 
 | Package | Purpose |
 |---------|---------|
-| [dexcom-swift](https://github.com/kylebshr/dexcom-swift) | Dexcom API client |
+| [dexcom-swift](https://github.com/kylebshr/dexcom-swift) | Dexcom API client (cloud mode) |
+| [DexcomKit](https://github.com/kylebshr/DexcomKit) | Direct G7 Bluetooth follower (direct mode; linked to the Luka app target only) |
 | [KeychainAccess](https://github.com/kishikawakatsumi/KeychainAccess) | Secure credential storage |
 | [Defaults](https://github.com/sindresorhus/Defaults) | UserDefaults wrapper with iCloud sync |
 | [TelemetryDeck](https://telemetrydeck.com) | Privacy-first analytics |
@@ -294,7 +304,9 @@ TelemetryDeck.signal("ForceUpgrade.viewed")
 
 ## Build Notes
 
-- iOS 17.0+ deployment target (for @Observable)
-- Requires Xcode 15+
+- iOS 18.0+ deployment target (DexcomKit requires iOS 18)
+- Requires Xcode 16+ (file-system-synchronized groups: new Shared files that the
+  Luka or Watch targets need must be added to those targets' `membershipExceptions`
+  in project.pbxproj)
 - Swift Package Manager for dependencies
 - TelemetryDeck requires app ID: `7C1E8E40-73DE-4BC4-BDBF-705218647D91`

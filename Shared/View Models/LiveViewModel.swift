@@ -30,6 +30,7 @@ import KeychainAccess
     @ObservationIgnored private var client: DexcomClientService?
     @ObservationIgnored private let decoder = JSONDecoder()
     @ObservationIgnored private let delegate = KeychainDexcomDelegate()
+    @ObservationIgnored private var directReadingsObserver: (any NSObjectProtocol)?
 
     var messageValue: TimeInterval {
         switch state {
@@ -58,7 +59,14 @@ import KeychainAccess
 
     func setUpClientAndBeginRefreshing() {
         Task {
-            if let username, let password, let accountLocation {
+            if Defaults[.appMode] == .direct {
+                // Direct to G7: readings come from the local store, fed over
+                // Bluetooth. Refresh immediately when a new reading lands
+                // instead of waiting for the next timer tick.
+                client = DexcomHelper.createDirectService()
+                observeDirectReadings()
+                beginRefreshing()
+            } else if let username, let password, let accountLocation {
                 client = DexcomHelper.createService(
                     username: username,
                     password: password,
@@ -72,11 +80,25 @@ import KeychainAccess
         }
     }
 
-    func beginRefreshing() {
+    private func observeDirectReadings() {
+        guard directReadingsObserver == nil else { return }
+
+        directReadingsObserver = NotificationCenter.default.addObserver(
+            forName: .directReadingsDidChange,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            Task { @MainActor [weak self] in
+                self?.beginRefreshing(force: true)
+            }
+        }
+    }
+
+    func beginRefreshing(force: Bool = false) {
         guard let client else { return }
 
         Task<Void, Never> {
-            if shouldRefreshReading {
+            if force || shouldRefreshReading {
                 print("Refreshing reading")
 
                 do {
