@@ -19,7 +19,11 @@ import WidgetKit
 /// `receivedApplicationContext` on activation); `didReceiveUserInfo` handles
 /// the budgeted complication transfers that wake the app in the background,
 /// where reloading WidgetKit timelines actually matters.
-final class WatchSessionListener: NSObject {
+///
+/// `@unchecked Sendable`: the class is stateless, and everything `apply`
+/// touches (UserDefaults, WidgetCenter, NotificationCenter) is thread-safe,
+/// so it's safe to share with the WCSession delegate queue.
+final class WatchSessionListener: NSObject, @unchecked Sendable {
     static let shared = WatchSessionListener()
 
     private override init() {
