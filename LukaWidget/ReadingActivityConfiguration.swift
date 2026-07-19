@@ -21,6 +21,13 @@ struct ReadingActivityConfiguration: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: ReadingAttributes.self) { context in
             MainContentView(context: context)
+                .background {
+                    // Applied outside the content's padding so the glow bleeds
+                    // all the way to the card's edges instead of being inset.
+                    if !context.isOffline, let color = context.state.c?.vividColor(target: targetLower...targetUpper) {
+                        bottomGlow(color: color)
+                    }
+                }
                 .widgetURL(tapApp.url)
         } dynamicIsland: { context in
             return DynamicIsland {
@@ -75,6 +82,23 @@ struct ReadingActivityConfiguration: Widget {
             .widgetURL(tapApp.url)
         }
         .supplementalActivityFamilies([.small])
+    }
+
+    /// A soft bloom of the reading's color rising from the bottom edge, meant to
+    /// sit behind everything else via `.background`. Kept subtle — the activity
+    /// renders on a near-black background, so a strong tint would fight with the
+    /// content on top of it.
+    @ViewBuilder func bottomGlow(color: Color) -> some View {
+        EllipticalGradient(
+            colors: [color.opacity(0.35), .clear],
+            center: .bottom,
+            startRadiusFraction: 0,
+            endRadiusFraction: 0.65
+        )
+        // Stretch the bloom horizontally so it washes across the full bottom
+        // edge instead of pooling in the center.
+        .scaleEffect(x: 1.5, anchor: .bottom)
+        .allowsHitTesting(false)
     }
 }
 
@@ -198,8 +222,6 @@ private struct MainContentView: View {
     var context: ActivityViewContext<ReadingAttributes>
 
     @Environment(\.activityFamily) private var family
-    @Default(.targetRangeLowerBound) private var targetLower
-    @Default(.targetRangeUpperBound) private var targetUpper
     @Default(.showChartLiveActivity) private var _showChartLiveActivity
     @Default(.debugInfo) private var debugInfo
 
@@ -219,46 +241,41 @@ private struct MainContentView: View {
         if context.isExpired == true {
             smallExpiredView()
         } else {
-            ZStack {
-                if !context.isOffline, let color = context.state.c?.vividColor(target: targetLower...targetUpper) {
-                    Rectangle()
-                        .fill(color)
-                        .brightness(-0.6)
-                        .opacity(0.37)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                }
+            // No tinted background here — the bottom glow behind the whole
+            // activity carries the reading's color instead.
+            HStack(spacing: 0) {
+                ReadingView(reading: context.state.c)
+                    .fixedSize(horizontal: true, vertical: false)
+                    .font(.title.weight(.regular))
+                    .layoutPriority(100)
+                    .opacity(context.isOffline ? 0.5 : 1)
 
-                HStack(spacing: 0) {
-                    ReadingView(reading: context.state.c)
-                        .fixedSize(horizontal: true, vertical: false)
-                        .font(.title.weight(.regular))
-                        .layoutPriority(100)
-                        .opacity(context.isOffline ? 0.5 : 1)
+                Spacer(minLength: 2)
 
-                    Spacer(minLength: 2)
+                VStack(alignment: .trailing, spacing: 0) {
+                    MinuteTimerView(context: context, relative: false)
+                        .lineLimit(1)
+                        .font(.footnote.bold())
 
-                    VStack(alignment: .trailing, spacing: 0) {
-                        MinuteTimerView(context: context, relative: false)
-                            .lineLimit(1)
-                            .font(.footnote.bold())
-
-                        if #available(iOS 26, *) {
-                            if let reason = context.state.r {
-                                Text(verbatim: reason)
-                                    .font(.footnote.bold())
-                                    .foregroundStyle(.secondary)
-                                    .lineLimit(2)
-                                    .fixedSize(horizontal: false, vertical: true)
-                                    .lineHeight(.tight)
-                            }
+                    if #available(iOS 26, *) {
+                        if let reason = context.state.r {
+                            Text(verbatim: reason)
+                                .font(.footnote.bold())
+                                .foregroundStyle(.secondary)
+                                .lineLimit(2)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .lineHeight(.tight)
                         }
                     }
-                    .minimumScaleFactor(0.5)
-                    .multilineTextAlignment(.trailing)
-                    .layoutPriority(10)
                 }
-                .padding(10)
+                .minimumScaleFactor(0.5)
+                .multilineTextAlignment(.trailing)
+                .layoutPriority(10)
             }
+            // Fill the cell so the bottom glow reaches the bottom edge — the
+            // removed tinted rectangle used to be what stretched this layout.
+            .frame(maxHeight: .infinity)
+            .padding(10)
         }
     }
 
