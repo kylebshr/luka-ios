@@ -272,6 +272,9 @@ private struct MainContentView: View {
                 .multilineTextAlignment(.trailing)
                 .layoutPriority(10)
             }
+            // Fill the cell so the bottom glow reaches the bottom edge — the
+            // removed tinted rectangle used to be what stretched this layout.
+            .frame(maxHeight: .infinity)
             .padding(10)
         }
     }
