@@ -418,24 +418,12 @@ private struct GraphPieceView: View {
     var context: ActivityViewContext<ReadingAttributes>
 
     var body: some View {
-        ZStack {
-            LineChart(
-                range: context.attributes.range,
-                style: .line,
-                readings: context.state.h,
-                lineWidth: 15
-            )
-            .saturation(2)
-            .blur(radius: 30)
-            .opacity(0.85)
-
-            LineChart(
-                range: context.attributes.range,
-                style: Defaults[.liveActivityGraphStyle],
-                readings: context.state.h
-            )
-            .padding(.trailing)
-        }
+        LineChart(
+            range: context.attributes.range,
+            style: Defaults[.liveActivityGraphStyle],
+            readings: context.state.h
+        )
+        .padding(.trailing)
         .padding(.leading, -5)
         .frame(maxHeight: family == .medium ? 70 : nil)
     }
