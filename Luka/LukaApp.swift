@@ -34,10 +34,6 @@ struct LukaApp: App {
 
         // Increment launch count
         Defaults[.launchCount] += 1
-
-        // Resume Direct to G7 following if enabled, including background
-        // relaunches for Bluetooth state restoration.
-        DirectToG7Manager.shared.syncState()
     }
 
     var body: some Scene {

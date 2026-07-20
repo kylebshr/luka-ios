@@ -1,5 +1,5 @@
 {
-  "originHash" : "5ec03cd0de22996a7c79a8bdb72ac62b8d732a0ddc4daf34f5c9ee204d8c576a",
+  "originHash" : "930566134afb379c23490c1432181c9d58cb4437a73dfcd1721939158879af12",
   "pins" : [
     {
       "identity" : "defaults",
@@ -20,21 +20,21 @@
       }
     },
     {
-      "identity" : "dexcomkit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/kylebshr/DexcomKit",
-      "state" : {
-        "branch" : "main",
-        "revision" : "525c29cf950fbb00d0247d5ac2b2dda721fc6e2a"
-      }
-    },
-    {
       "identity" : "keychainaccess",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/kishikawakatsumi/KeychainAccess",
       "state" : {
         "branch" : "master",
         "revision" : "e0c7eebc5a4465a3c4680764f26b7a61f567cdaf"
+      }
+    },
+    {
+      "identity" : "smartstackmargins",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/kylebshr/SmartStackMargins",
+      "state" : {
+        "revision" : "f97bb3ff59b2ab990eda2fa683363808b76766ef",
+        "version" : "1.0.0"
       }
     },
     {
