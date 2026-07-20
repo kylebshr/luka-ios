@@ -91,10 +91,10 @@ struct ReadingActivityConfiguration: Widget {
     /// content on top of it.
     @ViewBuilder func bottomGlow(color: Color) -> some View {
         EllipticalGradient(
-            colors: [color.opacity(0.35), .clear],
+            colors: [color.opacity(0.4), .clear],
             center: .bottom,
             startRadiusFraction: 0,
-            endRadiusFraction: 0.65
+            endRadiusFraction: 0.55
         )
         // Stretch the bloom horizontally so it washes across the full bottom
         // edge instead of pooling in the center.
@@ -610,9 +610,9 @@ private extension Date {
 }
 
 private extension GlucoseReading {
-    /// Pure red/green/yellow for use as a tinted background — the global
-    /// low/inRange/high colors mix in pink/mint/orange which wash out at low
-    /// opacity over a dark background.
+    /// Red/green/yellow lifted for the activity's near-black background — pure
+    /// system hues carry too little luminance to glow at low opacity, and the
+    /// global low/inRange/high colors mix in pink/mint/orange which wash out.
     func vividColor(target: ClosedRange<Double>) -> Color {
         // Compare against integer-truncated bounds to stay consistent with the
         // chart's `colorForValue`. The target bounds are stored as Doubles and a
@@ -620,11 +620,11 @@ private extension GlucoseReading {
         // otherwise mark an in-range reading as low (red) here while the chart
         // shows it in range (green).
         if value < Int(target.lowerBound) {
-            return .red
+            return Color(red: 0xFF / 255, green: 0x85 / 255, blue: 0x78 / 255)
         } else if value > Int(target.upperBound) {
-            return .yellow
+            return Color(red: 0xFF / 255, green: 0xE1 / 255, blue: 0x3D / 255)
         } else {
-            return .green
+            return Color(red: 0x45 / 255, green: 0xEE / 255, blue: 0x5F / 255)
         }
     }
 }
