@@ -12,6 +12,7 @@ import Foundation
 import SwiftUI
 import Defaults
 import Charts
+import SmartStackMargins
 
 struct ReadingActivityConfiguration: Widget {
     @Default(.targetRangeLowerBound) private var targetLower
@@ -231,7 +232,9 @@ private struct MainContentView: View {
 
     var body: some View {
         switch family {
-        case .small: smallContentView()
+        case .small:
+            smallContentView()
+                .smartStackContentMargins()
         case .medium: mediumContentView()
         @unknown default: mediumContentView()
         }
@@ -275,7 +278,6 @@ private struct MainContentView: View {
             // Fill the cell so the bottom glow reaches the bottom edge — the
             // removed tinted rectangle used to be what stretched this layout.
             .frame(maxHeight: .infinity)
-            .padding(10)
         }
     }
 
@@ -352,7 +354,6 @@ private struct MainContentView: View {
         }
         .fontWeight(.medium)
         .multilineTextAlignment(.center)
-        .padding(10)
     }
 }
 
