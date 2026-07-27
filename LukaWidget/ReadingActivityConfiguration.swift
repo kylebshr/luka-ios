@@ -319,8 +319,8 @@ private struct MainContentView: View {
 
                 if showChartLiveActivity {
                     GraphPieceView(context: context)
-                        .padding(.top, 10)
-                        .padding(.bottom)
+                        .padding(.top, 5)
+                        .padding(.bottom, 5)
                 }
 
                 if debugInfo {
@@ -426,7 +426,7 @@ private struct GraphPieceView: View {
         )
         .padding(.trailing)
         .padding(.leading, -5)
-        .frame(maxHeight: family == .medium ? 70 : nil)
+        .frame(maxHeight: family == .medium ? 60 : nil)
     }
 }
 
