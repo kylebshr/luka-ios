@@ -287,10 +287,15 @@ private struct MainContentView: View {
         } else {
             VStack(spacing: 0) {
                 HStack {
-                    ReadingView(reading: context.state.c)
-                        .font(.largeTitle)
-                        .fontDesign(.rounded)
-                        .opacity(context.isOffline ? 0.5 : 1)
+                    HStack(spacing: .spacing3) {
+                        ReadingView(reading: context.state.c)
+
+                        DeltaText(context: context)
+                            .foregroundStyle(.secondary)
+                    }
+                    .font(.largeTitle)
+                    .fontDesign(.rounded)
+                    .opacity(context.isOffline ? 0.5 : 1)
 
                     Spacer()
 
@@ -397,6 +402,20 @@ private struct MediumExpiredView: View {
     }
 }
 
+/// The change since the previous reading, e.g. "+5" or "-10".
+private struct DeltaText: View {
+    @Default(.unit) private var unit
+    var context: ActivityViewContext<ReadingAttributes>
+
+    var body: some View {
+        if let delta = context.delta {
+            Text(verbatim: (delta < 0 ? "-" : "+") + abs(delta).formatted(.glucose(unit)))
+                .lowercaseSmallCaps()
+                .contentTransition(.numericText(value: Double(delta)))
+        }
+    }
+}
+
 private struct WithRange<Content: View>: View {
     @Default(.targetRangeLowerBound) private var targetLower
     @Default(.targetRangeUpperBound) private var targetUpper
@@ -426,7 +445,7 @@ private struct GraphPieceView: View {
         )
         .padding(.trailing)
         .padding(.leading, -5)
-        .frame(maxHeight: family == .medium ? 60 : nil)
+        .frame(maxHeight: family == .medium ? 65 : nil)
     }
 }
 
@@ -444,6 +463,17 @@ private extension ActivityViewContext<ReadingAttributes> {
 
     var isExpired: Bool {
         state.se ?? (state.c == nil)
+    }
+
+    /// Change from the previous reading, in mg/dL. Nil when there's no current
+    /// reading or no preceding history entry, or when the gap between them is
+    /// too large (a sensor dropout) for the difference to be meaningful.
+    var delta: Int? {
+        guard let current = state.c,
+              let previous = state.h.last(where: { $0.t < current.date }),
+              current.date.timeIntervalSince(previous.t) <= 15 * 60
+        else { return nil }
+        return current.value - Int(previous.v)
     }
 
     var timestampColor: Color {
