@@ -252,10 +252,9 @@ private struct MainContentView: View {
                     Text(" ")
                     DeltaText(context: context)
                         .foregroundStyle(.secondary)
-                        .font(.title.weight(.regular).width(.compressed))
                 }
                 .fixedSize(horizontal: true, vertical: false)
-                .font(.title.weight(.regular).width(.compressed))
+                .font(.title2.weight(.regular))
                 .layoutPriority(100)
                 .opacity(context.isOffline ? 0.5 : 1)
 
