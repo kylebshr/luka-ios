@@ -247,11 +247,16 @@ private struct MainContentView: View {
             // No tinted background here — the bottom glow behind the whole
             // activity carries the reading's color instead.
             HStack(spacing: 0) {
-                ReadingView(reading: context.state.c)
-                    .fixedSize(horizontal: true, vertical: false)
-                    .font(.title.weight(.regular))
-                    .layoutPriority(100)
-                    .opacity(context.isOffline ? 0.5 : 1)
+                HStack(spacing: 0) {
+                    ReadingView(reading: context.state.c)
+                    Text(" ")
+                    DeltaText(context: context)
+                        .foregroundStyle(.secondary)
+                }
+                .fixedSize(horizontal: true, vertical: false)
+                .font(.title2.weight(.medium))
+                .layoutPriority(100)
+                .opacity(context.isOffline ? 0.5 : 1)
 
                 Spacer(minLength: 2)
 
