@@ -287,9 +287,9 @@ private struct MainContentView: View {
         } else {
             VStack(spacing: 0) {
                 HStack {
-                    HStack(spacing: .spacing3) {
+                    HStack(spacing: 0) {
                         ReadingView(reading: context.state.c)
-
+                        Text(verbatim: " ")
                         DeltaText(context: context)
                             .foregroundStyle(.secondary)
                     }
@@ -409,9 +409,14 @@ private struct DeltaText: View {
 
     var body: some View {
         if let delta = context.delta {
-            Text(verbatim: (delta < 0 ? "-" : "+") + abs(delta).formatted(.glucose(unit)))
-                .lowercaseSmallCaps()
-                .contentTransition(.numericText(value: Double(delta)))
+            Text(verbatim: (delta < 0 ? "-" : "+") + abs(delta).formatted(
+                .glucose(
+                    unit,
+                    usesOutOfRangeText: false
+                )
+            ))
+            .lowercaseSmallCaps()
+            .contentTransition(.numericText(value: Double(delta)))
         }
     }
 }
