@@ -159,6 +159,7 @@
 				"Utilities/View+Extensions.swift",
 				"Utilities/View+Modifier.swift",
 				"View Models/LiveViewModel.swift",
+				Views/DeltaView.swift,
 				Views/DonutSymbolShape.swift,
 				Views/GraphView.swift,
 				Views/LineChart.swift,
