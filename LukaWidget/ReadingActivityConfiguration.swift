@@ -298,8 +298,9 @@ private struct MainContentView: View {
                     .font(.largeTitle)
                     .fontDesign(.rounded)
                     .opacity(context.isOffline ? 0.5 : 1)
+                    .fixedSize(horizontal: true, vertical: true)
 
-                    Spacer()
+                    Spacer(minLength: 0)
 
                     VStack(alignment: .trailing, spacing: 0) {
                         MinuteTimerView(context: context, relative: true)
@@ -327,7 +328,7 @@ private struct MainContentView: View {
                 if showChartLiveActivity {
                     GraphPieceView(context: context)
                         .padding(.top, 5)
-                        .padding(.bottom, 5)
+                        .padding(.bottom, 10)
                 }
 
                 if debugInfo {
@@ -464,7 +465,7 @@ private struct GraphPieceView: View {
         )
         .padding(.trailing)
         .padding(.leading, -5)
-        .frame(maxHeight: family == .medium ? 65 : nil)
+        .frame(maxHeight: family == .medium ? 60 : nil)
     }
 }
 
@@ -614,45 +615,6 @@ private extension Date {
     ReadingActivityConfiguration()
 } contentStates: {
     LiveActivityState(c: .placeholder, h: .placeholder)
-    LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-10 * 61)), h: .placeholder)
-    LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-5 * 61)), h: .placeholder)
-    LiveActivityState(c: nil, h: [], se: true)
-}
-
-#Preview(
-    "Compact",
-    as: .dynamicIsland(.compact),
-    using: ReadingAttributes(range: .threeHours)
-) {
-    ReadingActivityConfiguration()
-} contentStates: {
-    LiveActivityState(c: .placeholder, h: .placeholder)
-    LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-10 * 61)), h: .placeholder)
-    LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-5 * 61)), h: .placeholder)
-    LiveActivityState(c: nil, h: [], se: true)
-}
-
-#Preview(
-    "Minimal",
-    as: .dynamicIsland(.minimal),
-    using: ReadingAttributes(range: .threeHours)
-) {
-    ReadingActivityConfiguration()
-} contentStates: {
-    LiveActivityState(c: .placeholder, h: .placeholder)
-    LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-10 * 61)), h: .placeholder)
-    LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-5 * 61)), h: .placeholder)
-    LiveActivityState(c: nil, h: [], se: true)
-}
-
-#Preview(
-    "Content",
-    as: .content,
-    using: ReadingAttributes(range: .threeHours)
-) {
-    ReadingActivityConfiguration()
-} contentStates: {
-    LiveActivityState(c: .init(value: 333, trend: .flat, date: .now), h: .placeholder, r: "No new readings")
     LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-10 * 61)), h: .placeholder)
     LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-5 * 61)), h: .placeholder)
     LiveActivityState(c: nil, h: [], se: true)
