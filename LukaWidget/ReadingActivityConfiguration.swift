@@ -247,35 +247,32 @@ private struct MainContentView: View {
             // No tinted background here — the bottom glow behind the whole
             // activity carries the reading's color instead.
             HStack(spacing: 0) {
-                HStack(spacing: 0) {
-                    ReadingView(reading: context.state.c)
-                    Text(" ")
-                    DeltaText(context: context)
-                        .foregroundStyle(.secondary)
-                }
-                .fixedSize(horizontal: true, vertical: false)
-                .font(.title2.weight(.regular))
-                .layoutPriority(100)
-                .opacity(context.isOffline ? 0.5 : 1)
+                ReadingView(reading: context.state.c)
+                    .fixedSize(horizontal: true, vertical: false)
+                    .font(.title)
+                    .layoutPriority(100)
+                    .opacity(context.isOffline ? 0.5 : 1)
 
                 Spacer(minLength: 2)
 
                 VStack(alignment: .trailing, spacing: 0) {
                     MinuteTimerView(context: context, relative: false)
                         .lineLimit(1)
-                        .font(.footnote.bold())
 
-                    if #available(iOS 26, *) {
-                        if let reason = context.state.r {
+                    if let reason = context.state.r {
+                        if #available(iOS 26, *) {
                             Text(verbatim: reason)
-                                .font(.footnote.bold())
                                 .foregroundStyle(.secondary)
                                 .lineLimit(2)
                                 .fixedSize(horizontal: false, vertical: true)
-                                .lineHeight(.tight)
                         }
+                    } else {
+                        DeltaText(context: context)
+                            .foregroundStyle(.secondary)
                     }
                 }
+                .font(.footnote.bold())
+                .tightLineHeight()
                 .minimumScaleFactor(0.5)
                 .multilineTextAlignment(.trailing)
                 .layoutPriority(10)
@@ -422,6 +419,18 @@ private struct DeltaText: View {
             ))
             .lowercaseSmallCaps()
             .contentTransition(.numericText(value: Double(delta)))
+        }
+    }
+}
+
+private extension View {
+    /// `.lineHeight(.tight)` where it exists, so the stacked timestamp, delta,
+    /// and reason lines sit close together instead of drifting apart.
+    @ViewBuilder func tightLineHeight() -> some View {
+        if #available(iOS 26, *) {
+            lineHeight(.tight)
+        } else {
+            self
         }
     }
 }
