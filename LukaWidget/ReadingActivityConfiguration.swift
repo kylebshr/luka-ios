@@ -247,11 +247,20 @@ private struct MainContentView: View {
             // No tinted background here — the bottom glow behind the whole
             // activity carries the reading's color instead.
             HStack(spacing: 0) {
-                ReadingView(reading: context.state.c)
-                    .fixedSize(horizontal: true, vertical: false)
-                    .font(.title.weight(.regular))
-                    .layoutPriority(100)
-                    .opacity(context.isOffline ? 0.5 : 1)
+                HStack(alignment: .center) {
+                    ReadingText(context: context)
+                        .font(.title.weight(.regular))
+                        .minimumScaleFactor(0.5)
+
+                    // The reading is plain text here so the arrow only appears
+                    // once — inside the pill.
+                    DeltaPill(context: context)
+                        .font(.system(size: 18))
+                        .fontWeight(.medium)
+                }
+                .fixedSize(horizontal: true, vertical: false)
+                .layoutPriority(100)
+                .opacity(context.isOffline ? 0.5 : 1)
 
                 Spacer(minLength: 2)
 
@@ -265,14 +274,11 @@ private struct MainContentView: View {
                                 .foregroundStyle(.secondary)
                                 .lineLimit(2)
                                 .fixedSize(horizontal: false, vertical: true)
+                                .tightLineHeight()
                         }
-                    } else {
-                        DeltaText(context: context)
-                            .foregroundStyle(.secondary)
                     }
                 }
                 .font(.footnote.bold())
-                .tightLineHeight()
                 .minimumScaleFactor(0.5)
                 .multilineTextAlignment(.trailing)
                 .layoutPriority(10)
@@ -289,17 +295,21 @@ private struct MainContentView: View {
         } else {
             VStack(spacing: 0) {
                 HStack {
-                    HStack(spacing: 0) {
-                        ReadingView(reading: context.state.c)
-                        Text(verbatim: " ")
-                        DeltaText(context: context)
-                            .foregroundStyle(.secondary)
+                    HStack(alignment: .center) {
+                        ReadingText(context: context)
+                            .font(.largeTitle)
+
+                        // The reading is plain text here so the arrow only
+                        // appears once — inside the pill.
+                        DeltaPill(context: context)
+                            .font(.title2)
+                            .fontWeight(.medium)
                     }
-                    .font(.largeTitle)
                     .fontDesign(.rounded)
                     .opacity(context.isOffline ? 0.5 : 1)
+                    .fixedSize(horizontal: true, vertical: true)
 
-                    Spacer()
+                    Spacer(minLength: 0)
 
                     VStack(alignment: .trailing, spacing: 0) {
                         MinuteTimerView(context: context, relative: true)
@@ -327,7 +337,7 @@ private struct MainContentView: View {
                 if showChartLiveActivity {
                     GraphPieceView(context: context)
                         .padding(.top, 5)
-                        .padding(.bottom, 5)
+                        .padding(.bottom, 10)
                 }
 
                 if debugInfo {
@@ -404,21 +414,21 @@ private struct MediumExpiredView: View {
     }
 }
 
-/// The change since the previous reading, e.g. "+5" or "-10".
-private struct DeltaText: View {
-    @Default(.unit) private var unit
+/// The trend arrow and the change since the previous reading, in a capsule
+/// tinted with the reading's color. Dimmed rather than hidden while offline, by
+/// the opacity its container applies to the reading.
+private struct DeltaPill: View {
     var context: ActivityViewContext<ReadingAttributes>
 
     var body: some View {
-        if let delta = context.delta {
-            Text(verbatim: (delta < 0 ? "-" : "+") + abs(delta).formatted(
-                .glucose(
-                    unit,
-                    usesOutOfRangeText: false
+        if let reading = context.state.c {
+            WithRange { range in
+                DeltaView(
+                    trend: reading.trend,
+                    delta: context.delta,
+                    color: reading.vividColor(target: range)
                 )
-            ))
-            .lowercaseSmallCaps()
-            .contentTransition(.numericText(value: Double(delta)))
+            }
         }
     }
 }
@@ -464,7 +474,7 @@ private struct GraphPieceView: View {
         )
         .padding(.trailing)
         .padding(.leading, -5)
-        .frame(maxHeight: family == .medium ? 65 : nil)
+        .frame(maxHeight: family == .medium ? 60 : nil)
     }
 }
 
@@ -617,63 +627,4 @@ private extension Date {
     LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-10 * 61)), h: .placeholder)
     LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-5 * 61)), h: .placeholder)
     LiveActivityState(c: nil, h: [], se: true)
-}
-
-#Preview(
-    "Compact",
-    as: .dynamicIsland(.compact),
-    using: ReadingAttributes(range: .threeHours)
-) {
-    ReadingActivityConfiguration()
-} contentStates: {
-    LiveActivityState(c: .placeholder, h: .placeholder)
-    LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-10 * 61)), h: .placeholder)
-    LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-5 * 61)), h: .placeholder)
-    LiveActivityState(c: nil, h: [], se: true)
-}
-
-#Preview(
-    "Minimal",
-    as: .dynamicIsland(.minimal),
-    using: ReadingAttributes(range: .threeHours)
-) {
-    ReadingActivityConfiguration()
-} contentStates: {
-    LiveActivityState(c: .placeholder, h: .placeholder)
-    LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-10 * 61)), h: .placeholder)
-    LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-5 * 61)), h: .placeholder)
-    LiveActivityState(c: nil, h: [], se: true)
-}
-
-#Preview(
-    "Content",
-    as: .content,
-    using: ReadingAttributes(range: .threeHours)
-) {
-    ReadingActivityConfiguration()
-} contentStates: {
-    LiveActivityState(c: .init(value: 333, trend: .flat, date: .now), h: .placeholder, r: "No new readings")
-    LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-10 * 61)), h: .placeholder)
-    LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-5 * 61)), h: .placeholder)
-    LiveActivityState(c: nil, h: [], se: true)
-}
-
-private extension GlucoseReading {
-    /// Red/green/yellow lifted for the activity's near-black background — pure
-    /// system hues carry too little luminance to glow at low opacity, and the
-    /// global low/inRange/high colors mix in pink/mint/orange which wash out.
-    func vividColor(target: ClosedRange<Double>) -> Color {
-        // Compare against integer-truncated bounds to stay consistent with the
-        // chart's `colorForValue`. The target bounds are stored as Doubles and a
-        // slider-set "70" can land just above 70 (e.g. 70.0000001), which would
-        // otherwise mark an in-range reading as low (red) here while the chart
-        // shows it in range (green).
-        if value < Int(target.lowerBound) {
-            return Color(red: 0xFF / 255, green: 0x85 / 255, blue: 0x78 / 255)
-        } else if value > Int(target.upperBound) {
-            return Color(red: 0xFF / 255, green: 0xE1 / 255, blue: 0x3D / 255)
-        } else {
-            return Color(red: 0x45 / 255, green: 0xEE / 255, blue: 0x5F / 255)
-        }
-    }
 }

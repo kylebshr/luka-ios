@@ -13,6 +13,10 @@ import Defaults
 struct ReadingView: View {
     var reading: GlucoseReading?
 
+    /// Hide the inline arrow when the trend is shown elsewhere, e.g. in an
+    /// adjacent `DeltaView` pill.
+    var showsTrendArrow = true
+
     @Environment(\.redactionReasons) private var redactionReasons
     @Default(.unit) private var unit
 
@@ -21,7 +25,7 @@ struct ReadingView: View {
     }
 
     var image: Image? {
-        if !redactionReasons.contains(.placeholder), let image = reading?.image {
+        if showsTrendArrow, !redactionReasons.contains(.placeholder), let image = reading?.image {
             return image
         } else {
             return nil

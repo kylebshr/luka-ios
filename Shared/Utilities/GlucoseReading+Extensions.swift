@@ -8,24 +8,11 @@
 import Dexcom
 import SwiftUI
 
-extension GlucoseReading {
-    func color(target: ClosedRange<Double>) -> Color {
-        // Compare against integer-truncated bounds to stay consistent with the
-        // chart's `colorForValue`. The target bounds are stored as Doubles and a
-        // slider-set "70" can land just above 70 (e.g. 70.0000001), which would
-        // otherwise mark an in-range reading as low while the chart shows it in
-        // range.
-        if value < Int(target.lowerBound) {
-            return .lowColor
-        } else if value > Int(target.upperBound) {
-            return .highColor
-        } else {
-            return .inRangeColor
-        }
-    }
-
+extension TrendDirection {
+    /// The arrow representing this trend, or nil when there's no direction to
+    /// show (no trend, or the rate couldn't be computed).
     var image: Image? {
-        switch trend {
+        switch self {
         case .none:
             nil
         case .doubleUp:
@@ -47,6 +34,39 @@ extension GlucoseReading {
         case .rateOutOfRange:
             nil
         }
+    }
+}
+
+extension GlucoseReading {
+    func color(target: ClosedRange<Double>) -> Color {
+        // Compare against integer-truncated bounds to stay consistent with the
+        // chart's `colorForValue`. The target bounds are stored as Doubles and a
+        // slider-set "70" can land just above 70 (e.g. 70.0000001), which would
+        // otherwise mark an in-range reading as low while the chart shows it in
+        // range.
+        if value < Int(target.lowerBound) {
+            return .lowColor
+        } else if value > Int(target.upperBound) {
+            return .highColor
+        } else {
+            return .inRangeColor
+        }
+    }
+
+    /// Fully saturated variants of the range colors, for tinted surfaces like
+    /// the `DeltaView` pill where the softer palette would wash out.
+    func vividColor(target: ClosedRange<Double>) -> Color {
+        if value < Int(target.lowerBound) {
+            .red
+        } else if value > Int(target.upperBound) {
+            .yellow
+        } else {
+            .green
+        }
+    }
+
+    var image: Image? {
+        trend.image
     }
 
     func isExpired(at atDate: Date, expiration: Measurement<UnitDuration> = .init(value: 25, unit: .minutes)) -> Bool {
@@ -169,7 +189,7 @@ extension [GlucoseReading] {
             (84, .flat), (73, .fortyFiveDown), (85, .flat), (92, .flat), (86, .flat),
             (85, .flat), (84, .flat), (84, .flat), (90, .flat), (91, .flat),
             (86, .flat), (87, .flat), (94, .flat), (95, .flat), (95, .flat),
-            (101, .flat), (117, .fortyFiveUp), (133, .fortyFiveUp)
+            (101, .flat), (102, .fortyFiveUp), (112, .fortyFiveUp)
         ]
 
         // Create readings with timestamps relative to now

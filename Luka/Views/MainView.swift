@@ -66,6 +66,17 @@ import WidgetKit
         scrubbingGlucoseReading != nil
     }
 
+    /// Change from the reading before the displayed one, in mg/dL. Nil when
+    /// there's no preceding reading, or when the gap between them is too large
+    /// (a sensor dropout) for the difference to be meaningful.
+    private var delta: Int? {
+        guard let displayReading,
+              let previous = readings.last(where: { $0.date < displayReading.date }),
+              displayReading.date.timeIntervalSince(previous.date) <= 15 * 60
+        else { return nil }
+        return displayReading.value - previous.value
+    }
+
     private var isRedacted: Bool {
         if isScrubbing {
             return false
@@ -233,9 +244,23 @@ import WidgetKit
 
     private func readingView() -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            ReadingView(reading: displayReading)
-                .font(.largeTitle.weight(.semibold))
-                .id(displayReading != nil)
+            HStack(alignment: .center) {
+                // The reading hides its inline arrow so the trend only appears
+                // once — inside the pill.
+                ReadingView(reading: displayReading, showsTrendArrow: false)
+                    .font(.largeTitle.weight(.semibold))
+                    .id(displayReading != nil)
+
+                if let displayReading, !isRedacted {
+                    DeltaView(
+                        trend: displayReading.trend,
+                        delta: delta,
+                        color: displayReading.vividColor(target: lowerTargetRange...upperTargetRange)
+                    )
+                    .font(.title2)
+                    .fontWeight(.medium)
+                }
+            }
 
             let unit = isRedacted ? "" : "\(unit.text) • "
 
