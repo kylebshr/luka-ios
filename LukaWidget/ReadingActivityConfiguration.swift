@@ -249,7 +249,7 @@ private struct MainContentView: View {
             HStack(spacing: 0) {
                 ReadingView(reading: context.state.c)
                     .fixedSize(horizontal: true, vertical: false)
-                    .font(.title)
+                    .font(.title.weight(.regular))
                     .layoutPriority(100)
                     .opacity(context.isOffline ? 0.5 : 1)
 
