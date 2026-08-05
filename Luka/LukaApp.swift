@@ -50,6 +50,7 @@ struct LukaApp: App {
             if scenePhase == .background {
                 WidgetCenter.shared.reloadAllTimelines()
             } else if scenePhase == .active {
+                viewModel.loadCredentials()
                 liveActivityManager.syncState()
             }
         }

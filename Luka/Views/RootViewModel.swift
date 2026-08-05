@@ -9,18 +9,31 @@ import SwiftUI
 import KeychainAccess
 import Dexcom
 import Defaults
+#if os(iOS)
+import UIKit
+#endif
 
 @Observable @MainActor class RootViewModel {
     private let keychain = Keychain.shared
 
     private static let bannersURL = URL(string: "https://raw.githubusercontent.com/kylebshr/luka-meta/refs/heads/main/meta.json")!
 
+    /// Suppresses the keychain writes in `didSet` while restoring values *from*
+    /// the keychain, so an untrusted read can never delete stored credentials.
+    @ObservationIgnored private var isRestoringCredentials = false
+
     var username: String? {
-        didSet { keychain.username = username }
+        didSet {
+            guard !isRestoringCredentials else { return }
+            keychain.username = username
+        }
     }
 
     var password: String? {
-        didSet { keychain.password = password }
+        didSet {
+            guard !isRestoringCredentials else { return }
+            keychain.password = password
+        }
     }
 
     var accountLocation: AccountLocation? = Defaults[.accountLocation] {
@@ -28,27 +41,47 @@ import Defaults
     }
 
     var accountID: UUID? {
-        didSet { keychain.accountID = accountID }
+        didSet {
+            guard !isRestoringCredentials else { return }
+            keychain.accountID = accountID
+        }
     }
 
     var sessionID: UUID? {
         didSet {
+            guard !isRestoringCredentials else { return }
             keychain.sessionID = sessionID
         }
     }
 
-    /// True once we've successfully read the keychain at least once. Right after
-    /// a reboot the synchronizable keychain can be briefly locked; until we get a
-    /// clean read we must not treat missing credentials as "signed out".
+    /// True once we've read the keychain while it was trustworthy. Prewarming
+    /// can launch the app before first unlock, where items don't just fail to
+    /// read — they're reported as not-found. Until we get a trustworthy read we
+    /// must not treat missing credentials as "signed out".
     private(set) var didLoadCredentials = false
+
+    @ObservationIgnored private var protectedDataObserver: (any NSObjectProtocol)?
 
     init() {
         loadCredentials()
+
+        #if os(iOS)
+        protectedDataObserver = NotificationCenter.default.addObserver(
+            forName: UIApplication.protectedDataDidBecomeAvailableNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            Task { @MainActor in
+                self?.loadCredentials()
+            }
+        }
+        #endif
     }
 
-    /// Reads credentials from the keychain, distinguishing a temporarily-locked
-    /// keychain (throws → retry later) from a genuinely empty one (returns nil).
-    /// Safe to call repeatedly; it no-ops once a clean read has succeeded.
+    /// Reads credentials from the keychain. A locked keychain can either throw
+    /// or report items as not-found, so an empty read only counts as "signed
+    /// out" once protected data is available. Safe to call repeatedly; it
+    /// no-ops after the first trustworthy read.
     func loadCredentials() {
         guard !didLoadCredentials else { return }
 
@@ -58,16 +91,35 @@ import Defaults
             let accountID = try keychain.getString(.accountIDKey).flatMap(UUID.init(uuidString:))
             let sessionID = try keychain.getString(.sessionIDKey).flatMap(UUID.init(uuidString:))
 
+            if username == nil || password == nil, !Self.isProtectedDataAvailable {
+                return
+            }
+
+            isRestoringCredentials = true
+            defer { isRestoringCredentials = false }
+
             self.username = username
             self.password = password
             self.accountID = accountID
             self.sessionID = sessionID
+            // The shared-suite plist is also unreadable before first unlock, so
+            // the value captured by the property initializer may be missing.
+            self.accountLocation = Defaults[.accountLocation]
             didLoadCredentials = true
         } catch {
-            // Keychain not yet readable (likely just rebooted). Leave state as-is
-            // and retry when the app next becomes active.
+            // Keychain not yet readable (likely just rebooted). Leave state
+            // as-is; we retry when protected data becomes available and when
+            // the app becomes active.
             print("Keychain not ready, will retry: \(error)")
         }
+    }
+
+    private static var isProtectedDataAvailable: Bool {
+        #if os(iOS)
+        UIApplication.shared.isProtectedDataAvailable
+        #else
+        true
+        #endif
     }
 
     private(set) var banners: Banners?
