@@ -367,6 +367,7 @@
       }
     },
     "Anywhere Else" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -876,6 +877,15 @@
         }
       }
     },
+    "Dexcom – Anywhere Else" : {
+
+    },
+    "Dexcom – Japan" : {
+
+    },
+    "Dexcom – United States" : {
+
+    },
     "Dexcom Clarity" : {
       "localizations" : {
         "de" : {
@@ -1151,6 +1161,9 @@
           }
         }
       }
+    },
+    "Email" : {
+
     },
     "Email me" : {
       "localizations" : {
@@ -1496,7 +1509,11 @@
         }
       }
     },
+    "Excellent widgets and Live Activities for Dexcom and FreeStyle Libre continuous glucose monitors." : {
+
+    },
     "Excellent widgets and Live Activities for Dexcom continuous glucose monitors." : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2031,6 +2048,7 @@
       "shouldTranslate" : false
     },
     "Japan" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2346,6 +2364,9 @@
           }
         }
       }
+    },
+    "LibreLinkUp" : {
+
     },
     "Line" : {
       "localizations" : {
@@ -4210,6 +4231,7 @@
       }
     },
     "Select an account location to get started" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -4254,6 +4276,12 @@
           }
         }
       }
+    },
+    "Select your Dexcom account location, or sign in with LibreLinkUp" : {
+
+    },
+    "Select your Dexcom account location, or sign in with LibreLinkUp for FreeStyle Libre" : {
+
     },
     "Session ended" : {
       "localizations" : {
@@ -4598,6 +4626,9 @@
           }
         }
       }
+    },
+    "Sign in using a LibreLinkUp account that follows your sensor. To set one up, create a [LibreLinkUp](https://www.librelinkup.com) account, then invite it from the Libre app under **Share → Connected Apps → LibreLinkUp**, and accept the invitation in the LibreLinkUp app." : {
+
     },
     "Sign in using your Dexcom username and password. **Dexcom share must be enabled with at least one follower**, but sign in using **your own Dexcom credentials**, not the followers. If your username is a phone number, format it with a + and the area code, for example +12223334444." : {
       "localizations" : {
@@ -5626,6 +5657,7 @@
       }
     },
     "United States" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
