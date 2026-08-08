@@ -150,6 +150,13 @@ private struct UsernamePasswordView: View {
 
     @FocusState private var isUsernameFocused
 
+    private var usernameTitle: LocalizedStringKey {
+        switch destination {
+        case .dexcom: "Username"
+        case .libre: "Email"
+        }
+    }
+
     private var footerText: LocalizedStringKey {
         switch destination {
         case .dexcom:
@@ -162,7 +169,7 @@ private struct UsernamePasswordView: View {
     var body: some View {
         FooterScrollView {
             VStack(alignment: .leading) {
-                TextField(destination == .libre ? "Email" : "Username", text: $username)
+                TextField(usernameTitle, text: $username)
                     .textContentType(.username)
                     .textInputAutocapitalization(.never)
                     #if os(iOS)

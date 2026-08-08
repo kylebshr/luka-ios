@@ -145,9 +145,11 @@ import Libre
 }
 
 private extension Error {
-    /// An error the CGM API returned about the account or session — retrying
-    /// on a timer won't fix it, unlike transient network failures.
+    /// An error the CGM API or client reported about the account itself —
+    /// retrying on a timer won't fix it, unlike transient network failures,
+    /// and would hammer login endpoints that rate limit aggressively.
     var isAccountError: Bool {
         self is DexcomError || self is LibreError
+            || self is DexcomClientError || self is LibreClientError
     }
 }

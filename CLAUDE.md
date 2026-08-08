@@ -174,7 +174,7 @@ Glucose values are color-coded based on target range:
 
 ### Mock/Demo Mode
 
-Username `demo@pitou.tech` triggers MockDexcomClient for testing.
+Username `demo@pitou.tech` triggers MockGlucoseClient for testing.
 
 ## Widget Development
 
