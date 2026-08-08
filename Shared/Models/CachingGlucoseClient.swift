@@ -1,5 +1,5 @@
 //
-//  CachingDexcomClient.swift
+//  CachingGlucoseClient.swift
 //  Luka
 //
 //  Created by Claude on 01/03/26.
@@ -9,21 +9,17 @@ import Defaults
 import Dexcom
 import Foundation
 
-/// A caching wrapper around DexcomClientService that stores readings in shared UserDefaults.
+/// A caching wrapper around a GlucoseClientService that stores readings in shared UserDefaults.
 ///
 /// Caching strategy:
 /// - Cache is valid if the newest reading is less than 5 minutes old
 /// - Lower fidelity requests can be satisfied by filtering higher-fidelity cached data
 /// - Cache is updated when fetched data has higher fidelity than existing cache
-final class CachingDexcomClient: DexcomClientService {
-    private let underlying: DexcomClient
+final class CachingGlucoseClient: GlucoseClientService {
+    private let underlying: any GlucoseClientService
 
-    init(wrapping client: DexcomClient) {
+    init(wrapping client: any GlucoseClientService) {
         self.underlying = client
-    }
-
-    func setDelegate(_ delegate: DexcomClientDelegate?) async {
-        await underlying.setDelegate(delegate)
     }
 
     func getGlucoseReadings(
@@ -73,7 +69,7 @@ final class CachingDexcomClient: DexcomClientService {
         try await getLatestGlucoseReading()
     }
 
-    func createSession() async throws -> (accountID: UUID, sessionID: UUID) {
+    func createSession() async throws {
         // Session creation bypasses cache
         try await underlying.createSession()
     }

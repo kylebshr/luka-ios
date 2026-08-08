@@ -2,7 +2,7 @@
 
 ## Overview
 
-Luka is an iOS companion app for Dexcom continuous glucose monitors (CGM). It provides Lock Screen, Home Screen, and Apple Watch widgets displaying real-time Dexcom glucose readings. The app uses the [dexcom-swift](https://github.com/kylebshr/dexcom-swift) library and supports iOS Live Activities with Dynamic Island.
+Luka is an iOS companion app for Dexcom and FreeStyle Libre continuous glucose monitors (CGM). It provides Lock Screen, Home Screen, and Apple Watch widgets displaying real-time glucose readings. The app uses the [dexcom-swift](https://github.com/kylebshr/dexcom-swift) package (Dexcom, Libre, and CGMKit libraries) and supports iOS Live Activities with Dynamic Island.
 
 **App Store ID:** 6499279663
 
@@ -85,7 +85,7 @@ The app uses modern SwiftUI with the `@Observable` macro:
 
 - **@Observable ViewModels** - Replace Combine-based ObservableObject
 - **@MainActor isolation** - All view models are MainActor isolated
-- **Protocol-based services** - `DexcomClientService` protocol for real/mock implementations
+- **Protocol-based services** - `GlucoseClientService` protocol over Dexcom/Libre/mock implementations; `CGMHelper` builds the right one for the signed-in provider
 - **Timeline Providers** - Widget updates via `AppIntentTimelineProvider`
 - **Environment injection** - ViewModels passed via `.environment(viewModel)`
 
@@ -96,7 +96,7 @@ The app uses modern SwiftUI with the `@Observable` macro:
 | `Luka/LukaApp.swift` | App entry, TelemetryDeck init, widget refresh on background |
 | `Luka/Views/RootViewModel.swift` | Auth state, banner loading, force upgrade logic |
 | `Shared/View Models/LiveViewModel.swift` | Glucose data refresh scheduling |
-| `Shared/Models/DexcomHelper.swift` | Factory for real/mock Dexcom clients |
+| `Shared/Models/CGMHelper.swift` | Stored credentials + factory for Dexcom/Libre/mock clients |
 | `Shared/Utilities/Defaults.swift` | UserDefaults keys, session history |
 | `Shared/Utilities/Keychain.swift` | Secure credential storage |
 | `Shared/Utilities/Constants.swift` | Spacing, corner radius, keychain keys |
@@ -107,7 +107,7 @@ The app uses modern SwiftUI with the `@Observable` macro:
 
 | Package | Purpose |
 |---------|---------|
-| [dexcom-swift](https://github.com/kylebshr/dexcom-swift) | Dexcom API client |
+| [dexcom-swift](https://github.com/kylebshr/dexcom-swift) | Dexcom Share + LibreLinkUp API clients |
 | [KeychainAccess](https://github.com/kishikawakatsumi/KeychainAccess) | Secure credential storage |
 | [Defaults](https://github.com/sindresorhus/Defaults) | UserDefaults wrapper with iCloud sync |
 | [TelemetryDeck](https://telemetrydeck.com) | Privacy-first analytics |
@@ -150,10 +150,11 @@ Use constants from `CGFloat` extensions instead of magic numbers:
 ### State Management
 
 **Keychain** - Credentials (synced via iCloud Keychain):
-- `username`, `password`, `accountID`, `sessionID`
+- `username`, `password`, `accountID`, `sessionID` (Dexcom), `libreSession` (Libre, JSON-encoded `LibreSession`)
 
 **UserDefaults (shared suite)** - Preferences:
 ```swift
+Defaults[.cgmProvider]            // CGMProvider (.dexcom/.libre), default: .dexcom
 Defaults[.targetRangeLowerBound]  // Double, default: 70
 Defaults[.targetRangeUpperBound]  // Double, default: 180
 Defaults[.graphUpperBound]        // Double, default: 300
@@ -227,19 +228,31 @@ struct GraphWidgetConfiguration: WidgetConfigurationIntent {
 
 ## API Integration
 
-### Dexcom API
+### CGM APIs
 
-Via dexcom-swift library:
+Via the dexcom-swift package. Both clients persist sessions through
+`onSessionChange`, which `CGMHelper` wires to the keychain:
+
 ```swift
 let client = DexcomClient(
     username: username,
     password: password,
-    existingAccountID: accountID,
-    existingSessionID: sessionID,
-    accountLocation: .us  // or .apac, .worldwide
+    existingSession: Keychain.shared.dexcomSession,
+    accountLocation: .usa,  // or .apac, .worldwide
+    onSessionChange: { Keychain.shared.dexcomSession = $0 }
 )
-let readings = try await client.getGlucoseReadings()
+
+let client = LibreClient(
+    email: email,
+    password: password,
+    existingSession: Keychain.shared.libreSession,
+    onSessionChange: { Keychain.shared.libreSession = $0 }
+)
 ```
+
+Libre accounts sign in with LibreLinkUp follower credentials (no account
+location); a missing `cgmProvider` default always means Dexcom, so accounts
+signed in before Libre support keep working.
 
 ### Remote Config (Banners)
 

@@ -19,6 +19,7 @@ extension Defaults.Keys {
     static let targetRangeUpperBound = Key<Double>(.targetRangeUpperBound, default: 180, suite: .shared, iCloud: true)
     static let graphUpperBound = Key<Double>(.graphUpperBound, default: 300, suite: .shared, iCloud: true)
     static let accountLocation = Key<AccountLocation?>(.accountLocation, default: nil, suite: .shared, iCloud: true)
+    static let cgmProvider = Key<CGMProvider>("cgmProvider", default: .dexcom, suite: .shared, iCloud: true)
     static let unit = Key<GlucoseFormatter.Unit>("unit", default: .mgdl, suite: .shared, iCloud: true)
     static let showChartLiveActivity = Key<Bool>(.showChartLiveActivity, default: true, suite: .shared, iCloud: true)
     static let appGraphStyle = Key<GraphStyle>("appGraphStyle", default: .dots, suite: .shared, iCloud: true)

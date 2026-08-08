@@ -1,5 +1,5 @@
 //
-//  DexcomClient+Extensions.swift
+//  GlucoseClientService+Extensions.swift
 //  Luka
 //
 //  Created by Kyle Bashour on 4/30/24.
@@ -8,11 +8,11 @@
 import Foundation
 import Dexcom
 
-enum DexcomClientError: Error {
+enum GlucoseServiceError: Error {
     case noReadings
 }
 
-extension DexcomClientService {
+extension GlucoseClientService {
     func getGraphReadings(duration: Measurement<UnitDuration>) async throws -> [GlucoseReading] {
         #if os(watchOS)
         let readings = if duration > .init(value: 6, unit: .hours) {
@@ -31,7 +31,7 @@ extension DexcomClientService {
         #endif
 
         guard !readings.isEmpty else {
-            throw DexcomClientError.noReadings
+            throw GlucoseServiceError.noReadings
         }
 
         return readings

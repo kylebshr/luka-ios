@@ -11,9 +11,16 @@ import Defaults
 import Dexcom
 import Foundation
 import KeychainAccess
+import Libre
 import TelemetryDeck
 
 extension DexcomError: @retroactive CustomLocalizedStringResourceConvertible {
+    public var localizedStringResource: LocalizedStringResource {
+        LocalizedStringResource(stringLiteral: message ?? localizedDescription)
+    }
+}
+
+extension LibreError: @retroactive CustomLocalizedStringResourceConvertible {
     public var localizedStringResource: LocalizedStringResource {
         LocalizedStringResource(stringLiteral: message ?? localizedDescription)
     }
@@ -37,11 +44,7 @@ struct StartLiveActivityIntent: LiveActivityIntent {
     static let title: LocalizedStringResource = "Start Live Activity"
     static let description = IntentDescription("Monitor glucose readings in a Live Activity.")
 
-    private let username = Keychain.shared.username
-    private let password = Keychain.shared.password
-    private let accountID = Keychain.shared.accountID
-    private let sessionID = Keychain.shared.sessionID
-    private let accountLocation: AccountLocation? = Defaults[.accountLocation]
+    private let credentials = CGMHelper.storedCredentials
 
     private var source: String = "none"
 
@@ -52,7 +55,7 @@ struct StartLiveActivityIntent: LiveActivityIntent {
     }
 
     func perform() async throws -> some IntentResult {
-        guard let username, let password, let accountLocation else {
+        guard let credentials else {
             throw LiveActivityError.loggedOut
         }
 
@@ -64,13 +67,7 @@ struct StartLiveActivityIntent: LiveActivityIntent {
             throw LiveActivityError.disabled
         }
 
-        let client = DexcomHelper.createService(
-            username: username,
-            password: password,
-            existingAccountID: accountID,
-            existingSessionID: sessionID,
-            accountLocation: accountLocation
-        )
+        let client = CGMHelper.createService(for: credentials)
 
         let range: GraphRange = .threeHours
         let readings = try await client

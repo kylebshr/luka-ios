@@ -1,5 +1,5 @@
 //
-//  MockDexcomClient.swift
+//  MockGlucoseClient.swift
 //  Luka
 //
 //  Created by Kyle Bashour on 11/12/25.
@@ -8,9 +8,7 @@
 import Foundation
 import Dexcom
 
-final class MockDexcomClient: DexcomClientService, @unchecked Sendable {
-    func setDelegate(_ delegate: DexcomClientDelegate?) {}
-
+final class MockGlucoseClient: GlucoseClientService, @unchecked Sendable {
     func getGlucoseReadings(duration: Measurement<UnitDuration>, maxCount: Int) async throws -> [GlucoseReading] {
         try? await Task.sleep(for: .seconds(0.2))
         return .placeholder.suffix(maxCount).filter {
@@ -28,8 +26,7 @@ final class MockDexcomClient: DexcomClientService, @unchecked Sendable {
         return .placeholder
     }
 
-    func createSession() async throws -> (accountID: UUID, sessionID: UUID) {
+    func createSession() async throws {
         try? await Task.sleep(for: .seconds(2))
-        return (UUID(), UUID())
     }
 }

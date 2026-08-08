@@ -9,6 +9,27 @@ import SwiftUI
 import WidgetKit
 import Dexcom
 
+/// A choice on the sign-in landing screen: a Dexcom account location, or a
+/// LibreLinkUp account for FreeStyle Libre sensors.
+enum SignInDestination: Hashable {
+    case dexcom(AccountLocation)
+    case libre
+
+    var provider: CGMProvider {
+        switch self {
+        case .dexcom: .dexcom
+        case .libre: .libre
+        }
+    }
+
+    var accountLocation: AccountLocation? {
+        switch self {
+        case .dexcom(let accountLocation): accountLocation
+        case .libre: nil
+        }
+    }
+}
+
 struct SignInView: View {
     @Environment(RootViewModel.self) private var viewModel
 
@@ -41,14 +62,14 @@ struct SignInView: View {
             #endif
 
             #if os(iOS)
-            Text("Excellent widgets and Live Activities for Dexcom continuous glucose monitors.")
+            Text("Excellent widgets and Live Activities for Dexcom and FreeStyle Libre continuous glucose monitors.")
                 .foregroundStyle(.secondary)
             #endif
 
             Spacer()
 
             #if os(watchOS)
-            Text("Select an account location to get started")
+            Text("Select your Dexcom account location, or sign in with LibreLinkUp")
                 .foregroundStyle(.secondary)
                 .padding(.vertical)
             #endif
@@ -56,19 +77,19 @@ struct SignInView: View {
             Group {
                 #if os(iOS)
                 FormSection {
-                    locationLinks
+                    destinationLinks
                 }
                 .padding(.vertical)
                 #else
-                locationLinks
+                destinationLinks
                 #endif
             }
-            .navigationDestination(for: AccountLocation.self) { accountLocation in
-                UsernamePasswordView(accountLocation: accountLocation)
+            .navigationDestination(for: SignInDestination.self) { destination in
+                UsernamePasswordView(destination: destination)
             }
 
             #if os(iOS)
-            Text("Select an account location to get started")
+            Text("Select your Dexcom account location, or sign in with LibreLinkUp for FreeStyle Libre")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity)
@@ -81,19 +102,23 @@ struct SignInView: View {
         .fontDesign(.rounded)
     }
 
-    private var locationLinks: some View {
+    @ViewBuilder private var destinationLinks: some View {
         ForEach(locations) { accountLocation in
-            NavigationLink(value: accountLocation) {
+            NavigationLink(value: SignInDestination.dexcom(accountLocation)) {
                 FormRow(title: accountLocation.displayName) {
                     Image(systemName: "chevron.right")
                 }
             }
 
             #if os(iOS)
-            if accountLocation != locations.last {
-                FormSectionDivider()
-            }
+            FormSectionDivider()
             #endif
+        }
+
+        NavigationLink(value: SignInDestination.libre) {
+            FormRow(title: "LibreLinkUp") {
+                Image(systemName: "chevron.right")
+            }
         }
     }
 }
@@ -104,17 +129,17 @@ extension AccountLocation: @retroactive Identifiable {
     var displayName: LocalizedStringKey {
         switch self {
         case .usa:
-            "United States"
+            "Dexcom – United States"
         case .apac:
-            "Japan"
+            "Dexcom – Japan"
         case .worldwide:
-            "Anywhere Else"
+            "Dexcom – Anywhere Else"
         }
     }
 }
 
 private struct UsernamePasswordView: View {
-    var accountLocation: AccountLocation
+    var destination: SignInDestination
 
     @Environment(RootViewModel.self) private var viewModel
 
@@ -125,10 +150,19 @@ private struct UsernamePasswordView: View {
 
     @FocusState private var isUsernameFocused
 
+    private var footerText: LocalizedStringKey {
+        switch destination {
+        case .dexcom:
+            "Sign in using your Dexcom username and password. **Dexcom share must be enabled with at least one follower**, but sign in using **your own Dexcom credentials**, not the followers. If your username is a phone number, format it with a + and the area code, for example +12223334444."
+        case .libre:
+            "Sign in using a LibreLinkUp account that follows your sensor. To set one up, create a [LibreLinkUp](https://www.librelinkup.com) account, then invite it from the Libre app under **Share → Connected Apps → LibreLinkUp**, and accept the invitation in the LibreLinkUp app."
+        }
+    }
+
     var body: some View {
         FooterScrollView {
             VStack(alignment: .leading) {
-                TextField("Username", text: $username)
+                TextField(destination == .libre ? "Email" : "Username", text: $username)
                     .textContentType(.username)
                     .textInputAutocapitalization(.never)
                     #if os(iOS)
@@ -142,7 +176,7 @@ private struct UsernamePasswordView: View {
                 VStack(alignment: .leading) {
                     Divider().padding(.vertical, 10)
 
-                    Text("Sign in using your Dexcom username and password. **Dexcom share must be enabled with at least one follower**, but sign in using **your own Dexcom credentials**, not the followers. If your username is a phone number, format it with a + and the area code, for example +12223334444.")
+                    Text(footerText)
                         .font(.footnote)
                 }
                 .foregroundStyle(.secondary)
@@ -156,9 +190,10 @@ private struct UsernamePasswordView: View {
 
                     do {
                         try await viewModel.signIn(
+                            provider: destination.provider,
                             username: username,
                             password: password,
-                            accountLocation: accountLocation
+                            accountLocation: destination.accountLocation
                         )
 
                         WidgetCenter.shared.reloadAllTimelines()

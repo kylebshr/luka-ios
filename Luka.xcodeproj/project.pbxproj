@@ -31,6 +31,10 @@
 		27DB8CBD2E9DE40E005B8087 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 27DB8CBC2E9DE40E005B8087 /* Defaults */; };
 		27DB990E2EA2005A005B8087 /* ActivityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27DB990D2EA2005A005B8087 /* ActivityKit.framework */; };
 		27DB9A012EA2048C005B8087 /* ActivityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27DB990D2EA2005A005B8087 /* ActivityKit.framework */; };
+		27ACCE112F1CAB0100000011 /* Libre in Frameworks */ = {isa = PBXBuildFile; productRef = 27ACCE012F1CAB0100000001 /* Libre */; };
+		27ACCE122F1CAB0100000012 /* Libre in Frameworks */ = {isa = PBXBuildFile; productRef = 27ACCE022F1CAB0100000002 /* Libre */; };
+		27ACCE132F1CAB0100000013 /* Libre in Frameworks */ = {isa = PBXBuildFile; productRef = 27ACCE032F1CAB0100000003 /* Libre */; };
+		27ACCE142F1CAB0100000014 /* Libre in Frameworks */ = {isa = PBXBuildFile; productRef = 27ACCE042F1CAB0100000004 /* Libre */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -131,15 +135,15 @@
 				Intents/StopLiveActivityIntent.swift,
 				Intents/ToggleLiveActivityIntent.swift,
 				Localizable.xcstrings,
-				Models/CachingDexcomClient.swift,
-				Models/DexcomClientService.swift,
-				Models/DexcomDelegate.swift,
-				Models/DexcomHelper.swift,
+				Models/CachingGlucoseClient.swift,
+				Models/CGMProvider.swift,
+				Models/GlucoseClientService.swift,
+				Models/CGMHelper.swift,
 				Models/EndLiveActivityRequest.swift,
 				Models/GlucoseReadingsCache.swift,
 				Models/LiveActivityState.swift,
-				Models/MockDexcomClient.swift,
-				Models/ProxyDexcomClient.swift,
+				Models/MockGlucoseClient.swift,
+				Models/ProxyGlucoseClient.swift,
 				Models/ReadingAttributes.swift,
 				Models/StartLiveActivityRequest.swift,
 				"Models/Unit+Extensions.swift",
@@ -151,7 +155,7 @@
 				"Utilities/Color+Extensions.swift",
 				Utilities/Constants.swift,
 				Utilities/Defaults.swift,
-				"Utilities/DexcomClient+Extensions.swift",
+				"Utilities/GlucoseClientService+Extensions.swift",
 				"Utilities/EdgeInsets+Extensions.swift",
 				"Utilities/GlucoseReading+Extensions.swift",
 				Utilities/HTTPClient.swift,
@@ -193,15 +197,15 @@
 				Intents/GraphStyle.swift,
 				Intents/LaunchableApp.swift,
 				Localizable.xcstrings,
-				Models/CachingDexcomClient.swift,
-				Models/DexcomClientService.swift,
-				Models/DexcomDelegate.swift,
-				Models/DexcomHelper.swift,
+				Models/CachingGlucoseClient.swift,
+				Models/CGMProvider.swift,
+				Models/GlucoseClientService.swift,
+				Models/CGMHelper.swift,
 				Models/EndLiveActivityRequest.swift,
 				Models/GlucoseReadingsCache.swift,
 				Models/LiveActivityState.swift,
-				Models/MockDexcomClient.swift,
-				Models/ProxyDexcomClient.swift,
+				Models/MockGlucoseClient.swift,
+				Models/ProxyGlucoseClient.swift,
 				Models/StartLiveActivityRequest.swift,
 				"Models/Unit+Extensions.swift",
 				"Modifiers/View+Modifiers.swift",
@@ -211,7 +215,7 @@
 				"Utilities/Color+Extensions.swift",
 				Utilities/Constants.swift,
 				Utilities/Defaults.swift,
-				"Utilities/DexcomClient+Extensions.swift",
+				"Utilities/GlucoseClientService+Extensions.swift",
 				"Utilities/EdgeInsets+Extensions.swift",
 				"Utilities/GlucoseReading+Extensions.swift",
 				Utilities/HTTPClient.swift,
@@ -303,6 +307,7 @@
 				2703324F2BD99E90009535EE /* SwiftUI.framework in Frameworks */,
 				2703324E2BD99E90009535EE /* WidgetKit.framework in Frameworks */,
 				270332632BD9A09F009535EE /* Dexcom in Frameworks */,
+				27ACCE132F1CAB0100000013 /* Libre in Frameworks */,
 				27BA04A52ED239210096F131 /* TelemetryDeck in Frameworks */,
 				27DB8CBD2E9DE40E005B8087 /* Defaults in Frameworks */,
 				27584FB7300DDF8300335CCA /* SmartStackMargins in Frameworks */,
@@ -316,6 +321,7 @@
 				27DB8CB92E9DE3CB005B8087 /* Defaults in Frameworks */,
 				271CD1DB2BD96B1700FBE5DB /* KeychainAccess in Frameworks */,
 				271CD1D92BD96B1500FBE5DB /* Dexcom in Frameworks */,
+				27ACCE122F1CAB0100000012 /* Libre in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,6 +333,7 @@
 				2741EA2A2BD8AF08003EDEB2 /* SwiftUI.framework in Frameworks */,
 				2741EA282BD8AF08003EDEB2 /* WidgetKit.framework in Frameworks */,
 				271CD1DD2BD96B1C00FBE5DB /* Dexcom in Frameworks */,
+				27ACCE142F1CAB0100000014 /* Libre in Frameworks */,
 				27DB8CBB2E9DE409005B8087 /* Defaults in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -347,6 +354,7 @@
 				27DB9A012EA2048C005B8087 /* ActivityKit.framework in Frameworks */,
 				27834B8A2ECF81A70096D201 /* TelemetryDeck in Frameworks */,
 				27C6E25F2BCF386E006BAE98 /* Dexcom in Frameworks */,
+				27ACCE112F1CAB0100000011 /* Libre in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -410,6 +418,7 @@
 			name = LukaWidget;
 			packageProductDependencies = (
 				270332622BD9A09F009535EE /* Dexcom */,
+				27ACCE032F1CAB0100000003 /* Libre */,
 				270332642BD9A09F009535EE /* KeychainAccess */,
 				27DB8CBC2E9DE40E005B8087 /* Defaults */,
 				27BA04A42ED239210096F131 /* TelemetryDeck */,
@@ -439,6 +448,7 @@
 			name = Watch;
 			packageProductDependencies = (
 				271CD1D82BD96B1500FBE5DB /* Dexcom */,
+				27ACCE022F1CAB0100000002 /* Libre */,
 				271CD1DA2BD96B1700FBE5DB /* KeychainAccess */,
 				27DB8CB82E9DE3CB005B8087 /* Defaults */,
 			);
@@ -464,6 +474,7 @@
 			name = WatchWidget;
 			packageProductDependencies = (
 				271CD1DC2BD96B1C00FBE5DB /* Dexcom */,
+				27ACCE042F1CAB0100000004 /* Libre */,
 				271CD1DE2BD96B1C00FBE5DB /* KeychainAccess */,
 				27DB8CBA2E9DE409005B8087 /* Defaults */,
 			);
@@ -516,6 +527,7 @@
 			name = Luka;
 			packageProductDependencies = (
 				27C6E25E2BCF386E006BAE98 /* Dexcom */,
+				27ACCE012F1CAB0100000001 /* Libre */,
 				27C6E2612BCF387A006BAE98 /* KeychainAccess */,
 				27DB8CB62E9DE3C0005B8087 /* Defaults */,
 				27834B892ECF81A70096D201 /* TelemetryDeck */,
@@ -1161,7 +1173,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kylebshr/dexcom-swift";
 			requirement = {
-				branch = main;
+				branch = "claude/libre-support-feasibility-3q8bth";
 				kind = branch;
 			};
 		};
@@ -1258,6 +1270,26 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 27DB8CB52E9DE3C0005B8087 /* XCRemoteSwiftPackageReference "Defaults" */;
 			productName = Defaults;
+		};
+		27ACCE012F1CAB0100000001 /* Libre */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 27C6E25D2BCF386E006BAE98 /* XCRemoteSwiftPackageReference "dexcom-swift" */;
+			productName = Libre;
+		};
+		27ACCE022F1CAB0100000002 /* Libre */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 27C6E25D2BCF386E006BAE98 /* XCRemoteSwiftPackageReference "dexcom-swift" */;
+			productName = Libre;
+		};
+		27ACCE032F1CAB0100000003 /* Libre */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 27C6E25D2BCF386E006BAE98 /* XCRemoteSwiftPackageReference "dexcom-swift" */;
+			productName = Libre;
+		};
+		27ACCE042F1CAB0100000004 /* Libre */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 27C6E25D2BCF386E006BAE98 /* XCRemoteSwiftPackageReference "dexcom-swift" */;
+			productName = Libre;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

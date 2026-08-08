@@ -36,7 +36,11 @@ struct StartLiveActivityRequest: Codable {
     var environment: PushEnvironment
     var username: String?
     var password: String?
-    var accountLocation: AccountLocation
+    /// Which API the credentials are for. The server treats a missing value
+    /// as Dexcom.
+    var provider: CGMProvider
+    /// nil for Libre accounts, which have no account location.
+    var accountLocation: AccountLocation?
     var duration: TimeInterval
     var preferences: LiveActivityPreferences?
 

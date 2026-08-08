@@ -1,5 +1,5 @@
 //
-//  ProxyDexcomClient.swift
+//  ProxyGlucoseClient.swift
 //  Luka
 //
 //  Created by Claude on 5/23/26.
@@ -10,15 +10,15 @@ import Foundation
 
 /// Fetches readings from the Luka server's cached `glucose-readings` endpoint
 /// and falls back to the wrapped client when the server has no cached data.
-final class ProxyDexcomClient: DexcomClientService, @unchecked Sendable {
-    private let underlying: DexcomClientService
+final class ProxyGlucoseClient: GlucoseClientService, @unchecked Sendable {
+    private let underlying: any GlucoseClientService
     private let username: String
     private let password: String
     private let client: HTTPClient
     private let decoder: JSONDecoder
 
     init(
-        wrapping underlying: DexcomClientService,
+        wrapping underlying: any GlucoseClientService,
         username: String,
         password: String,
         client: HTTPClient = HTTPClient()
@@ -31,10 +31,6 @@ final class ProxyDexcomClient: DexcomClientService, @unchecked Sendable {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
         self.decoder = decoder
-    }
-
-    func setDelegate(_ delegate: DexcomClientDelegate?) async {
-        await underlying.setDelegate(delegate)
     }
 
     func getGlucoseReadings(
@@ -65,7 +61,7 @@ final class ProxyDexcomClient: DexcomClientService, @unchecked Sendable {
         }
     }
 
-    func createSession() async throws -> (accountID: UUID, sessionID: UUID) {
+    func createSession() async throws {
         try await underlying.createSession()
     }
 

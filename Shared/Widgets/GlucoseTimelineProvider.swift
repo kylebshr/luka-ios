@@ -1,5 +1,5 @@
 //
-//  DexcomTimelineProvider.swift
+//  GlucoseTimelineProvider.swift
 //  Luka
 //
 //  Created by Kyle Bashour on 5/1/24.
@@ -7,33 +7,13 @@
 
 import Dexcom
 import Foundation
-import KeychainAccess
 import WidgetKit
-import Defaults
 
-protocol DexcomTimelineProvider {
+protocol GlucoseTimelineProvider {
     associatedtype Entry
-
-    var delegate: KeychainDexcomDelegate { get }
 }
 
-extension DexcomTimelineProvider {
-    func makeClient(
-        username: String,
-        password: String,
-        accountLocation: AccountLocation
-    ) async -> DexcomClientService {
-        let client = DexcomHelper.createService(
-            username: username,
-            password: password,
-            existingAccountID: Keychain.shared.accountID,
-            existingSessionID: Keychain.shared.sessionID,
-            accountLocation: accountLocation
-        )
-        await client.setDelegate(delegate)
-        return client
-    }
-
+extension GlucoseTimelineProvider {
     func buildTimeline<Data>(for state: GlucoseEntry<Data>.State, widgetURL: URL?) -> Timeline<GlucoseEntry<Data>> {
         let now = Date.now
 

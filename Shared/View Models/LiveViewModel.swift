@@ -9,6 +9,7 @@ import Defaults
 import Dexcom
 import Foundation
 import KeychainAccess
+import Libre
 
 @MainActor @Observable class LiveViewModel {
     enum State {
@@ -21,15 +22,10 @@ import KeychainAccess
     private(set) var state: State = .initial
     private(set) var message: String = LiveViewModel.message(for: .initial)
 
-    @ObservationIgnored private lazy var username: String? = Keychain.shared.username
-    @ObservationIgnored private lazy var password: String? = Keychain.shared.password
-    @ObservationIgnored private lazy var accountLocation: AccountLocation? = Defaults[.accountLocation]
-
     @ObservationIgnored private var timestampTimer: Timer?
     @ObservationIgnored private var timer: Timer?
-    @ObservationIgnored private var client: DexcomClientService?
+    @ObservationIgnored private var client: (any GlucoseClientService)?
     @ObservationIgnored private let decoder = JSONDecoder()
-    @ObservationIgnored private let delegate = KeychainDexcomDelegate()
 
     var messageValue: TimeInterval {
         switch state {
@@ -57,18 +53,9 @@ import KeychainAccess
     }
 
     func setUpClientAndBeginRefreshing() {
-        Task {
-            if let username, let password, let accountLocation {
-                client = DexcomHelper.createService(
-                    username: username,
-                    password: password,
-                    existingAccountID: Keychain.shared.accountID,
-                    existingSessionID: Keychain.shared.sessionID,
-                    accountLocation: accountLocation
-                )
-                await client?.setDelegate(delegate)
-                beginRefreshing()
-            }
+        if let credentials = CGMHelper.storedCredentials {
+            client = CGMHelper.createService(for: credentials)
+            beginRefreshing()
         }
     }
 
@@ -106,7 +93,7 @@ import KeychainAccess
                 case .noRecentReading:
                     return 5
                 case .error(let error):
-                    if error is DexcomError {
+                    if error.isAccountError {
                         return nil
                     } else {
                         return 5
@@ -146,7 +133,7 @@ import KeychainAccess
         case .noRecentReading:
             return "No recent readings"
         case .error(let error):
-            if error is DexcomError {
+            if error.isAccountError {
                 // Will not automatically update
                 return "Error loading readings"
             } else {
@@ -154,5 +141,13 @@ import KeychainAccess
                 return "Updating"
             }
         }
+    }
+}
+
+private extension Error {
+    /// An error the CGM API returned about the account or session — retrying
+    /// on a timer won't fix it, unlike transient network failures.
+    var isAccountError: Bool {
+        self is DexcomError || self is LibreError
     }
 }

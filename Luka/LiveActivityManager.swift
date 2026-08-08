@@ -118,10 +118,8 @@ final class LiveActivityManager {
     }
 
     private func sendStartLiveActivity(activityID: String, token: String, kind: String) async {
-        guard let username = Keychain.shared.username,
-              let password = Keychain.shared.password,
-              let accountLocation = Defaults[.accountLocation],
-              username != DexcomHelper.mockEmail else {
+        guard let credentials = CGMHelper.storedCredentials,
+              credentials.username != CGMHelper.mockEmail else {
             return
         }
 
@@ -134,9 +132,10 @@ final class LiveActivityManager {
             activityID: activityID,
             pushToken: token,
             environment: .current,
-            username: username,
-            password: password,
-            accountLocation: accountLocation,
+            username: credentials.username,
+            password: credentials.password,
+            provider: credentials.provider,
+            accountLocation: credentials.accountLocation,
             duration: range.timeInterval + 60 * 15,
             preferences: LiveActivityPreferences(
                 targetRange: Int(Defaults[.targetRangeLowerBound])...Int(Defaults[.targetRangeUpperBound]),

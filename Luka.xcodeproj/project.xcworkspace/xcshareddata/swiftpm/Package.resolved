@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/kylebshr/dexcom-swift",
       "state" : {
-        "branch" : "main",
-        "revision" : "0f45029c8a4abf5c839bea374147c19dfd8ccdfb"
+        "branch" : "claude/libre-support-feasibility-3q8bth",
+        "revision" : "1c82b6604a0a6327ebd9cdc97839b7fa58667e01"
       }
     },
     {

@@ -40,6 +40,10 @@ import UIKit
         didSet { Defaults[.accountLocation] = accountLocation }
     }
 
+    var provider: CGMProvider = Defaults[.cgmProvider] {
+        didSet { Defaults[.cgmProvider] = provider }
+    }
+
     var accountID: UUID? {
         didSet {
             guard !isRestoringCredentials else { return }
@@ -103,8 +107,9 @@ import UIKit
             self.accountID = accountID
             self.sessionID = sessionID
             // The shared-suite plist is also unreadable before first unlock, so
-            // the value captured by the property initializer may be missing.
+            // the values captured by the property initializers may be missing.
             self.accountLocation = Defaults[.accountLocation]
+            self.provider = Defaults[.cgmProvider]
             didLoadCredentials = true
         } catch {
             // Keychain not yet readable (likely just rebooted). Leave state
@@ -129,7 +134,7 @@ import UIKit
     }
 
     var isSignedIn: Bool {
-        username != nil && password != nil && accountLocation != nil
+        username != nil && password != nil && (provider == .libre || accountLocation != nil)
     }
 
     func loadBanners() async {
@@ -150,23 +155,28 @@ import UIKit
     }
 
     func signIn(
+        provider: CGMProvider,
         username: String,
         password: String,
-        accountLocation: AccountLocation
+        accountLocation: AccountLocation? = nil
     ) async throws {
-        let client = DexcomHelper.createService(
-            username: username,
-            password: password,
-            existingAccountID: accountID, 
-            existingSessionID: sessionID,
-            accountLocation: accountLocation
+        let client = CGMHelper.createService(
+            for: CGMHelper.Credentials(
+                provider: provider,
+                username: username,
+                password: password,
+                accountLocation: accountLocation
+            )
         )
 
-        (accountID, sessionID) = try await client.createSession()
+        // Validates the credentials; the resulting session is persisted to the
+        // keychain by the client's onSessionChange.
+        try await client.createSession()
 
         self.username = username
         self.password = password
         self.accountLocation = accountLocation
+        self.provider = provider
     }
 
     func signOut() {
@@ -174,5 +184,7 @@ import UIKit
         password = nil
         accountID = nil
         sessionID = nil
+        Keychain.shared.libreSession = nil
+        provider = .dexcom
     }
 }

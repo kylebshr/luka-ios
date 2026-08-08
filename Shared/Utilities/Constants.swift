@@ -13,6 +13,7 @@ extension String {
     
     static let accountIDKey = "accountID"
     static let sessionIDKey = "sessionID"
+    static let libreSessionKey = "libreSession"
     
     static let accountLocation = "accountLocation"
     static let targetRangeLowerBound = "targetRangeLowerBound"
