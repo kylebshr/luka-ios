@@ -1,51 +1,35 @@
 //
-//  LukaWidget.swift
-//  LukaWidget
+//  ReadingDeltaWidget.swift
+//  Luka
 //
-//  Created by Kyle Bashour on 4/24/24.
+//  Created by Kyle Bashour on 08/12/26.
 //
 
 import WidgetKit
 import SwiftUI
 import Dexcom
 
-struct ReadingWidget: Widget {
-    let kind: String = "GlimpseReadingWidget"
+/// A rectangular accessory widget laid out like the small Live Activity: the
+/// reading, the change since the previous one, and how long ago it arrived.
+/// Available as a watch complication and on the iOS Lock Screen.
+struct ReadingDeltaWidget: Widget {
+    let kind: String = "LukaReadingDeltaWidget"
 
     var body: some WidgetConfiguration {
         AppIntentConfiguration(
             kind: kind,
             provider: ReadingTimelineProvider()
         ) { entry in
-            ReadingWidgetView(entry: entry)
+            ReadingDeltaWidgetView(entry: entry)
                 .widgetURL(entry.widgetURL)
         }
-        .supportedFamilies(families)
-        .configurationDisplayName("Current Reading")
-    }
-
-    private var families: [WidgetFamily] {
-        #if os(watchOS)
-        [
-            .accessoryInline,
-            .accessoryCircular,
-            .accessoryCorner,
-        ]
-        #else
-        [
-            .systemSmall,
-            .systemMedium,
-            .systemLarge,
-            .accessoryInline,
-            .accessoryCircular,
-            .accessoryRectangular,
-        ]
-        #endif
+        .supportedFamilies([.accessoryRectangular])
+        .configurationDisplayName("Reading & Delta")
     }
 }
 
 #Preview(as: .accessoryRectangular) {
-    ReadingWidget()
+    ReadingDeltaWidget()
 } timeline: {
     GlucoseEntry<GlucoseDeltaEntryData>(date: .now, widgetURL: nil, state: .reading(.placeholder))
     GlucoseEntry<GlucoseDeltaEntryData>(
@@ -61,7 +45,7 @@ struct ReadingWidget: Widget {
     GlucoseEntry<GlucoseDeltaEntryData>(
         date: .now.addingTimeInterval(30 * 60),
         widgetURL: nil,
-        state: .reading(.placeholder(.init(value: 240, trend: .doubleDown, date: .now), delta: -12))
+        state: .reading(.placeholder(.init(value: 108, trend: .flat, date: .now), delta: 0))
     )
     GlucoseEntry<GlucoseDeltaEntryData>(date: .now, widgetURL: nil, state: .error(.failedToLoad))
     GlucoseEntry<GlucoseDeltaEntryData>(date: .now, widgetURL: nil, state: .error(.noRecentReadings))

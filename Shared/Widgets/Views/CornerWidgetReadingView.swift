@@ -69,10 +69,10 @@ struct CornerWidgetView: View {
 #Preview(as: .accessoryCorner) {
     ReadingWidget()
 } timeline: {
-    GlucoseEntry<GlucoseReading>(
+    GlucoseEntry<GlucoseDeltaEntryData>(
         date: .now,
         widgetURL: nil,
-        state: .reading(.init(value: 55, trend: .fortyFiveDown, date: .now))
+        state: .reading(.placeholder(.init(value: 55, trend: .fortyFiveDown, date: .now), delta: -6))
     )
 }
 #endif
