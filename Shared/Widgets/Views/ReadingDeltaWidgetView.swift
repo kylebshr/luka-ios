@@ -10,7 +10,7 @@ import SwiftUI
 import WidgetKit
 
 struct ReadingDeltaWidgetView: View {
-    let entry: ReadingDeltaTimelineProvider.Entry
+    let entry: ReadingTimelineProvider.Entry
 
     var body: some View {
         switch entry.state {

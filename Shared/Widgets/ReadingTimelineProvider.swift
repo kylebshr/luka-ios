@@ -11,7 +11,7 @@ import KeychainAccess
 import Defaults
 
 struct ReadingTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider {
-    typealias Entry = GlucoseEntry<GlucoseReading>
+    typealias Entry = GlucoseEntry<GlucoseDeltaEntryData>
 
     let delegate = KeychainDexcomDelegate()
 
@@ -51,11 +51,26 @@ struct ReadingTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvide
         )
 
         do {
-            if let current = try await client.getLatestGlucoseReading(), Date.now.timeIntervalSince(current.date) < 60 * 15 {
-                return .reading(current)
-            } else {
+            // A short window rather than just the latest reading, so views that
+            // show the change since the previous reading have one to compare
+            // against. It's a handful of extra readings, and it warms the cache
+            // the graph widgets read from.
+            let readings = try await client.getGraphReadings(
+                duration: .init(value: 20, unit: .minutes)
+            )
+
+            guard let current = readings.last, Date.now.timeIntervalSince(current.date) < 60 * 15 else {
                 return .error(.noRecentReadings)
             }
+
+            return .reading(
+                GlucoseDeltaEntryData(
+                    current: current,
+                    previous: readings.dropLast().last
+                )
+            )
+        } catch DexcomClientError.noReadings {
+            return .error(.noRecentReadings)
         } catch {
             return .error(.failedToLoad)
         }

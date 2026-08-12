@@ -12,10 +12,11 @@ import Defaults
 
 /// The small Live Activity layout, rendered in a rectangular complication: the
 /// reading and its delta pill pinned to the leading edge, the age of the
-/// reading trailing. The timestamp comes from the entry's date, so the timeline
-/// ticks it forward a minute at a time.
+/// reading trailing. Fonts match the Live Activity's, which renders at the same
+/// watchOS metrics in the Smart Stack. The timestamp comes from the entry's
+/// date, so the timeline ticks it forward a minute at a time.
 struct RectangularReadingDeltaView: View {
-    let entry: ReadingDeltaTimelineProvider.Entry
+    let entry: ReadingTimelineProvider.Entry
     let data: GlucoseDeltaEntryData
 
     @Default(.targetRangeLowerBound) private var targetLower
@@ -41,7 +42,7 @@ struct RectangularReadingDeltaView: View {
                 // The reading is plain text here so the arrow only appears
                 // once — inside the pill.
                 ReadingView(reading: data.current, showsTrendArrow: false)
-                    .font(.system(.title2, design: .rounded))
+                    .font(.title.weight(.regular))
                     .invalidatableContent()
                     .minimumScaleFactor(0.5)
 
@@ -50,7 +51,7 @@ struct RectangularReadingDeltaView: View {
                     delta: data.delta,
                     color: data.current.vividColor(target: targetLower...targetUpper)
                 )
-                .font(.footnote)
+                .font(.system(size: 18))
                 .fontWeight(.medium)
             }
             .fixedSize(horizontal: true, vertical: false)
@@ -66,11 +67,12 @@ struct RectangularReadingDeltaView: View {
                     nowText: "Now"
                 )
             )
-            .font(.system(.footnote, design: .rounded).bold())
+            .font(.footnote.bold())
             .foregroundStyle(.secondary)
             .contentTransition(.numericText())
             .lineLimit(1)
             .minimumScaleFactor(0.5)
+            .multilineTextAlignment(.trailing)
             .layoutPriority(10)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
