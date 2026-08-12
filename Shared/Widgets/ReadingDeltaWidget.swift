@@ -9,8 +9,9 @@ import WidgetKit
 import SwiftUI
 import Dexcom
 
-/// A rectangular watch complication laid out like the small Live Activity: the
+/// A rectangular accessory widget laid out like the small Live Activity: the
 /// reading, the change since the previous one, and how long ago it arrived.
+/// Available as a watch complication and on the iOS Lock Screen.
 struct ReadingDeltaWidget: Widget {
     let kind: String = "LukaReadingDeltaWidget"
 

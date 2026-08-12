@@ -10,11 +10,12 @@ import SwiftUI
 import WidgetKit
 import Defaults
 
-/// The small Live Activity layout, rendered in a rectangular complication: the
-/// reading and its delta pill pinned to the leading edge, the age of the
-/// reading trailing. Fonts match the Live Activity's, which renders at the same
-/// watchOS metrics in the Smart Stack. The timestamp comes from the entry's
-/// date, so the timeline ticks it forward a minute at a time.
+/// The small Live Activity layout, rendered in a rectangular accessory widget:
+/// the reading and its delta pill pinned to the leading edge, the age of the
+/// reading trailing. Fonts are taken verbatim from the Live Activity, which
+/// renders at watchOS metrics in the Smart Stack; the Lock Screen has more room
+/// than the complication, so they fit there too. The timestamp comes from the
+/// entry's date, so the timeline ticks it forward a minute at a time.
 struct RectangularReadingDeltaView: View {
     let entry: ReadingTimelineProvider.Entry
     let data: GlucoseDeltaEntryData
