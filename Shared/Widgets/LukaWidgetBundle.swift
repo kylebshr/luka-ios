@@ -13,7 +13,6 @@ struct LukaWidgetBundle: WidgetBundle {
     var body: some Widget {
         GraphWidget()
         ReadingWidget()
-        ReadingDeltaWidget()
         #if os(iOS)
         ReadingActivityConfiguration()
         if #available(iOS 18.0, *) {
