@@ -89,6 +89,8 @@ struct StartLiveActivityIntent: LiveActivityIntent {
             pushType: .token
         )
 
+        Defaults[.liveActivityStartCount] += 1
+
         TelemetryDeck.signal(
             "LiveActivity.started",
             parameters: ["source": source]

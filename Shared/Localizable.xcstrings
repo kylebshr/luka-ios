@@ -1,9 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    ":00" : {
-      "shouldTranslate" : false
-    },
     "%@ %@" : {
       "localizations" : {
         "de" : {
@@ -46,6 +43,56 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$@ %2$@"
+          }
+        }
+      }
+    },
+    "%@ It keeps Live Activities running." : {
+
+    },
+    "%@ ago" : {
+      "comment" : "Relative time suffix, e.g. '5 min ago'",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "vor %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ago"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "hace %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "il y a %@"
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "il y a %@"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ siden"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ sedan"
           }
         }
       }
@@ -107,53 +154,6 @@
         }
       }
     },
-    "%@ ago" : {
-      "comment" : "Relative time suffix, e.g. '5 min ago'",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vor %@"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ ago"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "hace %@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "il y a %@"
-          }
-        },
-        "fr-CA" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "il y a %@"
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ siden"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ sedan"
-          }
-        }
-      }
-    },
     "%@%@" : {
       "localizations" : {
         "de" : {
@@ -200,6 +200,9 @@
         }
       }
     },
+    "%@/mo" : {
+
+    },
     "24 hours" : {
       "localizations" : {
         "de" : {
@@ -245,6 +248,12 @@
           }
         }
       }
+    },
+    ":00" : {
+      "shouldTranslate" : false
+    },
+    "Above and beyond." : {
+
     },
     "Activities enabled" : {
       "localizations" : {
@@ -532,6 +541,9 @@
         }
       }
     },
+    "Chips in on the bill." : {
+
+    },
     "Configure graph widget settings." : {
       "localizations" : {
         "de" : {
@@ -664,45 +676,8 @@
         }
       }
     },
-    "Current date" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aktuelles Datum"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fecha actual"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Date actuelle"
-          }
-        },
-        "fr-CA" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Date actuelle"
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gjeldende dato"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aktuellt datum"
-          }
-        }
-      }
+    "Current" : {
+
     },
     "Current Reading" : {
       "localizations" : {
@@ -746,6 +721,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aktuellt värde"
+          }
+        }
+      }
+    },
+    "Current date" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktuelles Datum"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fecha actual"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date actuelle"
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date actuelle"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gjeldende dato"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktuellt datum"
           }
         }
       }
@@ -1014,6 +1029,9 @@
         }
       }
     },
+    "Dismiss" : {
+
+    },
     "Done" : {
       "localizations" : {
         "de" : {
@@ -1244,46 +1262,6 @@
         }
       }
     },
-    "End all Live Activities" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alle Live-Aktivitäten beenden"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Finalizar todas las Actividades en Vivo"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Arrêter toutes les activités en direct"
-          }
-        },
-        "fr-CA" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Arrêter toutes les activités en direct"
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Avslutt alle Live Activities"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Avsluta alla Live Activities"
-          }
-        }
-      }
-    },
     "End Live Activity" : {
       "localizations" : {
         "de" : {
@@ -1406,6 +1384,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Avsluta Live Activity på servern"
+          }
+        }
+      }
+    },
+    "End all Live Activities" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle Live-Aktivitäten beenden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finalizar todas las Actividades en Vivo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrêter toutes les activités en direct"
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrêter toutes les activités en direct"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avslutt alle Live Activities"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avsluta alla Live Activities"
           }
         }
       }
@@ -1708,51 +1726,11 @@
         }
       }
     },
-    "Graph range" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeitraum"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Graph range"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rango del gráfico"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Plage du graphique"
-          }
-        },
-        "fr-CA" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Plage du graphique"
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Grafperiode"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tidsperiod"
-          }
-        }
-      }
+    "Glucose Tab" : {
+
+    },
+    "Goes a long way." : {
+
     },
     "Graph Range" : {
       "localizations" : {
@@ -1846,52 +1824,6 @@
         }
       }
     },
-    "Graph upper bound" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Oberer Grenzwert"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Graph upper bound"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Límite superior del gráfico"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Limite supérieure du graphique"
-          }
-        },
-        "fr-CA" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Limite supérieure du graphique"
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Grafens øvre grense"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Grafens övre gräns"
-          }
-        }
-      }
-    },
     "Graph Widget" : {
       "localizations" : {
         "de" : {
@@ -1934,6 +1866,98 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Grafwidget"
+          }
+        }
+      }
+    },
+    "Graph range" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zeitraum"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Graph range"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rango del gráfico"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plage du graphique"
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plage du graphique"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grafperiode"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tidsperiod"
+          }
+        }
+      }
+    },
+    "Graph upper bound" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oberer Grenzwert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Graph upper bound"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Límite superior del gráfico"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limite supérieure du graphique"
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limite supérieure du graphique"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grafens øvre grense"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grafens övre gräns"
           }
         }
       }
@@ -2027,9 +2051,6 @@
         }
       }
     },
-    "isLiveActivityRunning" : {
-      "shouldTranslate" : false
-    },
     "Japan" : {
       "localizations" : {
         "de" : {
@@ -2075,6 +2096,9 @@
           }
         }
       }
+    },
+    "Juice Box" : {
+
     },
     "Just now" : {
       "localizations" : {
@@ -2215,46 +2239,6 @@
         }
       }
     },
-    "Launch on tap" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Beim Tippen öffnen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abrir al tocar"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ouvrir en touchant"
-          }
-        },
-        "fr-CA" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ouvrir en touchant"
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Åpne ved trykk"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Öppna vid tryck"
-          }
-        }
-      }
-    },
     "Launch on Tap" : {
       "localizations" : {
         "de" : {
@@ -2285,6 +2269,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ouvrir au toucher"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Åpne ved trykk"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öppna vid tryck"
+          }
+        }
+      }
+    },
+    "Launch on tap" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beim Tippen öffnen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir al tocar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir en touchant"
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir en touchant"
           }
         },
         "nb" : {
@@ -2565,6 +2589,12 @@
         }
       }
     },
+    "Live Activities run on a server I pay for every month. Luka is free with no ads. Supporting unlocks nothing, but it keeps the lights on." : {
+
+    },
+    "Live Activities run on a server that costs money. Chip in from %@/mo." : {
+
+    },
     "Live Activity" : {
       "localizations" : {
         "de" : {
@@ -2611,46 +2641,6 @@
         }
       }
     },
-    "Live Activity alerts" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Live-Aktivität-Warnungen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alertas de Actividad en Vivo"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alertes d’activité en direct"
-          }
-        },
-        "fr-CA" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alertes d’activité en direct"
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Live Activity-varsler"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Live Activity-varningar"
-          }
-        }
-      }
-    },
     "Live Activity Debug" : {
       "localizations" : {
         "de" : {
@@ -2687,6 +2677,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Live Activity-felsökning"
+          }
+        }
+      }
+    },
+    "Live Activity alerts" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live-Aktivität-Warnungen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alertas de Actividad en Vivo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alertes d’activité en direct"
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alertes d’activité en direct"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live Activity-varsler"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live Activity-varningar"
           }
         }
       }
@@ -3048,11 +3078,11 @@
         }
       }
     },
-    "m" : {
-      "shouldTranslate" : false
+    "Manage Subscription" : {
+
     },
-    "m ago" : {
-      "shouldTranslate" : false
+    "Manage support" : {
+
     },
     "Max" : {
       "localizations" : {
@@ -3410,6 +3440,52 @@
         }
       }
     },
+    "OK" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
     "Off" : {
       "localizations" : {
         "de" : {
@@ -3499,52 +3575,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Offline"
-          }
-        }
-      }
-    },
-    "OK" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OK"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OK"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OK"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OK"
-          }
-        },
-        "fr-CA" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OK"
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OK"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OK"
           }
         }
       }
@@ -3690,6 +3720,9 @@
         }
       }
     },
+    "Privacy Policy" : {
+
+    },
     "Push date" : {
       "localizations" : {
         "de" : {
@@ -3772,6 +3805,9 @@
     },
     "Push-to-start" : {
       "shouldTranslate" : false
+    },
+    "Reading & Delta" : {
+
     },
     "Reading Graph" : {
       "localizations" : {
@@ -4037,6 +4073,9 @@
         }
       }
     },
+    "Renews monthly. Cancel anytime in Settings." : {
+
+    },
     "Restart" : {
       "localizations" : {
         "de" : {
@@ -4122,6 +4161,12 @@
           }
         }
       }
+    },
+    "Restore Purchases" : {
+
+    },
+    "Restore purchases" : {
+
     },
     "Running" : {
       "localizations" : {
@@ -5137,6 +5182,18 @@
     "Sugarmate" : {
       "shouldTranslate" : false
     },
+    "Support" : {
+
+    },
+    "Support Luka" : {
+
+    },
+    "Support for %@/mo" : {
+
+    },
+    "Switch to %@" : {
+
+    },
     "Tap Action" : {
       "localizations" : {
         "de" : {
@@ -5182,6 +5239,24 @@
           }
         }
       }
+    },
+    "Terms of Use" : {
+
+    },
+    "Thank You!" : {
+
+    },
+    "Thanks for the glucose tab!" : {
+
+    },
+    "Thanks for the juice box!" : {
+
+    },
+    "Thanks for the whole fridge!" : {
+
+    },
+    "The Whole Fridge" : {
+
     },
     "This version of Luka is no longer supported. Please update to continue." : {
       "localizations" : {
@@ -6026,6 +6101,18 @@
           }
         }
       }
+    },
+    "isLiveActivityRunning" : {
+      "shouldTranslate" : false
+    },
+    "m" : {
+      "shouldTranslate" : false
+    },
+    "m ago" : {
+      "shouldTranslate" : false
+    },
+    "•" : {
+
     }
   },
   "version" : "1.1"

@@ -12,7 +12,10 @@ import KeychainAccess
 
 struct SettingsView: View {
     @Environment(RootViewModel.self) private var viewModel
+    @Environment(SupporterStore.self) private var supporterStore
     @Environment(\.dismiss) private var dismiss
+
+    @State private var isPresentingSupport = false
 
     @Default(.targetRangeLowerBound) private var lowerTargetRange
     @Default(.targetRangeUpperBound) private var upperTargetRange
@@ -111,6 +114,39 @@ struct SettingsView: View {
             }
 
             Section {
+                if supporterStore.isSupporter {
+                    Button {
+                        isPresentingSupport = true
+                    } label: {
+                        SettingsRow("Manage support", systemImage: "heart.fill")
+                    }
+                } else {
+                    Button {
+                        isPresentingSupport = true
+                    } label: {
+                        SettingsRow("Support Luka", systemImage: "heart")
+                    }
+
+                    Button {
+                        Task {
+                            await supporterStore.restore()
+                        }
+                    } label: {
+                        SettingsRow("Restore purchases", systemImage: "arrow.clockwise")
+                    }
+                }
+            } header: {
+                Text("Support")
+            } footer: {
+                if let currentTier = supporterStore.currentTier {
+                    Text("\(Text(currentTier.thanks)) It keeps Live Activities running.")
+                } else {
+                    Text("Live Activities run on a server that costs money. Chip in from \(supporterStore.lowestDisplayPrice)/mo.")
+                }
+            }
+            .fontWeight(.medium)
+
+            Section {
                 ShareLink(item: URL(string: "https://apps.apple.com/us/app/luka-blood-glucose-readings/id6499279663")!) {
                     SettingsRow("Share Luka", systemImage: "square.and.arrow.up")
                 }
@@ -160,8 +196,12 @@ struct SettingsView: View {
             .fontWeight(.medium)
         }
         .animation(.default, value: showChartLiveActivity)
+        .animation(.default, value: supporterStore.isSupporter)
         .listStyle(.insetGrouped)
         .navigationTitle("Settings")
+        .sheet(isPresented: $isPresentingSupport) {
+            SupportView(source: .settings)
+        }
         .toolbar {
             if #available(iOS 26, *) {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -210,6 +250,8 @@ private struct GraphSliderView: View {
 
 #Preview {
     NavigationStack {
-        SettingsView().environment(RootViewModel())
+        SettingsView()
+            .environment(RootViewModel())
+            .environment(SupporterStore())
     }
 }

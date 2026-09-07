@@ -13,6 +13,7 @@ import WidgetKit
 
 @MainActor struct MainView: View {
     @Environment(RootViewModel.self) private var viewModel
+    @Environment(SupporterStore.self) private var supporterStore
     @Environment(\.verticalSizeClass) private var verticalSizeClass
 
     @Default(.selectedRange) private var portraitRange
@@ -23,10 +24,14 @@ import WidgetKit
     @Default(.graphUpperBound) private var upperGraphRange
     @Default(.unit) private var unit
     @Default(.dismissedBannerIDs) private var dismissedBannerIDs
+    @Default(.supportBannerDismissed) private var supportBannerDismissed
+    @Default(.liveActivityStartCount) private var liveActivityStartCount
+    @Default(.lastSupportPromptDate) private var lastSupportPromptDate
 
     @Default(.isLiveActivityRunning) private var isActivityActive
 
     @State private var isPresentingSettings = false
+    @State private var supportSheetSource: SupportSource?
     @State private var liveViewModel = LiveViewModel()
     @State private var isActivityLoading = false
     @State private var selectedChartReading: LiveActivityState.Reading?
@@ -140,6 +145,18 @@ import WidgetKit
 
                 if !isCompact {
                     liveActivityButton()
+
+                    if showsSupportBanner {
+                        SupportBannerView(displayPrice: supporterStore.lowestDisplayPrice) {
+                            supportSheetSource = .banner
+                        } onDismiss: {
+                            supportBannerDismissed = true
+                            TelemetryDeck.signal("Support.bannerDismissed")
+                        }
+                        .withReadableWidth()
+                        .frame(maxWidth: .infinity)
+                        .padding([.horizontal, .bottom])
+                    }
                 }
             }
             .padding(.top, isCompact ? nil : 0)
@@ -171,6 +188,9 @@ import WidgetKit
                 SettingsView()
             }
         }
+        .sheet(item: $supportSheetSource) { source in
+            SupportView(source: source)
+        }
         .onAppear {
             liveViewModel.setUpClientAndBeginRefreshing()
             haptics.prepare()
@@ -181,6 +201,27 @@ import WidgetKit
             haptics.prepare()
         }
         .animation(.snappy, value: dismissedBannerIDs)
+        .animation(.snappy, value: showsSupportBanner)
+    }
+
+    private var showsSupportBanner: Bool {
+        !supporterStore.isSupporter && !supportBannerDismissed
+    }
+
+    /// After the second (and later) start, ask for support. Re-asks at most once
+    /// a month, and never once the user subscribes.
+    private func showSupportPromptIfNeeded() {
+        guard SupportPrompt.shouldShow(
+            startCount: liveActivityStartCount,
+            isSupporter: supporterStore.isSupporter,
+            lastPromptDate: lastSupportPromptDate
+        ) else {
+            return
+        }
+
+        lastSupportPromptDate = .now
+        supportSheetSource = .prompt
+        TelemetryDeck.signal("Support.promptShown", parameters: ["startCount": String(liveActivityStartCount)])
     }
 
     private func liveActivityButton() -> some View {
@@ -229,6 +270,7 @@ import WidgetKit
         defer { isActivityLoading = false }
 
         do {
+            let didStart = !isActivityActive
             if isActivityActive {
                 _ = try await EndLiveActivityIntent().perform()
             } else {
@@ -236,6 +278,10 @@ import WidgetKit
             }
             LiveActivityManager.shared.syncState()
             UINotificationFeedbackGenerator().notificationOccurred(.success)
+
+            if didStart {
+                showSupportPromptIfNeeded()
+            }
         } catch {
             print("Failed to toggle Live Activity: \(error)")
             UINotificationFeedbackGenerator().notificationOccurred(.error)
@@ -283,6 +329,8 @@ import WidgetKit
 
 #Preview {
     NavigationStack {
-        MainView().environment(RootViewModel())
+        MainView()
+            .environment(RootViewModel())
+            .environment(SupporterStore())
     }
 }

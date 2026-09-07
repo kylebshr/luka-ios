@@ -47,6 +47,13 @@ extension Defaults.Keys {
     static let pushToStartToken = Key<String?>("pushToStartToken", default: nil, suite: .shared)
     // Device-local: following a sensor over Bluetooth is inherently per-device.
     static let directToG7Enabled = Key<Bool>("directToG7Enabled", default: false, suite: .shared)
+
+    // Supporter subscription prompts. The start count is bumped by the intent, which can
+    // run in the widget extension (Control Center, Shortcuts), so it lives in the shared
+    // suite. Dismissals sync so the user isn't asked again on every device.
+    static let liveActivityStartCount = Key<Int>("liveActivityStartCount", default: 0, suite: .shared)
+    static let supportBannerDismissed = Key<Bool>("supportBannerDismissed", default: false, suite: .shared, iCloud: true)
+    static let lastSupportPromptDate = Key<Date?>("lastSupportPromptDate", default: nil, suite: .shared, iCloud: true)
 }
 
 extension AccountLocation: Defaults.Serializable {}

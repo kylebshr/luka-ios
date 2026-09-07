@@ -1,0 +1,99 @@
+{
+  "identifier": "A5F0C1D2-7B3E-4E1A-9C2D-1E2F3A4B5C6D",
+  "nonRenewingSubscriptions": [],
+  "products": [],
+  "settings": {
+    "_applicationInternalID": "6499279663",
+    "_developerTeamID": "ZEAD23GG77",
+    "_failTransactionsEnabled": false,
+    "_lastSynced": 0,
+    "_locale": "en_US",
+    "_storefront": "USA",
+    "_storeKitErrors": []
+  },
+  "subscriptionGroups": [
+    {
+      "id": "22366942",
+      "localizations": [
+        {
+          "description": "",
+          "displayName": "Luka Supporter",
+          "locale": "en_US"
+        }
+      ],
+      "name": "Supporter",
+      "subscriptions": [
+        {
+          "adHocOffers": [],
+          "codeOffers": [],
+          "displayPrice": "9.99",
+          "familyShareable": false,
+          "groupNumber": 1,
+          "internalID": "6809559702",
+          "introductoryOffer": null,
+          "localizations": [
+            {
+              "description": "Helps pay for the server that powers Live Activities.",
+              "displayName": "The Whole Fridge",
+              "locale": "en_US"
+            }
+          ],
+          "productID": "com.kylebashour.Glimpse.supporter.mega.monthly",
+          "recurringSubscriptionPeriod": "P1M",
+          "referenceName": "Mega Supporter Monthly",
+          "subscriptionGroupID": "22366942",
+          "type": "RecurringSubscription",
+          "winbackOffers": []
+        },
+        {
+          "adHocOffers": [],
+          "codeOffers": [],
+          "displayPrice": "4.99",
+          "familyShareable": false,
+          "groupNumber": 2,
+          "internalID": "6809559490",
+          "introductoryOffer": null,
+          "localizations": [
+            {
+              "description": "Helps pay for the server that powers Live Activities.",
+              "displayName": "Juice Box",
+              "locale": "en_US"
+            }
+          ],
+          "productID": "com.kylebashour.Glimpse.supporter.super.monthly",
+          "recurringSubscriptionPeriod": "P1M",
+          "referenceName": "Super Supporter Monthly",
+          "subscriptionGroupID": "22366942",
+          "type": "RecurringSubscription",
+          "winbackOffers": []
+        },
+        {
+          "adHocOffers": [],
+          "codeOffers": [],
+          "displayPrice": "1.99",
+          "familyShareable": false,
+          "groupNumber": 3,
+          "internalID": "6809558033",
+          "introductoryOffer": null,
+          "localizations": [
+            {
+              "description": "Helps pay for the server that powers Live Activities.",
+              "displayName": "Glucose Tab",
+              "locale": "en_US"
+            }
+          ],
+          "productID": "com.kylebashour.Glimpse.supporter.monthly",
+          "recurringSubscriptionPeriod": "P1M",
+          "referenceName": "Supporter Monthly",
+          "subscriptionGroupID": "22366942",
+          "type": "RecurringSubscription",
+          "winbackOffers": []
+        }
+      ]
+    }
+  ],
+  "version": {
+    "major": 4,
+    "minor": 0
+  }
+}
