@@ -16,8 +16,8 @@ struct ReadingWidgetView: View {
 
     var body: some View {
         switch entry.state {
-        case .reading(let data):
-            readingView(for: data)
+        case .reading(let reading):
+            readingView(for: reading)
                 .redacted(reason: entry.isExpired ? .placeholder : [])
                 .widgetURL(entry.widgetURL)
         case .error(let error):
@@ -25,17 +25,17 @@ struct ReadingWidgetView: View {
         }
     }
 
-    @ViewBuilder private func readingView(for data: GlucoseDeltaEntryData) -> some View {
+    @ViewBuilder private func readingView(for reading: GlucoseReading) -> some View {
         switch family {
         case .systemLarge, .systemMedium, .systemSmall, .accessoryRectangular:
-            SystemWidgetReadingView(entry: entry, reading: data.current)
+            SystemWidgetReadingView(entry: entry, reading: reading)
         case .accessoryInline:
-            InlineWidgetReadingView(entry: entry, reading: data.current)
+            InlineWidgetReadingView(entry: entry, reading: reading)
         case .accessoryCircular:
-            CircularWidgetView(entry: entry, reading: data.current)
+            CircularWidgetView(entry: entry, reading: reading)
         #if os(watchOS)
         case .accessoryCorner:
-            CornerWidgetView(entry: entry, reading: data.current)
+            CornerWidgetView(entry: entry, reading: reading)
         #endif
         default:
             fatalError()

@@ -47,23 +47,23 @@ struct ReadingWidget: Widget {
 #Preview(as: .accessoryRectangular) {
     ReadingWidget()
 } timeline: {
-    GlucoseEntry<GlucoseDeltaEntryData>(date: .now, widgetURL: nil, state: .reading(.placeholder))
-    GlucoseEntry<GlucoseDeltaEntryData>(
+    GlucoseEntry<GlucoseReading>(date: .now, widgetURL: nil, state: .reading(.placeholder))
+    GlucoseEntry<GlucoseReading>(
         date: .now.addingTimeInterval(150),
         widgetURL: nil,
-        state: .reading(.placeholder(.init(value: 240, trend: .doubleDown, date: .now), delta: -12))
+        state: .reading(.init(value: 240, trend: .doubleDown, date: .now))
     )
-    GlucoseEntry<GlucoseDeltaEntryData>(
+    GlucoseEntry<GlucoseReading>(
         date: .now.addingTimeInterval(800),
         widgetURL: nil,
-        state: .reading(.placeholder(.init(value: 45, trend: .fortyFiveUp, date: .now), delta: 4))
+        state: .reading(.init(value: 45, trend: .fortyFiveUp, date: .now))
     )
-    GlucoseEntry<GlucoseDeltaEntryData>(
+    GlucoseEntry<GlucoseReading>(
         date: .now.addingTimeInterval(30 * 60),
         widgetURL: nil,
-        state: .reading(.placeholder(.init(value: 240, trend: .doubleDown, date: .now), delta: -12))
+        state: .reading(.init(value: 240, trend: .doubleDown, date: .now))
     )
-    GlucoseEntry<GlucoseDeltaEntryData>(date: .now, widgetURL: nil, state: .error(.failedToLoad))
-    GlucoseEntry<GlucoseDeltaEntryData>(date: .now, widgetURL: nil, state: .error(.noRecentReadings))
-    GlucoseEntry<GlucoseDeltaEntryData>(date: .now, widgetURL: nil, state: .error(.loggedOut))
+    GlucoseEntry<GlucoseReading>(date: .now, widgetURL: nil, state: .error(.failedToLoad))
+    GlucoseEntry<GlucoseReading>(date: .now, widgetURL: nil, state: .error(.noRecentReadings))
+    GlucoseEntry<GlucoseReading>(date: .now, widgetURL: nil, state: .error(.loggedOut))
 }
