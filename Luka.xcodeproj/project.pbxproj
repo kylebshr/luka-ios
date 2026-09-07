@@ -251,6 +251,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
+				Luka.storekit,
 			);
 			target = 27F577662BCF38330012D66C /* Luka */;
 		};
@@ -264,6 +265,7 @@
 				Views/Form/FormSectionDivider.swift,
 				Views/RootViewModel.swift,
 				Views/SignInView.swift,
+				Luka.storekit,
 			);
 			target = 2741EA0E2BD8AEBA003EDEB2 /* Watch */;
 		};

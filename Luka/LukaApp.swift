@@ -19,6 +19,7 @@ struct LukaApp: App {
     @Environment(\.requestReview) private var requestReview
 
     @State private var viewModel = RootViewModel()
+    @State private var supporterStore = SupporterStore()
 
     private let liveActivityManager = LiveActivityManager.shared
 
@@ -38,7 +39,9 @@ struct LukaApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootView().environment(viewModel)
+            RootView()
+                .environment(viewModel)
+                .environment(supporterStore)
                 .task {
                     // Request review after 10 launches
                     if Defaults[.launchCount] >= 10 {
@@ -52,6 +55,9 @@ struct LukaApp: App {
             } else if scenePhase == .active {
                 viewModel.loadCredentials()
                 liveActivityManager.syncState()
+                Task {
+                    await supporterStore.refreshEntitlement()
+                }
             }
         }
     }

@@ -225,6 +225,26 @@ struct GraphWidgetConfiguration: WidgetConfigurationIntent {
 - **Compact**: Leading (value) + Trailing (arrow)
 - **Minimal**: Compressed glucose display
 
+## Supporter Subscription (IAP)
+
+Optional monthly tip-jar subscriptions that help pay for the Live Activity server. They unlock nothing.
+
+| Tier | Product ID | Price | ASC ID |
+|------|------------|-------|--------|
+| Glucose Tab | `com.kylebashour.Glimpse.supporter.monthly` | $1.99/mo | 6809558033 |
+| Juice Box | `com.kylebashour.Glimpse.supporter.super.monthly` | $4.99/mo | 6809559490 |
+| The Whole Fridge | `com.kylebashour.Glimpse.supporter.mega.monthly` | $9.99/mo | 6809559702 |
+
+All three live in subscription group 22366942 ("Supporter"), The Whole Fridge at group level 1, so switching tiers is an upgrade/downgrade.
+
+- `Luka/Store/SupporterStore.swift` - `SupporterTier` enum and the `@Observable` StoreKit 2 store (products, entitlement, purchase, restore). Injected via `.environment(supporterStore)` from `LukaApp`.
+- `Luka/Store/SupportPrompt.swift` - pure logic for when to prompt after a Live Activity start (2nd start onward, at most every 30 days, never for supporters). Tested in `LukaTests`.
+- `Luka/Views/SupportView.swift` - the sheet (tier picker, purchase, restore, manage subscription, Terms/Privacy links).
+- `Luka/Views/SupportBannerView.swift` - promo under the Live Activity button; hidden for supporters or once dismissed.
+- Settings has a "Support" section; `StartLiveActivityIntent` increments `Defaults[.liveActivityStartCount]`.
+- `Luka/Luka.storekit` is attached to the Luka scheme for local StoreKit testing and excluded from the app bundle.
+- Manage in App Store Connect with `asc subscriptions ...` (app ID 6499279663).
+
 ## API Integration
 
 ### Dexcom API
