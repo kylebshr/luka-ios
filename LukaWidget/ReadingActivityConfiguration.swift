@@ -60,7 +60,6 @@ struct ReadingActivityConfiguration: Widget {
                     ReadingText(context: context)
                         .font(.largeTitle)
                         .fontDesign(.rounded)
-                        .opacity(context.isOffline ? 0.5 : 1)
                         .fixedSize(horizontal: true, vertical: true)
                 }
                 .contentMargins([.leading, .top, .trailing], 20)
@@ -103,6 +102,9 @@ struct ReadingActivityConfiguration: Widget {
     }
 }
 
+/// The current glucose value. Redacted while offline rather than dimmed, so an
+/// out-of-date number is never shown as if it were current. The stale value
+/// still drives the placeholder's width so the layout doesn't jump.
 private struct ReadingText: View {
     @Default(.unit) private var unit
     var context: ActivityViewContext<ReadingAttributes>
@@ -113,10 +115,10 @@ private struct ReadingText: View {
 
     var body: some View {
         ZStack {
-            if let reading {
+            if let reading, !context.isOffline {
                 Text(reading.value.formatted(.glucose(unit)))
             } else {
-                Text(50.formatted(.glucose(unit)))
+                Text((reading?.value ?? 50).formatted(.glucose(unit)))
                     .redacted(reason: .placeholder)
             }
         }
@@ -132,7 +134,7 @@ private struct ReadingArrow: View {
     }
 
     var body: some View {
-        if let reading {
+        if let reading, !context.isOffline {
             ZStack(alignment: .trailing) {
                 ReadingText(context: context).hidden()
                 reading.image.imageScale(.small)
@@ -168,8 +170,7 @@ private struct CompactReadingText: View {
         WithRange {
             ReadingText(context: context)
                 .fontWeight(.bold)
-                .foregroundStyle(liveActivityReadingTint(reading, target: $0))
-                .opacity(context.isOffline ? 0.5 : 1)
+                .foregroundStyle(liveActivityReadingTint(context.isOffline ? nil : reading, target: $0))
         }
     }
 }
@@ -192,7 +193,8 @@ private struct CompactReadingArrow: View {
                 }
             }
             .fontWeight(.bold)
-            .foregroundStyle(liveActivityReadingTint(reading, target: $0))
+            // Neutral while offline so the icon doesn't imply a current range.
+            .foregroundStyle(liveActivityReadingTint(context.isOffline ? nil : reading, target: $0))
         }
     }
 }
@@ -260,7 +262,6 @@ private struct MainContentView: View {
                 }
                 .fixedSize(horizontal: true, vertical: false)
                 .layoutPriority(100)
-                .opacity(context.isOffline ? 0.5 : 1)
 
                 Spacer(minLength: 2)
 
@@ -306,7 +307,6 @@ private struct MainContentView: View {
                             .fontWeight(.medium)
                     }
                     .fontDesign(.rounded)
-                    .opacity(context.isOffline ? 0.5 : 1)
                     .fixedSize(horizontal: true, vertical: true)
 
                     Spacer(minLength: 0)
@@ -415,13 +415,13 @@ private struct MediumExpiredView: View {
 }
 
 /// The trend arrow and the change since the previous reading, in a capsule
-/// tinted with the reading's color. Dimmed rather than hidden while offline, by
-/// the opacity its container applies to the reading.
+/// tinted with the reading's color. Hidden while offline, since the trend and
+/// delta are as out of date as the redacted reading beside it.
 private struct DeltaPill: View {
     var context: ActivityViewContext<ReadingAttributes>
 
     var body: some View {
-        if let reading = context.state.c {
+        if let reading = context.state.c, !context.isOffline {
             WithRange { range in
                 DeltaView(
                     trend: reading.trend,
@@ -626,5 +626,6 @@ private extension Date {
     LiveActivityState(c: .placeholder, h: .placeholder)
     LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-10 * 61)), h: .placeholder)
     LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-5 * 61)), h: .placeholder)
+    LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-30 * 60)), h: .placeholder, s: .offline)
     LiveActivityState(c: nil, h: [], se: true)
 }
