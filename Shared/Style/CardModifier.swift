@@ -33,3 +33,13 @@ struct CardModifier: ViewModifier {
             }
     }
 }
+
+extension View {
+    /// A flat, subtly tinted card for content that sits inside a screen rather
+    /// than floating over it (banners, option rows). Uses the secondary
+    /// background so it stays distinct from the screen in both light and dark
+    /// mode, including elevated contexts like sheets.
+    func insetCard() -> some View {
+        background(.background.secondary, in: .rect(cornerRadius: .defaultCornerRadius))
+    }
+}

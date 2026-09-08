@@ -79,6 +79,7 @@ struct SupportView: View {
                     .frame(maxWidth: .infinity)
                     .padding()
                     .padding(.horizontal)
+                    .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
             }
             .toolbar {
                 if #available(iOS 26, *) {
@@ -184,11 +185,19 @@ struct SupportView: View {
     private var legalText: some View {
         VStack(spacing: .spacing1) {
             Text("Renews monthly. Cancel anytime in Settings.")
+                .fixedSize(horizontal: false, vertical: true)
 
-            HStack(spacing: .spacing1) {
-                Link("Terms of Use", destination: SupporterStore.termsOfUseURL)
-                Text("•")
-                Link("Privacy Policy", destination: SupporterStore.privacyPolicyURL)
+            ViewThatFits {
+                HStack(spacing: .spacing1) {
+                    Link("Terms of Use", destination: SupporterStore.termsOfUseURL)
+                    Text("•")
+                    Link("Privacy Policy", destination: SupporterStore.privacyPolicyURL)
+                }
+
+                VStack(spacing: .spacing1) {
+                    Link("Terms of Use", destination: SupporterStore.termsOfUseURL)
+                    Link("Privacy Policy", destination: SupporterStore.privacyPolicyURL)
+                }
             }
         }
         .font(.caption2)
@@ -199,11 +208,17 @@ struct SupportView: View {
 }
 
 private struct TierRow: View {
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
     var tier: SupporterTier
     var displayPrice: String
     var isSelected: Bool
     var isCurrent: Bool
     var onSelect: () -> Void
+
+    private var isAccessibilitySize: Bool {
+        dynamicTypeSize.isAccessibilitySize
+    }
 
     var body: some View {
         Button {
@@ -216,10 +231,15 @@ private struct TierRow: View {
                     .frame(width: 28)
 
                 VStack(alignment: .leading, spacing: .spacing1) {
-                    HStack(spacing: .spacing4) {
+                    // Name and badge sit side by side, but stack once the
+                    // text is too large to share a line.
+                    let nameLayout = isAccessibilitySize
+                        ? AnyLayout(VStackLayout(alignment: .leading, spacing: .spacing1))
+                        : AnyLayout(HStackLayout(spacing: .spacing4))
+
+                    nameLayout {
                         Text(tier.name)
                             .font(.headline)
-                            .fixedSize(horizontal: true, vertical: false)
 
                         if isCurrent {
                             Text("Current")
@@ -234,23 +254,21 @@ private struct TierRow: View {
                     Text(tier.description)
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
+
+                    if isAccessibilitySize {
+                        price.padding(.top, .spacing1)
+                    }
                 }
                 .multilineTextAlignment(.leading)
-                .layoutPriority(1)
 
-                Spacer(minLength: .spacing4)
-
-                Text("\(displayPrice)/mo")
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(isSelected ? Color.accentColor : .secondary)
-                    .fixedSize(horizontal: true, vertical: false)
+                if !isAccessibilitySize {
+                    Spacer(minLength: .spacing4)
+                    price
+                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding()
-            .background(
-                Color(.systemGroupedBackground),
-                in: .rect(cornerRadius: .defaultCornerRadius)
-            )
+            .insetCard()
             .overlay {
                 RoundedRectangle(cornerRadius: .defaultCornerRadius)
                     .strokeBorder(.tint, lineWidth: isSelected ? 2 : 0)
@@ -258,6 +276,12 @@ private struct TierRow: View {
         }
         .buttonStyle(.plain)
         .accessibilityAddTraits(isSelected ? .isSelected : [])
+    }
+
+    private var price: some View {
+        Text("\(displayPrice)/mo")
+            .font(.subheadline.weight(.semibold))
+            .foregroundStyle(isSelected ? Color.accentColor : .secondary)
     }
 }
 
