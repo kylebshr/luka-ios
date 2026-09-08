@@ -231,8 +231,8 @@ Optional monthly tip-jar subscriptions that help pay for the Live Activity serve
 
 | Tier | Product ID | Price | ASC ID |
 |------|------------|-------|--------|
-| Glucose Tab | `com.kylebashour.Glimpse.supporter.monthly` | $1.99/mo | 6809558033 |
-| Juice Box | `com.kylebashour.Glimpse.supporter.super.monthly` | $4.99/mo | 6809559490 |
+| Glucose Tab | `com.kylebashour.Glimpse.supporter.monthly` | $0.99/mo | 6809558033 |
+| Juice Box | `com.kylebashour.Glimpse.supporter.super.monthly` | $2.99/mo | 6809559490 |
 | The Whole Fridge | `com.kylebashour.Glimpse.supporter.mega.monthly` | $9.99/mo | 6809559702 |
 
 All three live in subscription group 22366942 ("Supporter"), The Whole Fridge at group level 1, so switching tiers is an upgrade/downgrade.

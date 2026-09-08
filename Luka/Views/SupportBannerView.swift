@@ -55,6 +55,6 @@ struct SupportBannerView: View {
 }
 
 #Preview {
-    SupportBannerView(displayPrice: "$1.99", onTap: {}, onDismiss: {})
+    SupportBannerView(displayPrice: "99¢", onTap: {}, onDismiss: {})
         .padding()
 }

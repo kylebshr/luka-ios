@@ -54,6 +54,9 @@ extension Defaults.Keys {
     static let liveActivityStartCount = Key<Int>("liveActivityStartCount", default: 0, suite: .shared, iCloud: true)
     static let supportBannerDismissed = Key<Bool>("supportBannerDismissed", default: false, suite: .shared, iCloud: true)
     static let lastSupportPromptDate = Key<Date?>("lastSupportPromptDate", default: nil, suite: .shared, iCloud: true)
+    // Device-local cache of the last verified supporter tier (product ID), so the
+    // app doesn't flash the support banner at launch before StoreKit answers.
+    static let cachedSupporterTier = Key<String?>("cachedSupporterTier", default: nil, suite: .shared)
 }
 
 extension AccountLocation: Defaults.Serializable {}
