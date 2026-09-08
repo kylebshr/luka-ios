@@ -40,10 +40,7 @@ struct BannerView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
-        .background(
-            Color(.systemGroupedBackground),
-            in: .rect(cornerRadius: .defaultCornerRadius)
-        )
+        .insetCard()
     }
 }
 
