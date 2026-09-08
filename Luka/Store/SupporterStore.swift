@@ -5,6 +5,7 @@
 //  Created by Claude on 9/7/26.
 //
 
+import Defaults
 import Foundation
 import StoreKit
 import TelemetryDeck
@@ -38,9 +39,9 @@ enum SupporterTier: String, CaseIterable, Identifiable {
 
     var description: LocalizedStringResource {
         switch self {
-        case .supporter: "Chips in on the bill."
-        case .superSupporter: "Goes a long way."
-        case .megaSupporter: "Above and beyond."
+        case .supporter: "Cheap but fast-acting."
+        case .superSupporter: "A classic."
+        case .megaSupporter: "You're overtreating, but we're here for it."
         }
     }
 
@@ -55,8 +56,8 @@ enum SupporterTier: String, CaseIterable, Identifiable {
     /// Shown before the App Store products load.
     var fallbackDisplayPrice: String {
         switch self {
-        case .supporter: "$1.99"
-        case .superSupporter: "$4.99"
+        case .supporter: "99¢"
+        case .superSupporter: "$2.99"
         case .megaSupporter: "$9.99"
         }
     }
@@ -78,18 +79,33 @@ final class SupporterStore {
         currentTier != nil
     }
 
-    /// The cheapest tier's price, for "from $1.99/month" copy.
+    /// The cheapest tier's price, for "from 99¢/month" copy.
     var lowestDisplayPrice: String {
         displayPrice(for: .supporter)
     }
 
     func displayPrice(for tier: SupporterTier) -> String {
-        products[tier]?.displayPrice ?? tier.fallbackDisplayPrice
+        guard let product = products[tier] else {
+            return tier.fallbackDisplayPrice
+        }
+
+        // Sub-dollar US prices read better as cents ("99¢" rather than "$0.99").
+        // Other storefronts keep Apple's localized string.
+        if product.priceFormatStyle.currencyCode == "USD", product.price < 1 {
+            let cents = NSDecimalNumber(decimal: product.price * 100).intValue
+            return "\(cents)¢"
+        }
+
+        return product.displayPrice
     }
 
     @ObservationIgnored private var updatesTask: Task<Void, Never>?
 
     init() {
+        // Start from the last verified entitlement so the UI doesn't flash the
+        // non-supporter state while StoreKit checks current entitlements.
+        currentTier = Defaults[.cachedSupporterTier].flatMap(SupporterTier.init(rawValue:))
+
         // Transactions can arrive outside a purchase flow (renewals, Ask to Buy
         // approvals, purchases on another device). Finish them and refresh.
         updatesTask = Task { [weak self] in
@@ -142,6 +158,7 @@ final class SupporterStore {
         }
 
         currentTier = active
+        Defaults[.cachedSupporterTier] = active?.rawValue
     }
 
     func purchase(_ tier: SupporterTier, source: String) async {

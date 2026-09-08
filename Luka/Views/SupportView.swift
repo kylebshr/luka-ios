@@ -231,39 +231,23 @@ private struct TierRow: View {
                     .frame(width: 28)
 
                 VStack(alignment: .leading, spacing: .spacing1) {
-                    // Name and badge sit side by side, but stack once the
-                    // text is too large to share a line.
-                    let nameLayout = isAccessibilitySize
-                        ? AnyLayout(VStackLayout(alignment: .leading, spacing: .spacing1))
-                        : AnyLayout(HStackLayout(spacing: .spacing4))
-
-                    nameLayout {
-                        Text(tier.name)
-                            .font(.headline)
-
-                        if isCurrent {
-                            Text("Current")
-                                .font(.caption2.weight(.semibold))
-                                .padding(.horizontal, .spacing4)
-                                .padding(.vertical, .spacing1)
-                                .background(.accent.opacity(0.15), in: .capsule)
-                                .foregroundStyle(.accent)
-                        }
-                    }
+                    Text(tier.name)
+                        .font(.headline)
 
                     Text(tier.description)
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
 
                     if isAccessibilitySize {
-                        price.padding(.top, .spacing1)
+                        priceColumn(alignment: .leading)
+                            .padding(.top, .spacing1)
                     }
                 }
                 .multilineTextAlignment(.leading)
 
                 if !isAccessibilitySize {
                     Spacer(minLength: .spacing4)
-                    price
+                    priceColumn(alignment: .trailing)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -278,10 +262,22 @@ private struct TierRow: View {
         .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 
-    private var price: some View {
-        Text("\(displayPrice)/mo")
-            .font(.subheadline.weight(.semibold))
-            .foregroundStyle(isSelected ? Color.accentColor : .secondary)
+    /// The price, with the Current badge beneath it for the active tier.
+    private func priceColumn(alignment: HorizontalAlignment) -> some View {
+        VStack(alignment: alignment, spacing: .spacing1) {
+            Text("\(displayPrice)/mo")
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(isSelected ? Color.accentColor : .secondary)
+
+            if isCurrent {
+                Text("Current")
+                    .font(.caption2.weight(.semibold))
+                    .padding(.horizontal, .spacing4)
+                    .padding(.vertical, .spacing1)
+                    .background(.accent.opacity(0.15), in: .capsule)
+                    .foregroundStyle(.accent)
+            }
+        }
     }
 }
 
