@@ -49,6 +49,11 @@ struct StartLiveActivityRequest: Codable {
     /// Stored as opaque JSON so this shared model stays decoupled from `ReadingAttributes`
     /// (which isn't a member of every target that compiles this file, e.g. the Watch).
     var attributes: JSONValue?
+
+    /// Whether the system started this activity from a push-to-start push (the
+    /// content-state `ps` flag), so the server can tell a late restart registration
+    /// from a fresh manual start.
+    var pushToStart: Bool?
 }
 
 /// A minimal, Foundation-only recursive JSON value. Lets the request carry the activity's

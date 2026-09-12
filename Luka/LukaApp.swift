@@ -58,6 +58,9 @@ struct LukaApp: App {
                 Task {
                     await supporterStore.refreshEntitlement()
                 }
+                Task {
+                    await liveActivityManager.flushClientEvents()
+                }
             }
         }
     }

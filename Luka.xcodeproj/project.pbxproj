@@ -135,6 +135,7 @@
 				Models/DexcomClientService.swift,
 				Models/DexcomDelegate.swift,
 				Models/DexcomHelper.swift,
+				Models/ClientEventRequest.swift,
 				Models/EndLiveActivityRequest.swift,
 				Models/GlucoseReadingsCache.swift,
 				Models/LiveActivityState.swift,

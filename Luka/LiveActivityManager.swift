@@ -19,6 +19,7 @@ final class LiveActivityManager {
     static let shared = LiveActivityManager()
 
     private let client = HTTPClient()
+    private let reporter = ClientEventReporter()
 
     private var observationTasks: [String: Task<Void, Never>] = [:]
     private var activityTokens: [String: String] = [:]
@@ -26,9 +27,22 @@ final class LiveActivityManager {
     private var pushToStartTask: Task<Void, Never>?
 
     private init() {
+        // First thing on any launch: did we come up at all, and in what state? For a
+        // push-to-start restart the system is supposed to wake the app in the background;
+        // an `app_launch` in the server's telemetry shortly after its `push_started` is
+        // the proof, and its absence is the finding.
+        let existing = Activity<ReadingAttributes>.activities
+        reporter.record("app_launch", [
+            "app_state": Self.describe(UIApplication.shared.applicationState),
+            "activities": String(existing.count),
+            "protected_data": String(UIApplication.shared.isProtectedDataAvailable),
+            "restart_enabled": String(Defaults[.autoRestartLiveActivity]),
+            "has_pts_token": String(Defaults[.pushToStartToken] != nil),
+        ])
+
         // Observe existing activities
-        for activity in Activity<ReadingAttributes>.activities {
-            observeActivity(activity)
+        for activity in existing {
+            observeActivity(activity, source: "existing")
         }
 
         syncState()
@@ -36,7 +50,7 @@ final class LiveActivityManager {
         // Observe new activities as they're created
         activityUpdatesTask = Task {
             for await activity in Activity<ReadingAttributes>.activityUpdates {
-                observeActivity(activity)
+                observeActivity(activity, source: "updates")
                 syncState()
             }
         }
@@ -56,11 +70,42 @@ final class LiveActivityManager {
         pushToStartTask = Task {
             for await data in Activity<ReadingAttributes>.pushToStartTokenUpdates {
                 let token = data.map { String(format: "%02x", $0) }.joined()
-                guard token != Defaults[.pushToStartToken] else { continue }
+                let changed = token != Defaults[.pushToStartToken]
+                reporter.record("push_to_start_token", [
+                    "changed": String(changed),
+                    "had_token": String(Defaults[.pushToStartToken] != nil),
+                    "pts_prefix": String(token.prefix(8)),
+                ])
+                // Every yield is signalled, changed or not: if the server keeps pushing to
+                // a token this device no longer reports, the mismatch shows up here.
+                TelemetryDeck.signal(
+                    "LiveActivity.pushToStartTokenUpdated",
+                    parameters: [
+                        "changed": String(changed),
+                        "hadToken": String(Defaults[.pushToStartToken] != nil),
+                        "runningActivities": String(Activity<ReadingAttributes>.activities.count),
+                    ]
+                )
+                guard changed else { continue }
                 Defaults[.pushToStartToken] = token
                 await reregisterRunningActivities()
             }
         }
+    }
+
+    private static func describe(_ state: UIApplication.State) -> String {
+        switch state {
+        case .active: "active"
+        case .inactive: "inactive"
+        case .background: "background"
+        @unknown default: "unknown"
+        }
+    }
+
+    /// Ships any queued client events now — called on foreground so observations from a
+    /// wake that was suspended before its upload finished don't wait for the next event.
+    func flushClientEvents() async {
+        await reporter.flushNow()
     }
 
     func syncState(excluding excludedID: String? = nil) {
@@ -68,13 +113,45 @@ final class LiveActivityManager {
         ControlCenter.shared.reloadAllControls()
     }
 
-    private func observeActivity(_ activity: Activity<ReadingAttributes>) {
+    private func observeActivity(_ activity: Activity<ReadingAttributes>, source: String) {
         guard observationTasks[activity.id] == nil else { return }
+
+        // The server marks push-to-start-launched content with `ps`, so this is the
+        // device-side proof that a 7-hour restart actually produced an activity. A
+        // `push_started` on the server with no `pushToStart: true` observation here means
+        // iOS dropped the start push (or never launched us for it).
+        TelemetryDeck.signal(
+            "LiveActivity.activityObserved",
+            parameters: [
+                "source": source,
+                "pushToStart": String(activity.content.state.ps == true),
+                "state": String(describing: activity.activityState),
+            ]
+        )
+        reporter.record("activity_observed", activityID: activity.id, [
+            "source": source,
+            "push_to_start": String(activity.content.state.ps == true),
+            "state": String(describing: activity.activityState),
+            "reason": activity.content.state.r ?? "",
+        ])
 
         let stateTask = Task {
             for await state in activity.activityStateUpdates {
                 switch state {
                 case .dismissed, .ended:
+                    TelemetryDeck.signal(
+                        "LiveActivity.activityEnded",
+                        parameters: [
+                            "state": String(describing: state),
+                            "pushToStart": String(activity.content.state.ps == true),
+                            "hadToken": String(activityTokens[activity.id] != nil),
+                        ]
+                    )
+                    reporter.record("activity_ended", activityID: activity.id, [
+                        "state": String(describing: state),
+                        "push_to_start": String(activity.content.state.ps == true),
+                        "had_token": String(activityTokens[activity.id] != nil),
+                    ])
                     observationTasks.removeValue(forKey: activity.id)
                     activityTokens.removeValue(forKey: activity.id)
                     // Dismissal happens while the app is backgrounded (you're on the Lock
@@ -104,9 +181,20 @@ final class LiveActivityManager {
             for await token in activity.pushTokenUpdates {
                 let tokenString = token.map { String(format: "%02x", $0) }.joined()
                 let kind: String = activityTokens[activity.id] == nil ? "initial" : "update"
+                let pushToStart = activity.content.state.ps == true
                 activityTokens[activity.id] = tokenString
-                TelemetryDeck.signal("LiveActivity.receivedToken", parameters: ["kind": kind])
-                await sendStartLiveActivity(activityID: activity.id, token: tokenString, kind: kind)
+                TelemetryDeck.signal(
+                    "LiveActivity.receivedToken",
+                    parameters: ["kind": kind, "pushToStart": String(pushToStart)]
+                )
+                reporter.record("token_received", activityID: activity.id, [
+                    "kind": kind,
+                    "push_to_start": String(pushToStart),
+                    "token_prefix": String(tokenString.prefix(8)),
+                ])
+                await sendStartLiveActivity(
+                    activityID: activity.id, token: tokenString, kind: kind, pushToStart: pushToStart
+                )
             }
         }
 
@@ -117,11 +205,22 @@ final class LiveActivityManager {
         }
     }
 
-    private func sendStartLiveActivity(activityID: String, token: String, kind: String) async {
+    private func sendStartLiveActivity(
+        activityID: String, token: String, kind: String, pushToStart: Bool = false
+    ) async {
         guard let username = Keychain.shared.username,
               let password = Keychain.shared.password,
               let accountLocation = Defaults[.accountLocation],
               username != DexcomHelper.mockEmail else {
+            // A silent return here is exactly the kind of gap that hides a failed restart
+            // registration; the queue is flushed once credentials are readable.
+            reporter.record("token_send_skipped", activityID: activityID, [
+                "kind": kind,
+                "push_to_start": String(pushToStart),
+                "has_username": String(Keychain.shared.username != nil),
+                "has_password": String(Keychain.shared.password != nil),
+                "has_location": String(Defaults[.accountLocation] != nil),
+            ])
             return
         }
 
@@ -145,16 +244,34 @@ final class LiveActivityManager {
             ),
             pushToStartToken: restartEnabled ? Defaults[.pushToStartToken] : nil,
             attributesType: restartEnabled ? "ReadingAttributes" : nil,
-            attributes: restartEnabled ? try? JSONValue(encoding: ReadingAttributes(range: range)) : nil
+            attributes: restartEnabled ? try? JSONValue(encoding: ReadingAttributes(range: range)) : nil,
+            pushToStart: pushToStart
         )
 
         await client.withBackgroundTask(name: "LiveActivity.sendStartLiveActivity") {
             do {
                 let request = try client.makePostRequest("start-live-activity", body: payload)
-                try await client.send(request)
-                TelemetryDeck.signal("LiveActivity.sentToken", parameters: ["kind": kind])
+                let (_, response) = try await client.send(request)
+                // A 4xx/5xx is a failed registration: the server has no token and will
+                // never push to this activity. Treat it as an error instead of a success.
+                guard (200..<300).contains(response.statusCode) else {
+                    throw HTTPClient.StatusError(statusCode: response.statusCode)
+                }
+                TelemetryDeck.signal(
+                    "LiveActivity.sentToken",
+                    parameters: ["kind": kind, "pushToStart": String(pushToStart), "restartEnabled": String(restartEnabled)]
+                )
+                reporter.record("token_sent", activityID: activityID, [
+                    "kind": kind, "push_to_start": String(pushToStart), "restart_enabled": String(restartEnabled),
+                ])
             } catch {
-                TelemetryDeck.signal("LiveActivity.failedToSendToken", parameters: ["kind": kind])
+                TelemetryDeck.signal(
+                    "LiveActivity.failedToSendToken",
+                    parameters: ["kind": kind, "pushToStart": String(pushToStart), "error": String(describing: type(of: error))]
+                )
+                reporter.record("token_send_failed", activityID: activityID, [
+                    "kind": kind, "push_to_start": String(pushToStart), "error": String(describing: error).prefix(120).description,
+                ])
             }
         }
     }
@@ -231,10 +348,17 @@ final class LiveActivityManager {
         await client.withBackgroundTask(name: "LiveActivity.sendEndLiveActivity") {
             do {
                 let request = try client.makePostRequest("end-live-activity", body: payload)
-                try await client.send(request)
+                let (_, response) = try await client.send(request)
+                guard (200..<300).contains(response.statusCode) else {
+                    throw HTTPClient.StatusError(statusCode: response.statusCode)
+                }
                 TelemetryDeck.signal("LiveActivity.sentEnd")
+                reporter.record("end_sent", activityID: activityID)
             } catch {
                 TelemetryDeck.signal("LiveActivity.failedToSendEnd")
+                reporter.record("end_send_failed", activityID: activityID, [
+                    "error": String(describing: error).prefix(120).description,
+                ])
             }
         }
     }
