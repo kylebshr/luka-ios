@@ -11,6 +11,13 @@ import Foundation
 /// with the app version and build, so the server can correlate behavior
 /// with the client release.
 struct HTTPClient {
+    /// A non-2xx response, for callers that treat one as a failure. `send` itself does
+    /// not throw on status so callers that expect a 404 (the readings proxy) keep working.
+    struct StatusError: Error, CustomStringConvertible {
+        var statusCode: Int
+        var description: String { "HTTP \(statusCode)" }
+    }
+
     var baseURL: URL
     var session: URLSession
 

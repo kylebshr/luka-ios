@@ -251,7 +251,12 @@ final class LiveActivityManager {
         await client.withBackgroundTask(name: "LiveActivity.sendStartLiveActivity") {
             do {
                 let request = try client.makePostRequest("start-live-activity", body: payload)
-                try await client.send(request)
+                let (_, response) = try await client.send(request)
+                // A 4xx/5xx is a failed registration: the server has no token and will
+                // never push to this activity. Treat it as an error instead of a success.
+                guard (200..<300).contains(response.statusCode) else {
+                    throw HTTPClient.StatusError(statusCode: response.statusCode)
+                }
                 TelemetryDeck.signal(
                     "LiveActivity.sentToken",
                     parameters: ["kind": kind, "pushToStart": String(pushToStart), "restartEnabled": String(restartEnabled)]
@@ -343,7 +348,10 @@ final class LiveActivityManager {
         await client.withBackgroundTask(name: "LiveActivity.sendEndLiveActivity") {
             do {
                 let request = try client.makePostRequest("end-live-activity", body: payload)
-                try await client.send(request)
+                let (_, response) = try await client.send(request)
+                guard (200..<300).contains(response.statusCode) else {
+                    throw HTTPClient.StatusError(statusCode: response.statusCode)
+                }
                 TelemetryDeck.signal("LiveActivity.sentEnd")
                 reporter.record("end_sent", activityID: activityID)
             } catch {
