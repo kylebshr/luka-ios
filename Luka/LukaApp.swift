@@ -59,6 +59,7 @@ struct LukaApp: App {
                     await supporterStore.refreshEntitlement()
                 }
                 Task {
+                    await liveActivityManager.refreshPushToStartToken(source: "foreground")
                     await liveActivityManager.flushClientEvents()
                 }
             }
