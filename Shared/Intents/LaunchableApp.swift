@@ -17,6 +17,7 @@ enum LaunchableApp: String, Codable, AppEnum, CaseIterable, Defaults.Serializabl
         [
             .luka: "Luka",
             .g7: "Dexcom G7",
+            .onePlus: "Dexcom ONE+",
             .g6: "Dexcom G6",
             .clarity: "Dexcom Clarity",
             .sugarmate: "Sugarmate",
@@ -32,6 +33,8 @@ enum LaunchableApp: String, Codable, AppEnum, CaseIterable, Defaults.Serializabl
             "luka://"
         case .g7:
             "dexcomg7://"
+        case .onePlus:
+            "dexcomoneplus://"
         case .g6:
             "dexcomg6://"
         case .clarity:
@@ -47,6 +50,7 @@ enum LaunchableApp: String, Codable, AppEnum, CaseIterable, Defaults.Serializabl
 
     case luka
     case g7
+    case onePlus
     case g6
     case clarity
     case sugarmate
