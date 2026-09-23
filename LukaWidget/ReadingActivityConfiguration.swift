@@ -168,9 +168,11 @@ private struct CompactReadingText: View {
 
     var body: some View {
         WithRange {
+            // Keeps the reading's color while offline; the redaction alone
+            // marks it as out of date, so it isn't dimmed on top of that.
             ReadingText(context: context)
                 .fontWeight(.bold)
-                .foregroundStyle(liveActivityReadingTint(context.isOffline ? nil : reading, target: $0))
+                .foregroundStyle(liveActivityReadingTint(reading, target: $0))
         }
     }
 }
