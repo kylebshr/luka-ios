@@ -22,6 +22,8 @@ enum LaunchableApp: String, Codable, AppEnum, CaseIterable, Defaults.Serializabl
             .clarity: "Dexcom Clarity",
             .sugarmate: "Sugarmate",
             .omnipod: "Omnipod",
+            .loop: "Loop",
+            .trio: "Trio",
         ]
     }
 
@@ -43,6 +45,10 @@ enum LaunchableApp: String, Codable, AppEnum, CaseIterable, Defaults.Serializabl
             "sugarmate://"
         case .omnipod:
             "omnipod://"
+        case .loop:
+            "loop://"
+        case .trio:
+            "trio://"
         }
 
         return URL(string: string)!
@@ -55,6 +61,8 @@ enum LaunchableApp: String, Codable, AppEnum, CaseIterable, Defaults.Serializabl
     case clarity
     case sugarmate
     case omnipod
+    case loop
+    case trio
 }
 
 extension LaunchableApp {
