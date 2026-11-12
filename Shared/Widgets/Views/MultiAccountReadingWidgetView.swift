@@ -128,7 +128,70 @@ private struct AccountReadingTile: View {
         .buttonStyle(.plain)
     }
 
-    private var content: some View {
+    @ViewBuilder private var content: some View {
+        if family == .systemSmall {
+            compactContent
+        } else {
+            regularContent
+        }
+    }
+
+    /// Two lines, for the half-height tiles of a small widget: name and age,
+    /// then the reading. Three lines don't fit.
+    private var compactContent: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(spacing: .spacing3) {
+                if let name = entry.accountName {
+                    Text(verbatim: name)
+                        .fontWeight(.semibold)
+                        .lineLimit(1)
+                        .unredacted()
+                }
+
+                Spacer(minLength: 0)
+
+                if case .reading(let reading) = entry.state {
+                    Group {
+                        if entry.shouldRefresh {
+                            Image(systemName: "arrow.triangle.2.circlepath")
+                        } else {
+                            Text(reading.timestamp(for: entry.date, style: .abbreviated, appendRelativeText: false))
+                                .contentTransition(.numericText())
+                        }
+                    }
+                    .fontWeight(.medium)
+                    .foregroundStyle(.secondary)
+                    .layoutPriority(1)
+                }
+            }
+            .font(.system(.caption, design: .rounded))
+
+            Spacer(minLength: 0)
+
+            switch entry.state {
+            case .reading(let reading):
+                ReadingView(reading: reading)
+                    .font(.system(.title2, design: .rounded))
+                    .invalidatableContent()
+                    // No scale factor: it shrinks the number but not the trend
+                    // arrow, which then looks oversized.
+                    .lineLimit(1)
+                    .widgetAccentable()
+                    .redacted(reason: entry.isExpired ? .placeholder : [])
+            case .error(let error):
+                Label(error.description, systemImage: error.image)
+                    .font(.system(.caption, design: .rounded))
+                    .fontWeight(.medium)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+        .foregroundStyle(foreground)
+    }
+
+    private var regularContent: some View {
         VStack(alignment: .leading, spacing: 0) {
             if let name = entry.accountName {
                 Text(verbatim: name)
@@ -155,14 +218,14 @@ private struct AccountReadingTile: View {
     private func readingContent(_ reading: GlucoseReading) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             ReadingView(reading: reading)
-                .font(.system(family == .systemSmall ? .title : .largeTitle, design: .rounded))
+                .font(.system(.largeTitle, design: .rounded))
                 .invalidatableContent()
                 .minimumScaleFactor(0.5)
                 .lineLimit(1)
                 .widgetAccentable()
 
             WidgetButtonContent(
-                text: reading.timestamp(for: entry.date, style: family == .systemSmall ? .abbreviated : .short),
+                text: reading.timestamp(for: entry.date, style: .short),
                 image: entry.shouldRefresh ? "arrow.triangle.2.circlepath" : nil
             )
             .lineLimit(1)
