@@ -42,26 +42,26 @@ final class ProxyDexcomClient: DexcomClientService, @unchecked Sendable {
         maxCount: Int
     ) async throws -> [GlucoseReading] {
         let minutes = max(1, Int(duration.converted(to: .minutes).value.rounded()))
-        do {
-            return try await fetchFromProxy(minutes: minutes, maxCount: maxCount)
-        } catch ProxyError.notFound {
-            return try await underlying.getGlucoseReadings(duration: duration, maxCount: maxCount)
+        return try await withFallback {
+            try await fetchFromProxy(minutes: minutes, maxCount: maxCount)
+        } fallback: {
+            try await underlying.getGlucoseReadings(duration: duration, maxCount: maxCount)
         }
     }
 
     func getLatestGlucoseReading() async throws -> GlucoseReading? {
-        do {
-            return try await fetchFromProxy(minutes: 15, maxCount: 1).last
-        } catch ProxyError.notFound {
-            return try await underlying.getLatestGlucoseReading()
+        try await withFallback {
+            try await fetchFromProxy(minutes: 15, maxCount: 1).last
+        } fallback: {
+            try await underlying.getLatestGlucoseReading()
         }
     }
 
     func getCurrentGlucoseReading() async throws -> GlucoseReading? {
-        do {
-            return try await fetchFromProxy(minutes: 15, maxCount: 1).last
-        } catch ProxyError.notFound {
-            return try await underlying.getCurrentGlucoseReading()
+        try await withFallback {
+            try await fetchFromProxy(minutes: 15, maxCount: 1).last
+        } fallback: {
+            try await underlying.getCurrentGlucoseReading()
         }
     }
 
@@ -69,9 +69,19 @@ final class ProxyDexcomClient: DexcomClientService, @unchecked Sendable {
         try await underlying.createSession()
     }
 
-    private enum ProxyError: Error {
-        case notFound
-        case invalidResponse(Int)
+    /// Falls back to Dexcom on any proxy failure, not just a 404 (no session on this
+    /// backend, e.g. right after a backend switch while the Live Activity is still on the
+    /// other one): an unreachable or failing backend mustn't cost the user their readings.
+    private func withFallback<T>(
+        _ proxy: () async throws -> T,
+        fallback: () async throws -> T
+    ) async throws -> T {
+        do {
+            return try await proxy()
+        } catch {
+            try Task.checkCancellation()
+            return try await fallback()
+        }
     }
 
     private func fetchFromProxy(minutes: Int, maxCount: Int) async throws -> [GlucoseReading] {
@@ -84,12 +94,8 @@ final class ProxyDexcomClient: DexcomClientService, @unchecked Sendable {
 
         let (data, http) = try await client.send(request)
 
-        if http.statusCode == 404 {
-            throw ProxyError.notFound
-        }
-
         guard (200..<300).contains(http.statusCode) else {
-            throw ProxyError.invalidResponse(http.statusCode)
+            throw HTTPClient.StatusError(statusCode: http.statusCode)
         }
 
         return try decoder.decode([GlucoseReading].self, from: data)

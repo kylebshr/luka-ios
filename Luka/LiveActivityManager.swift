@@ -30,6 +30,7 @@ final class LiveActivityManager {
     private var launchedByPush: [String: Bool?] = [:]
     private var activityUpdatesTask: Task<Void, Never>?
     private var pushToStartTask: Task<Void, Never>?
+    private var isSwitchingBackend = false
 
     private init() {
         // First thing on any launch: did we come up at all, and in what state? For a
@@ -386,6 +387,46 @@ final class LiveActivityManager {
                 }
             }
         }
+    }
+
+    /// Moves this install to the wanted backend. A backend only pushes to the activities
+    /// registered with it, so a running Live Activity is ended and a fresh one started on
+    /// the new backend. ActivityKit only starts activities in the foreground, so anything
+    /// else waits for the next foreground.
+    func switchBackendIfNeeded() async {
+        let old = Backend.active, new = Backend.wanted
+        guard new != old, !isSwitchingBackend, UIApplication.shared.applicationState == .active else { return }
+        isSwitchingBackend = true
+        defer { isSwitchingBackend = false }
+
+        var ended = 0
+        for activity in Activity<ReadingAttributes>.activities {
+            switch activity.activityState {
+            case .active, .pending, .stale:
+                break
+            case .dismissed, .ended:
+                continue
+            @unknown default:
+                continue
+            }
+            // Per activity, not `end-live-activities`, which would also dismiss the
+            // activities of other devices signed in to the same account.
+            await sendEndLiveActivity(activityID: activity.id)
+            await activity.end(nil, dismissalPolicy: .immediate)
+            ended += 1
+        }
+        Defaults[.activeBackend] = new
+
+        var attributes = ["from": old.rawValue, "to": new.rawValue, "ended_activities": String(ended)]
+        if ended > 0 {
+            do {
+                _ = try await StartLiveActivityIntent(source: "BackendSwitch").perform()
+                syncState()
+            } catch {
+                attributes["restart_error"] = String(describing: error).prefix(120).description
+            }
+        }
+        reporter.record("backend_switched", attributes)
     }
 
     func endLiveActivityOnServer() async {

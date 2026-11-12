@@ -64,6 +64,8 @@ struct RootView: View {
         .animation(.default, value: viewModel.requiresForceUpgrade)
         .task {
             await viewModel.loadBanners()
+            // The fetch may have changed the rollout.
+            await LiveActivityManager.shared.switchBackendIfNeeded()
         }
     }
 }

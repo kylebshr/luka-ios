@@ -12,6 +12,8 @@ import ActivityKit
 struct ExperimentalView: View {
     @Default(.debugInfo) private var debugInfo
     @Default(.useReadingsProxy) private var useReadingsProxy
+    @Default(.backendPreference) private var backendPreference
+    @Default(.activeBackend) private var activeBackend
 
     @State private var showCompleteAlert = false
 
@@ -68,6 +70,22 @@ struct ExperimentalView: View {
                     SettingsRow("Restart via push-to-start", systemImage: "arrow.clockwise.circle")
                 }
                 .fontWeight(.medium)
+            }
+
+            Section {
+                Picker("Server", selection: $backendPreference) {
+                    Text("Automatic").tag(BackendPreference.automatic)
+                    Text(verbatim: Backend.cloudflare.name).tag(BackendPreference.cloudflare)
+                    Text(verbatim: Backend.fly.name).tag(BackendPreference.fly)
+                }
+                .pickerStyle(.menu)
+            } footer: {
+                Text("Using \(activeBackend.name). Switching servers restarts a running Live Activity.")
+            }
+            .onChange(of: backendPreference) {
+                Task {
+                    await LiveActivityManager.shared.switchBackendIfNeeded()
+                }
             }
 
             Section {

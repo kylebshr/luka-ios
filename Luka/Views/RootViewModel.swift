@@ -139,6 +139,8 @@ import UIKit
             let (data, _) = try await URLSession.shared.data(for: request)
             let decoded = try JSONDecoder().decode(Banners.self, from: data)
             self.banners = decoded
+            // Persisted only on a successful fetch, so a failed one keeps the last known value.
+            Defaults[.cloudflareRollout] = Backend.sanitizedRollout(decoded.cloudflareRollout)
         } catch {
             print("Failed to load banners: \(error)")
         }

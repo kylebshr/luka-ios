@@ -10,10 +10,22 @@ import Foundation
 struct Banners: Codable {
     var banners: [Banner]
     var minVersion: String?
+    /// The fraction of installs to move to the Cloudflare backend (see `Backend.wanted`).
+    var cloudflareRollout: Double?
 
     var requiresForceUpgrade: Bool {
         guard let minVersion else { return false }
         return SemanticVersion(Bundle.main.version) < SemanticVersion(minVersion)
+    }
+}
+
+extension Banners {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        banners = try container.decode([Banner].self, forKey: .banners)
+        minVersion = try container.decodeIfPresent(String.self, forKey: .minVersion)
+        // A malformed rollout must not take down the banners and force-upgrade check.
+        cloudflareRollout = try? container.decodeIfPresent(Double.self, forKey: .cloudflareRollout)
     }
 }
 

@@ -28,6 +28,7 @@ struct LiveActivityDebugView: View {
                 LabeledContent("Frequent pushes", value: authInfo.frequentPushesEnabled ? "Yes" : "No")
                 LabeledContent("Running activities", value: "\(activities.count)")
                 LabeledContent("isLiveActivityRunning", value: Defaults[.isLiveActivityRunning] ? "true" : "false")
+                LabeledContent("Server", value: Backend.active.name)
             }
 
             if activities.isEmpty {

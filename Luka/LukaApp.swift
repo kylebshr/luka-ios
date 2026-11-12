@@ -62,6 +62,9 @@ struct LukaApp: App {
                     await liveActivityManager.refreshPushToStartToken(source: "foreground")
                     await liveActivityManager.flushClientEvents()
                 }
+                Task {
+                    await liveActivityManager.switchBackendIfNeeded()
+                }
             }
         }
     }

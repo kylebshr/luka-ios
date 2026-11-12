@@ -39,7 +39,9 @@ final class ClientEventReporter {
             name: name,
             occurredAt: Date.now.timeIntervalSince1970,
             activityID: activityID,
-            attributes: attributes.isEmpty ? nil : attributes
+            // The backend at the time of the observation, so a rollout problem can be
+            // attributed even when the event is delivered to the other server.
+            attributes: attributes.merging(["backend": Backend.active.rawValue]) { recorded, _ in recorded }
         )
         var queued = Defaults[.pendingClientEvents]
         queued.append(event)
