@@ -17,7 +17,7 @@ enum Backend: String, CaseIterable, Codable, Defaults.Serializable {
     case cloudflare
     case local
 
-    static let cloudflareURL = URL(string: "https://luka.kylebshr.workers.dev")!
+    static let cloudflareURL = URL(string: "https://luka.a1c.dev")!
 
     /// The production backends; either may hold a session for this install.
     static let deployed: [Backend] = [.fly, .cloudflare]
