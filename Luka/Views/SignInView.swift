@@ -108,11 +108,21 @@ struct SignInView: View {
         .fontDesign(.rounded)
         .toolbar {
             if isAddingAccount {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") {
-                        dismiss()
+                #if os(iOS)
+                if #available(iOS 26, *) {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button(role: .close) {
+                            dismiss()
+                        }
+                    }
+                } else {
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button("Done") {
+                            dismiss()
+                        }
                     }
                 }
+                #endif
             }
         }
     }
