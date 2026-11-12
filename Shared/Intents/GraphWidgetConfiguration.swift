@@ -8,7 +8,7 @@
 import WidgetKit
 import AppIntents
 
-struct GraphWidgetConfiguration: WidgetConfigurationIntent {
+struct GraphWidgetConfiguration: AccountWidgetConfiguration {
     static let title: LocalizedStringResource = "Graph Widget"
     static let description = IntentDescription("Configure graph widget settings.")
 
@@ -20,6 +20,9 @@ struct GraphWidgetConfiguration: WidgetConfigurationIntent {
 
     @Parameter(title: "Launch on Tap", default: .luka)
     var app: LaunchableApp
+
+    @Parameter(title: "Account", description: "Shows your first account if not set.")
+    var account: AccountEntity?
 }
 
 extension GraphWidgetConfiguration {

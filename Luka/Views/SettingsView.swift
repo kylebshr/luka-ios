@@ -8,7 +8,8 @@
 import SwiftUI
 import Defaults
 import Dexcom
-import KeychainAccess
+import TelemetryDeck
+import WidgetKit
 
 struct SettingsView: View {
     @Environment(RootViewModel.self) private var viewModel
@@ -16,6 +17,7 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var isPresentingSupport = false
+    @State private var isAddingAccount = false
 
     @Default(.targetRangeLowerBound) private var lowerTargetRange
     @Default(.targetRangeUpperBound) private var upperTargetRange
@@ -30,10 +32,6 @@ struct SettingsView: View {
     @Default(.sessionHistory) private var sessionHistory
     @Default(.pushToStartToken) private var pushToStartToken
 
-    private var username: String? {
-        Keychain.shared.username
-    }
-
     /// Auto-restart works by handing the server a push-to-start token, so it's only
     /// meaningful once the device has received one. Absence means push-to-start isn't
     /// available yet (e.g. Live Activities disabled, or none started since install).
@@ -43,6 +41,8 @@ struct SettingsView: View {
 
     var body: some View {
         List {
+            accountsSection
+
             Section("General") {
                 Picker("Units", selection: $unit) {
                     Text(GlucoseFormatter.Unit.mgdl.text)
@@ -172,19 +172,6 @@ struct SettingsView: View {
                     Text("Advanced")
                         .foregroundStyle(.tint)
                 }
-            }
-            .fontWeight(.medium)
-
-            Section {
-                Button {
-                    viewModel.signOut()
-                } label: {
-                    SettingsRow("Sign out", systemImage: "rectangle.portrait.and.arrow.right")
-                }
-            } header: {
-                if let username {
-                    Text("Signed in as \(username)", comment: "Settings section header showing current user")
-                }
             } footer: {
                 Text("Luka \(Bundle.main.fullVersion)", comment: "Settings footer showing app version")
                     .font(.footnote.weight(.semibold))
@@ -202,6 +189,11 @@ struct SettingsView: View {
         .sheet(isPresented: $isPresentingSupport) {
             SupportView(source: .settings)
         }
+        .sheet(isPresented: $isAddingAccount) {
+            SignInView { _ in
+                TelemetryDeck.signal("Account.added", parameters: ["accountCount": String(viewModel.accounts.count)])
+            }
+        }
         .toolbar {
             if #available(iOS 26, *) {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -218,6 +210,64 @@ struct SettingsView: View {
             }
         }
         .fontDesign(.rounded)
+    }
+}
+
+extension SettingsView {
+    private var accountsSection: some View {
+        Section {
+            ForEach(viewModel.accounts) { account in
+                NavigationLink {
+                    AccountSettingsView(account: account)
+                } label: {
+                    AccountRow(
+                        name: viewModel.displayName(for: account),
+                        username: account.displayName.isEmpty ? nil : viewModel.username(for: account)
+                    )
+                }
+            }
+            .onMove(perform: viewModel.accounts.count > 1 ? moveAccounts : nil)
+
+            Button {
+                isAddingAccount = true
+            } label: {
+                SettingsRow("Add account", systemImage: "plus")
+            }
+            .fontWeight(.medium)
+        } header: {
+            Text("Accounts")
+        } footer: {
+            if viewModel.accounts.count > 1 {
+                Text("Touch and hold an account to reorder. Widgets show the first account by default.")
+            }
+        }
+    }
+
+    private var moveAccounts: (IndexSet, Int) -> Void {
+        { source, destination in
+            viewModel.move(fromOffsets: source, toOffset: destination)
+            WidgetCenter.shared.reloadAllTimelines()
+        }
+    }
+}
+
+private struct AccountRow: View {
+    var name: String
+    var username: String?
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: .spacing1) {
+            Text(name)
+                .fontWeight(.medium)
+                .lineLimit(1)
+
+            if let username {
+                Text(username)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+            }
+        }
     }
 }
 
@@ -248,10 +298,12 @@ private struct GraphSliderView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     NavigationStack {
         SettingsView()
-            .environment(RootViewModel())
+            .environment(PreviewAccounts.rootViewModel(names: ["", "Mom", "Alex"]))
             .environment(SupporterStore())
     }
 }
+#endif

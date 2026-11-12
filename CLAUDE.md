@@ -149,8 +149,12 @@ Use constants from `CGFloat` extensions instead of magic numbers:
 
 ### State Management
 
-**Keychain** - Credentials (synced via iCloud Keychain):
-- `username`, `password`, `accountID`, `sessionID`
+**Accounts** - Several Dexcom accounts can be signed in at once. Go through `AccountStore.shared` (`Shared/Models/AccountStore.swift`) from every target; never read the keychain directly:
+- `Defaults[.accounts]` - ordered `[DexcomAccount]` (id, displayName, accountLocation), iCloud-synced; first is the primary account
+- Keychain (synced via iCloud Keychain) - per-account `account.<uuid>.username|password|accountID|sessionID`
+- Legacy single-account items (`username`, `password`, `accountID`, `sessionID`, `Defaults[.accountLocation]`) are migrated once and cleared when that account or the last account is removed
+- Readings cache is per account (`Defaults[.cachedReadings(for: id)]`)
+- `DexcomHelper.createService(for: account)` builds the client (cache, session delegate, proxy, demo mock)
 
 **UserDefaults (shared suite)** - Preferences:
 ```swift

@@ -10,7 +10,17 @@ import WidgetKit
 import Dexcom
 
 struct SignInView: View {
+    /// Set when adding another account from Settings: the view gets a cancel
+    /// button and a name field, and dismisses itself once signed in. Nil for
+    /// the signed-out root.
+    var onAddAccount: ((DexcomAccount) -> Void)?
+
     @Environment(RootViewModel.self) private var viewModel
+    @Environment(\.dismiss) private var dismiss
+
+    private var isAddingAccount: Bool {
+        onAddAccount != nil
+    }
 
     private let locations: [AccountLocation] = [
         .usa,
@@ -32,17 +42,29 @@ struct SignInView: View {
 
     private var content: some View {
         VStack(alignment: .leading) {
-            (Text("Welcome to") + Text(verbatim: " ") + Text("Luka").foregroundStyle(.accent))
+            Group {
+                if isAddingAccount {
+                    Text("Add an Account")
+                } else {
+                    Text("Welcome to") + Text(verbatim: " ") + Text("Luka").foregroundStyle(.accent)
+                }
+            }
             #if os(iOS)
                 .font(.largeTitle.weight(.bold))
-                .padding(.top, 64)
+                .padding(.top, isAddingAccount ? .spacing8 : 64)
             #else
                 .font(.title2.weight(.bold))
             #endif
 
             #if os(iOS)
-            Text("Excellent widgets and Live Activities for Dexcom continuous glucose monitors.")
-                .foregroundStyle(.secondary)
+            Group {
+                if isAddingAccount {
+                    Text("Follow someone else’s readings alongside your own, like a parent or child.")
+                } else {
+                    Text("Excellent widgets and Live Activities for Dexcom continuous glucose monitors.")
+                }
+            }
+            .foregroundStyle(.secondary)
             #endif
 
             Spacer()
@@ -64,7 +86,12 @@ struct SignInView: View {
                 #endif
             }
             .navigationDestination(for: AccountLocation.self) { accountLocation in
-                UsernamePasswordView(accountLocation: accountLocation)
+                UsernamePasswordView(accountLocation: accountLocation, onAddAccount: onAddAccount.map { onAddAccount in
+                    { account in
+                        onAddAccount(account)
+                        dismiss()
+                    }
+                })
             }
 
             #if os(iOS)
@@ -79,6 +106,15 @@ struct SignInView: View {
         .withReadableWidth()
         .padding()
         .fontDesign(.rounded)
+        .toolbar {
+            if isAddingAccount {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                }
+            }
+        }
     }
 
     private var locationLinks: some View {
@@ -115,6 +151,7 @@ extension AccountLocation: @retroactive Identifiable {
 
 private struct UsernamePasswordView: View {
     var accountLocation: AccountLocation
+    var onAddAccount: ((DexcomAccount) -> Void)?
 
     @Environment(RootViewModel.self) private var viewModel
 
@@ -122,8 +159,17 @@ private struct UsernamePasswordView: View {
     @State private var isSigningIn = false
     @State private var username = ""
     @State private var password = ""
+    @State private var displayName = ""
 
     @FocusState private var isUsernameFocused
+
+    private var isDuplicateUsername: Bool {
+        if case AccountStore.StoreError.duplicateUsername? = error {
+            true
+        } else {
+            false
+        }
+    }
 
     var body: some View {
         FooterScrollView {
@@ -138,6 +184,13 @@ private struct UsernamePasswordView: View {
 
                 SecureField("Password", text: $password)
                     .textContentType(.password)
+
+                if onAddAccount != nil {
+                    TextField("Name (optional)", text: $displayName, prompt: Text("Name, like “Mom” or “Alex”"))
+                        .textContentType(.name)
+                        .textInputAutocapitalization(.words)
+                        .autocorrectionDisabled()
+                }
 
                 VStack(alignment: .leading) {
                     Divider().padding(.vertical, 10)
@@ -155,13 +208,15 @@ private struct UsernamePasswordView: View {
                     isSigningIn = true
 
                     do {
-                        try await viewModel.signIn(
+                        let account = try await viewModel.signIn(
                             username: username,
                             password: password,
-                            accountLocation: accountLocation
+                            accountLocation: accountLocation,
+                            displayName: displayName
                         )
 
                         WidgetCenter.shared.reloadAllTimelines()
+                        onAddAccount?(account)
                     } catch {
                         self.error = error
                     }
@@ -199,7 +254,7 @@ private struct UsernamePasswordView: View {
         #endif
         .navigationTitle("Sign In")
         .alert(
-            "Something Went Wrong",
+            isDuplicateUsername ? Text("Already Signed In") : Text("Something Went Wrong"),
             isPresented: .init(get: {
                 error != nil
             }, set: { isPresented in
@@ -213,7 +268,11 @@ private struct UsernamePasswordView: View {
                 }
             },
             message: {
-                Text("Try again in a few minutes")
+                if isDuplicateUsername {
+                    Text("You’re already signed in to this Dexcom account. To follow someone else, sign in with their username and password.")
+                } else {
+                    Text("Try again in a few minutes")
+                }
             }
         )
         .task {
@@ -226,3 +285,10 @@ private struct UsernamePasswordView: View {
 #Preview {
     SignInView().environment(RootViewModel())
 }
+
+#if os(iOS) && DEBUG
+#Preview("Add account") {
+    SignInView { _ in }
+        .environment(PreviewAccounts.rootViewModel(names: ["Mom"]))
+}
+#endif

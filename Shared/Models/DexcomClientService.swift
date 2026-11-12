@@ -31,3 +31,5 @@ extension DexcomClientService {
         try await getGlucoseReadings(duration: .maxGlucoseDuration, maxCount: maxCount)
     }
 }
+
+extension DexcomClient: DexcomClientService {}

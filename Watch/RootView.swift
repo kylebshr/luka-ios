@@ -6,14 +6,14 @@
 //
 
 import SwiftUI
-import KeychainAccess
 
 struct RootView: View {
     @Environment(RootViewModel.self) private var viewModel
 
     var body: some View {
-        if viewModel.isSignedIn {
-            MainView()
+        if let account = viewModel.primaryAccount {
+            MainView(account: account)
+                .id(account.id)
         } else if !viewModel.didLoadCredentials {
             // Keychain not yet readable (e.g. just after a reboot). Show a
             // neutral screen rather than the sign-in form while we retry.

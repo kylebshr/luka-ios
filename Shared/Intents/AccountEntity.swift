@@ -1,0 +1,45 @@
+//
+//  AccountEntity.swift
+//  Luka
+//
+//  Created by Kyle Bashour on 11/12/26.
+//
+
+import AppIntents
+import Foundation
+
+/// A signed-in Dexcom account, for choosing which one a widget shows.
+struct AccountEntity: AppEntity {
+    static let typeDisplayRepresentation: TypeDisplayRepresentation = "Account"
+    static let defaultQuery = AccountEntityQuery()
+
+    var id: DexcomAccount.ID
+    var name: String
+
+    var displayRepresentation: DisplayRepresentation {
+        DisplayRepresentation(title: "\(name)")
+    }
+
+    init(_ account: DexcomAccount, store: AccountStore = .shared) {
+        id = account.id
+        name = store.displayName(for: account)
+    }
+}
+
+struct AccountEntityQuery: EntityQuery {
+    func entities(for identifiers: [AccountEntity.ID]) async throws -> [AccountEntity] {
+        AccountStore.shared.accounts
+            .filter { identifiers.contains($0.id) }
+            .map { AccountEntity($0) }
+    }
+
+    func suggestedEntities() async throws -> [AccountEntity] {
+        AccountStore.shared.accounts.map { AccountEntity($0) }
+    }
+}
+
+/// A widget configuration with an optional account. Unset (every widget added
+/// before multi-account) follows the primary account.
+protocol AccountWidgetConfiguration: WidgetConfigurationIntent {
+    var account: AccountEntity? { get }
+}

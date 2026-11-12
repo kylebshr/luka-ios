@@ -7,7 +7,6 @@
 
 import Defaults
 import Foundation
-import KeychainAccess
 import UIKit
 
 extension Defaults.Keys {
@@ -15,7 +14,35 @@ extension Defaults.Keys {
     // server. Persisted so a background wake that gets suspended before its upload
     // finishes doesn't lose what it saw. Lives here (app target only) because the shared
     // Defaults file is compiled by targets that don't include the request model.
-    static let pendingClientEvents = Key<[ClientEventRequest.Event]>("pendingClientEvents", default: [], suite: .shared)
+    static let pendingClientEvents = Key<[QueuedClientEvent]>("pendingClientEvents", default: [], suite: .shared)
+}
+
+/// A queued event and the account it's about. Encodes as the event's own fields plus
+/// `accountID`, so a queue persisted by an older build (bare events) still decodes.
+struct QueuedClientEvent: Codable, Defaults.Serializable, Equatable {
+    var event: ClientEventRequest.Event
+    /// The account whose activity the event is about; nil for device-level events.
+    var accountID: UUID?
+
+    private enum CodingKeys: String, CodingKey {
+        case accountID
+    }
+
+    init(event: ClientEventRequest.Event, accountID: UUID?) {
+        self.event = event
+        self.accountID = accountID
+    }
+
+    init(from decoder: any Decoder) throws {
+        event = try ClientEventRequest.Event(from: decoder)
+        accountID = try decoder.container(keyedBy: CodingKeys.self).decodeIfPresent(UUID.self, forKey: .accountID)
+    }
+
+    func encode(to encoder: any Encoder) throws {
+        try event.encode(to: encoder)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(accountID, forKey: .accountID)
+    }
 }
 
 /// Records Live Activity lifecycle observations and ships them to the server in batches.
@@ -34,7 +61,15 @@ final class ClientEventReporter {
     private let client = HTTPClient()
     private var flushTask: Task<Void, Never>?
 
-    func record(_ name: String, activityID: String? = nil, _ attributes: [String: String] = [:]) {
+    /// Records an event. Pass `accountID` for events about one account's activity so
+    /// they're reported under that account's username (the server keys sessions and
+    /// restart bookkeeping by username); device-level events go under the primary's.
+    func record(
+        _ name: String,
+        activityID: String? = nil,
+        accountID: UUID? = nil,
+        _ attributes: [String: String] = [:]
+    ) {
         let event = ClientEventRequest.Event(
             name: name,
             occurredAt: Date.now.timeIntervalSince1970,
@@ -44,7 +79,7 @@ final class ClientEventReporter {
             attributes: attributes.merging(["backend": Backend.active.rawValue]) { recorded, _ in recorded }
         )
         var queued = Defaults[.pendingClientEvents]
-        queued.append(event)
+        queued.append(QueuedClientEvent(event: event, accountID: accountID))
         if queued.count > Self.maxQueued {
             queued.removeFirst(queued.count - Self.maxQueued)
         }
@@ -69,27 +104,49 @@ final class ClientEventReporter {
     }
 
     private func flush() async {
-        // Only the signed-in username makes an event attributable; without one, keep the
-        // queue for a later flush after sign-in.
-        guard let username = Keychain.shared.username, username != DexcomHelper.mockEmail else { return }
-        let batch = Defaults[.pendingClientEvents]
-        guard !batch.isEmpty else { return }
+        let queued = Defaults[.pendingClientEvents]
+        guard !queued.isEmpty else { return }
 
-        let payload = ClientEventRequest(
-            username: username,
-            systemVersion: UIDevice.current.systemVersion,
-            deviceModel: Self.deviceModel,
-            events: batch
-        )
+        // Only a signed-in username makes an event attributable; events whose username
+        // can't be read stay queued for a later flush (e.g. after first unlock).
+        let accounts = AccountStore.shared.accounts
+        var batches: [String: [QueuedClientEvent]] = [:]
+        var demoEvents: [QueuedClientEvent] = []
+        for item in queued {
+            // An account that's since been removed falls back to the primary.
+            let account = AccountResolution.accountOrPrimary(for: item.accountID, in: accounts)
+            guard let username = account.flatMap({ AccountStore.shared.credentials(for: $0)?.username }) else {
+                continue
+            }
+            if username == DexcomHelper.mockEmail {
+                demoEvents.append(item)
+            } else {
+                batches[username, default: []].append(item)
+            }
+        }
+        // The demo account never registers with the server; its events would otherwise
+        // sit in the queue forever.
+        if !demoEvents.isEmpty {
+            Defaults[.pendingClientEvents].removeAll { demoEvents.contains($0) }
+        }
 
-        await client.withBackgroundTask(name: "LiveActivity.clientEvents") {
-            do {
-                let request = try client.makePostRequest("client-event", body: payload)
-                try await client.send(request)
-                // Drop exactly what was sent; anything recorded mid-flight stays queued.
-                Defaults[.pendingClientEvents].removeAll { batch.contains($0) }
-            } catch {
-                // Leave the queue intact for the next flush.
+        for (username, batch) in batches {
+            let payload = ClientEventRequest(
+                username: username,
+                systemVersion: UIDevice.current.systemVersion,
+                deviceModel: Self.deviceModel,
+                events: batch.map(\.event)
+            )
+
+            await client.withBackgroundTask(name: "LiveActivity.clientEvents") {
+                do {
+                    let request = try client.makePostRequest("client-event", body: payload)
+                    try await client.send(request)
+                    // Drop exactly what was sent; anything recorded mid-flight stays queued.
+                    Defaults[.pendingClientEvents].removeAll { batch.contains($0) }
+                } catch {
+                    // Leave the queue intact for the next flush.
+                }
             }
         }
     }

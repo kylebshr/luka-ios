@@ -14,6 +14,13 @@ struct GlucoseReadingsCache: Codable, Defaults.Serializable {
     let readings: [GlucoseReading]
     let duration: TimeInterval
 
+    /// The single, account-less cache used before multi-account support.
+    static let legacyDefaultsKeyName = "cachedReadings"
+
+    static func defaultsKeyName(for accountID: UUID) -> String {
+        "cachedReadings_\(accountID.uuidString)"
+    }
+
     /// Returns true if the newest reading is less than 5 minutes old
     var isValid: Bool {
         guard let newest = readings.last else {

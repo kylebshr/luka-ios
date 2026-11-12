@@ -5,33 +5,32 @@
 //  Created by Kyle Bashour on 5/1/24.
 //
 
+import AppIntents
 import Dexcom
 import Foundation
-import KeychainAccess
 import WidgetKit
 import Defaults
 
 protocol DexcomTimelineProvider {
     associatedtype Entry
-
-    var delegate: KeychainDexcomDelegate { get }
 }
 
 extension DexcomTimelineProvider {
-    func makeClient(
-        username: String,
-        password: String,
-        accountLocation: AccountLocation
-    ) async -> DexcomClientService {
-        let client = DexcomHelper.createService(
-            username: username,
-            password: password,
-            existingAccountID: Keychain.shared.accountID,
-            existingSessionID: Keychain.shared.sessionID,
-            accountLocation: accountLocation
-        )
-        await client.setDelegate(delegate)
-        return client
+    /// The account a widget shows: its configured account, or the primary one when
+    /// unset or no longer signed in.
+    func account(for configuration: some AccountWidgetConfiguration) -> DexcomAccount? {
+        AccountResolution.accountOrPrimary(for: configuration.account?.id, in: AccountStore.shared.accounts)
+    }
+
+    /// The name to label a widget with, only when there's more than one account to
+    /// tell apart.
+    func accountName(for account: DexcomAccount) -> String? {
+        guard AccountStore.shared.accounts.count > 1 else { return nil }
+        return AccountStore.shared.displayName(for: account)
+    }
+
+    func makeClient(for account: DexcomAccount) async -> DexcomClientService? {
+        await DexcomHelper.createService(for: account)
     }
 
     func buildTimeline<Data>(for state: GlucoseEntry<Data>.State, widgetURL: URL?) -> Timeline<GlucoseEntry<Data>> {

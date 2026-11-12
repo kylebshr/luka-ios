@@ -59,7 +59,7 @@ struct RootView: View {
                     .transition(.blurReplace(.downUp))
             }
         }
-        .animation(.default, value: viewModel.username)
+        .animation(.default, value: viewModel.isSignedIn)
         .animation(.default, value: viewModel.didLoadCredentials)
         .animation(.default, value: viewModel.requiresForceUpgrade)
         .task {

@@ -9,17 +9,27 @@ import Defaults
 import Dexcom
 import Foundation
 
-/// A caching wrapper around DexcomClientService that stores readings in shared UserDefaults.
+/// A caching wrapper around DexcomClientService that stores one account's readings in shared UserDefaults.
 ///
 /// Caching strategy:
 /// - Cache is valid if the newest reading is less than 5 minutes old
 /// - Lower fidelity requests can be satisfied by filtering higher-fidelity cached data
 /// - Cache is updated when fetched data has higher fidelity than existing cache
 final class CachingDexcomClient: DexcomClientService {
-    private let underlying: DexcomClient
+    private let underlying: any DexcomClientService
+    private let cacheKey: Defaults.Key<GlucoseReadingsCache?>
+    /// The Dexcom client holds its delegate weakly; keep it alive for the client's lifetime.
+    private let sessionDelegate: (any DexcomClientDelegate)?
 
-    init(wrapping client: DexcomClient) {
+    init(
+        wrapping client: any DexcomClientService,
+        accountID: DexcomAccount.ID,
+        sessionDelegate: (any DexcomClientDelegate)? = nil,
+        suite: UserDefaults = .shared
+    ) {
         self.underlying = client
+        self.cacheKey = .cachedReadings(for: accountID, suite: suite)
+        self.sessionDelegate = sessionDelegate
     }
 
     func setDelegate(_ delegate: DexcomClientDelegate?) async {
@@ -33,7 +43,7 @@ final class CachingDexcomClient: DexcomClientService {
         let requiredSeconds = duration.converted(to: .seconds).value
 
         // Check if cache is valid and has required fidelity
-        if let cache = Defaults[.cachedReadings],
+        if let cache = Defaults[cacheKey],
            cache.isValid,
            cache.hasRequiredFidelity(requiredSeconds) {
             return cache.readings(for: requiredSeconds)
@@ -46,13 +56,13 @@ final class CachingDexcomClient: DexcomClientService {
         )
 
         // Update cache if this fetch has higher fidelity than existing cache
-        let existingDuration = Defaults[.cachedReadings]?.duration ?? 0
+        let existingDuration = Defaults[cacheKey]?.duration ?? 0
         if requiredSeconds > existingDuration {
             let newCache = GlucoseReadingsCache(
                 readings: readings.sorted { $0.date < $1.date },
                 duration: requiredSeconds
             )
-            Defaults[.cachedReadings] = newCache
+            Defaults[cacheKey] = newCache
         }
 
         return readings.sorted { $0.date < $1.date }
@@ -60,7 +70,7 @@ final class CachingDexcomClient: DexcomClientService {
 
     func getLatestGlucoseReading() async throws -> GlucoseReading? {
         // Check cache - any fidelity works for "latest"
-        if let cache = Defaults[.cachedReadings], cache.isValid {
+        if let cache = Defaults[cacheKey], cache.isValid {
             return cache.latestReading
         }
 

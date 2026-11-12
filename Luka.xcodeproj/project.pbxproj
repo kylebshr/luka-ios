@@ -131,11 +131,14 @@
 				Intents/StopLiveActivityIntent.swift,
 				Intents/ToggleLiveActivityIntent.swift,
 				Localizable.xcstrings,
+				Models/AccountResolution.swift,
+				Models/AccountStore.swift,
 				Models/CachingDexcomClient.swift,
+				Models/ClientEventRequest.swift,
+				Models/DexcomAccount.swift,
 				Models/DexcomClientService.swift,
 				Models/DexcomDelegate.swift,
 				Models/DexcomHelper.swift,
-				Models/ClientEventRequest.swift,
 				Models/EndLiveActivityRequest.swift,
 				Models/GlucoseReadingsCache.swift,
 				Models/LiveActivityState.swift,
@@ -194,7 +197,9 @@
 				Intents/GraphStyle.swift,
 				Intents/LaunchableApp.swift,
 				Localizable.xcstrings,
+				Models/AccountStore.swift,
 				Models/CachingDexcomClient.swift,
+				Models/DexcomAccount.swift,
 				Models/DexcomClientService.swift,
 				Models/DexcomDelegate.swift,
 				Models/DexcomHelper.swift,
@@ -259,6 +264,7 @@
 		27DB99E72EA203DC005B8087 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Luka.storekit,
 				Models/Banners.swift,
 				Views/FooterScrollView.swift,
 				Views/Form/FormRow.swift,
@@ -266,7 +272,6 @@
 				Views/Form/FormSectionDivider.swift,
 				Views/RootViewModel.swift,
 				Views/SignInView.swift,
-				Luka.storekit,
 			);
 			target = 2741EA0E2BD8AEBA003EDEB2 /* Watch */;
 		};

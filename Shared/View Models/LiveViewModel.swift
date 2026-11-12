@@ -8,7 +8,6 @@
 import Defaults
 import Dexcom
 import Foundation
-import KeychainAccess
 
 @MainActor @Observable class LiveViewModel {
     enum State {
@@ -21,15 +20,14 @@ import KeychainAccess
     private(set) var state: State = .initial
     private(set) var message: String = LiveViewModel.message(for: .initial)
 
-    @ObservationIgnored private lazy var username: String? = Keychain.shared.username
-    @ObservationIgnored private lazy var password: String? = Keychain.shared.password
-    @ObservationIgnored private lazy var accountLocation: AccountLocation? = Defaults[.accountLocation]
+    let account: DexcomAccount
+    @ObservationIgnored private let store: AccountStore
+    @ObservationIgnored private var isStopped = false
 
     @ObservationIgnored private var timestampTimer: Timer?
     @ObservationIgnored private var timer: Timer?
     @ObservationIgnored private var client: DexcomClientService?
     @ObservationIgnored private let decoder = JSONDecoder()
-    @ObservationIgnored private let delegate = KeychainDexcomDelegate()
 
     var messageValue: TimeInterval {
         switch state {
@@ -46,7 +44,9 @@ import KeychainAccess
             return latest.date.timeIntervalSinceNow < -60 * 5
         }
     }
-    init() {
+    init(account: DexcomAccount, store: AccountStore = .shared) {
+        self.account = account
+        self.store = store
         decoder.dateDecodingStrategy = .iso8601
         timestampTimer = .scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             guard let self else { return }
@@ -58,22 +58,24 @@ import KeychainAccess
 
     func setUpClientAndBeginRefreshing() {
         Task {
-            if let username, let password, let accountLocation {
-                client = DexcomHelper.createService(
-                    username: username,
-                    password: password,
-                    existingAccountID: Keychain.shared.accountID,
-                    existingSessionID: Keychain.shared.sessionID,
-                    accountLocation: accountLocation
-                )
-                await client?.setDelegate(delegate)
+            if let client = await DexcomHelper.createService(for: account, store: store), !isStopped {
+                self.client = client
                 beginRefreshing()
             }
         }
     }
 
+    /// Stops all timers, e.g. once the account is signed out. The view model
+    /// can't be restarted afterwards.
+    func stopRefreshing() {
+        isStopped = true
+        timestampTimer?.invalidate()
+        timer?.invalidate()
+        client = nil
+    }
+
     func beginRefreshing() {
-        guard let client else { return }
+        guard let client, !isStopped else { return }
 
         Task<Void, Never> {
             if shouldRefreshReading {
@@ -156,3 +158,14 @@ import KeychainAccess
         }
     }
 }
+
+#if DEBUG
+extension LiveViewModel {
+    /// Shows `readings` right away instead of fetching, for previews.
+    func showPreviewReadings(_ readings: [GlucoseReading]) {
+        stopRefreshing()
+        state = readings.last.map { .loaded(readings, latest: $0) } ?? .noRecentReading
+        updateMessageIfNeeded()
+    }
+}
+#endif

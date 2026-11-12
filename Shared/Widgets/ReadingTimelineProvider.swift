@@ -7,13 +7,10 @@
 
 import WidgetKit
 import Dexcom
-import KeychainAccess
 import Defaults
 
 struct ReadingTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider {
     typealias Entry = GlucoseEntry<GlucoseReading>
-
-    let delegate = KeychainDexcomDelegate()
 
     func placeholder(in context: Context) -> Entry {
         GlucoseEntry(date: .now, widgetURL: nil, state: .reading(.placeholder))
@@ -40,15 +37,10 @@ struct ReadingTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvide
     }
 
     private func makeState(for configuration: ReadingWidgetConfiguration) async -> Entry.State {
-        guard let username = Keychain.shared.username, let password = Keychain.shared.password, let accountLocation = Defaults[.accountLocation] else {
+        guard let account = account(for: configuration),
+              let client = await makeClient(for: account) else {
             return .error(.loggedOut)
         }
-
-        let client = await makeClient(
-            username: username,
-            password: password,
-            accountLocation: accountLocation
-        )
 
         do {
             if let current = try await client.getLatestGlucoseReading(), Date.now.timeIntervalSince(current.date) < 60 * 15 {

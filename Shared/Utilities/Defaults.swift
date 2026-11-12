@@ -18,6 +18,10 @@ extension Defaults.Keys {
     static let targetRangeLowerBound = Key<Double>(.targetRangeLowerBound, default: 70, suite: .shared, iCloud: true)
     static let targetRangeUpperBound = Key<Double>(.targetRangeUpperBound, default: 180, suite: .shared, iCloud: true)
     static let graphUpperBound = Key<Double>(.graphUpperBound, default: 300, suite: .shared, iCloud: true)
+    // Ordered list of signed-in accounts, primary first. `nil` means never
+    // written, which is what triggers the legacy single-account migration.
+    static let accounts = Key<[DexcomAccount]?>("accounts", default: nil, suite: .shared, iCloud: true)
+    // Legacy single-account location; read only by the migration in AccountStore.
     static let accountLocation = Key<AccountLocation?>(.accountLocation, default: nil, suite: .shared, iCloud: true)
     static let unit = Key<GlucoseFormatter.Unit>("unit", default: .mgdl, suite: .shared, iCloud: true)
     static let showChartLiveActivity = Key<Bool>(.showChartLiveActivity, default: true, suite: .shared, iCloud: true)
@@ -37,7 +41,6 @@ extension Defaults.Keys {
     )
     static let launchCount = Key<Int>("launchCount", default: 0, suite: .shared, iCloud: true)
     static let isLiveActivityRunning = Key<Bool>("isLiveActivityRunning", default: false, suite: .shared)
-    static let cachedReadings = Key<GlucoseReadingsCache?>("cachedReadings", default: nil, suite: .shared)
     static let useReadingsProxy = Key<Bool>("useReadingsProxy", default: true, suite: .shared, iCloud: true)
     static let debugInfo = Key<Bool>("debugInfo", default: false, suite: .shared)
     static let autoRestartLiveActivity = Key<Bool>("autoRestartLiveActivity", default: true, suite: .shared, iCloud: true)
@@ -65,6 +68,13 @@ extension Defaults.Keys {
     // Device-local cache of the last verified supporter tier (product ID), so the
     // app doesn't flash the support banner at launch before StoreKit answers.
     static let cachedSupporterTier = Key<String?>("cachedSupporterTier", default: nil, suite: .shared)
+}
+
+extension Defaults.Keys {
+    /// Per-account readings cache, so one account's readings are never served for another.
+    static func cachedReadings(for accountID: UUID, suite: UserDefaults = .shared) -> Key<GlucoseReadingsCache?> {
+        Key<GlucoseReadingsCache?>(GlucoseReadingsCache.defaultsKeyName(for: accountID), default: nil, suite: suite)
+    }
 }
 
 extension AccountLocation: Defaults.Serializable {}

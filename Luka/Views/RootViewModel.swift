@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import KeychainAccess
 import Dexcom
 import Defaults
 #if os(iOS)
@@ -14,55 +13,29 @@ import UIKit
 #endif
 
 @Observable @MainActor class RootViewModel {
-    private let keychain = Keychain.shared
-
     private static let bannersURL = URL(string: "https://raw.githubusercontent.com/kylebshr/luka-meta/refs/heads/main/meta.json")!
 
-    /// Suppresses the keychain writes in `didSet` while restoring values *from*
-    /// the keychain, so an untrusted read can never delete stored credentials.
-    @ObservationIgnored private var isRestoringCredentials = false
+    @ObservationIgnored let store: AccountStore
 
-    var username: String? {
-        didSet {
-            guard !isRestoringCredentials else { return }
-            keychain.username = username
-        }
+    /// Signed-in accounts, primary first.
+    private(set) var accounts: [DexcomAccount] = []
+
+    var primaryAccount: DexcomAccount? {
+        accounts.first
     }
 
-    var password: String? {
-        didSet {
-            guard !isRestoringCredentials else { return }
-            keychain.password = password
-        }
-    }
-
-    var accountLocation: AccountLocation? = Defaults[.accountLocation] {
-        didSet { Defaults[.accountLocation] = accountLocation }
-    }
-
-    var accountID: UUID? {
-        didSet {
-            guard !isRestoringCredentials else { return }
-            keychain.accountID = accountID
-        }
-    }
-
-    var sessionID: UUID? {
-        didSet {
-            guard !isRestoringCredentials else { return }
-            keychain.sessionID = sessionID
-        }
-    }
-
-    /// True once we've read the keychain while it was trustworthy. Prewarming
-    /// can launch the app before first unlock, where items don't just fail to
-    /// read — they're reported as not-found. Until we get a trustworthy read we
-    /// must not treat missing credentials as "signed out".
+    /// True once we've read the accounts while storage was trustworthy.
+    /// Prewarming can launch the app before first unlock, where keychain items
+    /// and the shared-suite plist don't just fail to read — they read as empty.
+    /// Until we get a trustworthy read we must not treat "no accounts" as
+    /// "signed out".
     private(set) var didLoadCredentials = false
 
     @ObservationIgnored private var protectedDataObserver: (any NSObjectProtocol)?
+    @ObservationIgnored private var accountUpdatesTask: Task<Void, Never>?
 
-    init() {
+    init(store: AccountStore = .shared) {
+        self.store = store
         loadCredentials()
 
         #if os(iOS)
@@ -76,42 +49,39 @@ import UIKit
             }
         }
         #endif
+
+        // Picks up changes arriving via iCloud defaults sync.
+        accountUpdatesTask = Task { [weak self, store] in
+            for await _ in store.accountListUpdates() {
+                self?.loadCredentials()
+            }
+        }
     }
 
-    /// Reads credentials from the keychain. A locked keychain can either throw
-    /// or report items as not-found, so an empty read only counts as "signed
-    /// out" once protected data is available. Safe to call repeatedly; it
-    /// no-ops after the first trustworthy read.
+    /// Re-reads the account list. An empty read only counts as "signed out"
+    /// once protected data is available, and a failed read never changes
+    /// state. Safe to call repeatedly (on foreground, after an unlock) to pick
+    /// up changes made by extensions or other devices.
     func loadCredentials() {
-        guard !didLoadCredentials else { return }
-
+        let loaded: [DexcomAccount]
         do {
-            let username = try keychain.getString(.usernameKey)
-            let password = try keychain.getString(.passwordKey)
-            let accountID = try keychain.getString(.accountIDKey).flatMap(UUID.init(uuidString:))
-            let sessionID = try keychain.getString(.sessionIDKey).flatMap(UUID.init(uuidString:))
-
-            if username == nil || password == nil, !Self.isProtectedDataAvailable {
-                return
-            }
-
-            isRestoringCredentials = true
-            defer { isRestoringCredentials = false }
-
-            self.username = username
-            self.password = password
-            self.accountID = accountID
-            self.sessionID = sessionID
-            // The shared-suite plist is also unreadable before first unlock, so
-            // the value captured by the property initializer may be missing.
-            self.accountLocation = Defaults[.accountLocation]
-            didLoadCredentials = true
+            loaded = try store.loadAccounts()
         } catch {
             // Keychain not yet readable (likely just rebooted). Leave state
             // as-is; we retry when protected data becomes available and when
             // the app becomes active.
-            print("Keychain not ready, will retry: \(error)")
+            print("Accounts not ready, will retry: \(error)")
+            return
         }
+
+        if loaded.isEmpty, !Self.isProtectedDataAvailable {
+            return
+        }
+
+        if loaded != accounts {
+            accounts = loaded
+        }
+        didLoadCredentials = true
     }
 
     private static var isProtectedDataAvailable: Bool {
@@ -129,7 +99,7 @@ import UIKit
     }
 
     var isSignedIn: Bool {
-        username != nil && password != nil && accountLocation != nil
+        !accounts.isEmpty
     }
 
     func loadBanners() async {
@@ -151,30 +121,87 @@ import UIKit
         return banners.banners.filter { $0.isWithinVersionRange && !dismissedBannerIDs.contains($0.id) }
     }
 
+    /// Validates the credentials with Dexcom, then appends a new account.
+    @discardableResult
     func signIn(
         username: String,
         password: String,
-        accountLocation: AccountLocation
-    ) async throws {
-        let client = DexcomHelper.createService(
+        accountLocation: AccountLocation,
+        displayName: String = ""
+    ) async throws -> DexcomAccount {
+        let username = username.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        // Checked before the network round trip as well as by `add`.
+        guard !store.isUsernameInUse(username) else {
+            throw AccountStore.StoreError.duplicateUsername
+        }
+
+        let client = DexcomHelper.createSignInService(
             username: username,
             password: password,
-            existingAccountID: accountID, 
-            existingSessionID: sessionID,
             accountLocation: accountLocation
         )
+        let (dexcomAccountID, sessionID) = try await client.createSession()
 
-        (accountID, sessionID) = try await client.createSession()
-
-        self.username = username
-        self.password = password
-        self.accountLocation = accountLocation
+        let account = try store.add(
+            username: username,
+            password: password,
+            accountLocation: accountLocation,
+            displayName: displayName,
+            dexcomAccountID: dexcomAccountID,
+            sessionID: sessionID
+        )
+        reloadAfterWrite()
+        return account
     }
 
-    func signOut() {
-        username = nil
-        password = nil
-        accountID = nil
-        sessionID = nil
+    /// Removes the account and its stored credentials and cached readings.
+    func signOut(_ account: DexcomAccount) {
+        do {
+            try store.remove(account.id)
+        } catch {
+            print("Failed to remove account: \(error)")
+        }
+        reloadAfterWrite()
+    }
+
+    func rename(_ account: DexcomAccount, to displayName: String) {
+        do {
+            try store.rename(account.id, to: displayName)
+        } catch {
+            print("Failed to rename account: \(error)")
+        }
+        reloadAfterWrite()
+    }
+
+    /// Moves accounts in the list. The first account is the primary one.
+    func move(fromOffsets source: IndexSet, toOffset destination: Int) {
+        var reordered = accounts
+        reordered.move(fromOffsets: source, toOffset: destination)
+        // Update immediately so the list doesn't snap back before the reload.
+        accounts = reordered
+        do {
+            try store.reorder(reordered.map(\.id))
+        } catch {
+            print("Failed to reorder accounts: \(error)")
+        }
+        reloadAfterWrite()
+    }
+
+    /// The account's display name, falling back to its username.
+    func displayName(for account: DexcomAccount) -> String {
+        store.displayName(for: account)
+    }
+
+    func username(for account: DexcomAccount) -> String? {
+        store.credentials(for: account)?.username
+    }
+
+    /// After our own write the list is known-good, even if protected data
+    /// reports unavailable (e.g. signing out the last account while locked).
+    private func reloadAfterWrite() {
+        guard let loaded = try? store.loadAccounts() else { return }
+        accounts = loaded
+        didLoadCredentials = true
     }
 }

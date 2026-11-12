@@ -8,7 +8,7 @@
 import WidgetKit
 import AppIntents
 
-struct ReadingWidgetConfiguration: WidgetConfigurationIntent {
+struct ReadingWidgetConfiguration: AccountWidgetConfiguration {
     static let title: LocalizedStringResource = "Reading Widget"
     static let description = IntentDescription("Configure reading widget settings.")
 
@@ -18,15 +18,20 @@ struct ReadingWidgetConfiguration: WidgetConfigurationIntent {
     @Parameter(title: "Launch on Tap", default: .luka)
     var app: LaunchableApp
 
+    @Parameter(title: "Account", description: "Shows your first account if not set.")
+    var account: AccountEntity?
+
     static var parameterSummary: some ParameterSummary {
         When(\.$tapAction, .equalTo, WidgetTapAction.launch) {
             Summary {
                 \.$tapAction
                 \.$app
+                \.$account
             }
         } otherwise: {
             Summary {
                 \.$tapAction
+                \.$account
             }
         }
     }

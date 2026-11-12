@@ -11,18 +11,14 @@ import SwiftUI
 import TelemetryDeck
 import WidgetKit
 
+/// The signed-in root. With one account it's that account's detail; with
+/// several it's a list of account cards that push to their details. Banners,
+/// the Live Activity button and settings live here either way.
 @MainActor struct MainView: View {
     @Environment(RootViewModel.self) private var viewModel
     @Environment(SupporterStore.self) private var supporterStore
     @Environment(\.verticalSizeClass) private var verticalSizeClass
 
-    @Default(.selectedRange) private var portraitRange
-    @Default(.appGraphStyle) private var graphStyle
-    @Default(.selectedLandscapeRange) private var landscapeRange
-    @Default(.targetRangeLowerBound) private var lowerTargetRange
-    @Default(.targetRangeUpperBound) private var upperTargetRange
-    @Default(.graphUpperBound) private var upperGraphRange
-    @Default(.unit) private var unit
     @Default(.dismissedBannerIDs) private var dismissedBannerIDs
     @Default(.supportBannerDismissed) private var supportBannerDismissed
     @Default(.liveActivityStartCount) private var liveActivityStartCount
@@ -32,135 +28,39 @@ import WidgetKit
 
     @State private var isPresentingSettings = false
     @State private var supportSheetSource: SupportSource?
-    @State private var liveViewModel = LiveViewModel()
     @State private var isActivityLoading = false
-    @State private var selectedChartReading: LiveActivityState.Reading?
-    @State private var haptics = UIImpactFeedbackGenerator(style: .rigid)
-
-    private var selectedRange: Binding<GraphRange> {
-        isCompact ? $landscapeRange : $portraitRange
-    }
-
-    private var readings: [GlucoseReading] {
-        switch liveViewModel.state {
-        case .loaded(let readings, _):
-            return readings
-        default:
-            return []
-        }
-    }
-
-    private var scrubbingGlucoseReading: GlucoseReading? {
-        guard let selectedChartReading else { return nil }
-        return readings.first { $0.date == selectedChartReading.t }
-    }
-
-    private var displayReading: GlucoseReading? {
-        scrubbingGlucoseReading ?? readings.last
-    }
-
-    private var subtitleText: String {
-        if let scrubbingGlucoseReading {
-            scrubbingGlucoseReading.date.formatted(date: .omitted, time: .shortened)
-        } else {
-            liveViewModel.message
-        }
-    }
-
-    private var isScrubbing: Bool {
-        scrubbingGlucoseReading != nil
-    }
-
-    /// Change from the reading before the displayed one, in mg/dL. Nil when
-    /// there's no preceding reading, or when the gap between them is too large
-    /// (a sensor dropout) for the difference to be meaningful.
-    private var delta: Int? {
-        guard let displayReading,
-              let previous = readings.last(where: { $0.date < displayReading.date }),
-              displayReading.date.timeIntervalSince(previous.date) <= 15 * 60
-        else { return nil }
-        return displayReading.value - previous.value
-    }
-
-    private var isRedacted: Bool {
-        if isScrubbing {
-            return false
-        }
-
-        switch liveViewModel.state {
-        case .initial:
-            return true
-        case .loaded(_, let latest):
-            return latest.isExpired(at: .now)
-        case .noRecentReading:
-            return true
-        case .error:
-            return true
-        }
-    }
+    @State private var liveViewModels = LiveViewModelCache()
+    @State private var path: [DexcomAccount.ID] = []
 
     private var isCompact: Bool {
         verticalSizeClass == .compact
     }
 
+    private var accounts: [DexcomAccount] {
+        viewModel.accounts
+    }
+
+    private var isShowingList: Bool {
+        accounts.count > 1
+    }
+
     var body: some View {
-        let banners = viewModel.displayableBanners(dismissedBannerIDs: dismissedBannerIDs)
-
-        NavigationStack {
-            VStack(alignment: .leading) {
-                readingView()
-                    .padding([.horizontal, .bottom])
-
-                if !isCompact {
-                    ForEach(banners) { banner in
-                        BannerView(banner: banner) {
-                            dismissedBannerIDs.insert(banner.id)
-                            TelemetryDeck.signal("Banner.dismissed", parameters: ["id": banner.id])
-                        }
-                        .padding(.horizontal)
+        NavigationStack(path: $path) {
+            ZStack {
+                if !isShowingList, let account = accounts.first {
+                    AccountDetailView(liveViewModel: liveViewModel(for: account), title: nil) {
+                        bannerViews
+                            .padding(.horizontal)
+                    } footer: {
+                        liveActivityButton()
+                        supportBanner()
                     }
-                }
-
-                Picker("Graph range", selection: selectedRange) {
-                    ForEach(GraphRange.allCases) {
-                        Text($0.abbreviatedName)
-                    }
-                }
-                .pickerStyle(.segmented)
-                .padding(.horizontal)
-                .padding(.vertical, isCompact ? 0 : nil)
-                .padding(.bottom, .verticalSpacing)
-
-                LineChart(
-                    range: selectedRange.wrappedValue,
-                    style: graphStyle,
-                    readings: readings.toLiveActivityReadings(),
-                    showAxisLabels: true,
-                    yRangeMode: .full,
-                    selectedReading: $selectedChartReading,
-                )
-                .padding(.trailing)
-                .padding(.leading, isCompact ? nil : 0)
-                .padding(.bottom)
-
-                if !isCompact {
-                    liveActivityButton()
-
-                    if showsSupportBanner {
-                        SupportBannerView(displayPrice: supporterStore.lowestDisplayPrice) {
-                            supportSheetSource = .banner
-                        } onDismiss: {
-                            supportBannerDismissed = true
-                            TelemetryDeck.signal("Support.bannerDismissed")
-                        }
-                        .withReadableWidth()
-                        .frame(maxWidth: .infinity)
-                        .padding([.horizontal, .bottom])
-                    }
+                    .transition(.blurReplace)
+                } else {
+                    accountList
+                        .transition(.blurReplace)
                 }
             }
-            .padding(.top, isCompact ? nil : 0)
-            .edgesIgnoringSafeArea(isCompact ? .top : [])
             .toolbar {
                 if #available(iOS 26, *), isCompact {
                     ToolbarItem(placement: .primaryAction) {
@@ -182,6 +82,14 @@ import WidgetKit
                     }
                 }
             }
+            .navigationDestination(for: DexcomAccount.ID.self) { id in
+                if let account = accounts.first(where: { $0.id == id }) {
+                    AccountDetailView(
+                        liveViewModel: liveViewModel(for: account),
+                        title: viewModel.displayName(for: account)
+                    )
+                }
+            }
         }
         .sheet(isPresented: $isPresentingSettings) {
             NavigationStack {
@@ -191,21 +99,99 @@ import WidgetKit
         .sheet(item: $supportSheetSource) { source in
             SupportView(source: source)
         }
-        .onAppear {
-            liveViewModel.setUpClientAndBeginRefreshing()
-            haptics.prepare()
+        .onChange(of: accounts, initial: true) {
+            liveViewModels.retain(only: accounts)
+            let ids = Set(accounts.map(\.id))
+            if !isShowingList || path.contains(where: { !ids.contains($0) }) {
+                path = path.filter { ids.contains($0) && isShowingList }
+            }
         }
         .fontDesign(.rounded)
-        .onChange(of: scrubbingGlucoseReading) {
-            haptics.impactOccurred()
-            haptics.prepare()
-        }
+        .animation(.snappy, value: isShowingList)
         .animation(.snappy, value: dismissedBannerIDs)
         .animation(.snappy, value: showsSupportBanner)
     }
 
+    private func liveViewModel(for account: DexcomAccount) -> LiveViewModel {
+        liveViewModels.model(for: account, store: viewModel.store)
+    }
+
+    // MARK: - Account list
+
+    private var accountList: some View {
+        ScrollView {
+            VStack(spacing: .spacing8) {
+                if !isCompact {
+                    bannerViews
+                        .withReadableWidth()
+                }
+
+                LazyVGrid(
+                    columns: [GridItem(.adaptive(minimum: 320), spacing: .spacing8)],
+                    spacing: .spacing8
+                ) {
+                    ForEach(accounts) { account in
+                        NavigationLink(value: account.id) {
+                            AccountCard(
+                                name: viewModel.displayName(for: account),
+                                liveViewModel: liveViewModel(for: account)
+                            )
+                        }
+                        .buttonStyle(.plain)
+                        .transition(.scale(scale: 0.9).combined(with: .opacity))
+                    }
+                }
+                .frame(maxWidth: 1000)
+
+                if !isCompact, showsSupportBanner {
+                    supportBannerView
+                        .withReadableWidth()
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal)
+            .padding(.bottom)
+            .animation(.snappy, value: accounts)
+        }
+        .scrollBounceBehavior(.basedOnSize)
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            if !isCompact {
+                liveActivityButton()
+            }
+        }
+    }
+
+    // MARK: - Banners
+
+    @ViewBuilder private var bannerViews: some View {
+        ForEach(viewModel.displayableBanners(dismissedBannerIDs: dismissedBannerIDs)) { banner in
+            BannerView(banner: banner) {
+                dismissedBannerIDs.insert(banner.id)
+                TelemetryDeck.signal("Banner.dismissed", parameters: ["id": banner.id])
+            }
+        }
+    }
+
     private var showsSupportBanner: Bool {
         !supporterStore.isSupporter && !supportBannerDismissed
+    }
+
+    @ViewBuilder private func supportBanner() -> some View {
+        if showsSupportBanner {
+            supportBannerView
+                .withReadableWidth()
+                .frame(maxWidth: .infinity)
+                .padding([.horizontal, .bottom])
+        }
+    }
+
+    private var supportBannerView: some View {
+        SupportBannerView(displayPrice: supporterStore.lowestDisplayPrice) {
+            supportSheetSource = .banner
+        } onDismiss: {
+            supportBannerDismissed = true
+            TelemetryDeck.signal("Support.bannerDismissed")
+        }
     }
 
     /// After the second (and later) start, ask for support. Re-asks at most once
@@ -223,6 +209,8 @@ import WidgetKit
         supportSheetSource = .prompt
         TelemetryDeck.signal("Support.promptShown", parameters: ["startCount": String(liveActivityStartCount)])
     }
+
+    // MARK: - Live Activity
 
     private func liveActivityButton() -> some View {
         return Button {
@@ -288,36 +276,6 @@ import WidgetKit
         }
     }
 
-    private func readingView() -> some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack(alignment: .center) {
-                // The reading hides its inline arrow so the trend only appears
-                // once — inside the pill.
-                ReadingView(reading: displayReading, showsTrendArrow: false)
-                    .font(.largeTitle.weight(.semibold))
-                    .id(displayReading != nil)
-
-                if let displayReading, !isRedacted {
-                    DeltaView(
-                        trend: displayReading.trend,
-                        delta: delta,
-                        color: displayReading.vividColor(target: lowerTargetRange...upperTargetRange)
-                    )
-                    .font(.title2)
-                    .fontWeight(.medium)
-                }
-            }
-
-            let unit = isRedacted ? "" : "\(unit.text) • "
-
-            Text("\(unit)\(subtitleText)")
-                .font(.caption2.weight(.medium))
-                .foregroundStyle(.secondary)
-                .textCase(.uppercase)
-        }
-        .animation(isScrubbing ? nil : .default, value: displayReading)
-    }
-
     private var inactiveTintColor: Color {
         if #available(iOS 26, *) {
             .clear
@@ -327,10 +285,55 @@ import WidgetKit
     }
 }
 
-#Preview {
-    NavigationStack {
-        MainView()
-            .environment(RootViewModel())
-            .environment(SupporterStore())
+/// One `LiveViewModel` per account, kept alive across the list, the pushed
+/// detail and the switch between one and several accounts, so none of them
+/// refetches when the layout changes.
+@MainActor private final class LiveViewModelCache {
+    private var models: [DexcomAccount.ID: LiveViewModel] = [:]
+
+    func model(for account: DexcomAccount, store: AccountStore) -> LiveViewModel {
+        if let model = models[account.id] {
+            return model
+        }
+        let model = LiveViewModel(account: account, store: store)
+        #if DEBUG
+        if let readings = PreviewAccounts.readings[account.id] {
+            model.showPreviewReadings(readings)
+        } else {
+            model.setUpClientAndBeginRefreshing()
+        }
+        #else
+        model.setUpClientAndBeginRefreshing()
+        #endif
+        models[account.id] = model
+        return model
+    }
+
+    func retain(only accounts: [DexcomAccount]) {
+        let ids = Set(accounts.map(\.id))
+        for (id, model) in models where !ids.contains(id) {
+            model.stopRefreshing()
+            models[id] = nil
+        }
     }
 }
+
+#if DEBUG
+#Preview("One account") {
+    MainView()
+        .environment(PreviewAccounts.rootViewModel(names: ["Mom"]))
+        .environment(SupporterStore())
+}
+
+#Preview("Two accounts") {
+    MainView()
+        .environment(PreviewAccounts.rootViewModel(names: ["Mom", "Alex"]))
+        .environment(SupporterStore())
+}
+
+#Preview("Three accounts") {
+    MainView()
+        .environment(PreviewAccounts.rootViewModel(names: ["Mom", "Alex", "Grandpa"]))
+        .environment(SupporterStore())
+}
+#endif

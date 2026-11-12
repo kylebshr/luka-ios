@@ -41,6 +41,20 @@ struct WidgetGraphView: View {
         }
     }
 
+    /// The graph range, led by the account name on the wider families when there
+    /// are several accounts.
+    private var trailingLabel: String {
+        switch family {
+        case .systemMedium, .systemLarge:
+            if let accountName = data.accountName {
+                return "\(accountName) · \(data.graphRangeTitle)"
+            }
+            return data.graphRangeTitle
+        default:
+            return data.graphRangeTitle
+        }
+    }
+
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: geometry.size.height > 100 ? nil : 5) {
@@ -67,8 +81,9 @@ struct WidgetGraphView: View {
                                         .imageScale(.small)
                                         .unredacted()
                                 } else {
-                                    Text(data.graphRangeTitle)
+                                    Text(trailingLabel)
                                         .font(font.smallCaps())
+                                        .lineLimit(1)
                                 }
                                 #else
                                 Text(data.graphRangeTitle)

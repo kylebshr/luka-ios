@@ -8,6 +8,7 @@
 import Foundation
 
 extension String {
+    // Legacy single-account keychain keys, read by the AccountStore migration.
     static let usernameKey = "username"
     static let passwordKey = "password"
     
@@ -18,7 +19,6 @@ extension String {
     static let targetRangeLowerBound = "targetRangeLowerBound"
     static let targetRangeUpperBound = "targetRangeUpperBound"
     static let graphUpperBound = "graphUpperBound"
-    static let cachedReadings = "chachedReadings"
     static let sessionHistory = "sessionHistory"
     static let showChartLiveActivity = "showChartLiveActivity"
 }

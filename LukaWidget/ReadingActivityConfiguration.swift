@@ -33,7 +33,13 @@ struct ReadingActivityConfiguration: Widget {
         } dynamicIsland: { context in
             return DynamicIsland {
                 DynamicIslandExpandedRegion(.center) {
-                    HStack(spacing: 0) {
+                    VStack(spacing: 0) {
+                        // Its own line, so a long name truncates instead of wrapping the caption.
+                        if let accountName = context.attributes.accountName {
+                            Text(verbatim: accountName)
+                                .lineLimit(1)
+                        }
+
                         if let reason = context.state.r {
                             Text("\(context.timestamp) • \(reason)")
                         } else if context.isOffline {
@@ -271,6 +277,12 @@ private struct MainContentView: View {
                     MinuteTimerView(context: context, relative: false)
                         .lineLimit(1)
 
+                    if let accountName = context.attributes.accountName {
+                        Text(verbatim: accountName)
+                            .foregroundStyle(.secondary)
+                            .lineLimit(1)
+                    }
+
                     if let reason = context.state.r {
                         if #available(iOS 26, *) {
                             Text(verbatim: reason)
@@ -319,13 +331,13 @@ private struct MainContentView: View {
                             .foregroundStyle(context.timestampColor)
 
                         if let reason = context.state.r {
-                            Text(verbatim: reason)
-                        } else {
-                            if showChartLiveActivity {
-                                if context.state.c != nil, !context.isOffline {
-                                    Text("Last \(context.attributes.range.abbreviatedName)", comment: "Live Activity label showing graph range")
-                                }
-                            }
+                            context.ledByAccountName(Text(verbatim: reason))
+                        } else if showChartLiveActivity, context.state.c != nil, !context.isOffline {
+                            context.ledByAccountName(
+                                Text("Last \(context.attributes.range.abbreviatedName)", comment: "Live Activity label showing graph range")
+                            )
+                        } else if let accountName = context.attributes.accountName {
+                            Text(verbatim: accountName)
                         }
                     }
                     .font(.caption2.bold())
@@ -366,7 +378,7 @@ private struct MainContentView: View {
             }
             .font(.callout)
 
-            Text("Session ended")
+            context.ledByAccountName(Text("Session ended"))
                 .foregroundStyle(.secondary)
                 .font(.footnote.bold())
                 .frame(maxWidth: .infinity)
@@ -384,7 +396,7 @@ private struct MediumExpiredView: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack {
-                Text("Live Activity ended")
+                context.ledByAccountName(Text("Live Activity ended"))
 
                 Spacer()
 
@@ -481,6 +493,16 @@ private struct GraphPieceView: View {
 }
 
 private extension ActivityViewContext<ReadingAttributes> {
+    /// Leads a caption with the activity's account name, which is only set when
+    /// several accounts each have an activity, so they can be told apart.
+    func ledByAccountName(_ caption: Text) -> Text {
+        guard let accountName = attributes.accountName else { return caption }
+        return Text(
+            "\(Text(verbatim: accountName)) • \(caption)",
+            comment: "Live Activity caption led by the name of the account it shows"
+        )
+    }
+
     /// Effective stale level. `context.isStale` is the OS-side fallback when no push
     /// arrives by the activity's staleDate — treat it as offline.
     var staleLevel: LiveActivityState.StaleLevel {
@@ -618,6 +640,16 @@ private extension Date {
     }
 }
 
+private let previewStates = [
+    LiveActivityState(c: .placeholder, h: .placeholder),
+    LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-10 * 61)), h: .placeholder),
+    LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-5 * 61)), h: .placeholder),
+    LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-30 * 60)), h: .placeholder, s: .offline),
+    LiveActivityState(c: nil, h: [], se: true),
+]
+
+private let previewAccountAttributes = ReadingAttributes(range: .threeHours, accountID: UUID(), accountName: "Alex")
+
 #Preview(
     "Expanded",
     as: .dynamicIsland(.expanded),
@@ -625,9 +657,51 @@ private extension Date {
 ) {
     ReadingActivityConfiguration()
 } contentStates: {
-    LiveActivityState(c: .placeholder, h: .placeholder)
-    LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-10 * 61)), h: .placeholder)
-    LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-5 * 61)), h: .placeholder)
-    LiveActivityState(c: .placeholder(date: .now.addingTimeInterval(-30 * 60)), h: .placeholder, s: .offline)
-    LiveActivityState(c: nil, h: [], se: true)
+    previewStates[0]
+    previewStates[1]
+    previewStates[2]
+    previewStates[3]
+    previewStates[4]
+}
+
+#Preview(
+    "Expanded, Account Name",
+    as: .dynamicIsland(.expanded),
+    using: previewAccountAttributes
+) {
+    ReadingActivityConfiguration()
+} contentStates: {
+    previewStates[0]
+    previewStates[1]
+    previewStates[2]
+    previewStates[3]
+    previewStates[4]
+}
+
+#Preview(
+    "Lock Screen",
+    as: .content,
+    using: ReadingAttributes(range: .threeHours)
+) {
+    ReadingActivityConfiguration()
+} contentStates: {
+    previewStates[0]
+    previewStates[1]
+    previewStates[2]
+    previewStates[3]
+    previewStates[4]
+}
+
+#Preview(
+    "Lock Screen, Account Name",
+    as: .content,
+    using: previewAccountAttributes
+) {
+    ReadingActivityConfiguration()
+} contentStates: {
+    previewStates[0]
+    previewStates[1]
+    previewStates[2]
+    previewStates[3]
+    previewStates[4]
 }

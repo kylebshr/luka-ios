@@ -15,12 +15,15 @@ struct EndLiveActivityIntent: LiveActivityIntent {
 
     init() {}
 
+    /// Ends every account's activity. Each one's server session is ended by
+    /// `LiveActivityManager` as it observes the activity end.
     func perform() async throws -> some IntentResult {
-        for activity in Activity<ReadingAttributes>.activities {
+        let activities = Activity<ReadingAttributes>.activities
+        for activity in activities {
             await activity.end(nil, dismissalPolicy: .immediate)
         }
 
-        TelemetryDeck.signal("LiveActivity.end")
+        TelemetryDeck.signal("LiveActivity.end", parameters: ["activities": String(activities.count)])
         return .result()
     }
 }

@@ -80,6 +80,7 @@ struct LiveActivityDebugView: View {
             }
             LabeledContent("State", value: stateDescription(activity.activityState))
             LabeledContent("Attributes range", value: "\(activity.attributes.range)")
+            LabeledContent("Account", value: accountDescription(activity.attributes))
 
             if let staleDate = content.staleDate {
                 LabeledContent("Stale date", value: staleDate.formatted(date: .omitted, time: .standard))
@@ -132,6 +133,17 @@ struct LiveActivityDebugView: View {
         case .ended: "ended"
         @unknown default: "unknown"
         }
+    }
+
+    private func accountDescription(_ attributes: ReadingAttributes) -> String {
+        let accounts = AccountStore.shared.accounts
+        let owner = switch AccountResolution.liveActivityOwner(for: attributes.accountID, in: accounts) {
+        case .account(let account): AccountStore.shared.displayName(for: account)
+        case .orphaned: "orphaned"
+        case .unavailable: "unavailable"
+        }
+        let id = attributes.accountID.map { String($0.uuidString.prefix(8)) } ?? "nil"
+        return "\(owner) (\(id))"
     }
 
     private func dateOrNil(_ date: Date?) -> String {

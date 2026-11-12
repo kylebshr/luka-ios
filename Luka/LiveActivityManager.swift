@@ -9,7 +9,6 @@ import ActivityKit
 import Defaults
 import Dexcom
 import Foundation
-import KeychainAccess
 import TelemetryDeck
 import UIKit
 import WidgetKit
@@ -28,6 +27,9 @@ final class LiveActivityManager {
     /// the server's `ps` flag before any update push overwrites it); activities already
     /// running at launch are `nil` = unknown.
     private var launchedByPush: [String: Bool?] = [:]
+    /// Activities whose server session was already ended explicitly (signing out of their
+    /// account), so observing them end doesn't send a second end.
+    private var serverEndedActivityIDs: Set<String> = []
     private var activityUpdatesTask: Task<Void, Never>?
     private var pushToStartTask: Task<Void, Never>?
     private var isSwitchingBackend = false
@@ -44,6 +46,7 @@ final class LiveActivityManager {
             "protected_data": String(UIApplication.shared.isProtectedDataAvailable),
             "restart_enabled": String(Defaults[.autoRestartLiveActivity]),
             "has_pts_token": String(Defaults[.pushToStartToken] != nil),
+            "accounts": String(AccountStore.shared.accounts.count),
         ])
 
         // Observe existing activities
@@ -148,6 +151,7 @@ final class LiveActivityManager {
 
     private func observeActivity(_ activity: Activity<ReadingAttributes>, source: String) {
         guard observationTasks[activity.id] == nil else { return }
+        let accountID = reportingAccountID(for: activity)
 
         // A push-to-start-launched activity arrives through `activityUpdates` with the
         // server's seeded content, whose `ps` flag is set. That first observation is the
@@ -167,7 +171,7 @@ final class LiveActivityManager {
                 "state": String(describing: activity.activityState),
             ]
         )
-        reporter.record("activity_observed", activityID: activity.id, [
+        reporter.record("activity_observed", activityID: activity.id, accountID: accountID, [
             "source": source,
             "push_to_start": pushToStartLabel,
             "state": String(describing: activity.activityState),
@@ -187,7 +191,7 @@ final class LiveActivityManager {
                             "hadToken": String(activityTokens[activity.id] != nil),
                         ]
                     )
-                    reporter.record("activity_ended", activityID: activity.id, [
+                    reporter.record("activity_ended", activityID: activity.id, accountID: accountID, [
                         "state": String(describing: state),
                         "push_to_start": pushToStartLabel,
                         "had_token": String(activityTokens[activity.id] != nil),
@@ -207,7 +211,9 @@ final class LiveActivityManager {
                     // still report it as running for a moment after this state update fires.
                     await client.withBackgroundTask(name: "LiveActivity.handleEnd") {
                         syncState(excluding: activity.id)
-                        await sendEndLiveActivity(activityID: activity.id)
+                        if serverEndedActivityIDs.remove(activity.id) == nil {
+                            await sendEndLiveActivity(for: activity)
+                        }
                     }
                     return
                 case .active, .pending, .stale:
@@ -228,7 +234,7 @@ final class LiveActivityManager {
                     "LiveActivity.receivedToken",
                     parameters: ["kind": kind, "pushToStart": pushToStart.map(String.init) ?? "unknown"]
                 )
-                reporter.record("token_received", activityID: activity.id, [
+                reporter.record("token_received", activityID: activity.id, accountID: accountID, [
                     "kind": kind,
                     "push_to_start": pushToStart.map(String.init) ?? "unknown",
                     "token_prefix": String(tokenString.prefix(8)),
@@ -240,7 +246,7 @@ final class LiveActivityManager {
                 // an activity that is already over.
                 switch activity.activityState {
                 case .dismissed, .ended:
-                    reporter.record("token_send_skipped", activityID: activity.id, [
+                    reporter.record("token_send_skipped", activityID: activity.id, accountID: accountID, [
                         "kind": kind, "reason": "activity_ended", "state": String(describing: activity.activityState),
                     ])
                     continue
@@ -250,7 +256,7 @@ final class LiveActivityManager {
                     break
                 }
                 await sendStartLiveActivity(
-                    activityID: activity.id, token: tokenString, kind: kind, pushToStart: pushToStart
+                    for: activity, token: tokenString, kind: kind, pushToStart: pushToStart
                 )
             }
         }
@@ -262,27 +268,98 @@ final class LiveActivityManager {
         }
     }
 
+    // MARK: - Accounts
+
+    private enum Owner {
+        case account(DexcomAccount, DexcomCredentials)
+        /// Its account is no longer signed in (see `AccountResolution.LiveActivityOwner`).
+        case orphaned
+        /// Accounts or credentials can't be read right now (e.g. before first unlock).
+        case unavailable
+    }
+
+    /// The account an activity belongs to, with the credentials every server call
+    /// about that activity must use.
+    private func owner(of activity: Activity<ReadingAttributes>) -> Owner {
+        guard let accounts = try? AccountStore.shared.loadAccounts() else {
+            return .unavailable
+        }
+        switch AccountResolution.liveActivityOwner(for: activity.attributes.accountID, in: accounts) {
+        case .account(let account):
+            guard let credentials = AccountStore.shared.credentials(for: account) else {
+                return .unavailable
+            }
+            return .account(account, credentials)
+        case .orphaned:
+            return .orphaned
+        case .unavailable:
+            return .unavailable
+        }
+    }
+
+    private func reportingAccountID(for activity: Activity<ReadingAttributes>) -> UUID? {
+        if case .account(let account, _) = owner(of: activity) {
+            return account.id
+        }
+        return activity.attributes.accountID
+    }
+
+    /// An orphaned activity can't be registered (its credentials are gone) and must not be
+    /// registered under another account's, so it's ended rather than left without updates.
+    private func endOrphanedActivity(_ activity: Activity<ReadingAttributes>, kind: String) async {
+        TelemetryDeck.signal("LiveActivity.endedOrphan", parameters: ["kind": kind])
+        reporter.record("activity_orphaned", activityID: activity.id, accountID: activity.attributes.accountID, [
+            "kind": kind,
+        ])
+        await Self.endActivity(id: activity.id)
+    }
+
+    /// Ends by ID so the non-Sendable activity isn't sent off the main actor.
+    nonisolated private static func endActivity(id: String) async {
+        for activity in Activity<ReadingAttributes>.activities where activity.id == id {
+            await activity.end(nil, dismissalPolicy: .immediate)
+        }
+    }
+
+    // MARK: - Server
+
     private func sendStartLiveActivity(
-        activityID: String, token: String, kind: String, pushToStart: Bool? = nil
+        for activity: Activity<ReadingAttributes>, token: String, kind: String, pushToStart: Bool? = nil
     ) async {
-        guard let username = Keychain.shared.username,
-              let password = Keychain.shared.password,
-              let accountLocation = Defaults[.accountLocation],
-              username != DexcomHelper.mockEmail else {
+        let activityID = activity.id
+        let owner = owner(of: activity)
+        let account: DexcomAccount
+        let credentials: DexcomCredentials
+        switch owner {
+        case .account(let ownerAccount, let ownerCredentials) where !ownerCredentials.isMock:
+            account = ownerAccount
+            credentials = ownerCredentials
+        case .orphaned:
+            await endOrphanedActivity(activity, kind: kind)
+            return
+        case .account:
+            // The demo account has no server session.
+            return
+        case .unavailable:
             // A silent return here is exactly the kind of gap that hides a failed restart
             // registration; the queue is flushed once credentials are readable.
-            reporter.record("token_send_skipped", activityID: activityID, [
+            reporter.record("token_send_skipped", activityID: activityID, accountID: activity.attributes.accountID, [
                 "kind": kind,
                 "reason": "credentials",
                 "push_to_start": pushToStart.map(String.init) ?? "unknown",
-                "has_username": String(Keychain.shared.username != nil),
-                "has_password": String(Keychain.shared.password != nil),
-                "has_location": String(Defaults[.accountLocation] != nil),
+                "has_username": "false",
+                "has_password": "false",
+                "has_location": "false",
             ])
             return
         }
 
-        let range: GraphRange = .threeHours
+        let range = activity.attributes.range
+        // What the server replays in a push-to-start restart. Always names the account,
+        // so a restart of an activity from before multi-account stays with its account
+        // even if the primary changes later.
+        var replayedAttributes = activity.attributes
+        replayedAttributes.accountID = account.id
 
         // Gate auto-restart behind the experimental toggle: only hand the server
         // a push-to-start token (and the attributes to replay) when enabled.
@@ -296,9 +373,9 @@ final class LiveActivityManager {
             activityID: activityID,
             pushToken: token,
             environment: .current,
-            username: username,
-            password: password,
-            accountLocation: accountLocation,
+            username: credentials.username,
+            password: credentials.password,
+            accountLocation: account.accountLocation,
             duration: range.timeInterval + 60 * 15,
             preferences: LiveActivityPreferences(
                 targetRange: Int(Defaults[.targetRangeLowerBound])...Int(Defaults[.targetRangeUpperBound]),
@@ -307,11 +384,12 @@ final class LiveActivityManager {
             ),
             pushToStartToken: restartEnabled ? Defaults[.pushToStartToken] : nil,
             attributesType: restartEnabled ? "ReadingAttributes" : nil,
-            attributes: restartEnabled ? try? JSONValue(encoding: ReadingAttributes(range: range)) : nil,
+            attributes: restartEnabled ? try? JSONValue(encoding: replayedAttributes) : nil,
             pushToStart: pushToStart
         )
 
         let pushToStartLabel = pushToStart.map(String.init) ?? "unknown"
+        let accountID = account.id
         await client.withBackgroundTask(name: "LiveActivity.sendStartLiveActivity") {
             do {
                 let request = try client.makePostRequest("start-live-activity", body: payload)
@@ -320,7 +398,7 @@ final class LiveActivityManager {
                 // newer one replaced it). Not a failure — stop tracking it.
                 if response.statusCode == 410 {
                     TelemetryDeck.signal("LiveActivity.tokenRejected", parameters: ["kind": kind])
-                    reporter.record("token_send_rejected", activityID: activityID, [
+                    reporter.record("token_send_rejected", activityID: activityID, accountID: accountID, [
                         "kind": kind, "push_to_start": pushToStartLabel,
                     ])
                     return
@@ -334,7 +412,7 @@ final class LiveActivityManager {
                     "LiveActivity.sentToken",
                     parameters: ["kind": kind, "pushToStart": pushToStartLabel, "restartEnabled": String(restartEnabled)]
                 )
-                reporter.record("token_sent", activityID: activityID, [
+                reporter.record("token_sent", activityID: activityID, accountID: accountID, [
                     "kind": kind, "push_to_start": pushToStartLabel, "restart_enabled": String(restartEnabled),
                 ])
             } catch {
@@ -342,7 +420,7 @@ final class LiveActivityManager {
                     "LiveActivity.failedToSendToken",
                     parameters: ["kind": kind, "pushToStart": pushToStartLabel, "error": String(describing: type(of: error))]
                 )
-                reporter.record("token_send_failed", activityID: activityID, [
+                reporter.record("token_send_failed", activityID: activityID, accountID: accountID, [
                     "kind": kind, "push_to_start": pushToStartLabel, "error": String(describing: error).prefix(120).description,
                 ])
             }
@@ -353,16 +431,9 @@ final class LiveActivityManager {
     /// most recent push token, so the server receives the latest push-to-start
     /// token. Called when the push-to-start token updates.
     private func reregisterRunningActivities() async {
-        for activity in Activity<ReadingAttributes>.activities {
-            switch activity.activityState {
-            case .active, .pending, .stale:
-                if let token = activityTokens[activity.id] {
-                    await sendStartLiveActivity(activityID: activity.id, token: token, kind: "update")
-                }
-            case .dismissed, .ended:
-                break
-            @unknown default:
-                break
+        for activity in Activity<ReadingAttributes>.activities where activity.activityState.isRunning {
+            if let token = activityTokens[activity.id] {
+                await sendStartLiveActivity(for: activity, token: token, kind: "update")
             }
         }
     }
@@ -371,10 +442,10 @@ final class LiveActivityManager {
     /// running activity, for testing without waiting for the time limit. Requires the
     /// auto-restart experiment to have been enabled (so the server has a push-to-start token).
     func debugRestartLiveActivityOnServer() async {
-        guard let username = Keychain.shared.username else { return }
         for activity in Activity<ReadingAttributes>.activities {
+            guard case .account(_, let credentials) = owner(of: activity) else { continue }
             let payload = DebugRestartLiveActivityRequest(
-                username: username,
+                username: credentials.username,
                 activityID: activity.id
             )
             await client.withBackgroundTask(name: "LiveActivity.debugRestart") {
@@ -431,29 +502,70 @@ final class LiveActivityManager {
 
     func endLiveActivityOnServer() async {
         for activity in Activity<ReadingAttributes>.activities {
-            await sendEndLiveActivity(activityID: activity.id)
+            await sendEndLiveActivity(for: activity)
         }
     }
 
+    /// Ends every server session of every signed-in account, on all of their devices.
     func endAllLiveActivitiesOnServer() async {
-        guard let username = Keychain.shared.username else { return }
+        let usernames = Set(AccountStore.shared.accounts.compactMap {
+            AccountStore.shared.credentials(for: $0)
+        }.filter { !$0.isMock }.map(\.username))
 
-        let payload = EndLiveActivitiesRequest(username: username)
+        for username in usernames {
+            let payload = EndLiveActivitiesRequest(username: username)
 
-        await client.withBackgroundTask(name: "LiveActivity.sendEndAllLiveActivities") {
-            do {
-                let request = try client.makePostRequest("end-live-activities", body: payload)
-                try await client.send(request)
-                TelemetryDeck.signal("LiveActivity.sentEndAll")
-            } catch {
-                TelemetryDeck.signal("LiveActivity.failedToSendEndAll")
+            await client.withBackgroundTask(name: "LiveActivity.sendEndAllLiveActivities") {
+                do {
+                    let request = try client.makePostRequest("end-live-activities", body: payload)
+                    try await client.send(request)
+                    TelemetryDeck.signal("LiveActivity.sentEndAll")
+                } catch {
+                    TelemetryDeck.signal("LiveActivity.failedToSendEndAll")
+                }
             }
         }
     }
 
-    private func sendEndLiveActivity(activityID: String) async {
-        guard let username = Keychain.shared.username else { return }
+    /// Ends this device's activities for `account` and their server sessions. Call before
+    /// removing the account: the server is told under its username, which is gone after.
+    /// Activities of the same account on other devices keep running.
+    func endLiveActivities(for account: DexcomAccount) async {
+        let credentials = AccountStore.shared.credentials(for: account)
+        let activities = Activity<ReadingAttributes>.activities.filter { activity in
+            guard case .account(let owner, _) = owner(of: activity) else { return false }
+            return owner.id == account.id
+        }
+        guard !activities.isEmpty else { return }
 
+        await client.withBackgroundTask(name: "LiveActivity.endForAccount") {
+            for activity in activities {
+                if let credentials, !credentials.isMock {
+                    serverEndedActivityIDs.insert(activity.id)
+                    await sendEndLiveActivity(activityID: activity.id, accountID: account.id, username: credentials.username)
+                }
+                await Self.endActivity(id: activity.id)
+            }
+            syncState()
+        }
+        TelemetryDeck.signal("LiveActivity.endedForAccount", parameters: ["activities": String(activities.count)])
+    }
+
+    private func sendEndLiveActivity(for activity: Activity<ReadingAttributes>) async {
+        switch owner(of: activity) {
+        case .account(let account, let credentials):
+            guard !credentials.isMock else { return }
+            await sendEndLiveActivity(activityID: activity.id, accountID: account.id, username: credentials.username)
+        case .orphaned, .unavailable:
+            // Nobody to tell: the server session is torn down when its pushes start
+            // failing against the ended activity's token.
+            reporter.record("end_send_skipped", activityID: activity.id, accountID: activity.attributes.accountID, [
+                "reason": "credentials",
+            ])
+        }
+    }
+
+    private func sendEndLiveActivity(activityID: String, accountID: UUID, username: String) async {
         // Match is by activityID, so end regardless of whether a push token was captured
         // locally — the server no-ops if it has no entry for this activity.
         let payload = EndLiveActivityRequest(username: username, activityID: activityID)
@@ -466,10 +578,10 @@ final class LiveActivityManager {
                     throw HTTPClient.StatusError(statusCode: response.statusCode)
                 }
                 TelemetryDeck.signal("LiveActivity.sentEnd")
-                reporter.record("end_sent", activityID: activityID)
+                reporter.record("end_sent", activityID: activityID, accountID: accountID)
             } catch {
                 TelemetryDeck.signal("LiveActivity.failedToSendEnd")
-                reporter.record("end_send_failed", activityID: activityID, [
+                reporter.record("end_send_failed", activityID: activityID, accountID: accountID, [
                     "error": String(describing: error).prefix(120).description,
                 ])
             }

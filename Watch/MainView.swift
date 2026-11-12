@@ -10,7 +10,7 @@ import Dexcom
 import SwiftUI
 
 @MainActor struct MainView: View {
-    @State private var liveViewModel = LiveViewModel()
+    @State private var liveViewModel: LiveViewModel
     @State private var isPresentingPicker = false
 
     @Default(.selectedRange) private var selectedRange
@@ -19,6 +19,10 @@ import SwiftUI
     @Default(.targetRangeUpperBound) private var upperTargetRange
     @Default(.graphUpperBound) private var upperGraphRange
     @Default(.unit) private var unit
+
+    init(account: DexcomAccount) {
+        _liveViewModel = State(initialValue: LiveViewModel(account: account))
+    }
 
     private var readings: [GlucoseReading] {
         switch liveViewModel.state {
@@ -159,5 +163,5 @@ private struct RangePicker: View {
 }
 
 #Preview {
-    MainView()
+    MainView(account: DexcomAccount(accountLocation: .usa))
 }

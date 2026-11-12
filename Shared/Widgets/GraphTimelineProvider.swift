@@ -7,13 +7,10 @@
 
 import WidgetKit
 import Dexcom
-import KeychainAccess
 import Defaults
 
 struct GraphTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider {
     typealias Entry = GlucoseEntry<GlucoseGraphEntryData>
-
-    let delegate = KeychainDexcomDelegate()
 
     func placeholder(in context: Context) -> Entry {
         GlucoseEntry(
@@ -54,15 +51,10 @@ struct GraphTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider 
     }
 
     private func makeState(for configuration: GraphWidgetConfiguration) async -> Entry.State {
-        guard let username = Keychain.shared.username, let password = Keychain.shared.password, let accountLocation = Defaults[.accountLocation] else {
+        guard let account = account(for: configuration),
+              let client = await makeClient(for: account) else {
             return .error(.loggedOut)
         }
-
-        let client = await makeClient(
-            username: username,
-            password: password,
-            accountLocation: accountLocation
-        )
 
         do {
             let readings = try await client.getGraphReadings(
@@ -77,7 +69,8 @@ struct GraphTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider 
                     GlucoseGraphEntryData(
                         configuration: configuration,
                         current: current,
-                        history: readings
+                        history: readings,
+                        accountName: accountName(for: account)
                     )
                 )
             } else {
