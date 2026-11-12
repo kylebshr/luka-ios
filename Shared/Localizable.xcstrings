@@ -6096,52 +6096,6 @@
         }
       }
     },
-    "Using %@, switching to %@. Switching servers restarts a running Live Activity." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verwendet %1$@, wechselt zu %2$@. Ein Serverwechsel startet eine laufende Live-Aktivität neu."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Using %1$@, switching to %2$@. Switching servers restarts a running Live Activity."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Usando %1$@, cambiando a %2$@. Cambiar de servidor reinicia la Actividad en Vivo en curso."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Utilise %1$@, passage à %2$@. Changer de serveur redémarre l’activité en direct en cours."
-          }
-        },
-        "fr-CA" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Utilise %1$@, passage à %2$@. Changer de serveur redémarre l’activité en direct en cours."
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bruker %1$@, bytter til %2$@. Bytte av server starter en pågående Live Activity på nytt."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Använder %1$@, byter till %2$@. Byte av server startar om en pågående Live Activity."
-          }
-        }
-      }
-    },
     "Using %@. Switching servers restarts a running Live Activity." : {
       "localizations" : {
         "de" : {

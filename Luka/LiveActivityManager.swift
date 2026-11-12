@@ -30,9 +30,7 @@ final class LiveActivityManager {
     private var launchedByPush: [String: Bool?] = [:]
     private var activityUpdatesTask: Task<Void, Never>?
     private var pushToStartTask: Task<Void, Never>?
-    private lazy var backendMigrator = BackendMigrator(host: self)
-    /// Activities a backend migration ended; it tells their (old) backend itself.
-    private var endedByMigration: Set<String> = []
+    private var isSwitchingBackend = false
 
     private init() {
         // First thing on any launch: did we come up at all, and in what state? For a
@@ -207,12 +205,9 @@ final class LiveActivityManager {
                     //
                     // Exclude this activity from the running check: Activity.activities can
                     // still report it as running for a moment after this state update fires.
-                    let endedByMigration = endedByMigration.remove(activity.id) != nil
                     await client.withBackgroundTask(name: "LiveActivity.handleEnd") {
                         syncState(excluding: activity.id)
-                        if !endedByMigration {
-                            await sendEndLiveActivity(activityID: activity.id)
-                        }
+                        await sendEndLiveActivity(activityID: activity.id)
                     }
                     return
                 case .active, .pending, .stale:
@@ -394,6 +389,46 @@ final class LiveActivityManager {
         }
     }
 
+    /// Moves this install to the wanted backend. A backend only pushes to the activities
+    /// registered with it, so a running Live Activity is ended and a fresh one started on
+    /// the new backend. ActivityKit only starts activities in the foreground, so anything
+    /// else waits for the next foreground.
+    func switchBackendIfNeeded() async {
+        let old = Backend.active, new = Backend.wanted
+        guard new != old, !isSwitchingBackend, UIApplication.shared.applicationState == .active else { return }
+        isSwitchingBackend = true
+        defer { isSwitchingBackend = false }
+
+        var ended = 0
+        for activity in Activity<ReadingAttributes>.activities {
+            switch activity.activityState {
+            case .active, .pending, .stale:
+                break
+            case .dismissed, .ended:
+                continue
+            @unknown default:
+                continue
+            }
+            // Per activity, not `end-live-activities`, which would also dismiss the
+            // activities of other devices signed in to the same account.
+            await sendEndLiveActivity(activityID: activity.id)
+            await activity.end(nil, dismissalPolicy: .immediate)
+            ended += 1
+        }
+        Defaults[.activeBackend] = new
+
+        var attributes = ["from": old.rawValue, "to": new.rawValue, "ended_activities": String(ended)]
+        if ended > 0 {
+            do {
+                _ = try await StartLiveActivityIntent(source: "BackendSwitch").perform()
+                syncState()
+            } catch {
+                attributes["restart_error"] = String(describing: error).prefix(120).description
+            }
+        }
+        reporter.record("backend_switched", attributes)
+    }
+
     func endLiveActivityOnServer() async {
         for activity in Activity<ReadingAttributes>.activities {
             await sendEndLiveActivity(activityID: activity.id)
@@ -416,83 +451,28 @@ final class LiveActivityManager {
         }
     }
 
-    @discardableResult
-    private func sendEndLiveActivity(activityID: String, on backend: Backend = .active) async -> Bool {
-        guard let username = Keychain.shared.username else { return false }
+    private func sendEndLiveActivity(activityID: String) async {
+        guard let username = Keychain.shared.username else { return }
 
         // Match is by activityID, so end regardless of whether a push token was captured
         // locally — the server no-ops if it has no entry for this activity.
         let payload = EndLiveActivityRequest(username: username, activityID: activityID)
 
-        var acknowledged = false
         await client.withBackgroundTask(name: "LiveActivity.sendEndLiveActivity") {
             do {
-                let request = try client.makePostRequest("end-live-activity", on: backend, body: payload)
+                let request = try client.makePostRequest("end-live-activity", body: payload)
                 let (_, response) = try await client.send(request)
                 guard (200..<300).contains(response.statusCode) else {
                     throw HTTPClient.StatusError(statusCode: response.statusCode)
                 }
                 TelemetryDeck.signal("LiveActivity.sentEnd")
-                reporter.record("end_sent", activityID: activityID, ["backend": backend.rawValue])
-                acknowledged = true
+                reporter.record("end_sent", activityID: activityID)
             } catch {
                 TelemetryDeck.signal("LiveActivity.failedToSendEnd")
                 reporter.record("end_send_failed", activityID: activityID, [
-                    "backend": backend.rawValue, "error": String(describing: error).prefix(120).description,
+                    "error": String(describing: error).prefix(120).description,
                 ])
             }
         }
-        return acknowledged
-    }
-
-    /// Moves to the wanted backend if it differs from the active one; foreground only.
-    func migrateBackendIfNeeded() async {
-        await backendMigrator.migrateIfNeeded()
-    }
-}
-
-extension LiveActivityManager: BackendMigratorHost {
-    var isInForeground: Bool {
-        UIApplication.shared.applicationState == .active
-    }
-
-    var wantedBackend: Backend {
-        .wanted
-    }
-
-    var activeBackend: Backend {
-        get { .active }
-        set { Defaults[.activeBackend] = newValue }
-    }
-
-    func endRunningActivitiesLocally() async -> [String] {
-        var ended: [String] = []
-        for activity in Activity<ReadingAttributes>.activities {
-            switch activity.activityState {
-            case .active, .pending, .stale:
-                endedByMigration.insert(activity.id)
-                await activity.end(nil, dismissalPolicy: .immediate)
-                ended.append(activity.id)
-            case .dismissed, .ended:
-                break
-            @unknown default:
-                break
-            }
-        }
-        return ended
-    }
-
-    func endLiveActivity(_ activityID: String, on backend: Backend) async -> Bool {
-        await sendEndLiveActivity(activityID: activityID, on: backend)
-    }
-
-    func startLiveActivity() async throws {
-        _ = try await StartLiveActivityIntent(source: "BackendMigration").perform()
-        syncState()
-    }
-
-    func record(_ name: String, _ attributes: [String: String]) {
-        reporter.record(name, attributes)
-        TelemetryDeck.signal("Backend.migrated", parameters: attributes)
     }
 }

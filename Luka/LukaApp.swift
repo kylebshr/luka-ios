@@ -63,7 +63,7 @@ struct LukaApp: App {
                     await liveActivityManager.flushClientEvents()
                 }
                 Task {
-                    await liveActivityManager.migrateBackendIfNeeded()
+                    await liveActivityManager.switchBackendIfNeeded()
                 }
             }
         }

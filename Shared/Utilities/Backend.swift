@@ -20,8 +20,8 @@ enum Backend: String, CaseIterable, Codable, Defaults.Serializable {
     static let cloudflareURL = URL(string: "https://luka.a1c.dev")!
 
     /// The backend this install talks to. Every request goes here; only a foreground
-    /// migration (`BackendMigrator`) changes it, so a running Live Activity, its server
-    /// session and the readings proxy stay on one backend.
+    /// switch (`LiveActivityManager.switchBackendIfNeeded`) changes it, so a running Live
+    /// Activity, its server session and the readings proxy stay on one backend.
     static var active: Self {
 //        #if DEBUG
 //        return .local

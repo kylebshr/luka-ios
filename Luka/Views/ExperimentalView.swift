@@ -80,16 +80,11 @@ struct ExperimentalView: View {
                 }
                 .pickerStyle(.menu)
             } footer: {
-                let wanted = Backend.wanted
-                if wanted == activeBackend {
-                    Text("Using \(activeBackend.name). Switching servers restarts a running Live Activity.")
-                } else {
-                    Text("Using \(activeBackend.name), switching to \(wanted.name). Switching servers restarts a running Live Activity.")
-                }
+                Text("Using \(activeBackend.name). Switching servers restarts a running Live Activity.")
             }
             .onChange(of: backendPreference) {
                 Task {
-                    await LiveActivityManager.shared.migrateBackendIfNeeded()
+                    await LiveActivityManager.shared.switchBackendIfNeeded()
                 }
             }
 

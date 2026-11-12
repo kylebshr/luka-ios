@@ -65,7 +65,7 @@ struct RootView: View {
         .task {
             await viewModel.loadBanners()
             // The fetch may have changed the rollout.
-            await LiveActivityManager.shared.migrateBackendIfNeeded()
+            await LiveActivityManager.shared.switchBackendIfNeeded()
         }
     }
 }
