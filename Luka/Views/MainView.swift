@@ -150,6 +150,7 @@ import WidgetKit
             }
             .frame(maxWidth: .infinity)
             .padding(.horizontal)
+            .padding(.top, .spacing8)
             .padding(.bottom)
             .animation(.snappy, value: accounts)
         }

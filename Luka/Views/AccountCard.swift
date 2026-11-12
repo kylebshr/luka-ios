@@ -5,20 +5,18 @@
 //  Created by Kyle Bashour on 11/12/26.
 //
 
-import Defaults
 import Dexcom
 import SwiftUI
 
 /// A compact summary of one account in the account list: its name, current
-/// reading and a sparkline of the selected graph range.
+/// reading and a sparkline of the last three hours.
 struct AccountCard: View {
     var name: String
     var liveViewModel: LiveViewModel
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
-    @Default(.selectedRange) private var range
-    @Default(.appGraphStyle) private var graphStyle
+    private let range: GraphRange = .threeHours
 
     private var readings: [GlucoseReading] {
         liveViewModel.readings
@@ -53,14 +51,17 @@ struct AccountCard: View {
                 )
                 .layoutPriority(1)
 
+                Spacer(minLength: 0)
+
                 sparkline
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 56)
+                    .frame(maxWidth: 132)
+                    .frame(height: 44)
                     .padding(.bottom, .spacing1)
             }
         }
         .contentShape(.rect)
-        .card()
+        .padding(.standardPadding)
+        .insetCard()
         .accessibilityElement(children: .combine)
         .accessibilityHint("Shows the full graph")
     }
@@ -74,9 +75,9 @@ struct AccountCard: View {
         } else {
             LineChart(
                 range: range,
-                style: graphStyle,
+                style: .line,
                 readings: readings.toLiveActivityReadings(),
-                lineWidth: graphStyle == .line ? 2.5 : 1.5
+                lineWidth: 2.5
             )
             .opacity(liveViewModel.isStale ? 0.5 : 1)
             .accessibilityHidden(true)
