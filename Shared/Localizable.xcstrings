@@ -541,46 +541,6 @@
         }
       }
     },
-    "Automatic is currently using %@. Changes apply from the next Live Activity." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Automatisch verwendet derzeit %@. Änderungen gelten ab der nächsten Live-Aktivität."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Automático usa actualmente %@. Los cambios se aplican a partir de la próxima Actividad en Vivo."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Automatique utilise actuellement %@. Les modifications s’appliquent à partir de la prochaine activité en direct."
-          }
-        },
-        "fr-CA" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Automatique utilise actuellement %@. Les modifications s’appliquent à partir de la prochaine activité en direct."
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Automatisk bruker nå %@. Endringer gjelder fra neste Live Activity."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Automatiskt använder just nu %@. Ändringar gäller från nästa Live Activity."
-          }
-        }
-      }
-    },
     "Automatically restart Live Activity" : {
       "localizations" : {
         "de" : {
@@ -617,46 +577,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Starta om Live Activity automatiskt"
-          }
-        }
-      }
-    },
-    "Changes apply from the next Live Activity." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Änderungen gelten ab der nächsten Live-Aktivität."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Los cambios se aplican a partir de la próxima Actividad en Vivo."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les modifications s’appliquent à partir de la prochaine activité en direct."
-          }
-        },
-        "fr-CA" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les modifications s’appliquent à partir de la prochaine activité en direct."
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Endringer gjelder fra neste Live Activity."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ändringar gäller från nästa Live Activity."
           }
         }
       }
@@ -6172,6 +6092,92 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Användarnamn"
+          }
+        }
+      }
+    },
+    "Using %@, switching to %@. Switching servers restarts a running Live Activity." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwendet %1$@, wechselt zu %2$@. Ein Serverwechsel startet eine laufende Live-Aktivität neu."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Using %1$@, switching to %2$@. Switching servers restarts a running Live Activity."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usando %1$@, cambiando a %2$@. Cambiar de servidor reinicia la Actividad en Vivo en curso."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utilise %1$@, passage à %2$@. Changer de serveur redémarre l’activité en direct en cours."
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utilise %1$@, passage à %2$@. Changer de serveur redémarre l’activité en direct en cours."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bruker %1$@, bytter til %2$@. Bytte av server starter en pågående Live Activity på nytt."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Använder %1$@, byter till %2$@. Byte av server startar om en pågående Live Activity."
+          }
+        }
+      }
+    },
+    "Using %@. Switching servers restarts a running Live Activity." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwendet %@. Ein Serverwechsel startet eine laufende Live-Aktivität neu."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usando %@. Cambiar de servidor reinicia la Actividad en Vivo en curso."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utilise %@. Changer de serveur redémarre l’activité en direct en cours."
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utilise %@. Changer de serveur redémarre l’activité en direct en cours."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bruker %@. Bytte av server starter en pågående Live Activity på nytt."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Använder %@. Byte av server startar om en pågående Live Activity."
           }
         }
       }

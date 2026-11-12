@@ -28,6 +28,7 @@ struct LiveActivityDebugView: View {
                 LabeledContent("Frequent pushes", value: authInfo.frequentPushesEnabled ? "Yes" : "No")
                 LabeledContent("Running activities", value: "\(activities.count)")
                 LabeledContent("isLiveActivityRunning", value: Defaults[.isLiveActivityRunning] ? "true" : "false")
+                LabeledContent("Server", value: Backend.active.name)
             }
 
             if activities.isEmpty {
@@ -78,7 +79,6 @@ struct LiveActivityDebugView: View {
                     .multilineTextAlignment(.trailing)
             }
             LabeledContent("State", value: stateDescription(activity.activityState))
-            LabeledContent("Server", value: Defaults[.liveActivityBackends]?.byActivityID[activity.id]?.name ?? "none")
             LabeledContent("Attributes range", value: "\(activity.attributes.range)")
 
             if let staleDate = content.staleDate {

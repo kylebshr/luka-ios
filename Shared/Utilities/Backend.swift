@@ -19,14 +19,19 @@ enum Backend: String, CaseIterable, Codable, Defaults.Serializable {
 
     static let cloudflareURL = URL(string: "https://luka.a1c.dev")!
 
-    /// The production backends; either may hold a session for this install.
-    static let deployed: [Backend] = [.fly, .cloudflare]
-
-    /// The backend for new Live Activities and for calls not tied to one activity.
-    static var current: Self {
+    /// The backend this install talks to. Every request goes here; only a foreground
+    /// migration (`BackendMigrator`) changes it, so a running Live Activity, its server
+    /// session and the readings proxy stay on one backend.
+    static var active: Self {
 //        #if DEBUG
 //        return .local
 //        #endif
+        Defaults[.activeBackend]
+    }
+
+    /// The backend this install should move to: the Server setting, or on Automatic the
+    /// account's rollout bucket against the last fetched `cloudflareRollout`.
+    static var wanted: Self {
         resolve(
             preference: Defaults[.backendPreference],
             rollout: Defaults[.cloudflareRollout],

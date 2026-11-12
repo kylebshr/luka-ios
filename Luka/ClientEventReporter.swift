@@ -39,7 +39,9 @@ final class ClientEventReporter {
             name: name,
             occurredAt: Date.now.timeIntervalSince1970,
             activityID: activityID,
-            attributes: attributes.isEmpty ? nil : attributes
+            // The backend at the time of the observation, so a rollout problem can be
+            // attributed even when the event is delivered to the other server.
+            attributes: attributes.merging(["backend": Backend.active.rawValue]) { recorded, _ in recorded }
         )
         var queued = Defaults[.pendingClientEvents]
         queued.append(event)
@@ -82,7 +84,7 @@ final class ClientEventReporter {
 
         await client.withBackgroundTask(name: "LiveActivity.clientEvents") {
             do {
-                let request = try client.makePostRequest("client-event", on: .current, body: payload)
+                let request = try client.makePostRequest("client-event", body: payload)
                 try await client.send(request)
                 // Drop exactly what was sent; anything recorded mid-flight stays queued.
                 Defaults[.pendingClientEvents].removeAll { batch.contains($0) }

@@ -26,7 +26,7 @@ struct HTTPClient {
     }
 
     /// Build a request to `path` on `backend` with standard Luka headers applied.
-    func makeRequest(_ path: String, on backend: Backend, query: [URLQueryItem] = []) -> URLRequest {
+    func makeRequest(_ path: String, on backend: Backend = .active, query: [URLQueryItem] = []) -> URLRequest {
         var components = URLComponents(
             url: backend.url(for: path),
             resolvingAgainstBaseURL: false
@@ -42,7 +42,7 @@ struct HTTPClient {
     }
 
     /// Build a JSON-encoded POST request to `path` on `backend` with standard Luka headers.
-    func makePostRequest<Body: Encodable>(_ path: String, on backend: Backend, body: Body) throws -> URLRequest {
+    func makePostRequest<Body: Encodable>(_ path: String, on backend: Backend = .active, body: Body) throws -> URLRequest {
         var request = makeRequest(path, on: backend)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

@@ -10,7 +10,7 @@ import Foundation
 struct Banners: Codable {
     var banners: [Banner]
     var minVersion: String?
-    /// The fraction of installs to move to the Cloudflare backend (see `Backend.current`).
+    /// The fraction of installs to move to the Cloudflare backend (see `Backend.wanted`).
     var cloudflareRollout: Double?
 
     var requiresForceUpgrade: Bool {

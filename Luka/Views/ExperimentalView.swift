@@ -13,6 +13,7 @@ struct ExperimentalView: View {
     @Default(.debugInfo) private var debugInfo
     @Default(.useReadingsProxy) private var useReadingsProxy
     @Default(.backendPreference) private var backendPreference
+    @Default(.activeBackend) private var activeBackend
 
     @State private var showCompleteAlert = false
 
@@ -79,10 +80,16 @@ struct ExperimentalView: View {
                 }
                 .pickerStyle(.menu)
             } footer: {
-                if backendPreference == .automatic {
-                    Text("Automatic is currently using \(Backend.current.name). Changes apply from the next Live Activity.")
+                let wanted = Backend.wanted
+                if wanted == activeBackend {
+                    Text("Using \(activeBackend.name). Switching servers restarts a running Live Activity.")
                 } else {
-                    Text("Changes apply from the next Live Activity.")
+                    Text("Using \(activeBackend.name), switching to \(wanted.name). Switching servers restarts a running Live Activity.")
+                }
+            }
+            .onChange(of: backendPreference) {
+                Task {
+                    await LiveActivityManager.shared.migrateBackendIfNeeded()
                 }
             }
 

@@ -96,7 +96,15 @@ struct BackendRolloutTests {
 @Suite(.serialized)
 struct BackendPersistenceTests {
 
-    @Test func test_currentUsesPersistedPreference() {
+    @Test func test_activeBackendDefaultsToFly() {
+        let saved = Defaults[.activeBackend]
+        defer { Defaults[.activeBackend] = saved }
+
+        Defaults.reset(.activeBackend)
+        #expect(Backend.active == .fly)
+    }
+
+    @Test func test_wantedUsesPersistedPreference() {
         let saved = (Defaults[.cloudflareRollout], Defaults[.backendPreference])
         defer {
             Defaults[.cloudflareRollout] = saved.0
@@ -106,10 +114,10 @@ struct BackendPersistenceTests {
         // An explicit choice needs no username, so this holds whoever is signed in.
         Defaults[.cloudflareRollout] = 0
         Defaults[.backendPreference] = .cloudflare
-        #expect(Backend.current == .cloudflare)
+        #expect(Backend.wanted == .cloudflare)
         Defaults[.cloudflareRollout] = 1
         Defaults[.backendPreference] = .fly
-        #expect(Backend.current == .fly)
+        #expect(Backend.wanted == .fly)
     }
 
 }
@@ -141,46 +149,100 @@ struct BannersDecodingTests {
 
 }
 
-struct LiveActivityBackendsTests {
+@MainActor
+final class FakeMigratorHost: BackendMigratorHost {
+    var isInForeground = true
+    var wantedBackend: Backend = .fly
+    var activeBackend: Backend = .fly {
+        didSet { log.append("switch \(activeBackend.rawValue)") }
+    }
+    var runningActivityIDs: [String] = []
+    var endSucceeds = true
+    var log: [String] = []
+    var recorded: [[String: String]] = []
 
-    @Test func test_newActivityUsesCurrentAndSticks() {
-        var backends = LiveActivityBackends()
-        #expect(backends.register("a", current: .cloudflare) == .cloudflare)
-        #expect(backends.register("a", current: .fly) == .cloudflare)
-        #expect(backends.backend(for: "a", current: .fly) == .cloudflare)
+    func endRunningActivitiesLocally() async -> [String] {
+        defer { runningActivityIDs = [] }
+        log.append(contentsOf: runningActivityIDs.map { "end local \($0)" })
+        return runningActivityIDs
     }
 
-    @Test func test_knownActivityKeepsItsBackend() {
-        var backends = LiveActivityBackends(byActivityID: ["old": .fly])
-        #expect(backends.register("old", current: .cloudflare) == .fly)
-        #expect(backends.register("new", current: .cloudflare) == .cloudflare)
+    func endLiveActivity(_ activityID: String, on backend: Backend) async -> Bool {
+        log.append("end \(activityID) on \(backend.rawValue)")
+        await Task.yield()
+        return endSucceeds
     }
 
-    @Test func test_unregisteredActivityUsesCurrentWithoutRemembering() {
-        let backends = LiveActivityBackends()
-        #expect(backends.backend(for: "a", current: .cloudflare) == .cloudflare)
-        #expect(backends.byActivityID.isEmpty)
+    func startLiveActivity() async throws {
+        log.append("start on \(activeBackend.rawValue)")
     }
 
-    @Test func test_endAllReachesBothBackends() {
-        #expect(LiveActivityBackends().allBackends(current: .fly) == [.fly, .cloudflare])
-        #expect(LiveActivityBackends().allBackends(current: .cloudflare) == [.fly, .cloudflare])
-        #expect(LiveActivityBackends(byActivityID: ["a": .local]).allBackends(current: .fly) == [.fly, .cloudflare, .local])
+    func record(_ name: String, _ attributes: [String: String]) {
+        recorded.append(attributes)
+    }
+}
+
+@MainActor
+struct BackendMigratorTests {
+
+    @Test func test_doesNothingWhenWantedIsActive() async {
+        let host = FakeMigratorHost()
+        host.runningActivityIDs = ["a"]
+        await BackendMigrator(host: host).migrateIfNeeded()
+        #expect(host.log.isEmpty)
+        #expect(host.recorded.isEmpty)
     }
 
-    @Test func test_pruneForgetsEndedActivities() {
-        var backends = LiveActivityBackends(byActivityID: ["running": .fly, "ended": .cloudflare])
-        #expect(backends.prune(keeping: ["running"]) == ["ended": .cloudflare])
-        #expect(backends.byActivityID == ["running": .fly])
-
-        backends.forget("running")
-        #expect(backends.byActivityID.isEmpty)
+    @Test func test_switchesWithoutStartingWhenNothingRuns() async {
+        let host = FakeMigratorHost()
+        host.wantedBackend = .cloudflare
+        await BackendMigrator(host: host).migrateIfNeeded()
+        #expect(host.log == ["switch cloudflare"])
+        #expect(host.recorded.first?["restarted"] == "false")
     }
 
-    @Test func test_roundTripsThroughStorage() throws {
-        let backends = LiveActivityBackends(byActivityID: ["a": .fly, "b": .cloudflare])
-        let decoded = try JSONDecoder().decode(LiveActivityBackends.self, from: JSONEncoder().encode(backends))
-        #expect(decoded == backends)
+    @Test func test_restartsRunningActivityOnNewBackend() async {
+        let host = FakeMigratorHost()
+        host.wantedBackend = .cloudflare
+        host.runningActivityIDs = ["a"]
+        await BackendMigrator(host: host).migrateIfNeeded()
+        #expect(host.log == ["end local a", "end a on fly", "switch cloudflare", "start on cloudflare"])
+        #expect(host.recorded == [[
+            "from": "fly", "to": "cloudflare", "ended_activities": "1", "ends_acknowledged": "1", "restarted": "true",
+        ]])
+    }
+
+    @Test func test_serverEndFailureStillSwitches() async {
+        let host = FakeMigratorHost()
+        host.wantedBackend = .cloudflare
+        host.runningActivityIDs = ["a"]
+        host.endSucceeds = false
+        await BackendMigrator(host: host).migrateIfNeeded()
+        #expect(host.activeBackend == .cloudflare)
+        #expect(host.log.last == "start on cloudflare")
+        #expect(host.recorded.first?["ends_acknowledged"] == "0")
+    }
+
+    @Test func test_doesNotMigrateInBackground() async {
+        let host = FakeMigratorHost()
+        host.isInForeground = false
+        host.wantedBackend = .cloudflare
+        host.runningActivityIDs = ["a"]
+        await BackendMigrator(host: host).migrateIfNeeded()
+        #expect(host.activeBackend == .fly)
+        #expect(host.log.isEmpty)
+    }
+
+    @Test func test_concurrentTriggersMigrateOnce() async {
+        let host = FakeMigratorHost()
+        host.wantedBackend = .cloudflare
+        host.runningActivityIDs = ["a"]
+        let migrator = BackendMigrator(host: host)
+        async let first: Void = migrator.migrateIfNeeded()
+        async let second: Void = migrator.migrateIfNeeded()
+        _ = await (first, second)
+        #expect(host.log == ["end local a", "end a on fly", "switch cloudflare", "start on cloudflare"])
+        #expect(host.recorded.count == 1)
     }
 
 }

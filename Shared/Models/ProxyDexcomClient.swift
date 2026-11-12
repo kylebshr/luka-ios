@@ -85,7 +85,7 @@ final class ProxyDexcomClient: DexcomClientService, @unchecked Sendable {
     }
 
     private func fetchFromProxy(minutes: Int, maxCount: Int) async throws -> [GlucoseReading] {
-        var request = client.makeRequest("glucose-readings", on: .current, query: [
+        var request = client.makeRequest("glucose-readings", query: [
             URLQueryItem(name: "minutes", value: String(minutes)),
             URLQueryItem(name: "maxCount", value: String(maxCount)),
         ])
