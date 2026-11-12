@@ -60,6 +60,26 @@ struct BackendRolloutTests {
     @Test func test_explicitChoiceOverridesRollout() {
         #expect(Backend.resolve(preference: .fly, rollout: 1, bucket: 0) == .fly)
         #expect(Backend.resolve(preference: .cloudflare, rollout: 0, bucket: 0.999) == .cloudflare)
+        #expect(Backend.resolve(preference: .cloudflare, rollout: 0, bucket: nil) == .cloudflare)
+    }
+
+    @Test func test_automaticWithoutUsernameStaysOnFly() {
+        #expect(Backend.resolve(preference: .automatic, rollout: 1, bucket: nil) == .fly)
+    }
+
+    @Test func test_bucketIsStablePerAccount() {
+        // A pure function of the username, so every device on the account agrees.
+        let bucket = Backend.rolloutBucket(username: "someone@example.com")
+        #expect((0..<1).contains(bucket))
+        #expect(Backend.rolloutBucket(username: "someone@example.com") == bucket)
+        #expect(Backend.rolloutBucket(username: "  SomeOne@Example.COM\n") == bucket)
+        #expect(Backend.rolloutBucket(username: "someone-else@example.com") != bucket)
+    }
+
+    @Test func test_bucketMatchesSHA256Prefix() {
+        // SHA-256("abc") starts ba7816bf8f01cfea; its top 53 bits over 2^53.
+        let expected = Double(UInt64(0xba7816bf8f01cfea) >> 11) / Double(UInt64(1) << 53)
+        #expect(Backend.rolloutBucket(username: "ABC") == expected)
     }
 
     @Test func test_sanitizedRollout() {
@@ -76,33 +96,20 @@ struct BackendRolloutTests {
 @Suite(.serialized)
 struct BackendPersistenceTests {
 
-    @Test func test_bucketIsGeneratedOnceAndPersisted() {
-        let saved = Defaults[.backendRolloutBucket]
-        defer { Defaults[.backendRolloutBucket] = saved }
-
-        Defaults[.backendRolloutBucket] = nil
-        let bucket = Backend.rolloutBucket
-        #expect((0..<1).contains(bucket))
-        #expect(Defaults[.backendRolloutBucket] == bucket)
-        #expect(Backend.rolloutBucket == bucket)
-    }
-
-    @Test func test_currentUsesPersistedValues() {
-        let saved = (Defaults[.backendRolloutBucket], Defaults[.cloudflareRollout], Defaults[.backendPreference])
+    @Test func test_currentUsesPersistedPreference() {
+        let saved = (Defaults[.cloudflareRollout], Defaults[.backendPreference])
         defer {
-            Defaults[.backendRolloutBucket] = saved.0
-            Defaults[.cloudflareRollout] = saved.1
-            Defaults[.backendPreference] = saved.2
+            Defaults[.cloudflareRollout] = saved.0
+            Defaults[.backendPreference] = saved.1
         }
 
-        Defaults[.backendRolloutBucket] = 0.3
-        Defaults[.backendPreference] = .automatic
-        Defaults[.cloudflareRollout] = 0.5
-        #expect(Backend.current == .cloudflare)
-        Defaults[.cloudflareRollout] = 0.2
-        #expect(Backend.current == .fly)
+        // An explicit choice needs no username, so this holds whoever is signed in.
+        Defaults[.cloudflareRollout] = 0
         Defaults[.backendPreference] = .cloudflare
         #expect(Backend.current == .cloudflare)
+        Defaults[.cloudflareRollout] = 1
+        Defaults[.backendPreference] = .fly
+        #expect(Backend.current == .fly)
     }
 
 }

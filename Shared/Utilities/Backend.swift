@@ -5,8 +5,10 @@
 //  Created by Kyle Bashour on 12/18/25.
 //
 
+import CryptoKit
 import Defaults
 import Foundation
+import KeychainAccess
 
 /// The Luka servers. Hosts are compiled in, never remotely configured: the app sends
 /// Dexcom credentials to them, so remote config may only choose between these.
@@ -29,15 +31,20 @@ enum Backend: String, CaseIterable, Codable, Defaults.Serializable {
         resolve(
             preference: Defaults[.backendPreference],
             rollout: Defaults[.cloudflareRollout],
-            bucket: rolloutBucket
+            bucket: Keychain.shared.username.map(rolloutBucket(username:))
         )
     }
 
-    static func resolve(preference: BackendPreference, rollout: Double, bucket: Double) -> Backend {
+    /// With no bucket (no signed-in username), Automatic stays on Fly.
+    static func resolve(preference: BackendPreference, rollout: Double, bucket: Double?) -> Backend {
         switch preference {
-        case .automatic: bucket < rollout ? .cloudflare : .fly
-        case .cloudflare: .cloudflare
-        case .fly: .fly
+        case .automatic:
+            guard let bucket else { return .fly }
+            return bucket < rollout ? .cloudflare : .fly
+        case .cloudflare:
+            return .cloudflare
+        case .fly:
+            return .fly
         }
     }
 
@@ -48,14 +55,14 @@ enum Backend: String, CaseIterable, Codable, Defaults.Serializable {
         return min(max(value, 0), 1)
     }
 
-    /// This install's stable position in the rollout, in `0..<1`.
-    static var rolloutBucket: Double {
-        if let bucket = Defaults[.backendRolloutBucket] {
-            return bucket
-        }
-        let bucket = Double.random(in: 0..<1)
-        Defaults[.backendRolloutBucket] = bucket
-        return bucket
+    /// The Dexcom account's position in the rollout, in `0..<1`. Derived from the username
+    /// rather than per install so every device on an account lands on the same backend:
+    /// two backends polling one account doubles its Dexcom request rate.
+    static func rolloutBucket(username: String) -> Double {
+        let normalized = username.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        let prefix = SHA256.hash(data: Data(normalized.utf8)).prefix(8).reduce(UInt64(0)) { $0 << 8 | UInt64($1) }
+        // The top 53 bits fill a Double's mantissa exactly, so the result is always < 1.
+        return Double(prefix >> 11) / Double(UInt64(1) << 53)
     }
 
     var name: String {
