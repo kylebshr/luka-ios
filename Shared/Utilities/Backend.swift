@@ -8,7 +8,6 @@
 import CryptoKit
 import Defaults
 import Foundation
-import KeychainAccess
 
 /// The Luka servers. Hosts are compiled in, never remotely configured: the app sends
 /// Dexcom credentials to them, so remote config may only choose between these.
@@ -30,12 +29,15 @@ enum Backend: String, CaseIterable, Codable, Defaults.Serializable {
     }
 
     /// The backend this install should move to: the Server setting, or on Automatic the
-    /// account's rollout bucket against the last fetched `cloudflareRollout`.
+    /// primary account's rollout bucket against the last fetched `cloudflareRollout`.
+    /// An install uses one backend for all of its accounts.
     static var wanted: Self {
         resolve(
             preference: Defaults[.backendPreference],
             rollout: Defaults[.cloudflareRollout],
-            bucket: Keychain.shared.username.map(rolloutBucket(username:))
+            bucket: AccountStore.shared.primary
+                .flatMap { AccountStore.shared.credentials(for: $0)?.username }
+                .map(rolloutBucket(username:))
         )
     }
 

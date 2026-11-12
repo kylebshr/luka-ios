@@ -482,8 +482,9 @@ final class LiveActivityManager {
             }
             // Per activity, not `end-live-activities`, which would also dismiss the
             // activities of other devices signed in to the same account.
-            await sendEndLiveActivity(activityID: activity.id)
-            await activity.end(nil, dismissalPolicy: .immediate)
+            serverEndedActivityIDs.insert(activity.id)
+            await sendEndLiveActivity(for: activity)
+            await Self.endActivity(id: activity.id)
             ended += 1
         }
         Defaults[.activeBackend] = new
