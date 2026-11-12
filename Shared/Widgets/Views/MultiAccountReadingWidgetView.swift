@@ -33,54 +33,76 @@ struct MultiAccountReadingWidgetView: View {
             }
             .containerBackground(.background, for: .widget)
         default:
-            tiles
-                .padding(tileInsets)
-                .containerBackground(.background, for: .widget)
+            // The tiles are drawn in the container background, which always fills
+            // the widget, so they can sit closer to the edge than the content
+            // margins allow; pulling the content out with negative padding
+            // overflowed on a real Home Screen. The content is spaced so each
+            // account sits the same distance inside its own tile on every side.
+            cells(
+                horizontalSpacing: margins.leading + margins.trailing - tileSpacing,
+                verticalSpacing: margins.top + margins.bottom - tileSpacing
+            ) { index in
+                AccountReadingTile(entry: entry.account(at: index))
+            }
+            .containerBackground(for: .widget) {
+                cells(horizontalSpacing: tileSpacing, verticalSpacing: tileSpacing) { index in
+                    AccountReadingTileBackground(entry: entry.account(at: index))
+                }
+                .padding(tileSpacing)
+                .background(.background)
+            }
         }
     }
 
-    @ViewBuilder private var tiles: some View {
+    /// One equal cell per account: side by side on medium, stacked on small and
+    /// large, and a 2x2 grid for four.
+    @ViewBuilder private func cells<Cell: View>(
+        horizontalSpacing: CGFloat,
+        verticalSpacing: CGFloat,
+        @ViewBuilder cell: @escaping (Int) -> Cell
+    ) -> some View {
         let indices = Array(entry.accounts.indices)
 
         if family == .systemLarge && indices.count > 3 {
-            Grid(horizontalSpacing: tileSpacing, verticalSpacing: tileSpacing) {
+            VStack(spacing: verticalSpacing) {
                 ForEach(Array(stride(from: 0, to: indices.count, by: 2)), id: \.self) { start in
-                    GridRow {
+                    HStack(spacing: horizontalSpacing) {
                         ForEach(indices[start..<min(start + 2, indices.count)], id: \.self) { index in
-                            tile(at: index)
+                            cell(index).frame(maxWidth: .infinity, maxHeight: .infinity)
                         }
                     }
                 }
             }
         } else if family == .systemLarge || family == .systemSmall {
-            VStack(spacing: tileSpacing) {
+            VStack(spacing: verticalSpacing) {
                 ForEach(indices, id: \.self) { index in
-                    tile(at: index)
+                    cell(index).frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
             }
         } else {
-            HStack(spacing: tileSpacing) {
+            HStack(spacing: horizontalSpacing) {
                 ForEach(indices, id: \.self) { index in
-                    tile(at: index)
+                    cell(index).frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
             }
         }
     }
+}
 
-    private func tile(at index: Int) -> some View {
-        AccountReadingTile(entry: entry.account(at: index))
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-    }
+/// The tile behind one account: its reading's colour, or neutral when there is
+/// no reading to show.
+private struct AccountReadingTileBackground: View {
+    let entry: ReadingTimelineProvider.Entry
 
-    /// Tiles sit closer to the edge than the content margins, so their
-    /// container-relative corners stay concentric with the widget's.
-    private var tileInsets: EdgeInsets {
-        EdgeInsets(
-            top: tileSpacing - margins.top,
-            leading: tileSpacing - margins.leading,
-            bottom: tileSpacing - margins.bottom,
-            trailing: tileSpacing - margins.trailing
-        )
+    @Default(.targetRangeLowerBound) private var targetLower
+    @Default(.targetRangeUpperBound) private var targetUpper
+
+    var body: some View {
+        if case .reading(let reading) = entry.state {
+            ContainerRelativeShape().fill(reading.color(target: targetLower...targetUpper).gradient)
+        } else {
+            ContainerRelativeShape().fill(.fill.tertiary)
+        }
     }
 }
 
@@ -90,10 +112,8 @@ private struct AccountReadingTile: View {
     let entry: ReadingTimelineProvider.Entry
 
     @Environment(\.widgetRenderingMode) private var renderingMode
+    @Environment(\.showsWidgetContainerBackground) private var showsBackground
     @Environment(\.widgetFamily) private var family
-
-    @Default(.targetRangeLowerBound) private var targetLower
-    @Default(.targetRangeUpperBound) private var targetUpper
 
     var body: some View {
         Group {
@@ -128,10 +148,8 @@ private struct AccountReadingTile: View {
                 errorContent(error)
             }
         }
-        .padding(.spacing6)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
         .foregroundStyle(foreground)
-        .background(background, in: ContainerRelativeShape())
     }
 
     private func readingContent(_ reading: GlucoseReading) -> some View {
@@ -167,23 +185,13 @@ private struct AccountReadingTile: View {
         .foregroundStyle(.secondary)
     }
 
-    private var isFullColor: Bool {
-        renderingMode == .fullColor
-    }
-
+    /// Black on the reading's colour, which is only there when the system
+    /// shows the container background (not in tinted mode or StandBy).
     private var foreground: Color {
-        if case .reading = entry.state, isFullColor {
+        if case .reading = entry.state, renderingMode == .fullColor, showsBackground {
             .black
         } else {
             .primary
-        }
-    }
-
-    private var background: AnyShapeStyle {
-        if case .reading(let reading) = entry.state, isFullColor {
-            AnyShapeStyle(reading.color(target: targetLower...targetUpper).gradient)
-        } else {
-            AnyShapeStyle(.fill.tertiary)
         }
     }
 }
