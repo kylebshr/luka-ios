@@ -48,6 +48,14 @@ extension Defaults.Keys {
     // Device-local: following a sensor over Bluetooth is inherently per-device.
     static let directToG7Enabled = Key<Bool>("directToG7Enabled", default: false, suite: .shared)
 
+    // Backend rollout (see `Backend.current`). Device-local: the server is chosen per
+    // install, and the widget extension reads these to route the readings proxy. The
+    // rollout is the last value fetched from meta.json, so launches without a fetch
+    // (background, extensions, offline) keep the last known decision.
+    static let backendPreference = Key<BackendPreference>("backendPreference", default: .automatic, suite: .shared)
+    static let cloudflareRollout = Key<Double>("cloudflareRollout", default: 0, suite: .shared)
+    static let backendRolloutBucket = Key<Double?>("backendRolloutBucket", default: nil, suite: .shared)
+
     // Supporter subscription prompts. The start count is bumped by the intent, which can
     // run in the widget extension (Control Center, Shortcuts), so it lives in the shared
     // suite. Dismissals sync so the user isn't asked again on every device.

@@ -82,7 +82,7 @@ final class ClientEventReporter {
 
         await client.withBackgroundTask(name: "LiveActivity.clientEvents") {
             do {
-                let request = try client.makePostRequest("client-event", body: payload)
+                let request = try client.makePostRequest("client-event", on: .current, body: payload)
                 try await client.send(request)
                 // Drop exactly what was sent; anything recorded mid-flight stays queued.
                 Defaults[.pendingClientEvents].removeAll { batch.contains($0) }

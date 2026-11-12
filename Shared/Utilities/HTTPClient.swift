@@ -12,24 +12,23 @@ import Foundation
 /// with the client release.
 struct HTTPClient {
     /// A non-2xx response, for callers that treat one as a failure. `send` itself does
-    /// not throw on status so callers that expect a 404 (the readings proxy) keep working.
+    /// not throw on status so callers can branch on the ones they expect (a 410 from
+    /// `start-live-activity`).
     struct StatusError: Error, CustomStringConvertible {
         var statusCode: Int
         var description: String { "HTTP \(statusCode)" }
     }
 
-    var baseURL: URL
     var session: URLSession
 
-    init(baseURL: URL = Backend.current.baseURL, session: URLSession = .shared) {
-        self.baseURL = baseURL
+    init(session: URLSession = .shared) {
         self.session = session
     }
 
-    /// Build a request to `path` with standard Luka headers applied.
-    func makeRequest(_ path: String, query: [URLQueryItem] = []) -> URLRequest {
+    /// Build a request to `path` on `backend` with standard Luka headers applied.
+    func makeRequest(_ path: String, on backend: Backend, query: [URLQueryItem] = []) -> URLRequest {
         var components = URLComponents(
-            url: baseURL.appendingPathComponent(path),
+            url: backend.url(for: path),
             resolvingAgainstBaseURL: false
         )!
         if !query.isEmpty {
@@ -42,9 +41,9 @@ struct HTTPClient {
         return request
     }
 
-    /// Build a JSON-encoded POST request to `path` with standard Luka headers.
-    func makePostRequest<Body: Encodable>(_ path: String, body: Body) throws -> URLRequest {
-        var request = makeRequest(path)
+    /// Build a JSON-encoded POST request to `path` on `backend` with standard Luka headers.
+    func makePostRequest<Body: Encodable>(_ path: String, on backend: Backend, body: Body) throws -> URLRequest {
+        var request = makeRequest(path, on: backend)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = try JSONEncoder().encode(body)

@@ -78,6 +78,7 @@ struct LiveActivityDebugView: View {
                     .multilineTextAlignment(.trailing)
             }
             LabeledContent("State", value: stateDescription(activity.activityState))
+            LabeledContent("Server", value: Defaults[.liveActivityBackends]?.byActivityID[activity.id]?.name ?? "none")
             LabeledContent("Attributes range", value: "\(activity.attributes.range)")
 
             if let staleDate = content.staleDate {

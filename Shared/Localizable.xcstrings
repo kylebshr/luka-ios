@@ -501,6 +501,86 @@
         }
       }
     },
+    "Automatic" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatisch"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automático"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatique"
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatique"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatisk"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatiskt"
+          }
+        }
+      }
+    },
+    "Automatic is currently using %@. Changes apply from the next Live Activity." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatisch verwendet derzeit %@. Änderungen gelten ab der nächsten Live-Aktivität."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automático usa actualmente %@. Los cambios se aplican a partir de la próxima Actividad en Vivo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatique utilise actuellement %@. Les modifications s’appliquent à partir de la prochaine activité en direct."
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatique utilise actuellement %@. Les modifications s’appliquent à partir de la prochaine activité en direct."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatisk bruker nå %@. Endringer gjelder fra neste Live Activity."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatiskt använder just nu %@. Ändringar gäller från nästa Live Activity."
+          }
+        }
+      }
+    },
     "Automatically restart Live Activity" : {
       "localizations" : {
         "de" : {
@@ -537,6 +617,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Starta om Live Activity automatiskt"
+          }
+        }
+      }
+    },
+    "Changes apply from the next Live Activity." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Änderungen gelten ab der nächsten Live-Aktivität."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los cambios se aplican a partir de la próxima Actividad en Vivo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les modifications s’appliquent à partir de la prochaine activité en direct."
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les modifications s’appliquent à partir de la prochaine activité en direct."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Endringer gjelder fra neste Live Activity."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ändringar gäller från nästa Live Activity."
           }
         }
       }
@@ -4296,6 +4416,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Välj en kontoplats för att komma igång"
+          }
+        }
+      }
+    },
+    "Server" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Server"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Servidor"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Serveur"
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Serveur"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Server"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Server"
           }
         }
       }
