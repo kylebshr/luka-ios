@@ -147,6 +147,7 @@
 				Models/ReadingAttributes.swift,
 				Models/StartLiveActivityRequest.swift,
 				"Models/Unit+Extensions.swift",
+				Models/WidgetAccountCapacity.swift,
 				"Modifiers/View+Modifiers.swift",
 				Style/CardModifier.swift,
 				Style/CardTextFieldStyle.swift,

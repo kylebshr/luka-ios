@@ -11,6 +11,7 @@ import Defaults
 
 struct GraphTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider {
     typealias Entry = GlucoseEntry<GlucoseGraphEntryData>
+    static let kind = AccountWidgetKind.graph
 
     func placeholder(in context: Context) -> Entry {
         GlucoseEntry(
@@ -27,13 +28,13 @@ struct GraphTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider 
     }
 
     func snapshot(for configuration: GraphWidgetConfiguration, in context: Context) async -> Entry {
-        let state = await makeState(for: configuration)
-        return GlucoseEntry(date: .now, widgetURL: configuration.app.url, state: state)
+        let accounts = await makeAccounts(for: configuration, in: context)
+        return GlucoseEntry(date: .now, widgetURL: configuration.app.url, accounts: accounts)
     }
 
     func timeline(for configuration: GraphWidgetConfiguration, in context: Context) async -> Timeline<Entry> {
-        let state = await makeState(for: configuration)
-        return buildTimeline(for: state, widgetURL: configuration.app.url)
+        let accounts = await makeAccounts(for: configuration, in: context)
+        return buildTimeline(for: accounts, widgetURL: configuration.app.url)
     }
 
     func recommendations() -> [AppIntentRecommendation<GraphWidgetConfiguration>] {
@@ -50,34 +51,22 @@ struct GraphTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider 
         }
     }
 
-    private func makeState(for configuration: GraphWidgetConfiguration) async -> Entry.State {
-        guard let account = account(for: configuration),
-              let client = await makeClient(for: account) else {
-            return .error(.loggedOut)
-        }
-
-        do {
-            let readings = try await client.getGraphReadings(
-                duration: .init(
-                    value: configuration.graphRange.timeInterval,
-                    unit: .seconds
-                )
-            )
-
+    private func makeAccounts(for configuration: GraphWidgetConfiguration, in context: Context) async -> [Entry.Account] {
+        let duration = Measurement<UnitDuration>(value: configuration.graphRange.timeInterval, unit: .seconds)
+        return await makeAccounts(for: configuration, family: context.family) { client in
+            try await client.getGraphReadings(duration: duration)
+        } makeState: { readings in
             if let current = readings.last, Date.now.timeIntervalSince(current.date) < 60 * 15 {
-                return .reading(
+                .reading(
                     GlucoseGraphEntryData(
                         configuration: configuration,
                         current: current,
-                        history: readings,
-                        accountName: accountName(for: account)
+                        history: readings
                     )
                 )
             } else {
-                return .error(.noRecentReadings)
+                .error(.noRecentReadings)
             }
-        } catch {
-            return .error(.failedToLoad)
         }
     }
 }

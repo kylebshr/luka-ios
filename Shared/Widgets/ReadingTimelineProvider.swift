@@ -11,18 +11,19 @@ import Defaults
 
 struct ReadingTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvider {
     typealias Entry = GlucoseEntry<GlucoseReading>
+    static let kind = AccountWidgetKind.reading
 
     func placeholder(in context: Context) -> Entry {
         GlucoseEntry(date: .now, widgetURL: nil, state: .reading(.placeholder))
     }
     
     func snapshot(for configuration: ReadingWidgetConfiguration, in context: Context) async -> Entry {
-        await Entry(date: .now, widgetURL: configuration.url, state: makeState(for: configuration))
+        await Entry(date: .now, widgetURL: configuration.url, accounts: makeAccounts(for: configuration, in: context))
     }
 
     func timeline(for configuration: ReadingWidgetConfiguration, in context: Context) async -> Timeline<Entry> {
-        let state = await makeState(for: configuration)
-        return buildTimeline(for: state, widgetURL: configuration.url)
+        let accounts = await makeAccounts(for: configuration, in: context)
+        return buildTimeline(for: accounts, widgetURL: configuration.url)
     }
 
     func recommendations() -> [AppIntentRecommendation<ReadingWidgetConfiguration>] {
@@ -36,20 +37,15 @@ struct ReadingTimelineProvider: AppIntentTimelineProvider, DexcomTimelineProvide
         return [AppIntentRecommendation(intent: ReadingWidgetConfiguration(), description: "Current Reading")]
     }
 
-    private func makeState(for configuration: ReadingWidgetConfiguration) async -> Entry.State {
-        guard let account = account(for: configuration),
-              let client = await makeClient(for: account) else {
-            return .error(.loggedOut)
-        }
-
-        do {
-            if let current = try await client.getLatestGlucoseReading(), Date.now.timeIntervalSince(current.date) < 60 * 15 {
-                return .reading(current)
+    private func makeAccounts(for configuration: ReadingWidgetConfiguration, in context: Context) async -> [Entry.Account] {
+        await makeAccounts(for: configuration, family: context.family) { client in
+            try await client.getLatestGlucoseReading()
+        } makeState: { reading in
+            if let reading, Date.now.timeIntervalSince(reading.date) < 60 * 15 {
+                .reading(reading)
             } else {
-                return .error(.noRecentReadings)
+                .error(.noRecentReadings)
             }
-        } catch {
-            return .error(.failedToLoad)
         }
     }
 }

@@ -202,16 +202,24 @@ let refreshDate = latestReading.date + (5 * 60) + 15
 ### Widget Configuration Intents
 
 ```swift
-struct ReadingWidgetConfiguration: WidgetConfigurationIntent {
+struct ReadingWidgetConfiguration: AccountWidgetConfiguration {
     @Parameter var tapAction: WidgetTapAction  // refresh/launch
     @Parameter var app: LaunchableApp
+    @Parameter(size: [...]) var accounts: [AccountEntity]?
 }
 
-struct GraphWidgetConfiguration: WidgetConfigurationIntent {
+struct GraphWidgetConfiguration: AccountWidgetConfiguration {
     @Parameter var graphRange: GraphRange      // 1h to 24h
     @Parameter var app: LaunchableApp
+    @Parameter(size: [...]) var accounts: [AccountEntity]?
 }
 ```
+
+### Multiple Accounts
+
+- `AccountResolution.widgetAccounts` decides what a widget shows: the only account when one is signed in; otherwise the configured accounts still signed in, in order, up to the family's capacity, falling back to the primary.
+- `AccountWidgetKind.capacity(for:)` (`Shared/Models/WidgetAccountCapacity.swift`) is the per-family table. The `size:` literal on each `accounts` parameter must match it (the metadata processor rejects non-literals); `WidgetAccountCapacityTests` checks the built metadata.
+- `GlucoseEntry.accounts` holds a state per account, fetched concurrently; one failing doesn't blank the others. `MultiAccountReadingWidgetView` (tiles / Lock Screen rows) and `MultiAccountGraphWidgetView` (columns / rows) draw 2+ accounts; one account uses the original views, named only when several are signed in.
 
 ## Live Activity
 

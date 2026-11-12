@@ -46,7 +46,7 @@ struct WidgetGraphView: View {
     private var trailingLabel: String {
         switch family {
         case .systemMedium, .systemLarge:
-            if let accountName = data.accountName {
+            if let accountName = entry.accountName {
                 return "\(accountName) · \(data.graphRangeTitle)"
             }
             return data.graphRangeTitle

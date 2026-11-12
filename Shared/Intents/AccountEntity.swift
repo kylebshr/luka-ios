@@ -38,8 +38,8 @@ struct AccountEntityQuery: EntityQuery {
     }
 }
 
-/// A widget configuration with an optional account. Unset (every widget added
-/// before multi-account) follows the primary account.
+/// A widget configuration with a list of accounts to show. See
+/// `AccountResolution.widgetAccounts` for how it resolves.
 protocol AccountWidgetConfiguration: WidgetConfigurationIntent {
-    var account: AccountEntity? { get }
+    var accounts: [AccountEntity]? { get }
 }

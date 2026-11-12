@@ -17,6 +17,7 @@ struct SystemWidgetReadingView: View {
     @Environment(\.widgetContentMargins) private var margins
     @Environment(\.widgetRenderingMode) private var renderingMode
     @Environment(\.showsWidgetContainerBackground) var showsBackground
+    @Environment(\.widgetFamily) private var family
 
     @Default(.targetRangeLowerBound) private var targetLower
     @Default(.targetRangeUpperBound) private var targetUpper
@@ -25,9 +26,26 @@ struct SystemWidgetReadingView: View {
         margins.leading > 0 && margins.leading < 10 && !showsBackground
     }
 
+    /// The account's name, when several are signed in and there's room for it.
+    private var accountName: String? {
+        guard !isInStandby, family != .accessoryRectangular else { return nil }
+        return entry.accountName
+    }
+
     var body: some View {
         VStack(alignment: isInStandby ? .center : .leading, spacing: 0) {
             if isInStandby {
+                Spacer(minLength: 0)
+            }
+
+            // Matches a multi-account tile: name at the top, reading at the bottom.
+            if let accountName {
+                Text(verbatim: accountName)
+                    .font(.system(.subheadline, design: .rounded))
+                    .fontWeight(.semibold)
+                    .lineLimit(1)
+                    .unredacted()
+
                 Spacer(minLength: 0)
             }
 
@@ -38,13 +56,13 @@ struct SystemWidgetReadingView: View {
                 .minimumScaleFactor(0.5)
                 .foregroundStyle(readingColor)
 
-            if !isInStandby {
+            if !isInStandby && accountName == nil {
                 Spacer(minLength: 0)
             }
 
             Button(intent: ReloadWidgetIntent()) {
                 WidgetButtonContent(
-                    text: reading.timestamp(for: entry.date),
+                    text: timestamp,
                     image: entry.shouldRefresh ? "arrow.triangle.2.circlepath" : nil
                 )
                 .foregroundStyle(.secondary)
@@ -58,6 +76,15 @@ struct SystemWidgetReadingView: View {
         .containerBackground(reading.color(target: targetLower...targetUpper).gradient, for: .widget)
         .foregroundStyle(useBlackForeground ? .black : .primary)
         .frame(maxWidth: .infinity, alignment: isInStandby ? .center : .leading)
+    }
+
+    private var timestamp: String {
+        let timestamp = reading.timestamp(for: entry.date)
+        // The Lock Screen has no room for a name above the reading.
+        if family == .accessoryRectangular, !isInStandby, let name = entry.accountName {
+            return "\(name) · \(reading.timestamp(for: entry.date, style: .abbreviated))"
+        }
+        return timestamp
     }
 
     private var useBlackForeground: Bool {

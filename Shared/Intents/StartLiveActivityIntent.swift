@@ -142,19 +142,10 @@ struct StartLiveActivityIntent: LiveActivityIntent {
     }
 
     private static func activityName(for account: DexcomAccount) -> String {
-        activityName(
+        AccountResolution.shortName(
             displayName: account.displayName,
             username: AccountStore.shared.credentials(for: account)?.username ?? ""
         )
-    }
-
-    /// The account's name, short enough for the Dynamic Island: an unnamed account's
-    /// username (usually an email address) without its domain.
-    static func activityName(displayName: String, username: String) -> String {
-        if !displayName.isEmpty {
-            return displayName
-        }
-        return username.split(separator: "@", maxSplits: 1).first.map(String.init) ?? username
     }
 
     /// The error to show when no account started, from per-account errors in

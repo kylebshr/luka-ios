@@ -20,9 +20,39 @@ struct GlucoseEntry<Data: GlucoseEntryData>: TimelineEntry {
         case reading(Data)
     }
 
+    /// One account's slot in the widget.
+    struct Account {
+        /// Only set when more than one account is signed in.
+        var name: String?
+        var state: State
+    }
+
     let date: Date
     let widgetURL: URL?
-    let state: State
+    /// The accounts shown, in order. Never empty.
+    let accounts: [Account]
+
+    init(date: Date, widgetURL: URL?, state: State, accountName: String? = nil) {
+        self.init(date: date, widgetURL: widgetURL, accounts: [Account(name: accountName, state: state)])
+    }
+
+    init(date: Date, widgetURL: URL?, accounts: [Account]) {
+        precondition(!accounts.isEmpty)
+        self.date = date
+        self.widgetURL = widgetURL
+        self.accounts = accounts
+    }
+
+    /// The first (for a single-account widget, the only) account's state.
+    var state: State { accounts[0].state }
+    var accountName: String? { accounts[0].name }
+
+    var showsMultipleAccounts: Bool { accounts.count > 1 }
+
+    /// This entry narrowed to one of its accounts, for views that draw one.
+    func account(at index: Int) -> GlucoseEntry {
+        GlucoseEntry(date: date, widgetURL: widgetURL, accounts: [accounts[index]])
+    }
 
     var isExpired: Bool {
         switch state {

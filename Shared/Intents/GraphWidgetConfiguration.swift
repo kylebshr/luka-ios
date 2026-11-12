@@ -21,8 +21,18 @@ struct GraphWidgetConfiguration: AccountWidgetConfiguration {
     @Parameter(title: "Launch on Tap", default: .luka)
     var app: LaunchableApp
 
-    @Parameter(title: "Account", description: "Shows your first account if not set.")
-    var account: AccountEntity?
+    @Parameter(
+        title: "Accounts",
+        description: "Shows your first account if none are chosen.",
+        // Must match AccountWidgetKind.capacity(for:); LukaTests checks.
+        size: [
+            .systemSmall: .init(min: 0, max: 1),
+            .systemMedium: .init(min: 0, max: 2),
+            .systemLarge: .init(min: 0, max: 3),
+            .accessoryRectangular: .init(min: 0, max: 1),
+        ]
+    )
+    var accounts: [AccountEntity]?
 }
 
 extension GraphWidgetConfiguration {

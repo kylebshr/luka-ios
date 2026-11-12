@@ -21,8 +21,6 @@ struct GlucoseGraphEntryData: GlucoseEntryData {
     var configuration: GraphWidgetConfiguration
     var current: GlucoseReading
     var history: [GlucoseReading]
-    /// Only set when more than one account is signed in.
-    var accountName: String? = nil
 
     var graphRangeTitle: String {
         configuration.graphRange.abbreviatedName

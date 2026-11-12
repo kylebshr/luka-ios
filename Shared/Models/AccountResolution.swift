@@ -11,7 +11,7 @@ import Foundation
 /// a Live Activity's attributes) points at. Pure, so it's testable without the
 /// keychain.
 enum AccountResolution {
-    /// The referenced account, or the primary when unset (e.g. widgets configured
+    /// The referenced account, or the primary when unset (e.g. data recorded
     /// before multi-account) or no longer signed in.
     static func accountOrPrimary(
         for id: DexcomAccount.ID?,
@@ -21,6 +21,36 @@ enum AccountResolution {
             return account
         }
         return accounts.first
+    }
+
+    /// The accounts a widget shows. With a single signed-in account that's always
+    /// the one, whatever is configured. Otherwise the configured accounts still
+    /// signed in, in configured order, up to `capacity`; or just the primary when
+    /// none are configured (every widget added before multi-account) or none are
+    /// left.
+    static func widgetAccounts(
+        configured ids: [DexcomAccount.ID],
+        in accounts: [DexcomAccount],
+        capacity: Int
+    ) -> [DexcomAccount] {
+        guard accounts.count > 1 else { return accounts }
+
+        var seen = Set<DexcomAccount.ID>()
+        let configured = ids
+            .filter { seen.insert($0).inserted }
+            .compactMap { id in accounts.first { $0.id == id } }
+            .prefix(max(capacity, 1))
+
+        return configured.isEmpty ? [accounts[0]] : Array(configured)
+    }
+
+    /// The account's name, short enough for a widget cell or the Dynamic Island:
+    /// an unnamed account's username (usually an email address) without its domain.
+    static func shortName(displayName: String, username: String) -> String {
+        if !displayName.isEmpty {
+            return displayName
+        }
+        return username.split(separator: "@", maxSplits: 1).first.map(String.init) ?? username
     }
 
     enum LiveActivityOwner: Equatable {

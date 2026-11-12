@@ -15,6 +15,19 @@ struct ReadingWidgetView: View {
     @Environment(\.widgetFamily) private var family
 
     var body: some View {
+        // Every watch family shows one account.
+        #if os(iOS)
+        if entry.showsMultipleAccounts {
+            MultiAccountReadingWidgetView(entry: entry)
+        } else {
+            singleAccountView
+        }
+        #else
+        singleAccountView
+        #endif
+    }
+
+    @ViewBuilder private var singleAccountView: some View {
         switch entry.state {
         case .reading(let reading):
             readingView(for: reading)

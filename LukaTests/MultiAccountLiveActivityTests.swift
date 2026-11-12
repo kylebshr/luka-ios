@@ -44,7 +44,7 @@ struct AccountResolutionTests {
     private let second = DexcomAccount(accountLocation: .apac)
     private let legacy = DexcomAccount(id: AccountStore.legacyAccountID, accountLocation: .usa)
 
-    // MARK: Widgets
+    // MARK: Account or primary
 
     @Test func test_widgetUnsetUsesPrimary() {
         #expect(AccountResolution.accountOrPrimary(for: nil, in: [first, second]) == first)
@@ -107,12 +107,12 @@ struct StartLiveActivityErrorTests {
 struct LiveActivityNameTests {
 
     @Test func test_prefersDisplayName() {
-        #expect(StartLiveActivityIntent.activityName(displayName: "Alex", username: "alex.smith@example.com") == "Alex")
+        #expect(AccountResolution.shortName(displayName: "Alex", username: "alex.smith@example.com") == "Alex")
     }
 
     @Test func test_dropsEmailDomainFromUsername() {
-        #expect(StartLiveActivityIntent.activityName(displayName: "", username: "alex.smith@example.com") == "alex.smith")
-        #expect(StartLiveActivityIntent.activityName(displayName: "", username: "alexsmith") == "alexsmith")
+        #expect(AccountResolution.shortName(displayName: "", username: "alex.smith@example.com") == "alex.smith")
+        #expect(AccountResolution.shortName(displayName: "", username: "alexsmith") == "alexsmith")
     }
 }
 
