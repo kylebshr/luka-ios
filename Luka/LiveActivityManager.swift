@@ -30,6 +30,9 @@ final class LiveActivityManager {
     /// Activities whose server session was already ended explicitly (signing out of their
     /// account), so observing them end doesn't send a second end.
     private var serverEndedActivityIDs: Set<String> = []
+    /// Activities seen to end. `Activity.activities` can keep listing one as running for a
+    /// moment after its state update fires, so these are left out of the running state.
+    private var endedActivityIDs: Set<String> = []
     private var activityUpdatesTask: Task<Void, Never>?
     private var pushToStartTask: Task<Void, Never>?
     private var isSwitchingBackend = false
@@ -144,8 +147,9 @@ final class LiveActivityManager {
         await reporter.flushNow()
     }
 
-    func syncState(excluding excludedID: String? = nil) {
-        ReadingAttributes.syncIsRunningDefault(excluding: excludedID)
+    func syncState() {
+        endedActivityIDs.formIntersection(Activity<ReadingAttributes>.activities.map(\.id))
+        ReadingAttributes.syncIsRunningDefault(excluding: endedActivityIDs)
         ControlCenter.shared.reloadAllControls()
     }
 
@@ -209,8 +213,9 @@ final class LiveActivityManager {
                     //
                     // Exclude this activity from the running check: Activity.activities can
                     // still report it as running for a moment after this state update fires.
+                    endedActivityIDs.insert(activity.id)
                     await client.withBackgroundTask(name: "LiveActivity.handleEnd") {
-                        syncState(excluding: activity.id)
+                        syncState()
                         if serverEndedActivityIDs.remove(activity.id) == nil {
                             await sendEndLiveActivity(for: activity)
                         }
@@ -461,8 +466,8 @@ final class LiveActivityManager {
     }
 
     /// Moves this install to the wanted backend. A backend only pushes to the activities
-    /// registered with it, so a running Live Activity is ended and a fresh one started on
-    /// the new backend. ActivityKit only starts activities in the foreground, so anything
+    /// registered with it, so each running Live Activity is ended and a fresh one started on
+    /// the new backend for the same account. ActivityKit only starts activities in the foreground, so anything
     /// else waits for the next foreground.
     func switchBackendIfNeeded() async {
         let old = Backend.active, new = Backend.wanted
@@ -471,6 +476,7 @@ final class LiveActivityManager {
         defer { isSwitchingBackend = false }
 
         var ended = 0
+        var restartAccountIDs = Set<DexcomAccount.ID>()
         for activity in Activity<ReadingAttributes>.activities {
             switch activity.activityState {
             case .active, .pending, .stale:
@@ -482,6 +488,9 @@ final class LiveActivityManager {
             }
             // Per activity, not `end-live-activities`, which would also dismiss the
             // activities of other devices signed in to the same account.
+            if case .account(let account, _) = owner(of: activity) {
+                restartAccountIDs.insert(account.id)
+            }
             serverEndedActivityIDs.insert(activity.id)
             await sendEndLiveActivity(for: activity)
             await Self.endActivity(id: activity.id)
@@ -490,9 +499,9 @@ final class LiveActivityManager {
         Defaults[.activeBackend] = new
 
         var attributes = ["from": old.rawValue, "to": new.rawValue, "ended_activities": String(ended)]
-        if ended > 0 {
+        if !restartAccountIDs.isEmpty {
             do {
-                _ = try await StartLiveActivityIntent(source: "BackendSwitch").perform()
+                try await StartLiveActivityIntent.start(accountIDs: restartAccountIDs, source: "BackendSwitch")
                 syncState()
             } catch {
                 attributes["restart_error"] = String(describing: error).prefix(120).description

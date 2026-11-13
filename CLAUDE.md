@@ -231,6 +231,13 @@ struct GraphWidgetConfiguration: AccountWidgetConfiguration {
 4. Backend sends push updates with new readings
 5. On end, signal sent to `https://a1c.dev/end-live-activity`
 
+### Per-account control
+
+- One activity per account (`ReadingAttributes.accountID`; nil = legacy/primary, see `AccountResolution.liveActivityOwner`).
+- `StartLiveActivityIntent` / `EndLiveActivityIntent` take an optional `account` (`AccountEntity`, also a Shortcuts parameter): set = only that account's activities are replaced/ended; unset = every account. The Control Center toggle and the main list button act on all.
+- `Defaults[.isLiveActivityRunning]` (any running) and `Defaults[.liveActivityAccountIDs]` (which accounts) are both written by `ReadingAttributes.syncIsRunningDefault`, via `LiveActivityManager.syncState()`.
+- `LiveActivityButton` (Luka/Views) is the bottom button for the root (all accounts) and a pushed account detail (that account); account cards show a bolt while their account's activity runs.
+
 ### Dynamic Island Regions
 
 - **Expanded**: Leading (value), Trailing (arrow), Center (timestamp), Bottom (optional graph)

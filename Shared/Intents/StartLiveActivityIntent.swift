@@ -36,25 +36,49 @@ struct StartLiveActivityIntent: LiveActivityIntent {
     static let title: LocalizedStringResource = "Start Live Activity"
     static let description = IntentDescription("Monitor glucose readings in a Live Activity.")
 
+    @Parameter(
+        title: "Account",
+        description: "The account to follow. Leave empty to start one for every account."
+    )
+    var account: AccountEntity?
+
     private var source: String = "none"
 
     init() {}
 
-    init(source: String) {
+    /// Starts `account`'s activity, or with nil one for every account.
+    init(source: String, account: DexcomAccount? = nil) {
         self.source = source
+        self.account = account.map { AccountEntity($0) }
     }
 
-    /// Starts one activity per signed-in account. An account that fails (bad
-    /// password, Dexcom outage) doesn't stop the others; this only throws when
-    /// none started.
     func perform() async throws -> some IntentResult {
-        let accounts = AccountStore.shared.accounts
+        try await Self.start(accountIDs: account.map { [$0.id] }, source: source)
+        return .result()
+    }
+
+    /// Starts one activity for each account in `accountIDs`, or for every account when
+    /// nil, replacing the activities those accounts already have; other accounts'
+    /// activities keep running. An account that fails (bad password, Dexcom outage)
+    /// doesn't stop the others; this only throws when none started.
+    static func start(accountIDs: Set<DexcomAccount.ID>?, source: String) async throws {
+        let allAccounts = AccountStore.shared.accounts
+        let accounts = accountIDs.map { ids in allAccounts.filter { ids.contains($0.id) } } ?? allAccounts
         guard !accounts.isEmpty else {
             throw LiveActivityError.loggedOut
         }
 
         for activity in Activity<ReadingAttributes>.activities {
-            await activity.end(nil, dismissalPolicy: .immediate)
+            let isReplaced = accountIDs == nil || accounts.contains { account in
+                AccountResolution.liveActivity(
+                    withAccountID: activity.attributes.accountID,
+                    belongsTo: account.id,
+                    in: allAccounts
+                )
+            }
+            if isReplaced {
+                await activity.end(nil, dismissalPolicy: .immediate)
+            }
         }
 
         guard ActivityAuthorizationInfo().areActivitiesEnabled else {
@@ -62,8 +86,8 @@ struct StartLiveActivityIntent: LiveActivityIntent {
         }
 
         let range: GraphRange = .threeHours
-        let showsAccountName = accounts.count > 1
-        let results = await Self.fetchReadings(for: accounts, range: range)
+        let showsAccountName = allAccounts.count > 1
+        let results = await fetchReadings(for: accounts, range: range)
 
         var errors: [(any Error)?] = Array(repeating: nil, count: accounts.count)
         // The most recently started activity is listed first, so start the primary last.
@@ -73,7 +97,7 @@ struct StartLiveActivityIntent: LiveActivityIntent {
                 let attributes = ReadingAttributes(
                     range: range,
                     accountID: account.id,
-                    accountName: showsAccountName ? Self.activityName(for: account) : nil
+                    accountName: showsAccountName ? activityName(for: account) : nil
                 )
                 _ = try Activity.request(
                     attributes: attributes,
@@ -89,7 +113,7 @@ struct StartLiveActivityIntent: LiveActivityIntent {
         }
 
         let failures = errors.compactMap { $0 }
-        if failures.count == accounts.count, let error = Self.mostUsefulError(errors) {
+        if failures.count == accounts.count, let error = mostUsefulError(errors) {
             throw error
         }
 
@@ -102,10 +126,9 @@ struct StartLiveActivityIntent: LiveActivityIntent {
                 "source": source,
                 "accounts": String(accounts.count),
                 "failedAccounts": String(failures.count),
+                "allAccounts": String(accountIDs == nil),
             ]
         )
-
-        return .result()
     }
 
     /// Each account's readings, in account order, fetched concurrently.

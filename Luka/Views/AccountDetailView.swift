@@ -130,19 +130,32 @@ struct AccountDetailView<Banners: View, Footer: View>: View {
     }
 }
 
-extension AccountDetailView where Banners == EmptyView, Footer == EmptyView {
-    init(liveViewModel: LiveViewModel, title: String) {
-        self.init(liveViewModel: liveViewModel, title: title, banners: { EmptyView() }, footer: { EmptyView() })
+#if DEBUG
+#Preview("Pushed") {
+    @Previewable @State var model = PreviewAccounts.liveViewModel(name: "Mom")
+    let _ = PreviewAccounts.showLiveActivities(for: [])
+
+    NavigationStack {
+        AccountDetailView(liveViewModel: model, title: "Mom") {
+            EmptyView()
+        } footer: {
+            LiveActivityButton(account: model.account)
+        }
+        .fontDesign(.rounded)
     }
 }
 
-#if DEBUG
-#Preview {
+#Preview("Pushed, Live Activity running") {
     @Previewable @State var model = PreviewAccounts.liveViewModel(name: "Mom")
+    let _ = PreviewAccounts.showLiveActivities(for: [model.account])
 
     NavigationStack {
-        AccountDetailView(liveViewModel: model, title: "Mom")
-            .fontDesign(.rounded)
+        AccountDetailView(liveViewModel: model, title: "Mom") {
+            EmptyView()
+        } footer: {
+            LiveActivityButton(account: model.account)
+        }
+        .fontDesign(.rounded)
     }
 }
 #endif

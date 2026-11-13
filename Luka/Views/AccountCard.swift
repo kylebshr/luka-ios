@@ -13,6 +13,7 @@ import SwiftUI
 struct AccountCard: View {
     var name: String
     var liveViewModel: LiveViewModel
+    var isLiveActivityRunning = false
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
@@ -32,6 +33,14 @@ struct AccountCard: View {
                 Text(name)
                     .font(.headline)
                     .lineLimit(1)
+
+                if isLiveActivityRunning {
+                    Image(systemName: "bolt.fill")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.accent)
+                        .accessibilityLabel(Text("Live Activity"))
+                        .transition(.scale.combined(with: .opacity))
+                }
 
                 Spacer(minLength: 0)
 
@@ -59,6 +68,7 @@ struct AccountCard: View {
                     .padding(.bottom, .spacing1)
             }
         }
+        .animation(.snappy, value: isLiveActivityRunning)
         .contentShape(.rect)
         .padding(.standardPadding)
         .insetCard()
@@ -91,6 +101,7 @@ struct AccountCard: View {
 
     VStack {
         AccountCard(name: "Alex", liveViewModel: model)
+        AccountCard(name: "Alex", liveViewModel: model, isLiveActivityRunning: true)
         Spacer()
     }
     .padding()

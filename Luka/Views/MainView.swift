@@ -25,6 +25,7 @@ import WidgetKit
     @Default(.lastSupportPromptDate) private var lastSupportPromptDate
 
     @Default(.isLiveActivityRunning) private var isActivityActive
+    @Default(.liveActivityAccountIDs) private var liveActivityAccountIDs
 
     @State private var isPresentingSettings = false
     @State private var supportSheetSource: SupportSource?
@@ -52,7 +53,7 @@ import WidgetKit
                         bannerViews
                             .padding(.horizontal)
                     } footer: {
-                        liveActivityButton()
+                        LiveActivityButton(onStart: showSupportPromptIfNeeded)
                         supportBanner()
                     }
                     .transition(.blurReplace)
@@ -87,7 +88,11 @@ import WidgetKit
                     AccountDetailView(
                         liveViewModel: liveViewModel(for: account),
                         title: viewModel.displayName(for: account)
-                    )
+                    ) {
+                        EmptyView()
+                    } footer: {
+                        LiveActivityButton(account: account, onStart: showSupportPromptIfNeeded)
+                    }
                 }
             }
         }
@@ -134,7 +139,8 @@ import WidgetKit
                         NavigationLink(value: account.id) {
                             AccountCard(
                                 name: viewModel.displayName(for: account),
-                                liveViewModel: liveViewModel(for: account)
+                                liveViewModel: liveViewModel(for: account),
+                                isLiveActivityRunning: liveActivityAccountIDs.contains(account.id)
                             )
                         }
                         .buttonStyle(.plain)
@@ -157,7 +163,7 @@ import WidgetKit
         .scrollBounceBehavior(.basedOnSize)
         .safeAreaInset(edge: .bottom, spacing: 0) {
             if !isCompact {
-                liveActivityButton()
+                LiveActivityButton(onStart: showSupportPromptIfNeeded)
             }
         }
     }
@@ -213,76 +219,15 @@ import WidgetKit
 
     // MARK: - Live Activity
 
-    private func liveActivityButton() -> some View {
-        return Button {
-            Task {
-                await toggleLiveActivity()
-            }
-        } label: {
-            HStack {
-                ZStack {
-                    Image(systemName: "stop.fill").opacity(isActivityActive ? 1 : 0)
-                    Image(systemName: "bolt.fill").opacity(isActivityActive ? 0 : 1)
-                }
-                Text(isActivityActive ? "End Live Activity" : "Start Live Activity")
-            }
-            .animation(nil, value: isActivityLoading)
-            .opacity(isActivityLoading ? 0 : 1)
-            .overlay {
-                if isActivityLoading {
-                    ProgressView().tint(.primary)
-                }
-            }
-            .foregroundStyle(isActivityActive ? .white : Color(.label))
-            .font(.headline)
-            .frame(maxWidth: .infinity)
-            .padding()
-        }
-        .modifier {
-            if #available(iOS 26, *) {
-                $0.buttonStyle(.glassProminent)
-            } else {
-                $0.buttonStyle(.borderedProminent)
-            }
-        }
-        .tint(isActivityActive ? .accent : inactiveTintColor)
-        .withReadableWidth()
-        .padding()
-        .frame(maxWidth: .infinity)
-        .buttonBorderShape(.capsule)
-    }
-
+    /// The landscape toolbar's stand-in for `LiveActivityButton`, for every account.
     private func toggleLiveActivity() async {
         guard !isActivityLoading else { return }
 
         isActivityLoading = true
         defer { isActivityLoading = false }
 
-        do {
-            let didStart = !isActivityActive
-            if isActivityActive {
-                _ = try await EndLiveActivityIntent().perform()
-            } else {
-                _ = try await StartLiveActivityIntent(source: "App").perform()
-            }
-            LiveActivityManager.shared.syncState()
-            UINotificationFeedbackGenerator().notificationOccurred(.success)
-
-            if didStart {
-                showSupportPromptIfNeeded()
-            }
-        } catch {
-            print("Failed to toggle Live Activity: \(error)")
-            UINotificationFeedbackGenerator().notificationOccurred(.error)
-        }
-    }
-
-    private var inactiveTintColor: Color {
-        if #available(iOS 26, *) {
-            .clear
-        } else {
-            Color(.systemGroupedBackground)
-        }
+        await LiveActivityToggle(account: nil)
+            .toggleWithFeedback(isRunning: isActivityActive, onStart: showSupportPromptIfNeeded)
     }
 }
 
@@ -321,20 +266,38 @@ import WidgetKit
 
 #if DEBUG
 #Preview("One account") {
+    let viewModel = PreviewAccounts.rootViewModel(names: ["Mom"])
+    let _ = PreviewAccounts.showLiveActivities(for: [])
+
     MainView()
-        .environment(PreviewAccounts.rootViewModel(names: ["Mom"]))
+        .environment(viewModel)
         .environment(SupporterStore())
 }
 
 #Preview("Two accounts") {
+    let viewModel = PreviewAccounts.rootViewModel(names: ["Mom", "Alex"])
+    let _ = PreviewAccounts.showLiveActivities(for: [])
+
     MainView()
-        .environment(PreviewAccounts.rootViewModel(names: ["Mom", "Alex"]))
+        .environment(viewModel)
+        .environment(SupporterStore())
+}
+
+#Preview("Two accounts, one Live Activity") {
+    let viewModel = PreviewAccounts.rootViewModel(names: ["Mom", "Alex"])
+    let _ = PreviewAccounts.showLiveActivities(for: [viewModel.accounts[0]])
+
+    MainView()
+        .environment(viewModel)
         .environment(SupporterStore())
 }
 
 #Preview("Three accounts") {
+    let viewModel = PreviewAccounts.rootViewModel(names: ["Mom", "Alex", "Grandpa"])
+    let _ = PreviewAccounts.showLiveActivities(for: [])
+
     MainView()
-        .environment(PreviewAccounts.rootViewModel(names: ["Mom", "Alex", "Grandpa"]))
+        .environment(viewModel)
         .environment(SupporterStore())
 }
 #endif

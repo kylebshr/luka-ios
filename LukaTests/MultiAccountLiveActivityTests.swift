@@ -87,6 +87,64 @@ struct AccountResolutionTests {
         #expect(AccountResolution.liveActivityOwner(for: second.id, in: []) == .unavailable)
         #expect(AccountResolution.liveActivityOwner(for: nil, in: []) == .unavailable)
     }
+
+    // MARK: Per-account Live Activities
+
+    @Test func test_activityBelongsToItsAccountOnly() {
+        #expect(AccountResolution.liveActivity(withAccountID: second.id, belongsTo: second.id, in: [first, second]))
+        #expect(!AccountResolution.liveActivity(withAccountID: second.id, belongsTo: first.id, in: [first, second]))
+    }
+
+    @Test func test_activityWithoutAccountBelongsToLegacyAccount() {
+        #expect(AccountResolution.liveActivity(withAccountID: nil, belongsTo: legacy.id, in: [first, legacy]))
+        #expect(!AccountResolution.liveActivity(withAccountID: nil, belongsTo: first.id, in: [first, legacy]))
+        #expect(AccountResolution.liveActivity(withAccountID: nil, belongsTo: first.id, in: [first, second]))
+    }
+
+    /// Ending a removed account's activities still finds its orphans.
+    @Test func test_orphanedActivityBelongsToTheAccountItNames() {
+        let removed = UUID()
+        #expect(AccountResolution.liveActivity(withAccountID: removed, belongsTo: removed, in: [first, second]))
+        #expect(!AccountResolution.liveActivity(withAccountID: removed, belongsTo: first.id, in: [first, second]))
+    }
+
+    @Test func test_runningAccountsAreTheActivitiesOwners() {
+        let ids = AccountResolution.liveActivityAccountIDs(
+            owningActivitiesWith: [second.id, nil, second.id], in: [first, second]
+        )
+        #expect(ids == [first.id, second.id])
+    }
+
+    @Test func test_runningAccountsSkipOrphans() {
+        let ids = AccountResolution.liveActivityAccountIDs(owningActivitiesWith: [UUID()], in: [first, second])
+        #expect(ids == [])
+    }
+
+    @Test func test_runningAccountsWithoutActivitiesIsEmpty() {
+        #expect(AccountResolution.liveActivityAccountIDs(owningActivitiesWith: [], in: []) == [])
+        #expect(AccountResolution.liveActivityAccountIDs(owningActivitiesWith: [], in: [first]) == [])
+    }
+
+    /// Before first unlock the accounts read as empty; keep what was last known.
+    @Test func test_runningAccountsUnknownWithoutAccounts() {
+        #expect(AccountResolution.liveActivityAccountIDs(owningActivitiesWith: [first.id], in: []) == nil)
+    }
+}
+
+@MainActor struct LiveActivityToggleTests {
+    private let account = DexcomAccount(accountLocation: .usa)
+
+    @Test func test_allAccountsIsRunningWhenAnyIs() {
+        let toggle = LiveActivityToggle(account: nil)
+        #expect(toggle.isRunning(anyRunning: true, runningAccountIDs: [UUID()]))
+        #expect(!toggle.isRunning(anyRunning: false, runningAccountIDs: []))
+    }
+
+    @Test func test_accountIsRunningOnlyWithItsOwnActivity() {
+        let toggle = LiveActivityToggle(account: account)
+        #expect(!toggle.isRunning(anyRunning: true, runningAccountIDs: [UUID()]))
+        #expect(toggle.isRunning(anyRunning: true, runningAccountIDs: [account.id]))
+    }
 }
 
 struct StartLiveActivityErrorTests {

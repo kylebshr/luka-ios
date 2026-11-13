@@ -124,6 +124,7 @@
 			membershipExceptions = (
 				AppIcon.icon,
 				Images.xcassets,
+				Intents/AccountEntity.swift,
 				Intents/GraphRange.swift,
 				Intents/GraphStyle.swift,
 				Intents/LaunchableApp.swift,

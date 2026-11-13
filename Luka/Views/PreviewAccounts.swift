@@ -48,6 +48,13 @@ import Foundation
         RootViewModel(store: store(names: names))
     }
 
+    /// Stands in for running Live Activities, which previews can't start: the
+    /// stored running state that the Live Activity buttons and cards read.
+    static func showLiveActivities(for accounts: [DexcomAccount]) {
+        Defaults[.liveActivityAccountIDs] = Set(accounts.map(\.id))
+        Defaults[.isLiveActivityRunning] = !accounts.isEmpty
+    }
+
     /// A view model showing mock readings for a single demo account.
     static func liveViewModel(name: String = "Mom") -> LiveViewModel {
         let store = store(names: [name])

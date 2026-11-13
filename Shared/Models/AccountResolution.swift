@@ -83,4 +83,47 @@ enum AccountResolution {
         }
         return .orphaned
     }
+
+    /// Whether a Live Activity naming `activityAccountID` belongs to the account
+    /// `accountID`. An orphaned activity still belongs to the account it names,
+    /// so ending that account's activities clears it too.
+    static func liveActivity(
+        withAccountID activityAccountID: DexcomAccount.ID?,
+        belongsTo accountID: DexcomAccount.ID,
+        in accounts: [DexcomAccount],
+        legacyAccountID: DexcomAccount.ID = AccountStore.legacyAccountID
+    ) -> Bool {
+        if activityAccountID == accountID {
+            return true
+        }
+        guard case .account(let owner) = liveActivityOwner(
+            for: activityAccountID, in: accounts, legacyAccountID: legacyAccountID
+        ) else {
+            return false
+        }
+        return owner.id == accountID
+    }
+
+    /// The signed-in accounts that own at least one of the running activities,
+    /// given each one's `ReadingAttributes.accountID`. Orphaned activities count
+    /// for nobody. Nil when there are running activities but no accounts could
+    /// be read (before first unlock), so the caller keeps what it last knew.
+    static func liveActivityAccountIDs(
+        owningActivitiesWith activityAccountIDs: [DexcomAccount.ID?],
+        in accounts: [DexcomAccount],
+        legacyAccountID: DexcomAccount.ID = AccountStore.legacyAccountID
+    ) -> Set<DexcomAccount.ID>? {
+        guard !activityAccountIDs.isEmpty else { return [] }
+        guard !accounts.isEmpty else { return nil }
+
+        var ids = Set<DexcomAccount.ID>()
+        for activityAccountID in activityAccountIDs {
+            if case .account(let owner) = liveActivityOwner(
+                for: activityAccountID, in: accounts, legacyAccountID: legacyAccountID
+            ) {
+                ids.insert(owner.id)
+            }
+        }
+        return ids
+    }
 }

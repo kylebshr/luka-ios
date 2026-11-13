@@ -8,7 +8,8 @@
 import AppIntents
 import Foundation
 
-/// A signed-in Dexcom account, for choosing which one a widget shows.
+/// A signed-in Dexcom account, for choosing which one a widget shows or which
+/// one's Live Activity to start or end.
 struct AccountEntity: AppEntity {
     static let typeDisplayRepresentation: TypeDisplayRepresentation = "Account"
     static let defaultQuery = AccountEntityQuery()
@@ -23,6 +24,11 @@ struct AccountEntity: AppEntity {
     init(_ account: DexcomAccount, store: AccountStore = .shared) {
         id = account.id
         name = store.displayName(for: account)
+    }
+
+    init(id: DexcomAccount.ID, name: String) {
+        self.id = id
+        self.name = name
     }
 }
 

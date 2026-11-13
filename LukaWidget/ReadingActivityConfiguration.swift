@@ -370,7 +370,7 @@ private struct MainContentView: View {
     func smallExpiredView() -> some View {
         VStack(alignment: .leading) {
             HStack {
-                Button(intent: StartLiveActivityIntent(source: "LiveActivity")) {
+                Button(intent: context.restartIntent) {
                     Label("Restart", systemImage: "arrow.clockwise")
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
@@ -400,14 +400,14 @@ private struct MediumExpiredView: View {
 
                 Spacer()
 
-                Button(intent: EndLiveActivityIntent()) {
+                Button(intent: EndLiveActivityIntent(account: context.account)) {
                     Image(systemName: "xmark")
                         .font(.system(size: 24))
                         .padding(2)
                 }
                 .tint(.primary)
 
-                Button(intent: StartLiveActivityIntent(source: "LiveActivity")) {
+                Button(intent: context.restartIntent) {
                     Image(systemName: "arrow.clockwise")
                         .font(.system(size: 24))
                         .padding(2)
@@ -493,6 +493,27 @@ private struct GraphPieceView: View {
 }
 
 private extension ActivityViewContext<ReadingAttributes> {
+    /// The account this activity follows, so its buttons leave other accounts'
+    /// activities alone. Nil, acting on every account, only when no accounts can
+    /// be read.
+    var account: AccountEntity? {
+        let name = attributes.accountName ?? ""
+        switch AccountResolution.liveActivityOwner(for: attributes.accountID, in: AccountStore.shared.accounts) {
+        case .account(let account):
+            return AccountEntity(id: account.id, name: name)
+        case .orphaned:
+            return attributes.accountID.map { AccountEntity(id: $0, name: name) }
+        case .unavailable:
+            return nil
+        }
+    }
+
+    var restartIntent: StartLiveActivityIntent {
+        let intent = StartLiveActivityIntent(source: "LiveActivity")
+        intent.account = account
+        return intent
+    }
+
     /// Leads a caption with the activity's account name, which is only set when
     /// several accounts each have an activity, so they can be told apart.
     func ledByAccountName(_ caption: Text) -> Text {

@@ -41,6 +41,9 @@ extension Defaults.Keys {
     )
     static let launchCount = Key<Int>("launchCount", default: 0, suite: .shared, iCloud: true)
     static let isLiveActivityRunning = Key<Bool>("isLiveActivityRunning", default: false, suite: .shared)
+    /// The accounts with a running Live Activity. Kept with `isLiveActivityRunning` by
+    /// `ReadingAttributes.syncIsRunningDefault`.
+    static let liveActivityAccountIDs = Key<Set<UUID>>("liveActivityAccountIDs", default: [], suite: .shared)
     static let useReadingsProxy = Key<Bool>("useReadingsProxy", default: true, suite: .shared, iCloud: true)
     static let debugInfo = Key<Bool>("debugInfo", default: false, suite: .shared)
     static let autoRestartLiveActivity = Key<Bool>("autoRestartLiveActivity", default: true, suite: .shared, iCloud: true)

@@ -34,29 +34,42 @@ struct ReadingAttributes: ActivityAttributes {
 extension ReadingAttributes {
     /// Returns true if there is at least one Live Activity that has not yet ended or been dismissed.
     static var hasRunningActivity: Bool {
-        hasRunningActivity(excluding: nil)
+        !runningActivities(excluding: []).isEmpty
     }
 
-    /// Returns true if there is at least one running Live Activity, ignoring the activity with
-    /// `excludedID`. Use this when reacting to a specific activity's end/dismissal: `Activity.activities`
-    /// can still include that activity (reporting a running state) for a moment after the state update
-    /// fires, which would otherwise leave the flag stuck "on".
-    static func hasRunningActivity(excluding excludedID: String?) -> Bool {
-        Activity<ReadingAttributes>.activities.contains { activity in
-            guard activity.id != excludedID else { return false }
-            return activity.activityState.isRunning
+    /// The Live Activities that haven't ended or been dismissed, ignoring those in `excludedIDs`.
+    /// Exclude activities you've just seen end: `Activity.activities` can still report them as
+    /// running for a moment after their state update fires, which would otherwise leave the
+    /// stored state stuck "on".
+    static func runningActivities(excluding excludedIDs: Set<String>) -> [Activity<ReadingAttributes>] {
+        Activity<ReadingAttributes>.activities.filter { activity in
+            !excludedIDs.contains(activity.id) && activity.activityState.isRunning
         }
     }
 
-    /// Updates `Defaults[.isLiveActivityRunning]` to reflect the current Live Activity state,
-    /// optionally ignoring the activity with `excludedID` (see `hasRunningActivity(excluding:)`).
-    /// Returns true if the stored value changed.
+    /// Updates `Defaults[.isLiveActivityRunning]` and `Defaults[.liveActivityAccountIDs]` to
+    /// reflect the current Live Activities, ignoring those in `excludedIDs` (see
+    /// `runningActivities(excluding:)`). Returns true if either stored value changed.
     @discardableResult
-    static func syncIsRunningDefault(excluding excludedID: String? = nil) -> Bool {
-        let isRunning = hasRunningActivity(excluding: excludedID)
-        guard Defaults[.isLiveActivityRunning] != isRunning else { return false }
-        Defaults[.isLiveActivityRunning] = isRunning
-        return true
+    static func syncIsRunningDefault(excluding excludedIDs: Set<String> = []) -> Bool {
+        let running = runningActivities(excluding: excludedIDs)
+        var changed = false
+
+        let isRunning = !running.isEmpty
+        if Defaults[.isLiveActivityRunning] != isRunning {
+            Defaults[.isLiveActivityRunning] = isRunning
+            changed = true
+        }
+
+        if let accountIDs = AccountResolution.liveActivityAccountIDs(
+            owningActivitiesWith: running.map(\.attributes.accountID),
+            in: AccountStore.shared.accounts
+        ), Defaults[.liveActivityAccountIDs] != accountIDs {
+            Defaults[.liveActivityAccountIDs] = accountIDs
+            changed = true
+        }
+
+        return changed
     }
 }
 
