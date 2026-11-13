@@ -14,10 +14,11 @@ struct AccountCard: View {
     var name: String
     var liveViewModel: LiveViewModel
 
-    /// The size of the space left at the top trailing corner, inside the card's
-    /// padding, for a control laid over the card (it can't sit inside it: the
-    /// card is a navigation link's label).
+    /// The size of a control laid over the card's top trailing corner,
+    /// `accessoryInset` from its edges (it can't sit inside the card: the card
+    /// is a navigation link's label). The name leaves room for it.
     static let accessorySize: CGFloat = 34
+    static let accessoryInset: CGFloat = .spacing6
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
@@ -41,7 +42,7 @@ struct AccountCard: View {
                 Spacer(minLength: 0)
 
                 Color.clear
-                    .frame(width: Self.accessorySize, height: Self.accessorySize)
+                    .frame(width: Self.accessorySize, height: 0)
             }
 
             layout {
@@ -97,7 +98,7 @@ struct AccountCard: View {
         AccountCard(name: "Alex", liveViewModel: model)
             .overlay(alignment: .topTrailing) {
                 LiveActivityCircleButton(account: model.account)
-                    .padding(.standardPadding)
+                    .padding(AccountCard.accessoryInset)
             }
         Spacer()
     }

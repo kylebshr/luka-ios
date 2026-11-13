@@ -144,7 +144,7 @@ import WidgetKit
                         .buttonStyle(.plain)
                         .overlay(alignment: .topTrailing) {
                             LiveActivityCircleButton(account: account, onStart: showSupportPromptIfNeeded)
-                                .padding(.standardPadding)
+                                .padding(AccountCard.accessoryInset)
                         }
                         .transition(.scale(scale: 0.9).combined(with: .opacity))
                     }

@@ -156,9 +156,9 @@ struct LiveActivityCircleButton: View {
                     ProgressView().controlSize(.small)
                 }
             }
-            .foregroundStyle(isRunning ? .white : Color(.label))
+            .foregroundStyle(isRunning ? Color.accent : Color(.label))
             .frame(width: AccountCard.accessorySize, height: AccountCard.accessorySize)
-            .background(isRunning ? AnyShapeStyle(.accent) : AnyShapeStyle(.fill.secondary), in: .circle)
+            .background(isRunning ? AnyShapeStyle(Color.accent.opacity(0.18)) : AnyShapeStyle(.fill.secondary), in: .circle)
             .contentShape(.circle.inset(by: -.spacing4))
         }
         .buttonStyle(.plain)
