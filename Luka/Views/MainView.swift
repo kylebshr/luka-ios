@@ -62,7 +62,7 @@ import WidgetKit
                 }
             }
             .toolbar {
-                if #available(iOS 26, *), isCompact {
+                if #available(iOS 26, *), isCompact, !isShowingList {
                     ToolbarItem(placement: .primaryAction) {
                         Button(
                             "Toggle Live Activity",
@@ -122,8 +122,20 @@ import WidgetKit
 
     // MARK: - Account list
 
+    /// Each card has its own Live Activity button, so there's no button for
+    /// every account here. A list shorter than the screen is centered.
     private var accountList: some View {
-        ScrollView {
+        GeometryReader { proxy in
+            ScrollView {
+                accountListContent
+                    .frame(minHeight: proxy.size.height)
+            }
+            .scrollBounceBehavior(.basedOnSize)
+        }
+    }
+
+    private var accountListContent: some View {
+        VStack(spacing: .spacing8) {
             VStack(spacing: .spacing8) {
                 if !isCompact {
                     bannerViews
@@ -161,12 +173,6 @@ import WidgetKit
             .padding(.top, .spacing8)
             .padding(.bottom)
             .animation(.snappy, value: accounts)
-        }
-        .scrollBounceBehavior(.basedOnSize)
-        .safeAreaInset(edge: .bottom, spacing: 0) {
-            if !isCompact {
-                LiveActivityButton(onStart: showSupportPromptIfNeeded)
-            }
         }
     }
 
@@ -221,7 +227,7 @@ import WidgetKit
 
     // MARK: - Live Activity
 
-    /// The landscape toolbar's stand-in for `LiveActivityButton`, for every account.
+    /// The landscape toolbar's stand-in for `LiveActivityButton` on the single-account screen.
     private func toggleLiveActivity() async {
         guard !isActivityLoading else { return }
 
