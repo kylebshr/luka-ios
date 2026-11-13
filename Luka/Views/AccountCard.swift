@@ -13,7 +13,11 @@ import SwiftUI
 struct AccountCard: View {
     var name: String
     var liveViewModel: LiveViewModel
-    var isLiveActivityRunning = false
+
+    /// The size of the space left at the top trailing corner, inside the card's
+    /// padding, for a control laid over the card (it can't sit inside it: the
+    /// card is a navigation link's label).
+    static let accessorySize: CGFloat = 34
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
@@ -34,19 +38,10 @@ struct AccountCard: View {
                     .font(.headline)
                     .lineLimit(1)
 
-                if isLiveActivityRunning {
-                    Image(systemName: "bolt.fill")
-                        .font(.caption.weight(.semibold))
-                        .foregroundStyle(.accent)
-                        .accessibilityLabel(Text("Live Activity"))
-                        .transition(.scale.combined(with: .opacity))
-                }
-
                 Spacer(minLength: 0)
 
-                Image(systemName: "chevron.right")
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(.tertiary)
+                Color.clear
+                    .frame(width: Self.accessorySize, height: Self.accessorySize)
             }
 
             layout {
@@ -68,7 +63,6 @@ struct AccountCard: View {
                     .padding(.bottom, .spacing1)
             }
         }
-        .animation(.snappy, value: isLiveActivityRunning)
         .contentShape(.rect)
         .padding(.standardPadding)
         .insetCard()
@@ -101,7 +95,10 @@ struct AccountCard: View {
 
     VStack {
         AccountCard(name: "Alex", liveViewModel: model)
-        AccountCard(name: "Alex", liveViewModel: model, isLiveActivityRunning: true)
+            .overlay(alignment: .topTrailing) {
+                LiveActivityCircleButton(account: model.account)
+                    .padding(.standardPadding)
+            }
         Spacer()
     }
     .padding()

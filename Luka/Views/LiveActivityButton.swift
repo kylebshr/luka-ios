@@ -119,3 +119,50 @@ struct LiveActivityButton: View {
         }
     }
 }
+
+/// A small round start/stop button for one account, laid over its card in the
+/// account list.
+struct LiveActivityCircleButton: View {
+    var account: DexcomAccount
+    /// Called after a start, e.g. to ask for support.
+    var onStart: () -> Void = {}
+
+    @Default(.liveActivityAccountIDs) private var runningAccountIDs
+
+    @State private var isLoading = false
+
+    private var isRunning: Bool {
+        runningAccountIDs.contains(account.id)
+    }
+
+    var body: some View {
+        Button {
+            Task {
+                guard !isLoading else { return }
+                isLoading = true
+                defer { isLoading = false }
+                await LiveActivityToggle(account: account)
+                    .toggleWithFeedback(isRunning: isRunning, onStart: onStart)
+            }
+        } label: {
+            ZStack {
+                Image(systemName: "stop.fill").opacity(isRunning ? 1 : 0)
+                Image(systemName: "bolt.fill").opacity(isRunning ? 0 : 1)
+            }
+            .font(.subheadline.weight(.semibold))
+            .opacity(isLoading ? 0 : 1)
+            .overlay {
+                if isLoading {
+                    ProgressView().controlSize(.small)
+                }
+            }
+            .foregroundStyle(isRunning ? .white : Color(.label))
+            .frame(width: AccountCard.accessorySize, height: AccountCard.accessorySize)
+            .background(isRunning ? AnyShapeStyle(.accent) : AnyShapeStyle(.fill.secondary), in: .circle)
+            .contentShape(.circle.inset(by: -.spacing4))
+        }
+        .buttonStyle(.plain)
+        .animation(.snappy, value: isRunning)
+        .accessibilityLabel(isRunning ? Text("End Live Activity") : Text("Start Live Activity"))
+    }
+}

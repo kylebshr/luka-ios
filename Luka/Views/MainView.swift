@@ -25,7 +25,6 @@ import WidgetKit
     @Default(.lastSupportPromptDate) private var lastSupportPromptDate
 
     @Default(.isLiveActivityRunning) private var isActivityActive
-    @Default(.liveActivityAccountIDs) private var liveActivityAccountIDs
 
     @State private var isPresentingSettings = false
     @State private var supportSheetSource: SupportSource?
@@ -139,11 +138,14 @@ import WidgetKit
                         NavigationLink(value: account.id) {
                             AccountCard(
                                 name: viewModel.displayName(for: account),
-                                liveViewModel: liveViewModel(for: account),
-                                isLiveActivityRunning: liveActivityAccountIDs.contains(account.id)
+                                liveViewModel: liveViewModel(for: account)
                             )
                         }
                         .buttonStyle(.plain)
+                        .overlay(alignment: .topTrailing) {
+                            LiveActivityCircleButton(account: account, onStart: showSupportPromptIfNeeded)
+                                .padding(.standardPadding)
+                        }
                         .transition(.scale(scale: 0.9).combined(with: .opacity))
                     }
                 }
